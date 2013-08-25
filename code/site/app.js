@@ -1,6 +1,3 @@
-/*jslint node: true */
-"use strict";
-
 /**
  * Module dependencies.
  */
