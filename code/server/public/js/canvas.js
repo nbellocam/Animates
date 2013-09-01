@@ -1,3 +1,5 @@
+/*global Raphael, window */
+
 var Animates = Animates || {};
 
 (function (ns){
@@ -10,7 +12,7 @@ var Animates = Animates || {};
 	//This is a temporal method. This should change to drawElement = function (id, element)
 	canvas.prototype.drawCircle = function(id, x, y, radius) {
 		this.objectsList.push( {id : id, element : this.paper.circle(x, y, radius) });
-	}
+	};
 
 	ns.Canvas = canvas;
 
