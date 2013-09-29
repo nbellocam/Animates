@@ -1,8 +1,23 @@
 extends canvas-layout
 
 block content
+  #topToolbarMenu
+    .btn-toolbar
+      .btn-group
+        button#rect(type='button', class='btn btn-default')="Rect"
+        button#circle(type='button', class='btn btn-default')="Circle"
+        button#triangle(type='button', class='btn btn-default')="Triangle"
+        button#image(type='button', class='btn btn-default')="Image"
+      .btn-group
+        button#red(type='button', class='btn btn-default')="Red"
+        button#green(type='button', class='btn btn-default')="Green"
+        button#blue(type='button', class='btn btn-default')="Blue"
+        button#black(type='button', class='btn btn-default')="Black"
+      .btn-group
+        button#json(type='button', class='btn btn-default')="Json"
   .canvasContainer
     canvas#canvas(width='200', height='100')
+  textarea#output
 
 block canvas-scripts
   script(src='/js/canvas.js')

@@ -1,8 +1,34 @@
-#canvas{
-	
+body{
+	height: 100%;
+}
+
+#topToolbarMenu{
+	padding-top: 60px;
+	padding-bottom: 20px;
 }
 
 .canvasContainer{
-	width: 800;
-	height: 800;
+	margin-top: 20px;
+	width: 100%;
+	height: 100%;
+	border: 1px solid black;
+}
+
+#output{
+	margin-top: 20px;
+	width: 100%;
+	height: 200px;
+	border: 1px solid black;
+}
+
+/*div.center
+{
+  width: 80%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}*/
+
+#canvas{
+	
 }
