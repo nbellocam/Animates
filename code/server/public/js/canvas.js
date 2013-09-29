@@ -103,14 +103,13 @@ window.onload = function (){
 	window.canvasToolbar = new Animates.Toolbar('#topToolbarMenu',canvas);
 
 	window.canvas.drawRect(100,100,20,20);
-	window.staticCanvas.drawRect(100,100,20,20);
 
 	var staticButton = $('#staticCanvasBtn');
 	var editableButton = $('#editableCanvasBtn');
 	staticButton.click(function (){
 		editableButton.parent().removeClass('active');
 		staticButton.parent().addClass('active');
-		
+
 		$('#editableCanvasContainer').hide();
 		$('#topToolbarMenu').hide();
 		$('#output').hide();
