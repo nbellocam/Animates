@@ -1,7 +1,8 @@
 extends canvas-layout
 
 block content
-  #canvas
+  .canvasContainer
+    canvas#canvas(width='200', height='100')
 
 block canvas-scripts
   script(src='/js/canvas.js')
