@@ -1,6 +1,13 @@
 extends canvas-layout
 
 block content
+
+  ul.nav.nav-tabs.canvas-switcher
+    li.active
+      a#editableCanvasBtn(href='#')="Editable"
+    li
+      a#staticCanvasBtn(href='#')="Static"
+
   #topToolbarMenu
     .btn-toolbar
       .btn-group
@@ -15,8 +22,12 @@ block content
         button#black(type='button', class='btn btn-default')="Black"
       .btn-group
         button#json(type='button', class='btn btn-default')="Json"
-  .canvasContainer
-    canvas#canvas(width='200', height='100')
+      .btn-group
+        button#clear(type='button', class='btn btn-default')="Clear"
+  .canvasContainer#editableCanvasContainer
+    canvas#canvas
+  .canvasContainer#staticCanvasContainer
+    canvas#static-canvas
   textarea#output
 
 block canvas-scripts

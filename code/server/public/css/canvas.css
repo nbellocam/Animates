@@ -2,9 +2,12 @@ body{
 	height: 100%;
 }
 
+.canvas-switcher{
+	padding-top: 20px;
+}
+
 #topToolbarMenu{
-	padding-top: 60px;
-	padding-bottom: 20px;
+	padding-top: 20px;
 }
 
 .canvasContainer{
@@ -31,4 +34,8 @@ body{
 
 #canvas{
 	
+}
+
+#static-canvas{
+	/*display: none;*/
 }
