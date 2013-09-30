@@ -4,8 +4,8 @@ var Animates = Animates || {};
 
 (function (ns){
 	//This class should contain the paper and the list of elements
-	var canvas = function(elementId, width, height, static) {
-		this.paper = (static) ? new fabric.StaticCanvas(elementId) : new fabric.Canvas(elementId);
+	var canvas = function(elementId, width, height, isStatic) {
+		this.paper = (isStatic) ? new fabric.StaticCanvas(elementId) : new fabric.Canvas(elementId);
 		this.paper.setHeight(height);
 		this.paper.setWidth(width);
 	};
