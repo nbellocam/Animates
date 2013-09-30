@@ -1,4 +1,4 @@
-/*global Raphael, window */
+/*global Raphael, window, fabric, $ */
 
 var Animates = Animates || {};
 
@@ -36,19 +36,19 @@ var Animates = Animates || {};
 
 	canvas.prototype.exportToJsonString = function (){
 		return JSON.stringify(this.paper);
-	}
+	};
 
 	canvas.prototype.loadFromJsonString = function (jsonCanvas){
 		this.paper.loadFromJSON(jsonCanvas);
-	}
+	};
 
 	canvas.prototype.clearCanvas = function (){
 		this.paper.clear().renderAll();
-	}
+	};
 	
 	canvas.prototype.renderAll = function (){
 		this.paper.renderAll();
-	}
+	};
 
 	ns.Canvas = canvas;
 
@@ -59,14 +59,14 @@ var Animates = Animates || {};
 		this.canvasElement = canvasElement;
 		var toolbar = $(elementId);
 
-		toolbar.find('#rect').click(function(){ canvasToolbar.addRect(); });
-		toolbar.find('#circle').click(function(){ canvasToolbar.addCircle(); });
-		toolbar.find('#triangle').click(function(){ canvasToolbar.addTriangle(); });
+		toolbar.find('#rect').click(function(){ window.canvasToolbar.addRect(); });
+		toolbar.find('#circle').click(function(){ window.canvasToolbar.addCircle(); });
+		toolbar.find('#triangle').click(function(){ window.canvasToolbar.addTriangle(); });
 		//toolbar.find('#image').click(this.addImage());
 
-		toolbar.find('#json').click(function(){ canvasToolbar.exportToJson(); });
+		toolbar.find('#json').click(function(){ window.canvasToolbar.exportToJson(); });
 
-		toolbar.find('#clear').click(function(){ canvasToolbar.clearCanvas(); });
+		toolbar.find('#clear').click(function(){ window.canvasToolbar.clearCanvas(); });
 	};
 
 	toolbar.prototype.addRect = function() {
@@ -100,7 +100,7 @@ window.onload = function (){
 	
 	$('#staticCanvasContainer').hide();
 
-	window.canvasToolbar = new Animates.Toolbar('#topToolbarMenu',canvas);
+	window.canvasToolbar = new Animates.Toolbar('#topToolbarMenu', window.canvas);
 
 	window.canvas.drawRect(100,100,20,20);
 
