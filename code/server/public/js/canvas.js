@@ -1,4 +1,4 @@
-/*global Raphael, window, fabric, $ */
+/*global Raphael, window, fabric $ */
 
 var Animates = Animates || {};
 
@@ -8,11 +8,27 @@ var Animates = Animates || {};
 		this.paper = (isStatic) ? new fabric.StaticCanvas(elementId) : new fabric.Canvas(elementId);
 		this.paper.setHeight(height);
 		this.paper.setWidth(width);
+
+		var selectedList = [];
+		
+		this.paper.on('selection:created', function(options) {
+			window.canvas.selectedList = options.target.getObjects();
+		});
+
+		this.paper.on('object:selected', function(options) {
+			window.canvas.selectedList = [ options.target ];
+		});
+
+		this.paper.on('selection:cleared', function(options) {
+			window.canvas.selectedList = [];
+		});
+
+		this.selectedList = selectedList;
 	};
 
 	canvas.prototype.drawRect = function(x, y, width, height) {
 		var rect = new fabric.Rect({
-		  left: x, top: y, fill: 'red', width: width, height: height
+		 	left: x, top: y, fill: 'red', width: width, height: height
 		});
 
 		this.paper.add(rect);
@@ -20,7 +36,7 @@ var Animates = Animates || {};
 
 	canvas.prototype.drawCircle = function(x, y, radius) {
 		var rect = new fabric.Circle({
-		  left: x, top: y, fill: 'red', radius: radius
+			left: x, top: y, fill: 'red', radius: radius
 		});
 
 		this.paper.add(rect);
@@ -28,7 +44,7 @@ var Animates = Animates || {};
 
 	canvas.prototype.drawTriangle = function(x, y, width, height) {
 		var rect = new fabric.Triangle({
-		  left: x, top: y, fill: 'red', width: width, eight: height
+			left: x, top: y, fill: 'red', width: width, eight: height
 		});
 
 		this.paper.add(rect);
@@ -49,6 +65,20 @@ var Animates = Animates || {};
 	canvas.prototype.renderAll = function (){
 		this.paper.renderAll();
 	};
+	
+	canvas.prototype.getActives = function() {
+		var allObjects = this.paper.getObjects();
+		var activesObjects = [];
+
+		for (var i = 0; i < allObjects.length; i++) {
+			var object = allObjects[i]
+			if (object.active){
+				activesObjects.push(object);
+			}
+		}
+
+		return activesObjects;
+	};
 
 	ns.Canvas = canvas;
 
@@ -63,6 +93,11 @@ var Animates = Animates || {};
 		toolbar.find('#circle').click(function(){ window.canvasToolbar.addCircle(); });
 		toolbar.find('#triangle').click(function(){ window.canvasToolbar.addTriangle(); });
 		//toolbar.find('#image').click(this.addImage());
+
+		toolbar.find('#red').click(function(){ window.canvasToolbar.changeColor("red"); });
+		toolbar.find('#green').click(function(){ window.canvasToolbar.changeColor("green"); });
+		toolbar.find('#blue').click(function(){ window.canvasToolbar.changeColor("blue"); });
+		toolbar.find('#black').click(function(){ window.canvasToolbar.changeColor("black"); });
 
 		toolbar.find('#json').click(function(){ window.canvasToolbar.exportToJson(); });
 
@@ -79,6 +114,15 @@ var Animates = Animates || {};
 
 	toolbar.prototype.addTriangle = function() {
 		this.canvasElement.drawTriangle(50,50,100,100);
+	};
+
+	toolbar.prototype.changeColor = function(color) {
+		//var selectedList = this.canvasElement.selectedList;
+		var selectedList = this.canvasElement.getActives();
+		for (var i = 0; i < selectedList.length; i++) {
+		    selectedList[i].set('fill', color);
+		}
+		this.canvasElement.renderAll();
 	};
 
 	toolbar.prototype.exportToJson = function() {
