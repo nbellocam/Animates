@@ -12,15 +12,15 @@ var Animates = Animates || {};
 		var selectedList = [];
 		
 		this.paper.on('selection:created', function(options) {
-			selectedList = options.target;
+			window.canvas.selectedList = options.target.getObjects();
 		});
 
 		this.paper.on('object:selected', function(options) {
-			selectedList = [ options.target ];
+			window.canvas.selectedList = [ options.target ];
 		});
 
 		this.paper.on('selection:cleared', function(options) {
-			selectedList = [];
+			window.canvas.selectedList = [];
 		});
 
 		this.selectedList = selectedList;
@@ -65,6 +65,20 @@ var Animates = Animates || {};
 	canvas.prototype.renderAll = function (){
 		this.paper.renderAll();
 	};
+	
+	canvas.prototype.getActives = function() {
+		var allObjects = this.paper.getObjects();
+		var activesObjects = [];
+
+		for (var i = 0; i < allObjects.length; i++) {
+			var object = allObjects[i]
+			if (object.active){
+				activesObjects.push(object);
+			}
+		}
+
+		return activesObjects;
+	};
 
 	ns.Canvas = canvas;
 
@@ -80,7 +94,10 @@ var Animates = Animates || {};
 		toolbar.find('#triangle').click(function(){ window.canvasToolbar.addTriangle(); });
 		//toolbar.find('#image').click(this.addImage());
 
+		toolbar.find('#red').click(function(){ window.canvasToolbar.changeColor("red"); });
 		toolbar.find('#green').click(function(){ window.canvasToolbar.changeColor("green"); });
+		toolbar.find('#blue').click(function(){ window.canvasToolbar.changeColor("blue"); });
+		toolbar.find('#black').click(function(){ window.canvasToolbar.changeColor("black"); });
 
 		toolbar.find('#json').click(function(){ window.canvasToolbar.exportToJson(); });
 
@@ -100,10 +117,12 @@ var Animates = Animates || {};
 	};
 
 	toolbar.prototype.changeColor = function(color) {
-		var selectedList = this.canvasElement.selectedList;
+		//var selectedList = this.canvasElement.selectedList;
+		var selectedList = this.canvasElement.getActives();
 		for (var i = 0; i < selectedList.length; i++) {
 		    selectedList[i].set('fill', color);
 		}
+		this.canvasElement.renderAll();
 	};
 
 	toolbar.prototype.exportToJson = function() {
