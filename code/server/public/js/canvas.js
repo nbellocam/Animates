@@ -1,4 +1,4 @@
-/*global Raphael, window, fabric, $ */
+/*global Raphael, window, fabric $ */
 
 var Animates = Animates || {};
 
@@ -8,11 +8,27 @@ var Animates = Animates || {};
 		this.paper = (isStatic) ? new fabric.StaticCanvas(elementId) : new fabric.Canvas(elementId);
 		this.paper.setHeight(height);
 		this.paper.setWidth(width);
+
+		var selectedList = [];
+		
+		this.paper.on('selection:created', function(options) {
+			selectedList = options.target;
+		});
+
+		this.paper.on('object:selected', function(options) {
+			selectedList = [ options.target ];
+		});
+
+		this.paper.on('selection:cleared', function(options) {
+			selectedList = [];
+		});
+
+		this.selectedList = selectedList;
 	};
 
 	canvas.prototype.drawRect = function(x, y, width, height) {
 		var rect = new fabric.Rect({
-		  left: x, top: y, fill: 'red', width: width, height: height
+		 	left: x, top: y, fill: 'red', width: width, height: height
 		});
 
 		this.paper.add(rect);
@@ -20,7 +36,7 @@ var Animates = Animates || {};
 
 	canvas.prototype.drawCircle = function(x, y, radius) {
 		var rect = new fabric.Circle({
-		  left: x, top: y, fill: 'red', radius: radius
+			left: x, top: y, fill: 'red', radius: radius
 		});
 
 		this.paper.add(rect);
@@ -28,7 +44,7 @@ var Animates = Animates || {};
 
 	canvas.prototype.drawTriangle = function(x, y, width, height) {
 		var rect = new fabric.Triangle({
-		  left: x, top: y, fill: 'red', width: width, eight: height
+			left: x, top: y, fill: 'red', width: width, eight: height
 		});
 
 		this.paper.add(rect);
@@ -64,6 +80,8 @@ var Animates = Animates || {};
 		toolbar.find('#triangle').click(function(){ window.canvasToolbar.addTriangle(); });
 		//toolbar.find('#image').click(this.addImage());
 
+		toolbar.find('#green').click(function(){ window.canvasToolbar.changeColor("green"); });
+
 		toolbar.find('#json').click(function(){ window.canvasToolbar.exportToJson(); });
 
 		toolbar.find('#clear').click(function(){ window.canvasToolbar.clearCanvas(); });
@@ -79,6 +97,13 @@ var Animates = Animates || {};
 
 	toolbar.prototype.addTriangle = function() {
 		this.canvasElement.drawTriangle(50,50,100,100);
+	};
+
+	toolbar.prototype.changeColor = function(color) {
+		var selectedList = this.canvasElement.selectedList;
+		for (var i = 0; i < selectedList.length; i++) {
+		    selectedList[i].set('fill', color);
+		}
 	};
 
 	toolbar.prototype.exportToJson = function() {
