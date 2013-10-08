@@ -5,40 +5,40 @@ var Animates = Animates || {};
 (function (ns){
 
 	/**
-	 *	Creates a new ClassName and i'm documenting it with jsdoc.
-	 *  @class Represents a ClassName . 
+	 *	Creates a new Timeline
+	 *  @class Represents a Timeline. 
 	 */ 
 	var Timeline = function (options) 
 	{
-		var $this = this,		// Save the this reference for later use
-			privateAttribute = 'Yeah baby im private';
+		var $this = this, // Save the this reference for later use
+			shapeTimelineCollection = [];
 
 
 		/**
-		 * A public function asigned to the  current instance this.
-		 * @param {integer} param1 The description of the param1.
-		 * @param {string} [param2] The description of the optional param2.
+		 * .
+		 * @param {object} shape .
 		 */
-		this.publicMethodPrint = function publicMethodSample(param1, param2) 
+		this.addShape = function (shape) 
 		{
-			console.log('this a public function accessing a private attribute value "' + privateAttribute + '"');
+			// TODO generate a new ShapeTimeline using the shape data.
 		};
 
 		/**
-		 * a private function in the closure of the current instace this.
-		 * @param {integer} param1 The description of the param1.
+		 * .
+		 * @param {integer} shapeId .
 		 */
-		function privateMethodPrint (param1)
+		this.removeShape = function (shapeId) 
 		{
-			console.log('you cannot call me from the outside');
-		}
+		};
 
+		/**
+		 *	Constructor
+		 */ 
 		(function init() {
-			console.log('im kinda constructor');
-			privateMethodPrint();
 		})();
 
-	};	
+	};
+
 	ns.Timeline = Timeline;
 
 })(Animates);

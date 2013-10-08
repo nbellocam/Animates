@@ -5,40 +5,31 @@ var Animates = Animates || {};
 (function (ns){
 
 	/**
-	 *	Creates a new ClassName and i'm documenting it with jsdoc.
-	 *  @class Represents a ClassName . 
+	 *	Creates a new Animation.
+	 *  @class Represents an Animation . 
 	 */ 
 	var Animation = function (options) 
 	{
-		var $this = this,		// Save the this reference for later use
-			privateAttribute = 'Yeah baby im private';
+		var $this = this; // Save the this reference for later use
 
+		this.startFrame = options.startFrame || 0;
 
+		this.endFrame = options.endFrame || -1;
+		
 		/**
-		 * A public function asigned to the  current instance this.
-		 * @param {integer} param1 The description of the param1.
-		 * @param {string} [param2] The description of the optional param2.
+		 * Calculates the new shape properties based on the original ones and the actual frame.
+		 * @param {integer} frame The actual frame.
+		 * @param {object} originalProperties The original properties.
 		 */
-		this.publicMethodPrint = function publicMethodSample(param1, param2) 
+		this.getPropertiesForFrame = function (frame, originalProperties) 
 		{
-			console.log('this a public function accessing a private attribute value "' + privateAttribute + '"');
 		};
 
-		/**
-		 * a private function in the closure of the current instace this.
-		 * @param {integer} param1 The description of the param1.
-		 */
-		function privateMethodPrint (param1)
-		{
-			console.log('you cannot call me from the outside');
-		}
-
 		(function init() {
-			console.log('im kinda constructor');
-			privateMethodPrint();
 		})();
 
-	};	
+	};
+
 	ns.Animation = Animation;
 
 })(Animates);

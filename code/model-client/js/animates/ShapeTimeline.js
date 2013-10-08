@@ -5,40 +5,49 @@ var Animates = Animates || {};
 (function (ns){
 
 	/**
-	 *	Creates a new ClassName and i'm documenting it with jsdoc.
-	 *  @class Represents a ClassName . 
+	 *	Creates a new ShapeTimeline.
+	 *  @class Represents a ShapeTimeline. 
 	 */ 
 	var ShapeTimeline = function (options) 
 	{
-		var $this = this,		// Save the this reference for later use
-			privateAttribute = 'Yeah baby im private';
+		var $this = this, // Save the this reference for later use
+			shape = options.shape;
+			initialFrame = options.initialFrame || 0;
+			animations = [];
 
 
 		/**
-		 * A public function asigned to the  current instance this.
-		 * @param {integer} param1 The description of the param1.
-		 * @param {string} [param2] The description of the optional param2.
+		 * Calculates the shape based on the original properties and the actual frame.
+		 * @param {integer} frame The actual frame.
 		 */
-		this.publicMethodPrint = function publicMethodSample(param1, param2) 
+		this.getShapeForFrame = function (frame) 
 		{
-			console.log('this a public function accessing a private attribute value "' + privateAttribute + '"');
+		};
+
+		this.getInitialFrame = function (){
+			return initialFrame;
+		};
+
+		this.getEndFrame = function (){
+			var endFrame = -1;
+
+			for (var i = animations.length - 1; i >= 0; i--) {
+				var animationEndFrame = animations[i].endFrame;
+				if (animationEndFrame > endFrame){
+					endFrame = animationEndFrame;
+				}
+			};
+			return endFrame;
 		};
 
 		/**
-		 * a private function in the closure of the current instace this.
-		 * @param {integer} param1 The description of the param1.
-		 */
-		function privateMethodPrint (param1)
-		{
-			console.log('you cannot call me from the outside');
-		}
-
+		 *	Constructor
+		 */ 
 		(function init() {
-			console.log('im kinda constructor');
-			privateMethodPrint();
 		})();
 
-	};	
+	};
+
 	ns.ShapeTimeline = ShapeTimeline;
 
 })(Animates);
