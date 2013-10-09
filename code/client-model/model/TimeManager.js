@@ -11,7 +11,7 @@ var Animates = Animates || {};
 	var TimeManager = function (options) 
 	{
 		var $this = this, // Save the this reference for later use
-			frameInSecs = options.frameInSecs || 1000,
+			frameRate = options.frameRate || 1000,
 			currentFrame = -1,
 			isPlaying = false,
 			tickObservers = [];
@@ -78,14 +78,14 @@ var Animates = Animates || {};
 
 				// TODO should wait for all ticks to end
 				if (initialFrame != currentFrame){
-					// TODO should update the frameInSecs variable and change the cicle to adjust
+					// TODO should update the frameRate variable and change the cicle to adjust
 					// The cicle didn't complete within a frame
 				}
 			};
 			
 			// TODO should wait for all ticks to end
 			if (initialFrame == currentFrame){
-				// TODO should update the frameInSecs variable and change the cicle to adjust
+				// TODO should update the frameRate variable and change the cicle to adjust
 				// The cicle complete suscesfully during a cicle. Try to reduce it, it may be a be too long.
 				// Note that this must be within a range in order not to reduce it permantly.
 			}
@@ -98,10 +98,10 @@ var Animates = Animates || {};
 		{
 			setTimeout (function (){
 				if (isPlaying){
-					currentFrame++;
 					callObservers();
+					currentFrame++;
 				}
-			}, frameInSecs);
+			}, frameRate);
 		}
 
 		/**

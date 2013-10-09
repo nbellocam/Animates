@@ -13,6 +13,7 @@ var Animates = Animates || {};
 		var $this = this, // Save the this reference for later use
 			shape = options.shape;
 			initialFrame = options.initialFrame || 0;
+			endFrame = options.endFrame || -1;
 			animations = [];
 
 
@@ -20,7 +21,7 @@ var Animates = Animates || {};
 		 * Calculates the shape based on the original properties and the actual frame.
 		 * @param {integer} frame The actual frame.
 		 */
-		this.getShapeForFrame = function (frame) 
+		this.getShapeFrameFor = function (frame) 
 		{
 		};
 

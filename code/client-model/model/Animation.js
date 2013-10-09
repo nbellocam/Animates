@@ -21,8 +21,9 @@ var Animates = Animates || {};
 		 * @param {integer} frame The actual frame.
 		 * @param {object} originalProperties The original properties.
 		 */
-		this.getPropertiesForFrame = function (frame, originalProperties) 
+		this.getPropertiesForFrame = function (frame, beginShapeFrame) 
 		{
+			return beginShapeFrame;
 		};
 
 		(function init() {
