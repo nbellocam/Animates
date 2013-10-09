@@ -1,15 +1,16 @@
-/*global window, fabric, $ */
+/*global Animates */
+/*jslint node: true, todo: true, white: true, plusplus:true */
 
 var Animates = Animates || {};
 
-(function (ns){
+(function (ns) {
+	'use strict';
 
 	/**
-	 *	Creates a new Timeline
+	 *  Creates a new Timeline
 	 *  @class Represents a Timeline. 
-	 */ 
-	var Timeline = function (options) 
-	{
+	 */
+	var Timeline = function (options) {
 		var $this = this, // Save the this reference for later use
 			shapeTimelineCollection = [];
 
@@ -18,8 +19,7 @@ var Animates = Animates || {};
 		 * .
 		 * @param {object} shape .
 		 */
-		this.addShape = function (shape) 
-		{
+		this.addShape = function (shape) {
 			// TODO generate a new ShapeTimeline using the shape data.
 		};
 
@@ -27,19 +27,18 @@ var Animates = Animates || {};
 		 * .
 		 * @param {integer} shapeId .
 		 */
-		this.removeShape = function (shapeId) 
-		{
+		this.removeShape = function (shapeId) {
 		};
 
 		/**
-		 *	Constructor
-		 */ 
+		 *  Constructor
+		 */
 		(function init() {
-		})();
+		}());
 
 	};
 
 	ns.Timeline = Timeline;
 
-})(Animates);
+}(Animates));
 

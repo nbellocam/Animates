@@ -1,27 +1,26 @@
-/*global window, fabric, $ */
+/*global Animates */
+/*jslint node: true, todo: true, white: true, plusplus:true */
 
 var Animates = Animates || {};
 
-(function (ns){
+(function (ns) {
+	'use strict';
 
 	/**
-	 *	Creates a new ShapeFrame.
+	 *  Creates a new ShapeFrame.
 	 *  @class Represents a ShapeFrame . 
-	 */ 
-	var ShapeFrame = function (options) 
-	{
-		var $this = this, // Save the this reference for later use
-
+	 */
+	var ShapeFrame = function (options) {
+		var $this = this; // Save the this reference for later use
 
 		/**
-		 *	Constructor
-		 */ 
+		 *  Constructor
+		 */
 		(function init() {
-		})();
-
-	};	
+		}());
+	};
 
 	ns.ShapeFrame = ShapeFrame;
 
-})(Animates);
+}(Animates));
 
