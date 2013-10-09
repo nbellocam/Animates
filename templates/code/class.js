@@ -1,18 +1,18 @@
-/*global window, fabric $ */
+/*global namespace */
+/*jslint node: true, todo: true, white: true, plusplus:true */
 
 var namespace = namespace || {};
 
 (function (ns){
+	'use strict';
 
 	/**
 	 *	Creates a new ClassName and i'm documenting it with jsdoc.
 	 *  @class Represents a ClassName . 
 	 */ 
-	var TemplateClass = function (options) 
-	{
-		var $this = this,		// Save the this reference for later use
+	var TemplateClass = function (options) {
+		var $this = this, // Save the this reference for later use
 			privateAttribute = 'Yeah baby im private';
-
 
 		/**
 		 * A public function asigned to the  current instance this.
@@ -36,12 +36,12 @@ var namespace = namespace || {};
 		(function init() {
 			console.log('im kinda constructor');
 			privateMethodPrint();
-		})();
+		}());
+	};
 
-	};	
 	ns.TemplateClass = TemplateClass;
 
-})(namespace);
+}(namespace));
 
 var newObject = new namespace.TemplateClass({});
 newObject.publicMethodPrint(1, 'test');
