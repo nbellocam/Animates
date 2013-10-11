@@ -11,27 +11,27 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 
 		jshint: {
-			all: ['**/*.js'],
-			model: ['model/**/*.js'],
+			all: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+			code: ['src/**/*.js'],
 			tests: ['test/**/*.js'],
 			options: {
-				ignores: ['node_modules/**/*.js', 'coverage/**/*.js'],
+				ignores: ['node_modules/**/*.js'],
 				globals: {
 					module: true
 				}
 			}
 		},
 		watch: {
-			model: {
-				files: '<%= jshint.model.src %>',
-				tasks: ['jshint:model', 'mochaTest']
+			code: {
+				files: '<%= jshint.code %>',
+				tasks: ['jshint:code', 'mochaTest']
 			},
 			test: {
-				files: '<%= jshint.test.src %>',
+				files: '<%= jshint.tests %>',
 				tasks: ['jshint:tests', 'mochaTest']
 			},
 			all: {
-				files: '<%= jshint.all.src %>',
+				files: '<%= jshint.all %>',
 				tasks: ['jshint:all', 'mochaTest']
 			}
 		},
@@ -49,7 +49,7 @@ module.exports = function (grunt) {
 					// NNB. As mocha is 'clever' enough to only run the tests once for
 					// each file the following coverage task does not actually run any
 					// tests which is why the coverage instrumentation has to be done here
-					require: 'coverage/blanket'
+					require: 'other/blanket'
 				},
 				src: ['test/**/*.js']
 			},
@@ -60,7 +60,15 @@ module.exports = function (grunt) {
 					quiet: true,
 					// specify a destination file to capture the mocha
 					// output (the quiet option does not suppress this)
-					captureFile: 'coverage.html'
+					captureFile: 'output/coverage.html'
+				},
+				src: ['test/**/*.js']
+			},
+			// The travis-cov reporter will fail the tests if the
+			// coverage falls below the threshold configured in package.json
+			'travis-cov': {
+				options: {
+					reporter: 'travis-cov'
 				},
 				src: ['test/**/*.js']
 			}
@@ -77,5 +85,5 @@ module.exports = function (grunt) {
 	grunt.registerTask('test', ['jshint:all','mochaTest']);
 
 	// Default task
-	grunt.registerTask('default', ['jshint:all']);
+	grunt.registerTask('default', ['jshint:all','mochaTest']);
 };

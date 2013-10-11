@@ -1,7 +1,8 @@
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
-var Animates = Animates || {};
+//var Animates = Animates || {};
+var Animates = {};
 
 (function (ns) {
 	'use strict';
@@ -26,3 +27,5 @@ var Animates = Animates || {};
 
 }(Animates));
 
+//Module export
+module.exports = Animates.PresentationPlayer;

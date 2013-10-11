@@ -1,19 +1,18 @@
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
-var Animates = Animates || {};
+//var Animates = Animates || {};
+var Animates = {};
 
 (function (ns) {
 	'use strict';
 
 	/**
-	 *  Creates a new SoundManager.
-	 *  @class Represents a SoundManager. 
+	 *  Creates a new ShapeFrame.
+	 *  @class Represents a ShapeFrame . 
 	 */
-	var SoundManager = function (options) {
+	var ShapeFrame = function (options) {
 		var $this = this; // Save the this reference for later use
-
-		// TODO define this class
 
 		/**
 		 *  Constructor
@@ -22,7 +21,9 @@ var Animates = Animates || {};
 		}());
 	};
 
-	ns.SoundManager = SoundManager;
+	ns.ShapeFrame = ShapeFrame;
 
 }(Animates));
 
+//Module export
+module.exports = Animates.ShapeFrame;

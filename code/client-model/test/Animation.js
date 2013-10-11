@@ -1,6 +1,8 @@
 /*global require, describe, it */
 
-var assert = require("assert");
+var Animation = require('../src/animation'),
+	assert = require("assert");
+
 describe('Animation', function(){
   describe('#getPropertiesForFrame()', function(){
     it('should return -1 when the value is not present', function(){
