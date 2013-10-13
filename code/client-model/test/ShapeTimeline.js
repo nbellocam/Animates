@@ -83,4 +83,32 @@ describe('ShapeTimeline', function(){
 			animations.should.be.empty;
 		});
 	});
+
+	describe('InitialFrame', function(){
+		it('Should start at 0 if it not specified otherwise', function(){
+			var shapeTimeline = new ShapeTimeline(),
+				initialFrame = shapeTimeline.getInitialFrame();
+
+			initialFrame.should.be.exactly(0);
+		});
+
+		it('Should start at the value specified using the constructor', function(){
+			var specifiedInitialFrame = 42,
+				shapeTimeline = new ShapeTimeline({ initialFrame : specifiedInitialFrame }),
+				initialFrame = shapeTimeline.getInitialFrame();
+
+			initialFrame.should.be.exactly(specifiedInitialFrame);
+		});
+
+		it('Should start at the value specified using the set method', function(){
+			var specifiedInitialFrame = 42,
+				shapeTimeline = new ShapeTimeline(),
+				initialFrame;
+
+			shapeTimeline.setInitialFrame(specifiedInitialFrame);
+			initialFrame = shapeTimeline.getInitialFrame();
+
+			initialFrame.should.be.exactly(specifiedInitialFrame);
+		});
+	});
 });
