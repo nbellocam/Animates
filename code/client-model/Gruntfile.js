@@ -49,7 +49,7 @@ module.exports = function (grunt) {
 					// NNB. As mocha is 'clever' enough to only run the tests once for
 					// each file the following coverage task does not actually run any
 					// tests which is why the coverage instrumentation has to be done here
-					require: 'other/blanket'
+					require: 'build/config/blanket'
 				},
 				src: ['test/**/*.js']
 			},
@@ -60,7 +60,7 @@ module.exports = function (grunt) {
 					quiet: true,
 					// specify a destination file to capture the mocha
 					// output (the quiet option does not suppress this)
-					captureFile: 'output/coverage.html'
+					captureFile: 'build/output/coverage.html'
 				},
 				src: ['test/**/*.js']
 			},
