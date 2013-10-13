@@ -10,6 +10,12 @@ module.exports = function (grunt) {
 		//Read the package.json (optional)
 		pkg: grunt.file.readJSON('package.json'),
 
+		jsdoc : {
+			dist : {
+				src: ['src/**/*.js'], 
+				dest: 'doc'
+			}
+		},
 		jshint: {
 			all: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
 			code: ['src/**/*.js'],
@@ -78,19 +84,19 @@ module.exports = function (grunt) {
 	// These plugins provide necessary tasks.
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-
-	// Add the grunt-mocha-test tasks.
+	grunt.loadNpmTasks('grunt-jsdoc');
 	grunt.loadNpmTasks('grunt-mocha-test');
 
+	// Create the output folder
 	if(grunt.file.exists('build/output'))
 	{
 		grunt.file.delete('build/output');	
 	}
-	
 	grunt.file.mkdir('build/output');
 
 	grunt.registerTask('test', ['jshint:all','mochaTest']);
+	grunt.registerTask('doc', ['jsdoc']);
 
 	// Default task
-	grunt.registerTask('default', ['jshint:all','mochaTest']);
+	grunt.registerTask('default', ['doc', 'jshint:all','mochaTest']);
 };
