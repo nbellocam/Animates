@@ -75,12 +75,18 @@ module.exports = function (grunt) {
 		}
 	});
 
+
 	// These plugins provide necessary tasks.
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	// Add the grunt-mocha-test tasks.
 	grunt.loadNpmTasks('grunt-mocha-test');
 
+	// Create the output folder
+	if(grunt.file.exists('build/output')) {
+		grunt.file.delete('build/output');
+	}
+	grunt.file.mkdir('build/output');
 
 	grunt.registerTask('test', ['jshint:all','mochaTest']);
 
