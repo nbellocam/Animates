@@ -211,4 +211,14 @@ describe('ShapeTimeline', function(){
 			endFrame.should.be.exactly(animationEndFrame);
 		});
 	});
+
+	describe('getShapeFrameFor', function(){
+		it('Should return a ShapeFrame instance.', function(){
+			var shapeTimeline = new ShapeTimeline(),
+				frameNumber = 42,
+				shapeFrame = shapeTimeline.getShapeFrameFor(frameNumber);
+
+			shapeFrame.should.be.an.instanceOf(ShapeFrame);
+		});
+	});
 });
