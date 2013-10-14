@@ -111,4 +111,104 @@ describe('ShapeTimeline', function(){
 			initialFrame.should.be.exactly(specifiedInitialFrame);
 		});
 	});
+
+	describe('EndFrame', function(){
+		it('Should end at -1 if it not specified otherwise (without animations)', function(){
+			var shapeTimeline = new ShapeTimeline(),
+				endFrame = shapeTimeline.getEndFrame();
+
+			endFrame.should.be.exactly(-1);
+		});
+
+		it('Should end at the value specified using the constructor (without animations)', function(){
+			var specifiedEndFrame = 42,
+				shapeTimeline = new ShapeTimeline({ endFrame : specifiedEndFrame }),
+				endFrame = shapeTimeline.getEndFrame();
+
+			endFrame.should.be.exactly(specifiedEndFrame);
+		});
+
+		it('Should end at the value specified using the set method (without animations)', function(){
+			var specifiedEndFrame = 42,
+				shapeTimeline = new ShapeTimeline(),
+				endFrame;
+
+			shapeTimeline.setEndFrame(specifiedEndFrame);
+			endFrame = shapeTimeline.getEndFrame();
+
+			endFrame.should.be.exactly(specifiedEndFrame);
+		});
+
+		it('Should end at -1 if it not specified otherwise (with animations that ends in -1)', function(){
+			var shapeTimeline = new ShapeTimeline(),
+				endFrame,
+				animationId = 'myId',
+				animation = { endFrame : -1 };
+
+			shapeTimeline.addAnimation(animationId, animation);
+			endFrame = shapeTimeline.getEndFrame();
+
+			endFrame.should.be.exactly(-1);
+		});
+
+		it('Should end at the value specified using the constructor (with animations that ends in -1)', function(){
+			var specifiedEndFrame = 42,
+				shapeTimeline = new ShapeTimeline({ endFrame : specifiedEndFrame }),
+				endFrame,
+				animationId = 'myId',
+				animation = { endFrame : -1 };
+
+			shapeTimeline.addAnimation(animationId, animation);
+			endFrame = shapeTimeline.getEndFrame();
+
+			endFrame.should.be.exactly(specifiedEndFrame);
+		});
+
+		it('Should end at the value specified using the set method (with animations that ends in -1)', function(){
+			var specifiedEndFrame = 42,
+				shapeTimeline = new ShapeTimeline(),
+				endFrame,
+				animationId = 'myId',
+				animation = { endFrame : -1 };
+
+
+			shapeTimeline.setEndFrame(specifiedEndFrame);
+			shapeTimeline.addAnimation(animationId, animation);
+
+			endFrame = shapeTimeline.getEndFrame();
+
+			endFrame.should.be.exactly(specifiedEndFrame);
+		});
+
+		it('Should end at the value specified (with animations that ends before)', function(){
+			var specifiedEndFrame = 42,
+				shapeTimeline = new ShapeTimeline({ endFrame : specifiedEndFrame }),
+				endFrame,
+				animationId = 'myId',
+				animation = { endFrame : 30 };
+
+
+			shapeTimeline.addAnimation(animationId, animation);
+
+			endFrame = shapeTimeline.getEndFrame();
+
+			endFrame.should.be.exactly(specifiedEndFrame);
+		});
+
+		it('Should end at the value of the animation (with animations that ends after)', function(){
+			var specifiedEndFrame = 42,
+				animationEndFrame = 84,
+				shapeTimeline = new ShapeTimeline({ endFrame : specifiedEndFrame }),
+				endFrame,
+				animationId = 'myId',
+				animation = { endFrame : animationEndFrame };
+
+
+			shapeTimeline.addAnimation(animationId, animation);
+
+			endFrame = shapeTimeline.getEndFrame();
+
+			endFrame.should.be.exactly(animationEndFrame);
+		});
+	});
 });

@@ -52,11 +52,12 @@ var Animates = Animates || {};
 			i,
 			animationEndFrame;
 
-			for (i = animations.length - 1; i >= 0; i--) {
-				animationEndFrame = animations[i].endFrame;
-
-				if (animationEndFrame > currentEndFrame){
-					currentEndFrame = animationEndFrame;
+			for (var id in animations) {
+				if (animations.hasOwnProperty(id)) {
+					animationEndFrame = animations[id].endFrame;
+					if (animationEndFrame > currentEndFrame){
+						currentEndFrame = animationEndFrame;
+					}
 				}
 			}
 
