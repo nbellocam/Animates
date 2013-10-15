@@ -33,6 +33,10 @@ module.exports = function (grunt) {
 			all: {
 				files: '<%= jshint.all %>',
 				tasks: ['jshint:all', 'mochaTest']
+			},
+			runTests: {
+				files: '<%= jshint.all %>',
+				tasks: ['mochaTest']
 			}
 		},
 		// Configure a mochaTest task
