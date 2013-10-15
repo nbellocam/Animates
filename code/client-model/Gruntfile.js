@@ -33,6 +33,10 @@ module.exports = function (grunt) {
 			all: {
 				files: '<%= jshint.all %>',
 				tasks: ['jshint:all', 'mochaTest']
+			},
+			runTests: {
+				files: '<%= jshint.all %>',
+				tasks: ['mochaTest']
 			}
 		},
 		// Configure a mochaTest task
@@ -88,7 +92,7 @@ module.exports = function (grunt) {
 	}
 	grunt.file.mkdir('build/output');
 
-	grunt.registerTask('test', ['jshint:all','mochaTest']);
+	grunt.registerTask('test', ['mochaTest']);
 
 	// Default task
 	grunt.registerTask('default', ['jshint:all','mochaTest']);
