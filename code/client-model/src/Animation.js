@@ -12,6 +12,8 @@ var Animates = {};
 	 *  @class Represents an Animation . 
 	 */
 	var Animation = function (options) {
+		options = options || {};
+
 		var $this = this; // Save the this reference for later use
 
 		this.startFrame = options.startFrame || 0;
@@ -24,7 +26,7 @@ var Animates = {};
 		 * @param {object} originalProperties The original properties.
 		 */
 		this.getPropertiesForFrame = function (frame, beginShapeFrame) {
-			return beginShapeFrame;
+			return beginShapeFrame; //This should be a copy
 		};
 
 		(function init() {

@@ -75,7 +75,7 @@ describe('ShapeTimeline', function(){
 
 		it('Should not fail a call to remove with no parameter', function(){
 			var shapeTimeline = new ShapeTimeline(),
-				animations
+				animations;
 
 			shapeTimeline.removeAnimation();
 			animations = shapeTimeline.getAnimations();
