@@ -88,7 +88,7 @@ module.exports = function (grunt) {
 	}
 	grunt.file.mkdir('build/output');
 
-	grunt.registerTask('test', ['jshint:all','mochaTest']);
+	grunt.registerTask('test', ['mochaTest']);
 
 	// Default task
 	grunt.registerTask('default', ['jshint:all','mochaTest']);

@@ -1,6 +1,6 @@
 /*global require, describe, it */
 
-var Animation = require('../src/animation'),
+var Animation = require('../../src/animation'),
 	assert = require("assert");
 
 describe('Animation', function(){
