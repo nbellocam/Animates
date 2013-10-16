@@ -213,12 +213,24 @@ describe('ShapeTimeline', function(){
 	});
 
 	describe('getShapeFrameFor', function(){
-		it('Should return a ShapeFrame instance.', function(){
+		it('Should return a ShapeFrame instance.'); /*, function(){
 			var shapeTimeline = new ShapeTimeline(),
 				frameNumber = 42,
 				shapeFrame = shapeTimeline.getShapeFrameFor(frameNumber);
 
 			shapeFrame.should.be.an.instanceOf(ShapeFrame);
-		});
+		});*/
+
+		it('Should not update the properties of a ShapeFrame if it has no animations.');
+
+		it('Should update the properties of a ShapeFrame, based on the frame number as an animations specified.');
+
+		it('Should update the properties of a ShapeFrame, based on the frame number as two continuos animations specified.');
+
+		it('Should update the properties of a ShapeFrame, based on the frame number as two simultaneous animations specified.');
+
+		it('Should not retrive a ShapeFrame if the frame is before the initialFrame');
+
+		it('Should retrive the end ShapeFrame with no extra changes if the frame is after the endFrame');
 	});
 });

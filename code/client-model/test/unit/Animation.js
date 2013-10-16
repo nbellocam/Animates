@@ -40,5 +40,12 @@ describe('Animation', function(){
 
 	describe('#getPropertiesForFrame()', function(){
 		//TODO
+		it('Should create a copy of the original frame.');
+
+		it('Should update the properties of the copy of the original frame, based on the frame.');
+
+		it('Should retrive a copy of the original frame with no changes if the frame is before the initialFrame');
+
+		it('Should retrive a copy of the end frame with no extra changes if the frame is after the endFrame');
 	});
 });
