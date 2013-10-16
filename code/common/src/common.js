@@ -104,14 +104,13 @@
 	}
 
 	/**
-	 * Gets a new short GUID string
-	 *
+	 * Private method: Gets a new GUID string. More information at: https://gist.github.com/jed/982883
+	 * 
 	 * @memberof animates.common
 	 * @return The new short GUID
 	 */
-	function createShortGuid ()
-	{
-		return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+	function b(a){
+		return a ? (a^Math.random()*16>>a/4).toString(16) : ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,b);
 	}
 
 	/**
@@ -122,9 +121,7 @@
 	 */
 	function createGuid ()
 	{
-		var S4 = createShortGuid;
-
-		return ( S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4() );
+		return b();
 	}
 
 	exports.namepsace = namespace;
