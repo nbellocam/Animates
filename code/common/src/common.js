@@ -114,7 +114,7 @@
 	}
 
 	/**
-	 *  Gets a new GUID string
+	 * Gets a new GUID string
 	 *
 	 * @memberof animates.common
 	 * @return The new GUID (without braces)
