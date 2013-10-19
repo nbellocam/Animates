@@ -1,6 +1,6 @@
 /*global require, describe, it */
 
-var ShapeTimeline = require('../../src/ShapeTimeline'),
+var ShapeTimeline = require('../../src/shapeTimeline'),
 	should = require("should");
 
 describe('ShapeTimeline', function(){
