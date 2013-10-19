@@ -21,6 +21,7 @@ module.exports = function (grunt) {
 			code: ['src/**/*.js'],
 			tests: ['test/**/*.js'],
 			options: {
+				expr: true,
 				ignores: ['node_modules/**/*.js'],
 				globals: {
 					module: true
