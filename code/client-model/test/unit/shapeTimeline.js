@@ -4,83 +4,83 @@ var ShapeTimeline = require('../../src/shapeTimeline'),
 	should = require("should");
 
 describe('ShapeTimeline', function(){
-	describe('AnimationsCollections', function(){
-		it('Should not contain any animation when created', function(){
+	describe('EffectsCollections', function(){
+		it('Should not contain any effect when created', function(){
 			var shapeTimeline = new ShapeTimeline(),
-				animations = shapeTimeline.getAnimations();
+				effects = shapeTimeline.getEffects();
 
-			animations.should.be.empty;
+			effects.should.be.empty;
 		});
 
-		it('Should add a new animation', function(){
+		it('Should add a new effect', function(){
 			var shapeTimeline = new ShapeTimeline(),
-				animations,
-				animation = { property: "value" },
-				animationId = 'myId';
+				effects,
+				effect = { property: "value" },
+				effectId = 'myId';
 
-			shapeTimeline.addAnimation(animationId, animation);
-			animations = shapeTimeline.getAnimations();
+			shapeTimeline.addEffect(effectId, effect);
+			effects = shapeTimeline.getEffects();
 
-			animations.should.not.be.empty;
-			animations.should.have.property(animationId);
+			effects.should.not.be.empty;
+			effects.should.have.property(effectId);
 		});
 
-		it('Should not add a new animation with invalid id', function(){
+		it('Should not add a new effect with invalid id', function(){
 			var shapeTimeline = new ShapeTimeline(),
-				animations,
-				animation = { property: "value" },
-				animationId;
+				effects,
+				effect = { property: "value" },
+				effectId;
 
-			shapeTimeline.addAnimation(animationId, animation);
-			animations = shapeTimeline.getAnimations();
+			shapeTimeline.addEffect(effectId, effect);
+			effects = shapeTimeline.getEffects();
 
-			animations.should.be.empty;
+			effects.should.be.empty;
 		});
 
-		it('Should not add a new invalid animation', function(){
+		it('Should not add a new invalid effect', function(){
 			var shapeTimeline = new ShapeTimeline(),
-				animations,
-				animation,
-				animationId = 'myId';
+				effects,
+				effect,
+				effectId = 'myId';
 
-			shapeTimeline.addAnimation(animationId, animation);
-			animations = shapeTimeline.getAnimations();
+			shapeTimeline.addEffect(effectId, effect);
+			effects = shapeTimeline.getEffects();
 
-			animations.should.be.empty;
+			effects.should.be.empty;
 		});
 
-		it('Should remove an animation', function(){
+		it('Should remove an effect', function(){
 			var shapeTimeline = new ShapeTimeline(),
-				animations,
-				animation = { property: "value" },
-				animationId = 'myId';
+				effects,
+				effect = { property: "value" },
+				effectId = 'myId';
 
-			shapeTimeline.addAnimation(animationId, animation);
-			shapeTimeline.removeAnimation(animationId);
-			animations = shapeTimeline.getAnimations();
+			shapeTimeline.addEffect(effectId, effect);
+			shapeTimeline.removeEffect(effectId);
+			effects = shapeTimeline.getEffects();
 
-			animations.should.be.empty;
+			effects.should.be.empty;
 		});
 
-		it('Should not fail to remove a not existing animation', function(){
+		it('Should not fail to remove a not existing effect', function(){
 			var shapeTimeline = new ShapeTimeline(),
-				animations,
-				animationId = 'myId';
+				effects,
+				effectId = 'myId';
 
-			shapeTimeline.removeAnimation(animationId);
-			animations = shapeTimeline.getAnimations();
+			shapeTimeline.removeEffect(effectId);
+			effects = shapeTimeline.getEffects();
 
-			animations.should.be.empty;
+			effects.should.be.empty;
 		});
 
 		it('Should not fail a call to remove with no parameter', function(){
 			var shapeTimeline = new ShapeTimeline(),
-				animations;
+				effects;
 
-			shapeTimeline.removeAnimation();
-			animations = shapeTimeline.getAnimations();
+			shapeTimeline.removeEffect();
+			effects = shapeTimeline.getEffects();
 
-			animations.should.be.empty;
+			effects.should.be.empty;
 		});
 	});
 
@@ -113,14 +113,14 @@ describe('ShapeTimeline', function(){
 	});
 
 	describe('EndFrame', function(){
-		it('Should end at -1 if it not specified otherwise (without animations)', function(){
+		it('Should end at -1 if it not specified otherwise (without effects)', function(){
 			var shapeTimeline = new ShapeTimeline(),
 				endFrame = shapeTimeline.getEndFrame();
 
 			endFrame.should.be.exactly(-1);
 		});
 
-		it('Should end at the value specified using the constructor (without animations)', function(){
+		it('Should end at the value specified using the constructor (without effects)', function(){
 			var specifiedEndFrame = 42,
 				shapeTimeline = new ShapeTimeline({ endFrame : specifiedEndFrame }),
 				endFrame = shapeTimeline.getEndFrame();
@@ -128,7 +128,7 @@ describe('ShapeTimeline', function(){
 			endFrame.should.be.exactly(specifiedEndFrame);
 		});
 
-		it('Should end at the value specified using the set method (without animations)', function(){
+		it('Should end at the value specified using the set method (without effects)', function(){
 			var specifiedEndFrame = 42,
 				shapeTimeline = new ShapeTimeline(),
 				endFrame;
@@ -139,76 +139,76 @@ describe('ShapeTimeline', function(){
 			endFrame.should.be.exactly(specifiedEndFrame);
 		});
 
-		it('Should end at -1 if it not specified otherwise (with animations that ends in -1)', function(){
+		it('Should end at -1 if it not specified otherwise (with effects that ends in -1)', function(){
 			var shapeTimeline = new ShapeTimeline(),
 				endFrame,
-				animationId = 'myId',
-				animation = { endFrame : -1 };
+				effectId = 'myId',
+				effect = { endFrame : -1 };
 
-			shapeTimeline.addAnimation(animationId, animation);
+			shapeTimeline.addEffect(effectId, effect);
 			endFrame = shapeTimeline.getEndFrame();
 
 			endFrame.should.be.exactly(-1);
 		});
 
-		it('Should end at the value specified using the constructor (with animations that ends in -1)', function(){
+		it('Should end at the value specified using the constructor (with effects that ends in -1)', function(){
 			var specifiedEndFrame = 42,
 				shapeTimeline = new ShapeTimeline({ endFrame : specifiedEndFrame }),
 				endFrame,
-				animationId = 'myId',
-				animation = { endFrame : -1 };
+				effectId = 'myId',
+				effect = { endFrame : -1 };
 
-			shapeTimeline.addAnimation(animationId, animation);
+			shapeTimeline.addEffect(effectId, effect);
 			endFrame = shapeTimeline.getEndFrame();
 
 			endFrame.should.be.exactly(specifiedEndFrame);
 		});
 
-		it('Should end at the value specified using the set method (with animations that ends in -1)', function(){
+		it('Should end at the value specified using the set method (with effects that ends in -1)', function(){
 			var specifiedEndFrame = 42,
 				shapeTimeline = new ShapeTimeline(),
 				endFrame,
-				animationId = 'myId',
-				animation = { endFrame : -1 };
+				effectId = 'myId',
+				effect = { endFrame : -1 };
 
 
 			shapeTimeline.setEndFrame(specifiedEndFrame);
-			shapeTimeline.addAnimation(animationId, animation);
+			shapeTimeline.addEffect(effectId, effect);
 
 			endFrame = shapeTimeline.getEndFrame();
 
 			endFrame.should.be.exactly(specifiedEndFrame);
 		});
 
-		it('Should end at the value specified (with animations that ends before)', function(){
+		it('Should end at the value specified (with effects that ends before)', function(){
 			var specifiedEndFrame = 42,
 				shapeTimeline = new ShapeTimeline({ endFrame : specifiedEndFrame }),
 				endFrame,
-				animationId = 'myId',
-				animation = { endFrame : 30 };
+				effectId = 'myId',
+				effect = { endFrame : 30 };
 
 
-			shapeTimeline.addAnimation(animationId, animation);
+			shapeTimeline.addEffect(effectId, effect);
 
 			endFrame = shapeTimeline.getEndFrame();
 
 			endFrame.should.be.exactly(specifiedEndFrame);
 		});
 
-		it('Should end at the value of the animation (with animations that ends after)', function(){
+		it('Should end at the value of the effect (with effects that ends after)', function(){
 			var specifiedEndFrame = 42,
-				animationEndFrame = 84,
+				effectEndFrame = 84,
 				shapeTimeline = new ShapeTimeline({ endFrame : specifiedEndFrame }),
 				endFrame,
-				animationId = 'myId',
-				animation = { endFrame : animationEndFrame };
+				effectId = 'myId',
+				effect = { endFrame : effectEndFrame };
 
 
-			shapeTimeline.addAnimation(animationId, animation);
+			shapeTimeline.addEffect(effectId, effect);
 
 			endFrame = shapeTimeline.getEndFrame();
 
-			endFrame.should.be.exactly(animationEndFrame);
+			endFrame.should.be.exactly(effectEndFrame);
 		});
 	});
 
@@ -221,13 +221,13 @@ describe('ShapeTimeline', function(){
 			shapeFrame.should.be.an.instanceOf(ShapeFrame);
 		});*/
 
-		it('Should not update the properties of a ShapeFrame if it has no animations.');
+		it('Should not update the properties of a ShapeFrame if it has no effects.');
 
-		it('Should update the properties of a ShapeFrame, based on the frame number as an animations specified.');
+		it('Should update the properties of a ShapeFrame, based on the frame number as an effects specified.');
 
-		it('Should update the properties of a ShapeFrame, based on the frame number as two continuos animations specified.');
+		it('Should update the properties of a ShapeFrame, based on the frame number as two continuos effects specified.');
 
-		it('Should update the properties of a ShapeFrame, based on the frame number as two simultaneous animations specified.');
+		it('Should update the properties of a ShapeFrame, based on the frame number as two simultaneous effects specified.');
 
 		it('Should not retrive a ShapeFrame if the frame is before the initialFrame');
 

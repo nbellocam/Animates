@@ -17,7 +17,7 @@ var moduleExport = {};
 			shape = options.shape,
 			initialFrame = options.initialFrame || 0,
 			endFrame = options.endFrame || -1,
-			animations = {};
+			effects = {};
 
 
 		/**
@@ -44,19 +44,19 @@ var moduleExport = {};
 		};
 
 		/**
-		 * Calculates the end frame based on the animations and the configured end frame.
+		 * Calculates the end frame based on the effects and the configured end frame.
 		 * @return {integer} The number of the end frame.
 		 */
 		this.getEndFrame = function () {
 			var currentEndFrame = endFrame,
 			i,
-			animationEndFrame;
+			effectEndFrame;
 
-			for (var id in animations) {
-				if (animations.hasOwnProperty(id)) {
-					animationEndFrame = animations[id].endFrame;
-					if (animationEndFrame > currentEndFrame){
-						currentEndFrame = animationEndFrame;
+			for (var id in effects) {
+				if (effects.hasOwnProperty(id)) {
+					effectEndFrame = effects[id].endFrame;
+					if (effectEndFrame > currentEndFrame){
+						currentEndFrame = effectEndFrame;
 					}
 				}
 			}
@@ -73,32 +73,32 @@ var moduleExport = {};
 		};
 
 		/**
-		 * Add a new animation to the shape timeline.
-		 * @param {string} id        the id that identify the animation.
-		 * @param {Animation} animation the animation that will be added.
+		 * Add a new effect to the shape timeline.
+		 * @param {string} id        the id that identify the effect.
+		 * @param {Effect} effect the effect that will be added.
 		 */
-		this.addAnimation = function (id, animation){
-			if (animation && id) {
-				animations[id] = animation;
+		this.addEffect = function (id, effect){
+			if (effect && id) {
+				effects[id] = effect;
 			}
 		};
 
 		/**
-		 * Remove the animation from the shape timeline that correspond to the animationId
-		 * @param  {string} animationId The id that was used when the animation was added.
+		 * Remove the effect from the shape timeline that correspond to the effectId
+		 * @param  {string} effectId The id that was used when the effect was added.
 		 */
-		this.removeAnimation = function (animationId){
-			if (animationId) {
-				delete animations[animationId];
+		this.removeEffect = function (effectId){
+			if (effectId) {
+				delete effects[effectId];
 			}
 		};
 
 		/**
-		 * Return the collection of animation.
-		 * @return {Object} A dictionary with all the animations.
+		 * Return the collection of effect.
+		 * @return {Object} A dictionary with all the effects.
 		 */
-		this.getAnimations = function (){
-			return animations;
+		this.getEffects = function (){
+			return effects;
 		};
 
 		/**

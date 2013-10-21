@@ -7,10 +7,10 @@ var moduleExport = {};
 	'use strict';
 
 	/**
-	 *  Creates a new Animation.
-	 *  @class Represents an Animation . 
+	 *  Creates a new Effect.
+	 *  @class Represents an Effect . 
 	 */
-	var Animation = function (options) {
+	var Effect = function (options) {
 		options = options || {};
 
 		var $this = this; // Save the this reference for later use
@@ -34,12 +34,12 @@ var moduleExport = {};
 		}());
 	};
 
-	ns.Animation = Animation;
+	ns.Effect = Effect;
 
 })(moduleExport);
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-	module.exports = moduleExport.Animation;
+	module.exports = moduleExport.Effect;
 } else {
-	window.Animation = moduleExport.Animation;
+	window.Effect = moduleExport.Effect;
 }
