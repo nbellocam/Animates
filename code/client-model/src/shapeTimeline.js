@@ -1,7 +1,7 @@
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
-var Animates = Animates || {};
+var moduleExport = {};
 
 (function (ns) {
 	'use strict';
@@ -110,9 +110,10 @@ var Animates = Animates || {};
 
 	ns.ShapeTimeline = ShapeTimeline;
 
-}(Animates));
+})(moduleExport);
 
-
-//Module export
-module.exports = Animates.ShapeTimeline;
-
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+	module.exports = moduleExport.ShapeTimeline;
+} else {
+	window.ShapeTimeline = moduleExport.ShapeTimeline;
+}
