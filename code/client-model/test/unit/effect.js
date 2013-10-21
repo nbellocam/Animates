@@ -1,7 +1,7 @@
 /*global require, describe, it */
 
 var Effect = require('../../src/effect'),
-	assert = require("assert");
+	should = require("should");
 
 describe('Effect', function(){
 	describe('StartFrame', function(){
