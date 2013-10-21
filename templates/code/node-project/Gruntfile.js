@@ -9,11 +9,25 @@ module.exports = function (grunt) {
 
 		//Read the package.json (optional)
 		pkg: grunt.file.readJSON('package.json'),
+		
+		meta : {
+			paths : {
+				all: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+				code: ['src/**/*.js'],
+				tests: ['test/**/*.js']
+			}
+		},
 
+		jsdoc : {
+			dist : {
+				src: '<%= meta.paths.code %>', 
+				dest: 'build/output/doc'
+			}
+		},
 		jshint: {
-			all: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
-			code: ['src/**/*.js'],
-			tests: ['test/**/*.js'],
+			all: '<%= meta.paths.all %>',
+			code: '<%= meta.paths.code %>',
+			tests: '<%= meta.paths.tests %>',
 			options: {
 				ignores: ['node_modules/**/*.js'],
 				globals: {
@@ -22,17 +36,17 @@ module.exports = function (grunt) {
 			}
 		},
 		watch: {
+			all: {
+				files: '<%= meta.paths.all %>',
+				tasks: ['jshint:all', 'mochaTest']
+			},
 			code: {
-				files: '<%= jshint.code %>',
+				files: '<%= meta.paths.code %>',
 				tasks: ['jshint:code', 'mochaTest']
 			},
 			test: {
-				files: '<%= jshint.tests %>',
+				files: '<%= meta.paths.tests %>',
 				tasks: ['jshint:tests', 'mochaTest']
-			},
-			all: {
-				files: '<%= jshint.all %>',
-				tasks: ['jshint:all', 'mochaTest']
 			}
 		},
 		// Configure a mochaTest task
@@ -51,7 +65,7 @@ module.exports = function (grunt) {
 					// tests which is why the coverage instrumentation has to be done here
 					require: 'build/config/blanket'
 				},
-				src: ['test/**/*.js']
+				src: '<%= meta.paths.tests %>'
 			},
 			coverage: {
 				options: {
@@ -62,7 +76,7 @@ module.exports = function (grunt) {
 					// output (the quiet option does not suppress this)
 					captureFile: 'build/output/coverage.html'
 				},
-				src: ['test/**/*.js']
+				src: '<%= meta.paths.tests %>'
 			},
 			// The travis-cov reporter will fail the tests if the
 			// coverage falls below the threshold configured in package.json
@@ -70,7 +84,7 @@ module.exports = function (grunt) {
 				options: {
 					reporter: 'travis-cov'
 				},
-				src: ['test/**/*.js']
+				src: '<%= meta.paths.tests %>'
 			}
 		}
 	});
@@ -79,6 +93,7 @@ module.exports = function (grunt) {
 	// These plugins provide necessary tasks.
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-jsdoc');
 	// Add the grunt-mocha-test tasks.
 	grunt.loadNpmTasks('grunt-mocha-test');
 
@@ -88,7 +103,11 @@ module.exports = function (grunt) {
 	}
 	grunt.file.mkdir('build/output');
 
-	grunt.registerTask('test', ['jshint:all','mochaTest']);
+	grunt.registerTask('test', ['mochaTest']);
+
+	grunt.registerTask('doc', ['jsdoc']);
+
+	grunt.registerTask('build', ['jshint:all','mochaTest','jsdoc']);
 
 	// Default task
 	grunt.registerTask('default', ['jshint:all','mochaTest']);
