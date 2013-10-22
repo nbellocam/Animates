@@ -124,7 +124,7 @@
 		return b();
 	}
 
-	exports.namepsace = namespace;
+	exports.namespace = namespace;
 	exports.typeOf = typeOf;
 	exports.inherits = inherits;
 	exports.createGuid = createGuid;
