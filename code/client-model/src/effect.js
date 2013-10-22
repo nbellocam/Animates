@@ -1,17 +1,16 @@
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
-//var Animates = Animates || {};
-var Animates = {};
+var moduleExport = {};
 
 (function (ns) {
 	'use strict';
 
 	/**
-	 *  Creates a new Animation.
-	 *  @class Represents an Animation . 
+	 *  Creates a new Effect.
+	 *  @class Represents an Effect . 
 	 */
-	var Animation = function (options) {
+	var Effect = function (options) {
 		options = options || {};
 
 		var $this = this; // Save the this reference for later use
@@ -35,9 +34,12 @@ var Animates = {};
 		}());
 	};
 
-	ns.Animation = Animation;
+	ns.Effect = Effect;
 
-}(Animates));
+})(moduleExport);
 
-//Module export
-module.exports = Animates.Animation;
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+	module.exports = moduleExport.Effect;
+} else {
+	window.Effect = moduleExport.Effect;
+}
