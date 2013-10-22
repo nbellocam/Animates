@@ -5,37 +5,37 @@ var MoveEffect = require('../../src/moveEffect'),
 
 describe('MoveEffect', function(){
 	describe('StartFrame', function(){
-		//it('Should start at 0 if it not specified otherwise', function(){
-		//	var effect = new MoveEffect(),
-		//		startFrame = effect.startFrame;
+		it('Should start at 0 if it not specified otherwise', function(){
+			var effect = new MoveEffect(),
+				startFrame = effect.startFrame;
 
-		//	startFrame.should.be.exactly(0);
-		//});
+			startFrame.should.be.exactly(0);
+		});
 
-		//it('Should start at the value specified using the constructor', function(){
-		//	var specifiedInitialFrame = 42,
-		//		effect = new MoveEffect({ startFrame : specifiedInitialFrame }),
-		//		startFrame = effect.startFrame;
+		it('Should start at the value specified using the constructor', function(){
+			var specifiedInitialFrame = 42,
+				effect = new MoveEffect({ startFrame : specifiedInitialFrame }),
+				startFrame = effect.startFrame;
 
-		//	startFrame.should.be.exactly(specifiedInitialFrame);
-		//});
+			startFrame.should.be.exactly(specifiedInitialFrame);
+		});
 	});
 
 	describe('EndFrame', function(){
-		//it('Should end at -1 if it not specified otherwise', function(){
-		//	var effect = new MoveEffect(),
-		//		endFrame = effect.endFrame;
+		it('Should end at -1 if it not specified otherwise', function(){
+			var effect = new MoveEffect(),
+				endFrame = effect.endFrame;
 
-		//	endFrame.should.be.exactly(-1);
-		//});
+			endFrame.should.be.exactly(-1);
+		});
 
-		//it('Should end at the value specified using the constructor', function(){
-		//	var specifiedInitialFrame = 42,
-		//		effect = new MoveEffect({ endFrame : specifiedInitialFrame }),
-		//		endFrame = effect.endFrame;
+		it('Should end at the value specified using the constructor', function(){
+			var specifiedInitialFrame = 42,
+				effect = new MoveEffect({ endFrame : specifiedInitialFrame }),
+				endFrame = effect.endFrame;
 
-		//	endFrame.should.be.exactly(specifiedInitialFrame);
-		//});
+			endFrame.should.be.exactly(specifiedInitialFrame);
+		});
 	});
 
 	describe('#getPropertiesForFrame()', function(){

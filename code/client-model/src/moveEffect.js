@@ -1,7 +1,8 @@
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
-//var Common = require('animates-common').Common;
+var Common = require('animates-common'),
+	Effect = require('./effect.js');
 
 var moduleExport = {};
 
@@ -9,10 +10,10 @@ var moduleExport = {};
 	'use strict';
 
 	/**
-	 *  Creates a new Effect.
-	 *  @class Represents an Effect . 
+	 *  Creates a new MoveEffect.
+	 *  @class Represents an MoveEffect . 
 	 */
-	var moveEffect = function (options) {
+	var MoveEffect = function (options) {
 		options = options || {};
 
 		var _self = this, // Save the this reference for later use
@@ -32,16 +33,15 @@ var moduleExport = {};
 
 		(function init() {
 		}());
+
 	};
 
-	//Common.inherits(InheritedClass, Effect);
-
-	ns.moveEffect = moveEffect;
+	ns.MoveEffect = MoveEffect;
 
 })(moduleExport);
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-	module.exports = moduleExport.moveEffect;
+	module.exports = moduleExport.MoveEffect;
 } else {
-	window.moveEffect = moduleExport.moveEffect;
+	window.MoveEffect = moduleExport.MoveEffect;
 }
