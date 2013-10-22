@@ -36,6 +36,8 @@ var moduleExport = {};
 
 	};
 
+	Common.inherits(MoveEffect, Effect);
+
 	ns.MoveEffect = MoveEffect;
 
 })(moduleExport);
