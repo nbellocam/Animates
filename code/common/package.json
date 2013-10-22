@@ -17,6 +17,7 @@
     "grunt-mocha-test": "~0.7.0",
     "grunt-jsdoc": "*",
     "blanket": "~1.1.5",
-    "travis-cov": "~0.2.4"
+    "travis-cov": "~0.2.4",
+    "should": "~2.0.1"
   }
 }

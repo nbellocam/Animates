@@ -1,150 +1,151 @@
 /*global require, describe, it */
 
 var Common = require('../src/common'),
-	assert = require("assert");
+	assert = require("assert"),
+	should = require("should");
 
 describe('Common', function(){
 	describe('#createShortGuid', function(){
 		it('should match the guid regex', function(){
 			var guid = Common.createGuid();
 
-			assert.equal(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/.test(guid), true);
+			guid.should.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/);
 		});
 	});
 
 	describe('#typeOf', function(){
 		it('should only return null with null or undefined objects', function(){
-			assert.strictEqual(Common.typeOf(null), null);
-			assert.strictEqual(Common.typeOf(undefined), null);
+			should.equal(Common.typeOf(null), null);
+			should.equal(Common.typeOf(undefined), null);
 
-			assert.notEqual(Common.typeOf(1), null);
-			assert.notEqual(Common.typeOf(-1), null);
-			assert.notEqual(Common.typeOf(NaN), null);
-			assert.notEqual(Common.typeOf(Infinity), null);
-			assert.notEqual(Common.typeOf(-Infinity), null);
-			assert.notEqual(Common.typeOf("text"), null);
-			assert.notEqual(Common.typeOf([]), null);
-			assert.notEqual(Common.typeOf(true), null);
-			assert.notEqual(Common.typeOf(false), null);
-			assert.notEqual(Common.typeOf(function () {}), null);
-			assert.notEqual(Common.typeOf(function fun () {}), null);
-			assert.notEqual(Common.typeOf({}), null);
-			assert.notEqual(Common.typeOf(new Date()), null);
+			should.notEqual(Common.typeOf(1), null);
+			should.notEqual(Common.typeOf(-1), null);
+			should.notEqual(Common.typeOf(NaN), null);
+			should.notEqual(Common.typeOf(Infinity), null);
+			should.notEqual(Common.typeOf(-Infinity), null);
+			should.notEqual(Common.typeOf("text"), null);
+			should.notEqual(Common.typeOf([]), null);
+			should.notEqual(Common.typeOf(true), null);
+			should.notEqual(Common.typeOf(false), null);
+			should.notEqual(Common.typeOf(function () {}), null);
+			should.notEqual(Common.typeOf(function fun () {}), null);
+			should.notEqual(Common.typeOf({}), null);
+			should.notEqual(Common.typeOf(new Date()), null);
 		});
 
 		it("should only return 'string' with string literals", function(){
-			assert.strictEqual(Common.typeOf("text"), 'string');
+			should.equal(Common.typeOf("text"), 'string');
 
-			assert.notEqual(Common.typeOf(null), 'string');
-			assert.notEqual(Common.typeOf(undefined), 'string');
-			assert.notEqual(Common.typeOf(1), 'string');
-			assert.notEqual(Common.typeOf(-1), 'string');
-			assert.notEqual(Common.typeOf(NaN), 'string');
-			assert.notEqual(Common.typeOf(Infinity), 'string');
-			assert.notEqual(Common.typeOf(-Infinity), 'string');
-			assert.notEqual(Common.typeOf([]), 'string');
-			assert.notEqual(Common.typeOf(true), 'string');
-			assert.notEqual(Common.typeOf(false), 'string');
-			assert.notEqual(Common.typeOf(function () {}), 'string');
-			assert.notEqual(Common.typeOf(function fun () {}), 'string');
-			assert.notEqual(Common.typeOf({}), 'string');
-			assert.notEqual(Common.typeOf(new Date()), 'string');
+			should.notEqual(Common.typeOf(null), 'string');
+			should.notEqual(Common.typeOf(undefined), 'string');
+			should.notEqual(Common.typeOf(1), 'string');
+			should.notEqual(Common.typeOf(-1), 'string');
+			should.notEqual(Common.typeOf(NaN), 'string');
+			should.notEqual(Common.typeOf(Infinity), 'string');
+			should.notEqual(Common.typeOf(-Infinity), 'string');
+			should.notEqual(Common.typeOf([]), 'string');
+			should.notEqual(Common.typeOf(true), 'string');
+			should.notEqual(Common.typeOf(false), 'string');
+			should.notEqual(Common.typeOf(function () {}), 'string');
+			should.notEqual(Common.typeOf(function fun () {}), 'string');
+			should.notEqual(Common.typeOf({}), 'string');
+			should.notEqual(Common.typeOf(new Date()), 'string');
 		});
 
 		it("should only return 'boolean' with boolean literals", function(){
-			assert.strictEqual(Common.typeOf(true), 'boolean');
-			assert.strictEqual(Common.typeOf(false), 'boolean');
+			should.equal(Common.typeOf(true), 'boolean');
+			should.equal(Common.typeOf(false), 'boolean');
 
-			assert.notEqual(Common.typeOf(null), 'boolean');
-			assert.notEqual(Common.typeOf(undefined), 'boolean');
-			assert.notEqual(Common.typeOf(1), 'boolean');
-			assert.notEqual(Common.typeOf(-1), 'boolean');
-			assert.notEqual(Common.typeOf(NaN), 'boolean');
-			assert.notEqual(Common.typeOf(Infinity), 'boolean');
-			assert.notEqual(Common.typeOf(-Infinity), 'boolean');
-			assert.notEqual(Common.typeOf("text"), 'boolean');
-			assert.notEqual(Common.typeOf([]), 'boolean');
-			assert.notEqual(Common.typeOf(function () {}), 'boolean');
-			assert.notEqual(Common.typeOf(function fun () {}), 'boolean');
-			assert.notEqual(Common.typeOf({}), 'boolean');
-			assert.notEqual(Common.typeOf(new Date()), 'boolean');
+			should.notEqual(Common.typeOf(null), 'boolean');
+			should.notEqual(Common.typeOf(undefined), 'boolean');
+			should.notEqual(Common.typeOf(1), 'boolean');
+			should.notEqual(Common.typeOf(-1), 'boolean');
+			should.notEqual(Common.typeOf(NaN), 'boolean');
+			should.notEqual(Common.typeOf(Infinity), 'boolean');
+			should.notEqual(Common.typeOf(-Infinity), 'boolean');
+			should.notEqual(Common.typeOf("text"), 'boolean');
+			should.notEqual(Common.typeOf([]), 'boolean');
+			should.notEqual(Common.typeOf(function () {}), 'boolean');
+			should.notEqual(Common.typeOf(function fun () {}), 'boolean');
+			should.notEqual(Common.typeOf({}), 'boolean');
+			should.notEqual(Common.typeOf(new Date()), 'boolean');
 		});
 
 		it("should only return 'date' with date objects", function(){
-			assert.strictEqual(Common.typeOf(new Date()), 'date');
+			should.equal(Common.typeOf(new Date()), 'date');
 
-			assert.notEqual(Common.typeOf(null), 'date');
-			assert.notEqual(Common.typeOf(undefined), 'date');
-			assert.notEqual(Common.typeOf(1), 'date');
-			assert.notEqual(Common.typeOf(-1), 'date');
-			assert.notEqual(Common.typeOf(NaN), 'date');
-			assert.notEqual(Common.typeOf(Infinity), 'date');
-			assert.notEqual(Common.typeOf(-Infinity), 'date');
-			assert.notEqual(Common.typeOf("text"), 'date');
-			assert.notEqual(Common.typeOf([]), 'date');
-			assert.notEqual(Common.typeOf(true), 'date');
-			assert.notEqual(Common.typeOf(false), 'date');
-			assert.notEqual(Common.typeOf(function () {}), 'date');
-			assert.notEqual(Common.typeOf(function fun () {}), 'date');
-			assert.notEqual(Common.typeOf({}), 'date');
+			should.notEqual(Common.typeOf(null), 'date');
+			should.notEqual(Common.typeOf(undefined), 'date');
+			should.notEqual(Common.typeOf(1), 'date');
+			should.notEqual(Common.typeOf(-1), 'date');
+			should.notEqual(Common.typeOf(NaN), 'date');
+			should.notEqual(Common.typeOf(Infinity), 'date');
+			should.notEqual(Common.typeOf(-Infinity), 'date');
+			should.notEqual(Common.typeOf("text"), 'date');
+			should.notEqual(Common.typeOf([]), 'date');
+			should.notEqual(Common.typeOf(true), 'date');
+			should.notEqual(Common.typeOf(false), 'date');
+			should.notEqual(Common.typeOf(function () {}), 'date');
+			should.notEqual(Common.typeOf(function fun () {}), 'date');
+			should.notEqual(Common.typeOf({}), 'date');
 		});
 
 		it("should only return 'array' with array objects", function(){
-			assert.strictEqual(Common.typeOf([]), 'array');
+			should.equal(Common.typeOf([]), 'array');
 
-			assert.notEqual(Common.typeOf(null), 'array');
-			assert.notEqual(Common.typeOf(undefined), 'array');
-			assert.notEqual(Common.typeOf(1), 'array');
-			assert.notEqual(Common.typeOf(-1), 'array');
-			assert.notEqual(Common.typeOf(NaN), 'array');
-			assert.notEqual(Common.typeOf(Infinity), 'array');
-			assert.notEqual(Common.typeOf(-Infinity), 'array');
-			assert.notEqual(Common.typeOf("text"), 'array');
-			assert.notEqual(Common.typeOf(true), 'array');
-			assert.notEqual(Common.typeOf(false), 'array');
-			assert.notEqual(Common.typeOf(function () {}), 'array');
-			assert.notEqual(Common.typeOf(function fun () {}), 'array');
-			assert.notEqual(Common.typeOf({}), 'array');
-			assert.notEqual(Common.typeOf(new Date()), 'array');
+			should.notEqual(Common.typeOf(null), 'array');
+			should.notEqual(Common.typeOf(undefined), 'array');
+			should.notEqual(Common.typeOf(1), 'array');
+			should.notEqual(Common.typeOf(-1), 'array');
+			should.notEqual(Common.typeOf(NaN), 'array');
+			should.notEqual(Common.typeOf(Infinity), 'array');
+			should.notEqual(Common.typeOf(-Infinity), 'array');
+			should.notEqual(Common.typeOf("text"), 'array');
+			should.notEqual(Common.typeOf(true), 'array');
+			should.notEqual(Common.typeOf(false), 'array');
+			should.notEqual(Common.typeOf(function () {}), 'array');
+			should.notEqual(Common.typeOf(function fun () {}), 'array');
+			should.notEqual(Common.typeOf({}), 'array');
+			should.notEqual(Common.typeOf(new Date()), 'array');
 		});
 
 		it("should only return 'number' with number and NaN objects", function(){
-			assert.strictEqual(Common.typeOf(1), 'number');
-			assert.strictEqual(Common.typeOf(-1), 'number');
-			assert.strictEqual(Common.typeOf(NaN), 'number');
-			assert.strictEqual(Common.typeOf(Infinity), 'number');
-			assert.strictEqual(Common.typeOf(-Infinity), 'number');
+			should.equal(Common.typeOf(1), 'number');
+			should.equal(Common.typeOf(-1), 'number');
+			should.equal(Common.typeOf(NaN), 'number');
+			should.equal(Common.typeOf(Infinity), 'number');
+			should.equal(Common.typeOf(-Infinity), 'number');
 
 
-			assert.notEqual(Common.typeOf(null), 'number');
-			assert.notEqual(Common.typeOf(undefined), 'number');
-			assert.notEqual(Common.typeOf("text"), 'number');
-			assert.notEqual(Common.typeOf([]), 'number');
-			assert.notEqual(Common.typeOf(true), 'number');
-			assert.notEqual(Common.typeOf(false), 'number');
-			assert.notEqual(Common.typeOf(function () {}), 'number');
-			assert.notEqual(Common.typeOf(function fun () {}), 'number');
-			assert.notEqual(Common.typeOf({}), 'number');
-			assert.notEqual(Common.typeOf(new Date()), 'number');
+			should.notEqual(Common.typeOf(null), 'number');
+			should.notEqual(Common.typeOf(undefined), 'number');
+			should.notEqual(Common.typeOf("text"), 'number');
+			should.notEqual(Common.typeOf([]), 'number');
+			should.notEqual(Common.typeOf(true), 'number');
+			should.notEqual(Common.typeOf(false), 'number');
+			should.notEqual(Common.typeOf(function () {}), 'number');
+			should.notEqual(Common.typeOf(function fun () {}), 'number');
+			should.notEqual(Common.typeOf({}), 'number');
+			should.notEqual(Common.typeOf(new Date()), 'number');
 		});
 
 		it("should only return 'function' with functions", function(){
-			assert.strictEqual(Common.typeOf(function () {}), 'function');
-			assert.strictEqual(Common.typeOf(function fun () {}), 'function');
+			should.equal(Common.typeOf(function () {}), 'function');
+			should.equal(Common.typeOf(function fun () {}), 'function');
 
-			assert.notEqual(Common.typeOf(null), 'function');
-			assert.notEqual(Common.typeOf(undefined), 'function');
-			assert.notEqual(Common.typeOf(1), 'function');
-			assert.notEqual(Common.typeOf(-1), 'function');
-			assert.notEqual(Common.typeOf(NaN), 'function');
-			assert.notEqual(Common.typeOf(Infinity), 'function');
-			assert.notEqual(Common.typeOf(-Infinity), 'function');
-			assert.notEqual(Common.typeOf("text"), 'function');
-			assert.notEqual(Common.typeOf([]), 'function');
-			assert.notEqual(Common.typeOf(true), 'function');
-			assert.notEqual(Common.typeOf(false), 'function');
-			assert.notEqual(Common.typeOf({}), 'function');
-			assert.notEqual(Common.typeOf(new Date()), 'function');
+			should.notEqual(Common.typeOf(null), 'function');
+			should.notEqual(Common.typeOf(undefined), 'function');
+			should.notEqual(Common.typeOf(1), 'function');
+			should.notEqual(Common.typeOf(-1), 'function');
+			should.notEqual(Common.typeOf(NaN), 'function');
+			should.notEqual(Common.typeOf(Infinity), 'function');
+			should.notEqual(Common.typeOf(-Infinity), 'function');
+			should.notEqual(Common.typeOf("text"), 'function');
+			should.notEqual(Common.typeOf([]), 'function');
+			should.notEqual(Common.typeOf(true), 'function');
+			should.notEqual(Common.typeOf(false), 'function');
+			should.notEqual(Common.typeOf({}), 'function');
+			should.notEqual(Common.typeOf(new Date()), 'function');
 		});
 
 		it("should only return 'object' with literal adn custom objects", function(){
@@ -152,23 +153,23 @@ describe('Common', function(){
 
 			var customObj = new CustomObject();
 
-			assert.strictEqual(Common.typeOf({}), 'object');
-			assert.strictEqual(Common.typeOf(customObj), 'object');
+			should.equal(Common.typeOf({}), 'object');
+			should.equal(Common.typeOf(customObj), 'object');
 
-			assert.notEqual(Common.typeOf(null), 'object');
-			assert.notEqual(Common.typeOf(undefined), 'object');
-			assert.notEqual(Common.typeOf(1), 'object');
-			assert.notEqual(Common.typeOf(-1), 'object');
-			assert.notEqual(Common.typeOf(NaN), 'object');
-			assert.notEqual(Common.typeOf(Infinity), 'object');
-			assert.notEqual(Common.typeOf(-Infinity), 'object');
-			assert.notEqual(Common.typeOf("text"), 'object');
-			assert.notEqual(Common.typeOf([]), 'object');
-			assert.notEqual(Common.typeOf(true), 'object');
-			assert.notEqual(Common.typeOf(false), 'object');
-			assert.notEqual(Common.typeOf(function () {}), 'object');
-			assert.notEqual(Common.typeOf(function fun () {}), 'object');
-			assert.notEqual(Common.typeOf(new Date()), 'object');
+			should.notEqual(Common.typeOf(null), 'object');
+			should.notEqual(Common.typeOf(undefined), 'object');
+			should.notEqual(Common.typeOf(1), 'object');
+			should.notEqual(Common.typeOf(-1), 'object');
+			should.notEqual(Common.typeOf(NaN), 'object');
+			should.notEqual(Common.typeOf(Infinity), 'object');
+			should.notEqual(Common.typeOf(-Infinity), 'object');
+			should.notEqual(Common.typeOf("text"), 'object');
+			should.notEqual(Common.typeOf([]), 'object');
+			should.notEqual(Common.typeOf(true), 'object');
+			should.notEqual(Common.typeOf(false), 'object');
+			should.notEqual(Common.typeOf(function () {}), 'object');
+			should.notEqual(Common.typeOf(function fun () {}), 'object');
+			should.notEqual(Common.typeOf(new Date()), 'object');
 		});
 
 		it("should only return 'dom' for dom objects");
@@ -198,15 +199,15 @@ describe('Common', function(){
 		var inhertied = new InheritedClass();
 
 		it('should copy public properties', function(){
-			assert.strictEqual(Common.typeOf(inhertied.getPrivateProp), 'function');
+			should.equal(Common.typeOf(inhertied.getPrivateProp), 'function');
 		});
 
 		it('should keep private properties state', function(){
-			assert.strictEqual(inhertied.getPrivateProp(), 'private');
+			should.equal(inhertied.getPrivateProp(), 'private');
 
 			inhertied.setPrivateProp('new value');
 
-			assert.strictEqual(inhertied.getPrivateProp(), 'new value');
+			should.equal(inhertied.getPrivateProp(), 'new value');
 		});
 	});
 
