@@ -1,12 +1,15 @@
+/*global namespace */
+/*jslint node: true, todo: true, white: true, plusplus:true */
+
+'use strict';
+
 /**
  *	Creates a new ClassName and i'm documenting it with jsdoc.
  *  @class Represents a ClassName . 
  */ 
-function TemplateClass (options) 
-{
-	var $this = this,		// Save the this reference for later use
+function TemplateClass (options) {
+	var $this = this, // Save the this reference for later use
 		privateAttribute = 'Yeah baby im private';
-
 
 	/**
 	 * A public function asigned to the  current instance this.
@@ -30,22 +33,7 @@ function TemplateClass (options)
 	(function init() {
 		console.log('im kinda constructor');
 		privateMethodPrint();
-	})();
-
+	}());
 }
 
-var newObject = new TemplateClass({});
-newObject.publicMethodPrint(1, 'test');
-
-if (newObject.privateMethodPrint)
-{
-	console.log('you think you can catch me...but...');
-}
-else
-{
-	console.log('you cannot access to the private, please understand');
-}
-
-//Module export
 module.exports = TemplateClass;
-
