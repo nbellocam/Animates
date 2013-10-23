@@ -22,9 +22,7 @@ function Effect (options) {
 	 * @param {object} originalProperties The original properties.
 	 */
 	this.getPropertiesForFrame = function (frame, beginShapeFrame) {
-		//var shapeFrame = ns.clone (beginShapeFrame)
-		//return $this.updateFrame (shapeFrame); --> template method
-		return beginShapeFrame; //This should be a copy
+		return beginShapeFrame;
 	};
 
 	(function init() {
