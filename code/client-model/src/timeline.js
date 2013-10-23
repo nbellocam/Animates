@@ -1,49 +1,38 @@
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
-var moduleExport = {};
+'use strict';
 
-(function (ns) {
-	'use strict';
+/**
+ *  Creates a new Timeline
+ *  @class Represents a Timeline. 
+ */
+function Timeline (options) {
+	var _self = this, // Save the this reference for later use
+		shapeTimelineCollection = [];
+
 
 	/**
-	 *  Creates a new Timeline
-	 *  @class Represents a Timeline. 
+	 * .
+	 * @param {object} shape .
 	 */
-	var Timeline = function (options) {
-		var $this = this, // Save the this reference for later use
-			shapeTimelineCollection = [];
-
-
-		/**
-		 * .
-		 * @param {object} shape .
-		 */
-		this.addShape = function (shape) {
-			// TODO generate a new ShapeTimeline using the shape data.
-		};
-
-		/**
-		 * .
-		 * @param {integer} shapeId .
-		 */
-		this.removeShape = function (shapeId) {
-		};
-
-		/**
-		 *  Constructor
-		 */
-		(function init() {
-		}());
-
+	this.addShape = function (shape) {
+		// TODO generate a new ShapeTimeline using the shape data.
 	};
 
-	ns.Timeline = Timeline;
+	/**
+	 * .
+	 * @param {integer} shapeId .
+	 */
+	this.removeShape = function (shapeId) {
+	};
 
-})(moduleExport);
+	/**
+	 *  Constructor
+	 */
+	(function init() {
+	}());
 
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-	module.exports = moduleExport.Timeline;
-} else {
-	window.Timeline = moduleExport.Timeline;
 }
+
+module.exports = Timeline;
