@@ -13,6 +13,8 @@ var Common = require('animates-common'),
 function MoveEffect(options) {
 	options = options || {};
 
+	this.base(options); // Call base constructor
+	
 	var _self = this, // Save the this reference for later use
 	path = options.path;
 
@@ -22,6 +24,8 @@ function MoveEffect(options) {
 	 * @param {object} originalProperties The original properties.
 	 */
 	this.getPropertiesForFrame = function (frame, beginShapeFrame) {
+		var startFrame = _self.startFrame,
+			endFrame = _self.endFrame;
 		if (frame > startFrame){
 			if (typeof path !== 'undefined' && typeof path.getPositionFor === 'function' ) {
 				var currentPos = path.getPositionFor(startFrame, endFrame, (frame < endFrame) ? frame : endFrame );
@@ -40,7 +44,7 @@ function MoveEffect(options) {
 	};
 
 	(function init() { 
-		_self.base(options); // Call base constructor
+		
 	}());
 }
 

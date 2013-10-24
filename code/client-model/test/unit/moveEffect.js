@@ -129,9 +129,9 @@ describe('MoveEffect', function(){
 				effect = new MoveEffect({ endFrame : specifiedEndFrame, path: specifiedPath }),
 				endShapeFrame = effect.getPropertiesForFrame(specifiedFrame, beginShapeFrame);
 
+			should.strictEqual(endShapeFrame, beginShapeFrame);
 			endShapeFrame.should.have.property('x', specifiedX*specifiedEndFrame);
 			endShapeFrame.should.have.property('y', specifiedY*specifiedEndFrame);
-			should.strictEqual(endShapeFrame, beginShapeFrame);
 		});
 	});
 });
