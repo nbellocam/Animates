@@ -2,7 +2,7 @@
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
 var Common = require('animates-common'),
-	Effect = require('./effect.js');
+	Effect = require('../effect.js');
 
 'use strict';
 
