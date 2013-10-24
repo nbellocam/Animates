@@ -1,6 +1,6 @@
 /*global require, describe, it */
 
-var MoveEffect = require('../../src/effects/moveEffect'),
+var MoveEffect = require('../../../src/effects/moveEffect'),
 	should = require("should");
 
 describe('MoveEffect', function(){
