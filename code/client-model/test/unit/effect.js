@@ -30,22 +30,42 @@ describe('Effect', function(){
 		});
 
 		it('Should end at the value specified using the constructor', function(){
-			var specifiedInitialFrame = 42,
-				effect = new Effect({ endFrame : specifiedInitialFrame }),
+			var specifiedEndFrame = 42,
+				effect = new Effect({ endFrame : specifiedEndFrame }),
 				endFrame = effect.endFrame;
 
-			endFrame.should.be.exactly(specifiedInitialFrame);
+			endFrame.should.be.exactly(specifiedEndFrame);
 		});
 	});
 
 	describe('#getPropertiesForFrame()', function(){
-		//TODO
-		it('Should create a copy of the original frame.');
+		it('Should return the original frame.', function(){
+			var specifiedFrame = 42,
+				beginShapeFrame = {},
+				effect = new Effect(),
+				endShapeFrame = effect.getPropertiesForFrame(specifiedFrame, beginShapeFrame);
 
-		it('Should update the properties of the copy of the original frame, based on the frame.');
+			should.strictEqual(endShapeFrame, beginShapeFrame);
+		});
 
-		it('Should retrive a copy of the original frame with no changes if the frame is before the initialFrame');
+		it('Should return the original frame even with the frame after the end frame.', function(){
+			var specifiedEndFrame = 42,
+				specifiedFrame = 100,
+				beginShapeFrame = {},
+				effect = new Effect({ endFrame : specifiedEndFrame }),
+				endShapeFrame = effect.getPropertiesForFrame(specifiedFrame, beginShapeFrame);
 
-		it('Should retrive a copy of the end frame with no extra changes if the frame is after the endFrame');
+			should.strictEqual(endShapeFrame, beginShapeFrame);
+		});
+
+		it('Should return the original frame specially with the frame before the start frame.', function(){
+			var specifiedInitialFrame = 100,
+				specifiedFrame = 42,
+				beginShapeFrame = {},
+				effect = new Effect({ startFrame : specifiedInitialFrame }),
+				endShapeFrame = effect.getPropertiesForFrame(specifiedFrame, beginShapeFrame);
+
+			should.strictEqual(endShapeFrame, beginShapeFrame);
+		});
 	});
 });
