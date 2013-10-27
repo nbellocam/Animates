@@ -22,7 +22,15 @@ function ShapeTimeline (options) {
 	 * @param {integer} frame The actual frame.
 	 */
 	this.getShapeFrameFor = function (currentFrame) {
+		var mediaItemFrame = {}; //TODO create a new mediaItemFrame (ex. shapeFrame) based on the shape / mediaItem
 
+		for (var id in effects) {
+			if (effects.hasOwnProperty(id)) {
+				mediaItemFrame = effects[id].getPropertiesForFrame(currentFrame, mediaItemFrame); //TODO order by endFrame in order to get the real result
+			}
+		}
+
+		return mediaItemFrame;
 	};
 
 	/**
