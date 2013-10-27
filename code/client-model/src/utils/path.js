@@ -31,10 +31,16 @@ function Path (options) {
 		}
 
 		var frameLength = endFrame - startFrame,
-			xDelta = _self.endPosition.x - _self.startPosition.x,
-			yDelta = _self.endPosition.y - _self.startPosition.y;
+			// relativeCurrentFrame = (currentFrame - startFrame),
+			relativeFramePosition = (currentFrame - startFrame) / frameLength,
+			startX = _self.startPosition.x,
+			startY = _self.startPosition.y,
+			//xTotalDelta = _self.endPosition.x - startX,
+			xDelta = (_self.endPosition.x - startX) * relativeFramePosition,
+			//yTotalDelta = _self.endPosition.y - startY,
+			yDelta = (_self.endPosition.y - startY) * relativeFramePosition;
 
-		return {x: xDelta * currentFrame / frameLength, y: yDelta * currentFrame / frameLength};
+		return {x: startX + xDelta, y: startY + yDelta};
 	};
 
 	(function init() {
