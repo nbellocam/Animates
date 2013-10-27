@@ -1,4 +1,4 @@
-/*global require, describe, it */
+/*global describe, it */
 
 'use strict';
 
