@@ -1,5 +1,7 @@
 /*global require, describe, it */
 
+'use strict';
+
 var Shape = require('../../src/shape'),
 	should = require("should");
 

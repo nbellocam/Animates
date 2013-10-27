@@ -1,5 +1,7 @@
 /*global require, describe, it */
 
+'use strict';
+
 var MediaTimeline = require('../../src/mediaTimeline'),
 	should = require("should");
 

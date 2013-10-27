@@ -1,5 +1,7 @@
 /*global require, describe, it */
 
+'use strict';
+
 var MoveEffect = require('../../../src/effects/moveEffect'),
 	should = require("should");
 

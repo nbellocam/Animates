@@ -54,6 +54,8 @@ module.exports = function (grunt) {
 					code: [src],
 					tests: [tests],
 					options: {
+						expr:true,
+						node:true,
 						ignores: ['node_modules/**/*.js'],
 						globals: {
 							module: true

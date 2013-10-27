@@ -1,5 +1,7 @@
 /*global require, describe, it */
 
+'use strict';
+
 var Effect = require('../../src/effect'),
 	should = require("should");
 

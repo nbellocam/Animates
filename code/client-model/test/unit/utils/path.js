@@ -1,5 +1,7 @@
 /*global require, describe, it */
 
+'use strict';
+
 var Path = require('../../../src/utils/path'),
 	should = require("should");
 
@@ -53,8 +55,8 @@ describe('Path', function(){
 				specifiedStartPositionY = 10,
 				specifiedEndPositionX = 200,
 				specifiedEndPositionY = 100,
-				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY };
-				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY };
+				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY },
+				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
 				endPosition = path.getPositionFor(startFrame, endFrame, currentFrame);
 
@@ -69,8 +71,8 @@ describe('Path', function(){
 				specifiedStartPositionY = 10,
 				specifiedEndPositionX = 200,
 				specifiedEndPositionY = 100,
-				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY };
-				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY };
+				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY },
+				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
 				endPosition = path.getPositionFor(startFrame, endFrame, currentFrame);
 
@@ -87,8 +89,8 @@ describe('Path', function(){
 				specifiedStartPositionY = 10,
 				specifiedEndPositionX = 200,
 				specifiedEndPositionY = 100,
-				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY };
-				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY };
+				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY },
+				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
 				endPosition = path.getPositionFor(startFrame, endFrame, currentFrame);
 
@@ -107,8 +109,8 @@ describe('Path', function(){
 				specifiedStartPositionY = 10,
 				specifiedEndPositionX = 200,
 				specifiedEndPositionY = 100,
-				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY };
-				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY };
+				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY },
+				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
 				endPosition = path.getPositionFor(startFrame, endFrame, currentFrame);
 

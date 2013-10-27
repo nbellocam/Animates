@@ -1,5 +1,7 @@
 /*global require, describe, it */
 
+'use strict';
+
 var MediaObject = require('../../src/mediaObject'),
 	should = require("should");
 
