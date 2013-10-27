@@ -1,10 +1,11 @@
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
+'use strict';
 
 var Common = require('animates-common'),
 	Effect = require('../effect.js');
 
-'use strict';
+
 
 /**
  *  Creates a new MoveEffect.
