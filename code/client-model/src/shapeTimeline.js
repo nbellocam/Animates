@@ -21,7 +21,8 @@ function ShapeTimeline (options) {
 	 * Calculates the shape based on the original properties and the actual frame.
 	 * @param {integer} frame The actual frame.
 	 */
-	this.getShapeFrameFor = function (frame) {
+	this.getShapeFrameFor = function (currentFrame) {
+
 	};
 
 	/**

@@ -28,6 +28,19 @@ function Timeline (options) {
 	};
 
 	/**
+	 * Calculates all the elements for the current frame.
+	 * @param {integer} currentFrame The current frame.
+	 */
+	this.getElementsForFrame = function (currentFrame) {
+		var elements = [];
+		for (var i = shapeTimelineCollection.length - 1; i >= 0; i--) {
+			elements.push(shapeTimelineCollection[i].getShapeFrameFor(currentFrame));
+		};
+
+		return elements;
+	};
+
+	/**
 	 *  Constructor
 	 */
 	(function init() {
