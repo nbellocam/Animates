@@ -1,9 +1,9 @@
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
+'use strict';
+
 var MediaObject = require('./mediaObject'),
 	Common = require('animates-common');
-
-'use strict';
 
 /**
  *  Creates a new Shape
