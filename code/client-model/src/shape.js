@@ -1,5 +1,7 @@
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
+var MediaObject = require('./mediaObject'),
+	Common = require('animates-common');
 
 'use strict';
 
@@ -8,24 +10,11 @@
  *  @class Represents a Shape. 
  */
 function Shape (options) {
+	options = options || {};
+
+	this.base(options); // Call base constructor
+
 	var _self = this; // Save the this reference for later use
-
-	this.Rect = {
-		shapeId : "rect",
-		width : 50,
-		height : 50,
-		fillColor : "#FFFFFF",
-		borderColor : "#FFFFFF",
-		borderSize : 2
-	};
-
-	this.Circle = {
-		shapeId : "circle",
-		radius : 50,
-		fillColor : "#FFFFFF",
-		borderColor : "#FFFFFF",
-		borderSize : 2
-	};
 
 	/**
 	 *  Constructor
@@ -33,5 +22,7 @@ function Shape (options) {
 	(function init() {
 	}());
 }
+
+Common.inherits(Shape, MediaObject);
 
 module.exports = Shape;
