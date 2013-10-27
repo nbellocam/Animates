@@ -4,49 +4,49 @@
 'use strict';
 
 /**
- *  Creates a new ShapeTimeline.
- *  @class Represents a ShapeTimeline. 
+ *  Creates a new media timeline.
+ *  @class Represents a timeline for a media object. 
  */
-function ShapeTimeline (options) {
+function MediaTimeline (options) {
 	options = options || {};
 
 	var _self = this, // Save the this reference for later use
-		shape = options.shape,
-		initialFrame = options.initialFrame || 0,
+		mediaObject = options.mediaObject,
+		startFrame = options.startFrame || 0,
 		endFrame = options.endFrame || -1,
 		effects = {};
 
 
 	/**
-	 * Calculates the shape based on the original properties and the actual frame.
-	 * @param {integer} frame The actual frame.
+	 * Calculates the media object based on the original properties and the current frame.
+	 * @param {integer} currentFrame The current frame.
 	 */
-	this.getShapeFrameFor = function (currentFrame) {
-		var mediaItemFrame = {}; //TODO create a new mediaItemFrame (ex. shapeFrame) based on the shape / mediaItem
+	this.getMediaObjectFrameFor = function (currentFrame) {
+		var mediaObjectFrame = {}; //TODO create a new mediaItemFrame (ex. shapeFrame) based on the mediaObject
 
 		for (var id in effects) {
 			if (effects.hasOwnProperty(id)) {
-				mediaItemFrame = effects[id].getPropertiesForFrame(currentFrame, mediaItemFrame); //TODO order by endFrame in order to get the real result
+				mediaObjectFrame = effects[id].getPropertiesForFrame(currentFrame, mediaObjectFrame); //TODO order by endFrame in order to get the real result
 			}
 		}
 
-		return mediaItemFrame;
+		return mediaObjectFrame;
 	};
 
 	/**
-	 * Get the initial frame
-	 * @return {integer} The number of the initial frame.
+	 * Get the start frame
+	 * @return {integer} The number of the start frame.
 	 */
-	this.getInitialFrame = function () {
-		return initialFrame;
+	this.getStartFrame = function () {
+		return startFrame;
 	};
 
 	/**
-	 * Set the initial frame for this shape
-	 * @param {integer} newInitialFrame The initial frame for this shape.
+	 * Set the start frame for this media object
+	 * @param {integer} newStartFrame The start frame for this media object.
 	 */
-	this.setInitialFrame = function (newInitialFrame) {
-		initialFrame = newInitialFrame;
+	this.setStartFrame = function (newStartFrame) {
+		startFrame = newStartFrame;
 	};
 
 	/**
@@ -71,15 +71,15 @@ function ShapeTimeline (options) {
 	};
 
 	/**
-	 * Set the end frame for this shape
-	 * @param {integer} newEndFrame The end frame for this shape.
+	 * Set the end frame for this media object
+	 * @param {integer} newEndFrame The end frame for this media object.
 	 */
 	this.setEndFrame = function (newEndFrame) {
 		endFrame = newEndFrame;
 	};
 
 	/**
-	 * Add a new effect to the shape timeline.
+	 * Add a new effect to the media object timeline.
 	 * @param {string} id        the id that identify the effect.
 	 * @param {Effect} effect the effect that will be added.
 	 */
@@ -90,7 +90,7 @@ function ShapeTimeline (options) {
 	};
 
 	/**
-	 * Remove the effect from the shape timeline that correspond to the effectId
+	 * Remove the effect from the media object timeline that correspond to the effectId
 	 * @param  {string} effectId The id that was used when the effect was added.
 	 */
 	this.removeEffect = function (effectId){
@@ -114,4 +114,4 @@ function ShapeTimeline (options) {
 	}());
 }
 
-module.exports = ShapeTimeline;
+module.exports = MediaTimeline;

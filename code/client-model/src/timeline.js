@@ -33,9 +33,10 @@ function Timeline (options) {
 	 */
 	this.getElementsForFrame = function (currentFrame) {
 		var elements = [];
+		
 		for (var i = shapeTimelineCollection.length - 1; i >= 0; i--) {
 			elements.push(shapeTimelineCollection[i].getShapeFrameFor(currentFrame));
-		};
+		}
 
 		return elements;
 	};
