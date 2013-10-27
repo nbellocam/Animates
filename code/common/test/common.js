@@ -211,6 +211,65 @@ describe('Common', function(){
 		});
 	});
 
+	describe('#inheritsWithOverride', function(){
+		function BaseClass () {
+			var privateProp = 'private';
+
+			this.getPrivateProp = function ()
+			{
+				return privateProp;
+			};
+
+			this.setPrivateProp = function (value)
+			{
+				privateProp = value;
+			};
+
+			this.testFunction = function (value)
+			{
+				return "base";
+			};
+		}
+
+		function InheritedClass () {
+			this.base(); // Call base constructor
+
+			this.testFunction = function (value)
+			{
+				return "inherited";
+			};
+		}
+
+		Common.inherits(InheritedClass, BaseClass);
+
+		var base = new BaseClass();
+		var inhertied = new InheritedClass();
+
+		it('should copy public properties', function(){
+			should.equal(Common.typeOf(inhertied.getPrivateProp), 'function');
+		});
+
+		it('should keep private properties state', function(){
+			should.equal(inhertied.getPrivateProp(), 'private');
+
+			inhertied.setPrivateProp('new value');
+
+			should.equal(inhertied.getPrivateProp(), 'new value');
+		});
+
+		it('should use the base testFunction function', function(){
+			should.equal(Common.typeOf(base.testFunction), 'function');
+
+			should.equal(base.testFunction(), 'base');
+		});
+
+		it('should use the new testFunction function', function(){
+			should.equal(Common.typeOf(inhertied.testFunction), 'function');
+
+			should.equal(inhertied.testFunction(), 'inherited');
+		});
+	});
+
 	describe('#clone', function(){
 		it('should create and exact copy of an object');
 	});

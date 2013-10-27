@@ -1,49 +1,51 @@
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
-var moduleExport = {};
+'use strict';
 
-(function (ns) {
-	'use strict';
+/**
+ *  Creates a new Timeline
+ *  @class Represents a Timeline. 
+ */
+function Timeline (options) {
+	var _self = this, // Save the this reference for later use
+		shapeTimelineCollection = [];
+
 
 	/**
-	 *  Creates a new Timeline
-	 *  @class Represents a Timeline. 
+	 * .
+	 * @param {object} shape .
 	 */
-	var Timeline = function (options) {
-		var $this = this, // Save the this reference for later use
-			shapeTimelineCollection = [];
-
-
-		/**
-		 * .
-		 * @param {object} shape .
-		 */
-		this.addShape = function (shape) {
-			// TODO generate a new ShapeTimeline using the shape data.
-		};
-
-		/**
-		 * .
-		 * @param {integer} shapeId .
-		 */
-		this.removeShape = function (shapeId) {
-		};
-
-		/**
-		 *  Constructor
-		 */
-		(function init() {
-		}());
-
+	this.addShape = function (shape) {
+		// TODO generate a new ShapeTimeline using the shape data.
 	};
 
-	ns.Timeline = Timeline;
+	/**
+	 * .
+	 * @param {integer} shapeId .
+	 */
+	this.removeShape = function (shapeId) {
+	};
 
-})(moduleExport);
+	/**
+	 * Calculates all the elements for the current frame.
+	 * @param {integer} currentFrame The current frame.
+	 */
+	this.getElementsForFrame = function (currentFrame) {
+		var elements = [];
+		for (var i = shapeTimelineCollection.length - 1; i >= 0; i--) {
+			elements.push(shapeTimelineCollection[i].getShapeFrameFor(currentFrame));
+		};
 
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-	module.exports = moduleExport.Timeline;
-} else {
-	window.Timeline = moduleExport.Timeline;
+		return elements;
+	};
+
+	/**
+	 *  Constructor
+	 */
+	(function init() {
+	}());
+
 }
+
+module.exports = Timeline;
