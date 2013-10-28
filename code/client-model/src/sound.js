@@ -10,7 +10,8 @@ var MediaObject = require('./mediaObject'),
 function Sound (options) {
 	var _self = this,
 		defaultOptions = {
-			volumen : 100
+			volumen : 100,
+			source : ''
 		};
 
 	options = Common.extend(defaultOptions, options);
@@ -34,4 +35,4 @@ function Sound (options) {
 
 Common.inherits(Sound, MediaObject, 'MediaObject');
 
-module.exports = Sound
+module.exports = Sound;
