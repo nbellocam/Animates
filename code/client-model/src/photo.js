@@ -7,12 +7,16 @@ var VisualMediaObject = require('./visualMediaObject'),
 	Common = require('animates-common');
 
 /**
- *  Creates a new Shape
- *  @class Represents a Shape. 
+ *  Creates a new Photo
+ *  @class Represents a Photo. 
  */
-function Shape (options) {
-	var _self = this;
+function Photo (options) {
+	var _self = this,
+		defaultOptions = {
+			source : ''
+		};
 
+	options = Common.extend(defaultOptions, options);
 	this.VisualMediaObject(options); // Call base constructor
 
 	/**
@@ -22,6 +26,6 @@ function Shape (options) {
 	}());
 }
 
-Common.inherits(Shape, VisualMediaObject, 'VisualMediaObject');
+Common.inherits(Photo, VisualMediaObject, 'VisualMediaObject');
 
-module.exports = Shape;
+module.exports = Photo;
