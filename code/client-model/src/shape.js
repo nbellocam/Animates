@@ -1,6 +1,6 @@
 'use strict';
 
-var MediaObject = require('./mediaObject'),
+var VisualMediaObject = require('./visualMediaObject'),
 	Common = require('animates-common');
 
 /**
@@ -8,11 +8,9 @@ var MediaObject = require('./mediaObject'),
  *  @class Represents a Shape. 
  */
 function Shape (options) {
-	options = options || {};
+	var _self = this;
 
-	this.base(options); // Call base constructor
-
-	var _self = this; // Save the this reference for later use
+	this.VisualMediaObject(options); // Call base constructor
 
 	/**
 	 *  Constructor
@@ -21,6 +19,6 @@ function Shape (options) {
 	}());
 }
 
-Common.inherits(Shape, MediaObject);
+Common.inherits(Shape, VisualMediaObject, 'VisualMediaObject');
 
 module.exports = Shape;

@@ -274,6 +274,65 @@ describe('Common', function(){
 		it('should create and exact copy of an object');
 	});
 
+	describe('#extend', function(){
+		it('should not overwrite existing values', function () {
+			var options = {
+					prop : 'value',
+					prop2 : 'otherValue'
+				},
+				defaults = {
+					prop : 'defaultProp',
+					prop2 : 'defaultProp2'
+				},
+				extension;
+
+			extension = Common.extend(defaults, options);
+
+			extension.should.have.property('prop', 'value');
+			extension.should.have.property('prop2', 'otherValue');
+		});
+
+		it('should set default values to missing properties', function () {
+			var options = {
+					prop : 'value'
+				},
+				defaults = {
+					prop : 'defaultProp',
+					prop2 : 'defaultProp2'
+				},
+				extension;
+
+			extension = Common.extend(defaults, options);
+
+			extension.should.have.property('prop', 'value');
+			extension.should.have.property('prop2', 'defaultProp2');
+		});
+
+		it('should work in depth and not overwrite partially defined sub-objects', function () {
+			var options = {
+					prop : 'value',
+					prop2 : {
+						att : 'att1'
+					}
+				},
+				defaults = {
+					prop : 'defaultProp',
+					prop2 : {
+						att : 'defaultAtt1',
+						att2 : 'defaultAtt2'
+					}
+				},
+				extension;
+
+			extension = Common.extend(defaults, options);
+
+			extension.should.have.property('prop', 'value');
+			extension.should.have.property('prop2');
+			extension.prop2.should.have.property('att', 'att1');
+			extension.prop2.should.have.property('att2', 'defaultAtt2');
+		});
+	});
+
 	describe('#namespace', function(){
 		it('should create a namespace if not exists');
 		it('should create a hierarquical namespace if not exists');
