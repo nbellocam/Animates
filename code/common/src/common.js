@@ -39,6 +39,25 @@ function typeOf (o) {
 }
 
 /**
+ * Deep extends missing properties from source properties with default values
+ * @param  {Object} defaults	The default values
+ * @param  {Object} source		The current object to be extended
+ * @return {Object}             The extended object with default values
+ */
+function extend (defaults, source) {
+	for (var property in source) {
+		if (source[property] && source[property].constructor &&
+			source[property].constructor === Object) {
+			defaults[property] = defaults[property] || {};
+			arguments.callee(defaults[property], source[property]);
+		} else {
+			defaults[property] = source[property];
+		}
+	}
+	return defaults;
+}
+
+/**
  *  Creates an inherited class of a given parent
  *
  *	@memberof animates.common
@@ -115,4 +134,5 @@ exports.namespace = namespace;
 exports.typeOf = typeOf;
 exports.inherits = inherits;
 exports.createGuid = createGuid;
+exports.extend = extend;
 exports.clone = clone;
