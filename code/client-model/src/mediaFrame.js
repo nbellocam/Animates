@@ -5,7 +5,7 @@
  *  @class Represents the specific frame of a media object. 
  */
 function MediaFrame (options) {
-	var _self = this; // Save the this reference for later use
+	var _self = this, // Save the this reference for later use
 		properties = {};
 
 	/**
