@@ -1,6 +1,3 @@
-/*global Animates */
-/*jslint node: true, todo: true, white: true, plusplus:true */
-
 'use strict';
 
 /**
