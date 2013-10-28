@@ -2,7 +2,7 @@
 
 'use strict';
 
-var Photo = require('../../src/sound'),
+var Sound = require('../../src/sound'),
 	should = require("should");
 
 describe('Sound', function(){
