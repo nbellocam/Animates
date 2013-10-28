@@ -6,6 +6,7 @@
  */
 function MediaFrame (options) {
 	var _self = this; // Save the this reference for later use
+		properties = {};
 
 	/**
 	 *  Constructor
