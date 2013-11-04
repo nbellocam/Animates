@@ -286,10 +286,11 @@ describe('Common', function(){
 				},
 				extension;
 
-			extension = Common.extend(defaults, options);
+			extension = Common.extend(options, defaults);
 
 			extension.should.have.property('prop', 'value');
 			extension.should.have.property('prop2', 'otherValue');
+			extension.should.be.exactly(options);
 		});
 
 		it('should set default values to missing properties', function () {
@@ -302,10 +303,11 @@ describe('Common', function(){
 				},
 				extension;
 
-			extension = Common.extend(defaults, options);
+			extension = Common.extend(options, defaults);
 
 			extension.should.have.property('prop', 'value');
 			extension.should.have.property('prop2', 'defaultProp2');
+			extension.should.be.exactly(options);
 		});
 
 		it('should work in depth and not overwrite partially defined sub-objects', function () {
@@ -324,12 +326,13 @@ describe('Common', function(){
 				},
 				extension;
 
-			extension = Common.extend(defaults, options);
+			extension = Common.extend(options, defaults);
 
 			extension.should.have.property('prop', 'value');
 			extension.should.have.property('prop2');
 			extension.prop2.should.have.property('att', 'att1');
 			extension.prop2.should.have.property('att2', 'defaultAtt2');
+			extension.should.be.exactly(options);
 		});
 	});
 

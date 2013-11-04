@@ -40,21 +40,23 @@ function typeOf (o) {
 
 /**
  * Deep extends missing properties from source properties with default values
- * @param  {Object} defaults	The default values
  * @param  {Object} source		The current object to be extended
+ * @param  {Object} defaults	The default values
  * @return {Object}             The extended object with default values
  */
-function extend (defaults, source) {
-	for (var property in source) {
-		if (source[property] && source[property].constructor &&
-			source[property].constructor === Object) {
-			defaults[property] = defaults[property] || {};
-			arguments.callee(defaults[property], source[property]);
+function extend (source, defaults) {
+	for (var property in defaults) {
+		if (defaults[property] && defaults[property].constructor &&
+			defaults[property].constructor === Object) {
+			source[property] = source[property] || {};
+			arguments.callee(source[property], defaults[property]);
 		} else {
-			defaults[property] = source[property];
+			if (typeof source[property] === 'undefined'){
+				source[property] = defaults[property];
+			}
 		}
 	}
-	return defaults;
+	return source;
 }
 
 /**
