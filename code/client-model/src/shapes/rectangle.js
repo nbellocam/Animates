@@ -12,13 +12,12 @@ var Shape = require('../shape'),
  */
 function Rectangle (options) {
 	var _self = this,
-		defaultOptions = {
+		defaultProperties = {
 			height : 100,
 			width : 100
-		};
-
-	options = Common.extend(defaultOptions, options);
-	this.Shape(options); // Call base constructor
+		},
+		properties = Common.extend(options || {}, defaultProperties);
+	this.Shape(properties); // Call base constructor
 
 	/**
 	 *  Constructor

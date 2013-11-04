@@ -9,22 +9,13 @@ var MediaObject = require('./mediaObject'),
  */
 function Sound (options) {
 	var _self = this,
-		defaultOptions = {
+		defaultProperties = {
 			volumen : 100,
 			source : ''
-		};
+		},
+		properties = Common.extend(options || {}, defaultProperties);
 
-	options = Common.extend(defaultOptions, options);
-	this.MediaObject(options); // Call base constructor
-
-	/**
-	 * Get the properties
-	 * @return {Object} The current properties
-	 */
-	this.getProperties = function getProperties()
-	{
-		return options;
-	};
+	this.MediaObject(properties); // Call base constructor
 
 	/**
 	 *  Constructor

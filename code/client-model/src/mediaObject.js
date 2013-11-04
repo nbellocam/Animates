@@ -7,10 +7,42 @@ var Common = require('animates-common');
  *  @class Represents a MediaObject. 
  */
 function MediaObject (options) {
-	options = options || {};
-
 	var _self = this,
-		guid = '';
+		guid = '',
+		properties = options || {};
+
+	/**
+	 * Get the properties
+	 * @return {Object} The current properties
+	 */
+	this.getProperties = function getProperties()
+	{
+		return properties;
+	};
+
+	/**
+	 * Get the properties
+	 * @return {Object} The current properties
+	 */
+	this.getProperty = function getProperties(name)
+	{
+		if (name){
+			return properties[name];
+		}
+
+		return undefined;
+	};
+
+	/**
+	 * Set the property named after the first parameter value 
+	 * @return {Object} The current properties
+	 */
+	this.setProperty = function setProperty(name, value)
+	{
+		if (name){
+			properties[name] = value;
+		}
+	};
 
 	/**
 	 * Gets the guid of the MediaObject

@@ -10,8 +10,9 @@ var MediaObject = require('./mediaObject'),
  *  @class Represents a Shape. 
  */
 function VisualMediaObject (options) {
+
 	var _self = this,
-		defaultOptions = {
+		defaultProperties = {
 			position : {
 				x : 0,
 				y : 0,
@@ -22,19 +23,10 @@ function VisualMediaObject (options) {
 				type : 'none',
 				color : 'black'
 			}
-		};
+		},
+		properties = Common.extend(options || {}, defaultProperties);
 
-	options = Common.extend(defaultOptions, options);
-	this.MediaObject(options); // Call base constructor
-
-	/**
-	 * Get the properties
-	 * @return {Object} The current properties
-	 */
-	this.getProperties = function getProperties()
-	{
-		return options;
-	};
+	this.MediaObject(properties); // Call base constructor
 
 	/**
 	 *  Constructor

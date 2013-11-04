@@ -12,12 +12,12 @@ var VisualMediaObject = require('./visualMediaObject'),
  */
 function Photo (options) {
 	var _self = this,
-		defaultOptions = {
+		defaultProperties = {
 			source : ''
-		};
+		},
+		properties = Common.extend(options || {}, defaultProperties);
 
-	options = Common.extend(defaultOptions, options);
-	this.VisualMediaObject(options); // Call base constructor
+	this.VisualMediaObject(properties); // Call base constructor
 
 	/**
 	 *  Constructor

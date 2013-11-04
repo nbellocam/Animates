@@ -8,9 +8,10 @@ var VisualMediaObject = require('./visualMediaObject'),
  *  @class Represents a Shape. 
  */
 function Shape (options) {
-	var _self = this;
-
-	this.VisualMediaObject(options); // Call base constructor
+	var _self = this,
+		properties = options || {};
+	
+	this.VisualMediaObject(properties); // Call base constructor
 
 	/**
 	 *  Constructor
