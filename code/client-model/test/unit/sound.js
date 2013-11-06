@@ -19,8 +19,32 @@ describe('Sound', function(){
 			var sound = new Sound(),
 				properties = sound.getProperties();
 
-			properties.should.have.property('source');
-			properties.should.have.property('volumen');
+			properties.should.have.property('source', '');
+			properties.should.have.property('volumen', 100);
+		});
+
+		it('Should set the properties passed in the constructor', function(){
+			var specifiedVolumen = 42,
+				specifiedSource = 'a source',
+				instance = new Sound({
+					volumen: specifiedVolumen,
+					source: specifiedSource
+				}),
+				properties = instance.getProperties();
+
+			properties.should.have.property('source', specifiedSource);
+			properties.should.have.property('volumen', specifiedVolumen);
+		});
+
+		it('Should set only the properties passed in the constructor and use the default for the rest.', function(){
+			var specifiedSource = 'a source',
+				instance = new Sound({
+					source: specifiedSource
+				}),
+				properties = instance.getProperties();
+
+			properties.should.have.property('source', specifiedSource);
+			properties.should.have.property('volumen', 100);
 		});
 	});
 });
