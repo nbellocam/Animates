@@ -8,7 +8,6 @@ function Timeline (options) {
 	var _self = this, // Save the this reference for later use
 		mediaTimelineCollection = [];
 
-
 	/**
 	 * .
 	 * @param {object} media object.
