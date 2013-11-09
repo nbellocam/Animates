@@ -6,14 +6,14 @@
  */
 function Timeline (options) {
 	var _self = this, // Save the this reference for later use
-		shapeTimelineCollection = [];
+		mediaTimelineCollection = [];
 
 
 	/**
 	 * .
-	 * @param {object} shape .
+	 * @param {object} media object.
 	 */
-	this.addShape = function (shape) {
+	this.addMediaObject = function (shape) {
 		// TODO generate a new ShapeTimeline using the shape data.
 	};
 
