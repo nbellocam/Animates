@@ -226,7 +226,7 @@ describe('MediaTimeline', function(){
 	});
 
 	describe('getMediaObjectFrameFor', function(){
-		it('Should return a ShapeFrame instance.'); /*, function(){
+		it('Should return a MediaFrame instance.'); /*, function(){
 			var mediaTimeline = new ShapeTimeline(),
 				frameNumber = 42,
 				shapeFrame = shapeTimeline.getShapeFrameFor(frameNumber);
@@ -234,16 +234,16 @@ describe('MediaTimeline', function(){
 			shapeFrame.should.be.an.instanceOf(ShapeFrame);
 		});*/
 
-		it('Should not update the properties of a ShapeFrame if it has no effects.');
+		it('Should not update the properties of a MediaFrame if it has no effects.');
 
-		it('Should update the properties of a ShapeFrame, based on the frame number as an effects specified.');
+		it('Should update the properties of a MediaFrame, based on the frame number as an effects specified.');
 
-		it('Should update the properties of a ShapeFrame, based on the frame number as two continuos effects specified.');
+		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified.');
 
-		it('Should update the properties of a ShapeFrame, based on the frame number as two simultaneous effects specified.');
+		it('Should update the properties of a MediaFrame, based on the frame number as two simultaneous effects specified.');
 
-		it('Should not retrive a ShapeFrame if the frame is before the initialFrame');
+		it('Should not retrive a MediaFrame if the frame is before the initialFrame');
 
-		it('Should retrive the end ShapeFrame with no extra changes if the frame is after the endFrame');
+		it('Should retrive the end MediaFrame with no extra changes if the frame is after the endFrame');
 	});
 });
