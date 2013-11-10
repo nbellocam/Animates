@@ -19,7 +19,7 @@ function MediaTimeline (options) {
 	 * @param {integer} currentFrame The current frame.
 	 */
 	this.getMediaObjectFrameFor = function getMediaObjectFrameFor(currentFrame) {
-		var mediaObjectFrame = {}; //TODO create a new mediaItemFrame (ex. shapeFrame) based on the mediaObject
+		var mediaObjectFrame = {}; //TODO create a new mediaFrame based on the mediaObject element.
 
 		for (var id in effects) {
 			if (effects.hasOwnProperty(id)) {
