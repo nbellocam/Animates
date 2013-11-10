@@ -87,7 +87,7 @@ function Timeline (options) {
 		var elements = [], i;
 		
 		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
-			elements.push(mediaTimelineCollection[i].getShapeFrameFor(currentFrame));
+			elements.push(mediaTimelineCollection[i].getMediaObjectFrameFor(currentFrame));
 		}
 
 		return elements;
