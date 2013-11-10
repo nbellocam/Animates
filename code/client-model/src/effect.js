@@ -1,5 +1,7 @@
 'use strict';
 
+var Common = require('animates-common');
+
 /**
  *  Creates a new Effect.
  *  @class Represents an Effect . 
@@ -7,7 +9,8 @@
 function Effect (options) {
 	options = options || {};
 
-	var _self = this; // Save the this reference for later use
+	var _self = this,
+		guid = ''; // Save the this reference for later use
 
 	this.startFrame = options.startFrame || 0;
 
@@ -22,7 +25,19 @@ function Effect (options) {
 		return beginShapeFrame;
 	};
 
+	/**
+	 * Gets the guid of the effect
+	 * @return {string} the guid
+	 */
+	this.getGuid = function getGuid() {
+		return guid;
+	};
+
+	/**
+	 *  Constructor
+	 */ 
 	(function init() {
+		guid = Common.createGuid();
 	}());
 }
 

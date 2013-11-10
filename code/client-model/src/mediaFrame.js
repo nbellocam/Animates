@@ -4,10 +4,13 @@
  *  Creates a new MediaFrame.
  *  @class Represents the specific frame of a media object. 
  */
-function MediaFrame (mediaObject, options) {
+function MediaFrame (options) {
+	options = options || {};
+
 	var _self = this, // Save the this reference for later use
 		properties = {},
-		original = mediaObject;
+		currentFrame = options.currentFrame,
+		original = options.mediaObject;
 
 	/**
 	 *  Constructor

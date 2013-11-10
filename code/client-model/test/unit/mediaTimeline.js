@@ -17,35 +17,22 @@ describe('MediaTimeline', function(){
 		it('Should add a new effect', function(){
 			var mediaTimeline = new MediaTimeline(),
 				effects,
-				effect = { property: "value" },
-				effectId = 'myId';
+				effectId = 'myId',
+				effect = { property: "value" , getGuid : function () { return effectId; } };
 
-			mediaTimeline.addEffect(effectId, effect);
+			mediaTimeline.addEffect(effect);
 			effects = mediaTimeline.getEffects();
 
 			effects.should.not.be.empty;
 			effects.should.have.property(effectId);
 		});
 
-		it('Should not add a new effect with invalid id', function(){
-			var mediaTimeline = new MediaTimeline(),
-				effects,
-				effect = { property: "value" },
-				effectId;
-
-			mediaTimeline.addEffect(effectId, effect);
-			effects = mediaTimeline.getEffects();
-
-			effects.should.be.empty;
-		});
-
 		it('Should not add a new invalid effect', function(){
 			var mediaTimeline = new MediaTimeline(),
 				effects,
-				effect,
-				effectId = 'myId';
+				effect;
 
-			mediaTimeline.addEffect(effectId, effect);
+			mediaTimeline.addEffect(effect);
 			effects = mediaTimeline.getEffects();
 
 			effects.should.be.empty;
@@ -54,10 +41,10 @@ describe('MediaTimeline', function(){
 		it('Should remove an effect', function(){
 			var mediaTimeline = new MediaTimeline(),
 				effects,
-				effect = { property: "value" },
-				effectId = 'myId';
+				effectId = 'myId',
+				effect = { property: "value" , getGuid : function () { return effectId; } };
 
-			mediaTimeline.addEffect(effectId, effect);
+			mediaTimeline.addEffect(effect);
 			mediaTimeline.removeEffect(effectId);
 			effects = mediaTimeline.getEffects();
 
@@ -156,9 +143,10 @@ describe('MediaTimeline', function(){
 			var mediaTimeline = new MediaTimeline(),
 				endFrame,
 				effectId = 'myId',
-				effect = { endFrame : -1 };
+				effectEndFrame = -1,
+				effect = { endFrame : effectEndFrame, getGuid : function () { return effectId; } };
 
-			mediaTimeline.addEffect(effectId, effect);
+			mediaTimeline.addEffect(effect);
 			endFrame = mediaTimeline.getEndFrame();
 
 			endFrame.should.be.exactly(-1);
@@ -169,9 +157,10 @@ describe('MediaTimeline', function(){
 				mediaTimeline = new MediaTimeline({ endFrame : specifiedEndFrame }),
 				endFrame,
 				effectId = 'myId',
-				effect = { endFrame : -1 };
+				effectEndFrame = -1,
+				effect = { endFrame : effectEndFrame, getGuid : function () { return effectId; } };
 
-			mediaTimeline.addEffect(effectId, effect);
+			mediaTimeline.addEffect(effect);
 			endFrame = mediaTimeline.getEndFrame();
 
 			endFrame.should.be.exactly(specifiedEndFrame);
@@ -182,11 +171,12 @@ describe('MediaTimeline', function(){
 				mediaTimeline = new MediaTimeline(),
 				endFrame,
 				effectId = 'myId',
-				effect = { endFrame : -1 };
+				effectEndFrame = -1,
+				effect = { endFrame : effectEndFrame, getGuid : function () { return effectId; } };
 
 
 			mediaTimeline.setEndFrame(specifiedEndFrame);
-			mediaTimeline.addEffect(effectId, effect);
+			mediaTimeline.addEffect(effect);
 
 			endFrame = mediaTimeline.getEndFrame();
 
@@ -198,10 +188,11 @@ describe('MediaTimeline', function(){
 				mediaTimeline = new MediaTimeline({ endFrame : specifiedEndFrame }),
 				endFrame,
 				effectId = 'myId',
-				effect = { endFrame : 30 };
+				effectEndFrame = 30,
+				effect = { endFrame : effectEndFrame, getGuid : function () { return effectId; } };
 
 
-			mediaTimeline.addEffect(effectId, effect);
+			mediaTimeline.addEffect(effect);
 
 			endFrame = mediaTimeline.getEndFrame();
 
@@ -214,10 +205,10 @@ describe('MediaTimeline', function(){
 				mediaTimeline = new MediaTimeline({ endFrame : specifiedEndFrame }),
 				endFrame,
 				effectId = 'myId',
-				effect = { endFrame : effectEndFrame };
+				effect = { endFrame : effectEndFrame, getGuid : function () { return effectId; } };
 
 
-			mediaTimeline.addEffect(effectId, effect);
+			mediaTimeline.addEffect(effect);
 
 			endFrame = mediaTimeline.getEndFrame();
 

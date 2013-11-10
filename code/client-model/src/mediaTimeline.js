@@ -1,5 +1,7 @@
 'use strict';
 
+var MediaFrame = require('./mediaFrame');
+
 /**
  *  Creates a new media timeline.
  *  @class Represents a timeline for a media object. 
@@ -19,12 +21,22 @@ function MediaTimeline (options) {
 	 * @param {integer} currentFrame The current frame.
 	 */
 	this.getMediaObjectFrameFor = function getMediaObjectFrameFor(currentFrame) {
-		var mediaObjectFrame = {}; //TODO create a new mediaFrame based on the mediaObject element.
+		var mediaObjectFrame = new MediaFrame({ mediaObject: mediaObject, currentFrame: currentFrame }),
+			effectsArray = [];
 
 		for (var id in effects) {
 			if (effects.hasOwnProperty(id)) {
-				mediaObjectFrame = effects[id].getPropertiesForFrame(currentFrame, mediaObjectFrame); //TODO order by endFrame in order to get the real result
+				effectsArray.push(effects[id]);
 			}
+		}
+
+		effectsArray.sort(function(a,b){
+			return a.endFrame - b.endFrame;
+		});
+		
+		for (var i = effectsArray.length - 1; i >= 0; i--) {
+			
+			mediaObjectFrame = effectsArray[i].getPropertiesForFrame(currentFrame, mediaObjectFrame);
 		}
 
 		return mediaObjectFrame;
@@ -85,12 +97,11 @@ function MediaTimeline (options) {
 
 	/**
 	 * Add a new effect to the media object timeline.
-	 * @param {string} id        the id that identify the effect.
 	 * @param {Effect} effect the effect that will be added.
 	 */
-	this.addEffect = function addEffect(id, effect){
-		if (effect && id) {
-			effects[id] = effect;
+	this.addEffect = function addEffect(effect){
+		if (effect) {
+			effects[effect.getGuid()] = effect;
 		}
 	};
 

@@ -6,6 +6,16 @@ var Effect = require('../../src/effect'),
 	should = require("should");
 
 describe('Effect', function(){
+	describe('Constructor', function(){
+		it('Should generate a random guid', function(){
+			var effect1 = new Effect(),
+				effect2 = new Effect();
+
+			effect1.getGuid().should.have.type('string');
+			effect1.getGuid().should.not.be.equal(effect2.getGuid());
+		});
+	});
+
 	describe('StartFrame', function(){
 		it('Should start at 0 if it not specified otherwise', function(){
 			var effect = new Effect(),

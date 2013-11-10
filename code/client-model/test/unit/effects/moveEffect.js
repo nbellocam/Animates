@@ -6,6 +6,16 @@ var MoveEffect = require('../../../src/effects/moveEffect'),
 	should = require("should");
 
 describe('MoveEffect', function(){
+	describe('Constructor', function(){
+		it('Should generate a random guid', function(){
+			var effect1 = new MoveEffect(),
+				effect2 = new MoveEffect();
+
+			effect1.getGuid().should.have.type('string');
+			effect1.getGuid().should.not.be.equal(effect2.getGuid());
+		});
+	});
+	
 	describe('StartFrame', function(){
 		it('Should start at 0 if it not specified otherwise', function(){
 			var effect = new MoveEffect(),
