@@ -20,7 +20,7 @@ function MediaTimeline (options) {
 	 * Calculates the media object based on the original properties and the current frame.
 	 * @param {integer} currentFrame The current frame.
 	 */
-	this.getMediaObjectFrameFor = function getMediaObjectFrameFor(currentFrame) {
+	this.getMediaFrameFor = function getMediaFrameFor(currentFrame) {
 		var mediaObjectFrame = new MediaFrame({ mediaObject: mediaObject, currentFrame: currentFrame }),
 			effectsArray = [];
 

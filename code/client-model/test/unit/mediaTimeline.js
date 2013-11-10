@@ -216,7 +216,17 @@ describe('MediaTimeline', function(){
 		});
 	});
 
-	describe('getMediaObjectFrameFor', function(){
+	describe('getMediaFrameFor', function(){
+		it('Should return a new mediaFrame when no effects are present.', function(){
+			var currentFrame = 42,
+				specifiedMediaObjectId = '42',
+				specifiedMediaObject = { getGuid : function () { return specifiedMediaObjectId; } },
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				mediaFrame = mediaTimeline.getMediaFrameFor(currentFrame);
+
+			mediaFrame.should.exists;
+		});
+
 		it('Should return a MediaFrame instance.'); /*, function(){
 			var mediaTimeline = new ShapeTimeline(),
 				frameNumber = 42,
