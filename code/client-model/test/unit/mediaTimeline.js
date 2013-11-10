@@ -86,6 +86,17 @@ describe('MediaTimeline', function(){
 		});
 	});
 
+	describe('getMediaObjectId', function(){
+		it('Should return the media object id', function(){
+			var specifiedMediaObjectId = '42',
+				specifiedMediaObject = { getGuid : function () { return specifiedMediaObjectId; } },
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				mediaObjectId = mediaTimeline.getMediaObjectId();
+
+			mediaObjectId.should.be.exactly(specifiedMediaObjectId);
+		});
+	});
+
 	describe('StartFrame', function(){
 		it('Should start at 0 if it not specified otherwise', function(){
 			var mediaTimeline = new MediaTimeline(),

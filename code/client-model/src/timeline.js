@@ -1,5 +1,7 @@
 'use strict';
 
+var MediaTimeline = require('./mediaTimeline');
+
 /**
  *  Creates a new Timeline
  *  @class Represents a Timeline. 
@@ -9,29 +11,83 @@ function Timeline (options) {
 		mediaTimelineCollection = [];
 
 	/**
-	 * .
-	 * @param {object} media object.
+	 * Add a new media timeline element related with the media object passed by parameter
+	 * @param {object} mediaObject the media object to be added.
 	 */
-	this.addMediaObject = function (shape) {
-		// TODO generate a new ShapeTimeline using the shape data.
+	this.addMediaObject = function addMediaObject(mediaObject) {
+		// Generate a new MediaTimeline using the mediaObject data.
+		if (mediaObject !== undefined){
+			var found = false,
+				i,
+				mediaObjectId = mediaObject.getGuid();
+
+			for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
+				if (mediaTimelineCollection[i].getMediaObjectId() === mediaObjectId){
+					found = true;
+				}
+			}
+
+			if (!found){
+				mediaTimelineCollection.push(new MediaTimeline({ mediaObject : mediaObject }));
+			}
+		}
 	};
 
 	/**
-	 * .
-	 * @param {integer} shapeId .
+	 * Remove a media object element and its related media timeline.
+	 * @param {string} mediaObjectId the id of the media object element that will be removed.
 	 */
-	this.removeShape = function (shapeId) {
+	this.removeMediaObject = function removeMediaObject(mediaObjectId) {
+		var i;
+		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
+			if (mediaTimelineCollection[i].getMediaObjectId() === mediaObjectId){
+				mediaTimelineCollection.splice(i, 1);
+			}
+		}
+	};
+
+	/**
+	 * Return the media timeline element related to the media object id passed by parameter
+	 * @param  {string} mediaObjectId the if of the media object 
+	 * @return {MediaTimeline}               the media timeline related to the media object id passed by parameter
+	 */
+	this.getMediaTimeline = function getMediaTimeline(mediaObjectId) {
+		var current, i;
+
+		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
+			current = mediaTimelineCollection[i];
+			if (current.getMediaObjectId() === mediaObjectId){
+				return current;
+			}
+		}
+
+		return undefined;
+	};
+
+	/**
+	 * Returns the amount of media timelines in this timeline
+	 * @return {integer} The amount of media timelines in this timeline
+	 */
+	this.countMediaTimelines = function countMediaTimelines() {
+		return mediaTimelineCollection.length;
+	};
+
+	/**
+	 * Remove all the elements in the timeline
+	 */
+	this.clearAllElements = function clearAllElements() {
+		mediaTimelineCollection.length = 0;
 	};
 
 	/**
 	 * Calculates all the elements for the current frame.
 	 * @param {integer} currentFrame The current frame.
 	 */
-	this.getElementsForFrame = function (currentFrame) {
-		var elements = [];
+	this.getElementsForFrame = function getElementsForFrame(currentFrame) {
+		var elements = [], i;
 		
-		for (var i = shapeTimelineCollection.length - 1; i >= 0; i--) {
-			elements.push(shapeTimelineCollection[i].getShapeFrameFor(currentFrame));
+		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
+			elements.push(mediaTimelineCollection[i].getShapeFrameFor(currentFrame));
 		}
 
 		return elements;

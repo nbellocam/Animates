@@ -18,7 +18,7 @@ function MediaTimeline (options) {
 	 * Calculates the media object based on the original properties and the current frame.
 	 * @param {integer} currentFrame The current frame.
 	 */
-	this.getMediaObjectFrameFor = function (currentFrame) {
+	this.getMediaObjectFrameFor = function getMediaObjectFrameFor(currentFrame) {
 		var mediaObjectFrame = {}; //TODO create a new mediaItemFrame (ex. shapeFrame) based on the mediaObject
 
 		for (var id in effects) {
@@ -31,10 +31,18 @@ function MediaTimeline (options) {
 	};
 
 	/**
+	 * Get the media object id
+	 * @return {string} The media object id.
+	 */
+	this.getMediaObjectId = function getMediaObjectId() {
+		return mediaObject.getGuid();
+	};
+
+	/**
 	 * Get the start frame
 	 * @return {integer} The number of the start frame.
 	 */
-	this.getStartFrame = function () {
+	this.getStartFrame = function getStartFrame() {
 		return startFrame;
 	};
 
@@ -42,7 +50,7 @@ function MediaTimeline (options) {
 	 * Set the start frame for this media object
 	 * @param {integer} newStartFrame The start frame for this media object.
 	 */
-	this.setStartFrame = function (newStartFrame) {
+	this.setStartFrame = function setStartFrame(newStartFrame) {
 		startFrame = newStartFrame;
 	};
 
@@ -50,7 +58,7 @@ function MediaTimeline (options) {
 	 * Calculates the end frame based on the effects and the configured end frame.
 	 * @return {integer} The number of the end frame.
 	 */
-	this.getEndFrame = function () {
+	this.getEndFrame = function getEndFrame() {
 		var currentEndFrame = endFrame,
 		i,
 		effectEndFrame;
@@ -71,7 +79,7 @@ function MediaTimeline (options) {
 	 * Set the end frame for this media object
 	 * @param {integer} newEndFrame The end frame for this media object.
 	 */
-	this.setEndFrame = function (newEndFrame) {
+	this.setEndFrame = function setEndFrame(newEndFrame) {
 		endFrame = newEndFrame;
 	};
 
@@ -80,7 +88,7 @@ function MediaTimeline (options) {
 	 * @param {string} id        the id that identify the effect.
 	 * @param {Effect} effect the effect that will be added.
 	 */
-	this.addEffect = function (id, effect){
+	this.addEffect = function addEffect(id, effect){
 		if (effect && id) {
 			effects[id] = effect;
 		}
@@ -90,7 +98,7 @@ function MediaTimeline (options) {
 	 * Remove the effect from the media object timeline that correspond to the effectId
 	 * @param  {string} effectId The id that was used when the effect was added.
 	 */
-	this.removeEffect = function (effectId){
+	this.removeEffect = function removeEffect(effectId){
 		if (effectId) {
 			delete effects[effectId];
 		}
@@ -100,7 +108,7 @@ function MediaTimeline (options) {
 	 * Return the collection of effect.
 	 * @return {Object} A dictionary with all the effects.
 	 */
-	this.getEffects = function (){
+	this.getEffects = function getEffects(){
 		return effects;
 	};
 
