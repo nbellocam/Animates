@@ -21,25 +21,28 @@ function MediaTimeline (options) {
 	 * @param {integer} currentFrame The current frame.
 	 */
 	this.getMediaFrameFor = function getMediaFrameFor(currentFrame) {
-		var mediaObjectFrame = new MediaFrame({ mediaObject: mediaObject, currentFrame: currentFrame }),
-			effectsArray = [];
+		if (startFrame <= currentFrame){
+			var mediaObjectFrame = new MediaFrame({ mediaObject: mediaObject, currentFrame: currentFrame }),
+				effectsArray = [];
 
-		for (var id in effects) {
-			if (effects.hasOwnProperty(id)) {
-				effectsArray.push(effects[id]);
+			for (var id in effects) {
+				if (effects.hasOwnProperty(id)) {
+					effectsArray.push(effects[id]);
+				}
 			}
-		}
 
-		effectsArray.sort(function(a,b){
-			return a.endFrame - b.endFrame;
-		});
-		
-		for (var i = effectsArray.length - 1; i >= 0; i--) {
+			effectsArray.sort(function(a,b){
+				return a.endFrame - b.endFrame;
+			});
 			
-			mediaObjectFrame = effectsArray[i].getPropertiesForFrame(currentFrame, mediaObjectFrame);
-		}
+			for (var i = effectsArray.length - 1; i >= 0; i--) {
+				
+				mediaObjectFrame = effectsArray[i].getPropertiesForFrame(currentFrame, mediaObjectFrame);
+			}
 
-		return mediaObjectFrame;
+			return mediaObjectFrame;
+		}
+		return undefined;
 	};
 
 	/**
