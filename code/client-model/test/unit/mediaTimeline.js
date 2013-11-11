@@ -260,15 +260,17 @@ describe('MediaTimeline', function(){
 				effectStartFrame = 2,
 				effectEndFrame = 5,
 				effectId = 'myId',
+				getPropertiesForFrameFunction = function (frame, beginMediaFrame) {
+					var properties = beginMediaFrame.properties();
+					properties.x += (frame - 1);
+					beginMediaFrame.properties({x : properties.x});
+					return beginMediaFrame;
+				},
 				effect = {
 					startFrame : effectStartFrame,
 					endFrame : effectEndFrame,
 					getGuid : function () { return effectId; },
-					getPropertiesForFrame : function (frame, beginShapeFrame) {
-						beginShapeFrame.x += (frame - 1);
-						//TODO update to modify the property in the correct way.
-						return beginShapeFrame;
-					}
+					getPropertiesForFrame : getPropertiesForFrameFunction
 				};
 
 
@@ -277,7 +279,7 @@ describe('MediaTimeline', function(){
 			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrame);
 
 			mediaFrame.should.exists;
-			//TODO update to check the value of the property, should be 0
+			mediaFrame.properties().should.have.property('x', 0);
 		});
 
 		it('Should update the properties of a MediaFrame, based on the frame number as an effects specified.', function(){
@@ -293,15 +295,17 @@ describe('MediaTimeline', function(){
 				effectStartFrame = 2,
 				effectEndFrame = 5,
 				effectId = 'myId',
+				getPropertiesForFrameFunction = function (frame, beginMediaFrame) {
+					var properties = beginMediaFrame.properties();
+					properties.x += (frame - 1);
+					beginMediaFrame.properties({x : properties.x});
+					return beginMediaFrame;
+				},
 				effect = {
 					startFrame : effectStartFrame,
 					endFrame : effectEndFrame,
 					getGuid : function () { return effectId; },
-					getPropertiesForFrame : function (frame, beginShapeFrame) {
-						beginShapeFrame.x += (frame - 1);
-						//TODO update to modify the property in the correct way.
-						return beginShapeFrame;
-					}
+					getPropertiesForFrame : getPropertiesForFrameFunction
 				};
 
 
@@ -310,7 +314,7 @@ describe('MediaTimeline', function(){
 			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrame);
 
 			mediaFrame.should.exists;
-			//TODO update to check the value of the property, should be x === 2
+			mediaFrame.properties().should.have.property('x', 2);
 		});
 
 		it('Should retrive the end MediaFrame with no extra changes if the frame is after the endFrame', function(){
@@ -326,15 +330,17 @@ describe('MediaTimeline', function(){
 				effectStartFrame = 2,
 				effectEndFrame = 5,
 				effectId = 'myId',
+				getPropertiesForFrameFunction = function (frame, beginMediaFrame) {
+					var properties = beginMediaFrame.properties();
+					properties.x += (frame - 1);
+					beginMediaFrame.properties({x : properties.x});
+					return beginMediaFrame;
+				},
 				effect = {
 					startFrame : effectStartFrame,
 					endFrame : effectEndFrame,
 					getGuid : function () { return effectId; },
-					getPropertiesForFrame : function (frame, beginShapeFrame) {
-						beginShapeFrame.x += (frame - 1);
-						//TODO update to modify the property in the correct way.
-						return beginShapeFrame;
-					}
+					getPropertiesForFrame : getPropertiesForFrameFunction
 				};
 
 
@@ -343,7 +349,7 @@ describe('MediaTimeline', function(){
 			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrame);
 
 			mediaFrame.should.exists;
-			//TODO update to check the value of the property, should be x === 4
+			mediaFrame.properties().should.have.property('x', 4);
 		});
 
 		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends first, only one effect)', function(){
@@ -356,6 +362,12 @@ describe('MediaTimeline', function(){
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
 				mediaFrame,
+				getPropertiesForFrameFunction = function (frame, beginMediaFrame) {
+					var properties = beginMediaFrame.properties();
+					properties.x += (frame - 1);
+					beginMediaFrame.properties({x : properties.x});
+					return beginMediaFrame;
+				},
 				effectStartFrame1 = 2,
 				effectEndFrame1 = 5,
 				effectId1 = 'myId1',
@@ -363,11 +375,7 @@ describe('MediaTimeline', function(){
 					startFrame : effectStartFrame1,
 					endFrame : effectEndFrame1,
 					getGuid : function () { return effectId1; },
-					getPropertiesForFrame : function (frame, beginShapeFrame) {
-						beginShapeFrame.x += (frame - 1);
-						//TODO update to modify the property in the correct way.
-						return beginShapeFrame;
-					}
+					getPropertiesForFrame : getPropertiesForFrameFunction
 				},
 				effectStartFrame2 = 6,
 				effectEndFrame2 = 10,
@@ -376,11 +384,7 @@ describe('MediaTimeline', function(){
 					startFrame : effectStartFrame2,
 					endFrame : effectEndFrame2,
 					getGuid : function () { return effectId2; },
-					getPropertiesForFrame : function (frame, beginShapeFrame) {
-						beginShapeFrame.x += (frame - 1);
-						//TODO update to modify the property in the correct way.
-						return beginShapeFrame;
-					}
+					getPropertiesForFrame : getPropertiesForFrameFunction
 				};
 
 
@@ -390,7 +394,7 @@ describe('MediaTimeline', function(){
 			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrame);
 
 			mediaFrame.should.exists;
-			//TODO update to check the value of the property, should be x === 2
+			mediaFrame.properties().should.have.property('x', 2);
 		});
 
 		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends last, only one effect)', function(){
@@ -403,6 +407,12 @@ describe('MediaTimeline', function(){
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
 				mediaFrame,
+				getPropertiesForFrameFunction = function (frame, beginMediaFrame) {
+					var properties = beginMediaFrame.properties();
+					properties.x += (frame - 1);
+					beginMediaFrame.properties({x : properties.x});
+					return beginMediaFrame;
+				},
 				effectStartFrame1 = 2,
 				effectEndFrame1 = 5,
 				effectId1 = 'myId2',
@@ -410,11 +420,7 @@ describe('MediaTimeline', function(){
 					startFrame : effectStartFrame1,
 					endFrame : effectEndFrame1,
 					getGuid : function () { return effectId1; },
-					getPropertiesForFrame : function (frame, beginShapeFrame) {
-						beginShapeFrame.x += (frame - 1);
-						//TODO update to modify the property in the correct way.
-						return beginShapeFrame;
-					}
+					getPropertiesForFrame : getPropertiesForFrameFunction
 				},
 				effectStartFrame2 = 6,
 				effectEndFrame2 = 10,
@@ -423,11 +429,7 @@ describe('MediaTimeline', function(){
 					startFrame : effectStartFrame2,
 					endFrame : effectEndFrame2,
 					getGuid : function () { return effectId2; },
-					getPropertiesForFrame : function (frame, beginShapeFrame) {
-						beginShapeFrame.x += (frame - 1);
-						//TODO update to modify the property in the correct way.
-						return beginShapeFrame;
-					}
+					getPropertiesForFrame : getPropertiesForFrameFunction
 				};
 
 
@@ -437,7 +439,7 @@ describe('MediaTimeline', function(){
 			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrame);
 
 			mediaFrame.should.exists;
-			//TODO update to check the value of the property, should be x === 2
+			mediaFrame.properties().should.have.property('x', 2);
 		});
 
 		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends first)', function(){
@@ -450,6 +452,12 @@ describe('MediaTimeline', function(){
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
 				mediaFrame,
+				getPropertiesForFrameFunction = function (frame, beginMediaFrame) {
+					var properties = beginMediaFrame.properties();
+					properties.x += (frame - 1);
+					beginMediaFrame.properties({x : properties.x});
+					return beginMediaFrame;
+				},
 				effectStartFrame1 = 2,
 				effectEndFrame1 = 5,
 				effectId1 = 'myId1',
@@ -457,11 +465,7 @@ describe('MediaTimeline', function(){
 					startFrame : effectStartFrame1,
 					endFrame : effectEndFrame1,
 					getGuid : function () { return effectId1; },
-					getPropertiesForFrame : function (frame, beginShapeFrame) {
-						beginShapeFrame.x += (frame - 1);
-						//TODO update to modify the property in the correct way.
-						return beginShapeFrame;
-					}
+					getPropertiesForFrame : getPropertiesForFrameFunction
 				},
 				effectStartFrame2 = 6,
 				effectEndFrame2 = 10,
@@ -470,11 +474,7 @@ describe('MediaTimeline', function(){
 					startFrame : effectStartFrame2,
 					endFrame : effectEndFrame2,
 					getGuid : function () { return effectId2; },
-					getPropertiesForFrame : function (frame, beginShapeFrame) {
-						beginShapeFrame.x += (frame - 1);
-						//TODO update to modify the property in the correct way.
-						return beginShapeFrame;
-					}
+					getPropertiesForFrame : getPropertiesForFrameFunction
 				};
 
 
@@ -484,7 +484,7 @@ describe('MediaTimeline', function(){
 			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrame);
 
 			mediaFrame.should.exists;
-			//TODO update to check the value of the property, should be x === 7
+			mediaFrame.properties().should.have.property('x', 7);
 		});
 
 		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends last)', function(){
@@ -497,6 +497,12 @@ describe('MediaTimeline', function(){
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
 				mediaFrame,
+				getPropertiesForFrameFunction = function (frame, beginMediaFrame) {
+					var properties = beginMediaFrame.properties();
+					properties.x += (frame - 1);
+					beginMediaFrame.properties({x : properties.x});
+					return beginMediaFrame;
+				},
 				effectStartFrame1 = 2,
 				effectEndFrame1 = 5,
 				effectId1 = 'myId2',
@@ -504,11 +510,7 @@ describe('MediaTimeline', function(){
 					startFrame : effectStartFrame1,
 					endFrame : effectEndFrame1,
 					getGuid : function () { return effectId1; },
-					getPropertiesForFrame : function (frame, beginShapeFrame) {
-						beginShapeFrame.x += (frame - 1);
-						//TODO update to modify the property in the correct way.
-						return beginShapeFrame;
-					}
+					getPropertiesForFrame : getPropertiesForFrameFunction
 				},
 				effectStartFrame2 = 6,
 				effectEndFrame2 = 10,
@@ -517,11 +519,7 @@ describe('MediaTimeline', function(){
 					startFrame : effectStartFrame2,
 					endFrame : effectEndFrame2,
 					getGuid : function () { return effectId2; },
-					getPropertiesForFrame : function (frame, beginShapeFrame) {
-						beginShapeFrame.x += (frame - 1);
-						//TODO update to modify the property in the correct way.
-						return beginShapeFrame;
-					}
+					getPropertiesForFrame : getPropertiesForFrameFunction
 				};
 
 
@@ -531,7 +529,7 @@ describe('MediaTimeline', function(){
 			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrame);
 
 			mediaFrame.should.exists;
-			//TODO update to check the value of the property, should be x === 7
+			mediaFrame.properties().should.have.property('x', 7);
 		});
 
 		it('Should update the properties of a MediaFrame, based on the frame number as two simultaneous effects specified.', function(){
@@ -544,6 +542,12 @@ describe('MediaTimeline', function(){
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
 				mediaFrame,
+				getPropertiesForFrameFunction = function (frame, beginMediaFrame) {
+					var properties = beginMediaFrame.properties();
+					properties.x += (frame - 1);
+					beginMediaFrame.properties({x : properties.x});
+					return beginMediaFrame;
+				},
 				effectStartFrame1 = 2,
 				effectEndFrame1 = 5,
 				effectId1 = 'myId1',
@@ -551,11 +555,7 @@ describe('MediaTimeline', function(){
 					startFrame : effectStartFrame1,
 					endFrame : effectEndFrame1,
 					getGuid : function () { return effectId1; },
-					getPropertiesForFrame : function (frame, beginShapeFrame) {
-						beginShapeFrame.x += (frame - 1);
-						//TODO update to modify the property in the correct way.
-						return beginShapeFrame;
-					}
+					getPropertiesForFrame : getPropertiesForFrameFunction
 				},
 				effectStartFrame2 = 2,
 				effectEndFrame2 = 5,
@@ -564,13 +564,8 @@ describe('MediaTimeline', function(){
 					startFrame : effectStartFrame2,
 					endFrame : effectEndFrame2,
 					getGuid : function () { return effectId2; },
-					getPropertiesForFrame : function (frame, beginShapeFrame) {
-						beginShapeFrame.y += (frame - 1);
-						//TODO update to modify the property in the correct way.
-						return beginShapeFrame;
-					}
+					getPropertiesForFrame : getPropertiesForFrameFunction
 				};
-
 
 			mediaTimeline.addEffect(effect1);
 			mediaTimeline.addEffect(effect2);
@@ -578,7 +573,7 @@ describe('MediaTimeline', function(){
 			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrame);
 
 			mediaFrame.should.exists;
-			//TODO update to check the value of the property, should be x === 2, y ===2
+			mediaFrame.properties().should.have.property('x', 2).and.should.have.property('y', 2);
 		});
 
 	});
