@@ -23,7 +23,8 @@ function MediaTimeline (options) {
 	this.getMediaFrameFor = function getMediaFrameFor(currentFrame) {
 		if (startFrame <= currentFrame){
 			var mediaObjectFrame = new MediaFrame({ mediaObject: mediaObject, currentFrame: currentFrame }),
-				effectsArray = [];
+				effectsArray = [],
+				currentEffect;
 
 			for (var id in effects) {
 				if (effects.hasOwnProperty(id)) {
@@ -36,8 +37,16 @@ function MediaTimeline (options) {
 			});
 			
 			for (var i = effectsArray.length - 1; i >= 0; i--) {
-				
-				mediaObjectFrame.properties(effectsArray[i].getPropertiesForFrame(currentFrame, mediaObjectFrame.properties()));
+				currentEffect = effectsArray[i];
+				if (currentFrame > currentEffect.startFrame){
+
+					mediaObjectFrame.properties(
+						currentEffect.getPropertiesForFrame(
+							(currentFrame < currentEffect.endFrame) ? currentFrame : currentEffect.endFrame,
+							mediaObjectFrame.properties()
+						)
+					);
+				}
 			}
 
 			return mediaObjectFrame;
