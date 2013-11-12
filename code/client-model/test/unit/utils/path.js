@@ -47,10 +47,10 @@ describe('Path', function(){
 	});
 
 	describe('#getPositionFor()', function(){
-		it('Should return an object with no x and y properties if currentFrame is less than startFrame', function(){
-			var startFrame = 12,
-				endFrame = 100,
-				currentFrame = 1,
+		it('Should return an object with no x and y properties if currentFrameNumber is less than startFrameNumber', function(){
+			var startFrameNumber = 12,
+				endFrameNumber = 100,
+				currentFrameNumber = 1,
 				specifiedStartPositionX = 20,
 				specifiedStartPositionY = 10,
 				specifiedEndPositionX = 200,
@@ -58,15 +58,15 @@ describe('Path', function(){
 				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY },
 				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
-				endPosition = path.getPositionFor(startFrame, endFrame, currentFrame);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, currentFrameNumber);
 
 			endPosition.should.not.have.properties('x', 'y');
 		});
 
-		it('Should return a copy of the endPosition if currentFrame is greater than endFrame.', function(){
-			var startFrame = 12,
-				endFrame = 100,
-				currentFrame = 200,
+		it('Should return a copy of the endPosition if currentFrameNumber is greater than endFrameNumber.', function(){
+			var startFrameNumber = 12,
+				endFrameNumber = 100,
+				currentFrameNumber = 200,
 				specifiedStartPositionX = 20,
 				specifiedStartPositionY = 10,
 				specifiedEndPositionX = 200,
@@ -74,17 +74,17 @@ describe('Path', function(){
 				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY },
 				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
-				endPosition = path.getPositionFor(startFrame, endFrame, currentFrame);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, currentFrameNumber);
 
 			should.notStrictEqual(endPosition, specifiedEndPosition);
 			endPosition.should.have.property('x', specifiedEndPositionX);
 			endPosition.should.have.property('y', specifiedEndPositionY);
 		});
 
-		it('Should return a copy of the startPosition if currentFrame is exactly the startFrame.', function(){
-			var startFrame = 12,
-				endFrame = 100,
-				currentFrame = startFrame,
+		it('Should return a copy of the startPosition if currentFrameNumber is exactly the startFrameNumber.', function(){
+			var startFrameNumber = 12,
+				endFrameNumber = 100,
+				currentFrameNumber = startFrameNumber,
 				specifiedStartPositionX = 20,
 				specifiedStartPositionY = 10,
 				specifiedEndPositionX = 200,
@@ -92,7 +92,7 @@ describe('Path', function(){
 				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY },
 				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
-				endPosition = path.getPositionFor(startFrame, endFrame, currentFrame);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, currentFrameNumber);
 
 			should.notStrictEqual(endPosition, specifiedStartPosition);
 			endPosition.should.have.property('x');
@@ -101,10 +101,10 @@ describe('Path', function(){
 			endPosition.y.should.be.approximately(specifiedStartPositionY, 0.1);
 		});
 
-		it('Should return a copy of the endPosition if currentFrame is exactly the endFrame.', function(){
-			var startFrame = 12,
-				endFrame = 100,
-				currentFrame = endFrame,
+		it('Should return a copy of the endPosition if currentFrameNumber is exactly the endFrameNumber.', function(){
+			var startFrameNumber = 12,
+				endFrameNumber = 100,
+				currentFrameNumber = endFrameNumber,
 				specifiedStartPositionX = 20,
 				specifiedStartPositionY = 10,
 				specifiedEndPositionX = 200,
@@ -112,7 +112,7 @@ describe('Path', function(){
 				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY },
 				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
-				endPosition = path.getPositionFor(startFrame, endFrame, currentFrame);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, currentFrameNumber);
 
 			should.notStrictEqual(endPosition, specifiedEndPosition);
 			endPosition.should.have.property('x');
@@ -122,18 +122,18 @@ describe('Path', function(){
 		});
 
 		it('Should calculate the correct value in an horizotal move with positive end position.', function(){
-			var startFrame = 0,
-				endFrame = 10,
+			var startFrameNumber = 0,
+				endFrameNumber = 10,
 				specifiedStartPositionX = 0,
 				specifiedEndPositionX = 10,
 				specifiedPositionY = 10,
 				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedPositionY },
 				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
-				endPosition = path.getPositionFor(startFrame, endFrame, 0);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, 0);
 
 			for (var i = 0; i <= 10; i++) {
-				endPosition = path.getPositionFor(startFrame, endFrame, i);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, i);
 				should.notStrictEqual(endPosition, specifiedEndPosition);
 				endPosition.should.have.property('x');
 				endPosition.should.have.property('y');
@@ -143,18 +143,18 @@ describe('Path', function(){
 		});
 
 		it('Should calculate the correct value in an vertical move with positive end position.', function(){
-			var startFrame = 0,
-				endFrame = 10,
+			var startFrameNumber = 0,
+				endFrameNumber = 10,
 				specifiedStartPositionY = 0,
 				specifiedEndPositionY = 10,
 				specifiedPositionX = 10,
 				specifiedStartPosition = { x: specifiedPositionX, y: specifiedStartPositionY },
 				specifiedEndPosition = { x: specifiedPositionX, y: specifiedEndPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
-				endPosition = path.getPositionFor(startFrame, endFrame, 0);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, 0);
 
 			for (var i = 0; i <= 10; i++) {
-				endPosition = path.getPositionFor(startFrame, endFrame, i);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, i);
 				should.notStrictEqual(endPosition, specifiedEndPosition);
 				endPosition.should.have.property('x');
 				endPosition.should.have.property('y');
@@ -164,8 +164,8 @@ describe('Path', function(){
 		});
 
 		it('Should calculate the correct value in an diagonal move with positive end position.', function(){
-			var startFrame = 0,
-				endFrame = 10,
+			var startFrameNumber = 0,
+				endFrameNumber = 10,
 				specifiedStartPositionX = 0,
 				specifiedEndPositionX = 10,
 				specifiedStartPositionY = 0,
@@ -173,10 +173,10 @@ describe('Path', function(){
 				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY },
 				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
-				endPosition = path.getPositionFor(startFrame, endFrame, 0);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, 0);
 
 			for (var i = 0; i <= 10; i++) {
-				endPosition = path.getPositionFor(startFrame, endFrame, i);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, i);
 				should.notStrictEqual(endPosition, specifiedEndPosition);
 				endPosition.should.have.property('x');
 				endPosition.should.have.property('y');
@@ -186,18 +186,18 @@ describe('Path', function(){
 		});
 
 		it('Should calculate the correct value in an horizotal move with negative end position.', function(){
-			var startFrame = 0,
-				endFrame = 10,
+			var startFrameNumber = 0,
+				endFrameNumber = 10,
 				specifiedPositionX = 0,
 				specifiedStartPositionY = 10,
 				specifiedEndPositionY = 0,
 				specifiedStartPosition = { x: specifiedPositionX, y: specifiedStartPositionY },
 				specifiedEndPosition = { x: specifiedPositionX, y: specifiedEndPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
-				endPosition = path.getPositionFor(startFrame, endFrame, 0);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, 0);
 
 			for (var i = 0; i <= 10; i++) {
-				endPosition = path.getPositionFor(startFrame, endFrame, i);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, i);
 				should.notStrictEqual(endPosition, specifiedEndPosition);
 				endPosition.should.have.property('x');
 				endPosition.should.have.property('y');
@@ -207,18 +207,18 @@ describe('Path', function(){
 		});
 
 		it('Should calculate the correct value in an vertical move with negative end position.', function(){
-			var startFrame = 0,
-				endFrame = 10,
+			var startFrameNumber = 0,
+				endFrameNumber = 10,
 				specifiedStartPositionX = 10,
 				specifiedEndPositionX = 0,
 				specifiedPositionY = 0,
 				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedPositionY },
 				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
-				endPosition = path.getPositionFor(startFrame, endFrame, 0);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, 0);
 
 			for (var i = 0; i <= 10; i++) {
-				endPosition = path.getPositionFor(startFrame, endFrame, i);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, i);
 				should.notStrictEqual(endPosition, specifiedEndPosition);
 				endPosition.should.have.property('x');
 				endPosition.should.have.property('y');
@@ -228,8 +228,8 @@ describe('Path', function(){
 		});
 
 		it('Should calculate the correct value in an diagonal move with negative end position.', function(){
-			var startFrame = 0,
-				endFrame = 10,
+			var startFrameNumber = 0,
+				endFrameNumber = 10,
 				specifiedStartPositionX = 10,
 				specifiedEndPositionX = 0,
 				specifiedStartPositionY = 10,
@@ -237,10 +237,10 @@ describe('Path', function(){
 				specifiedStartPosition = { x: specifiedStartPositionX, y: specifiedStartPositionY },
 				specifiedEndPosition = { x: specifiedEndPositionX, y: specifiedEndPositionY },
 				path = new Path({ startPosition: specifiedStartPosition, endPosition : specifiedEndPosition }),
-				endPosition = path.getPositionFor(startFrame, endFrame, 0);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, 0);
 
 			for (var i = 0; i <= 10; i++) {
-				endPosition = path.getPositionFor(startFrame, endFrame, i);
+				endPosition = path.getPositionFor(startFrameNumber, endFrameNumber, i);
 				should.notStrictEqual(endPosition, specifiedEndPosition);
 				endPosition.should.have.property('x');
 				endPosition.should.have.property('y');

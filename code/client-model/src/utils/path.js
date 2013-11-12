@@ -17,22 +17,22 @@ function Path (options) {
 	this.endPosition = options.endPosition || { x: 0, y:0 };
 
 	/**
-	 * Calculates the new position based on the the currentFrame, the start and end frames and the start and end position.
+	 * Calculates the new position based on the the currentFrameNumber, the start and end frames and the start and end position.
 	 * @param {integer} frame The actual frame.
 	 * @param {object} originalProperties The original properties.
 	 */
-	this.getPositionFor = function (startFrame, endFrame, currentFrame) {
-		if (startFrame > currentFrame){
+	this.getPositionFor = function (startFrameNumber, endFrameNumber, currentFrameNumber) {
+		if (startFrameNumber > currentFrameNumber){
 			return {}; // The position can't be determined
 		}
 
-		if (endFrame <= currentFrame){
+		if (endFrameNumber <= currentFrameNumber){
 			return { x: _self.endPosition.x, y: _self.endPosition.y };		
 		}
 
-		var frameLength = endFrame - startFrame,
-			// relativeCurrentFrame = (currentFrame - startFrame),
-			relativeFramePosition = (currentFrame - startFrame) / frameLength,
+		var frameLength = endFrameNumber - startFrameNumber,
+			// relativeCurrentFrameNumber = (currentFrameNumber - startFrameNumber),
+			relativeFramePosition = (currentFrameNumber - startFrameNumber) / frameLength,
 			startX = _self.startPosition.x,
 			startY = _self.startPosition.y,
 			//xTotalDelta = _self.endPosition.x - startX,

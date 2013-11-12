@@ -81,13 +81,13 @@ function Timeline (options) {
 
 	/**
 	 * Calculates all the elements for the current frame.
-	 * @param {integer} currentFrame The current frame.
+	 * @param {integer} currentFrameNumber The current frame.
 	 */
-	this.getElementsForFrame = function getElementsForFrame(currentFrame) {
+	this.getElementsForFrame = function getElementsForFrame(currentFrameNumber) {
 		var elements = [], i;
 		
 		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
-			elements.push(mediaTimelineCollection[i].getMediaFrameFor(currentFrame));
+			elements.push(mediaTimelineCollection[i].getMediaFrameFor(currentFrameNumber));
 		}
 
 		return elements;

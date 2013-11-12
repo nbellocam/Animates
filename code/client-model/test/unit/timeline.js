@@ -340,19 +340,19 @@ describe('Timeline', function(){
 
 	describe('#getElementsForFrame', function(){
 		it('Should return an empty array if no elements are present in the timeline', function(){
-			var specifiedFrame = 42,
+			var specifiedFrameNumber = 42,
 				timeline = new Timeline(),
 				timelineElementsCount = timeline.countMediaTimelines(),
 				result;
 
 			timelineElementsCount.should.be.exactly(0);
 
-			result = timeline.getElementsForFrame(specifiedFrame);
+			result = timeline.getElementsForFrame(specifiedFrameNumber);
 			result.should.be.empty;
 		});
 
 		it('Should return two elements if timeline contains two media objects.', function(){
-			var specifiedFrame = 42,
+			var specifiedFrameNumber = 42,
 				specifiedMediaObjectId1 = '42',
 				specifiedMediaObjectId2 = '82',
 				defaultProperties = { },
@@ -374,12 +374,12 @@ describe('Timeline', function(){
 			timelineElementsCount = timeline.countMediaTimelines();
 			timelineElementsCount.should.be.exactly(2);
 
-			result = timeline.getElementsForFrame(specifiedFrame);
+			result = timeline.getElementsForFrame(specifiedFrameNumber);
 			result.should.have.lengthOf(2);
 		});
 
 		it('Should return one elements if timeline contains one media objects after removing another.', function(){
-			var specifiedFrame = 42,
+			var specifiedFrameNumber = 42,
 				specifiedMediaObjectId1 = '42',
 				specifiedMediaObjectId2 = '82',
 				defaultProperties = { },
@@ -406,7 +406,7 @@ describe('Timeline', function(){
 			timelineElementsCount = timeline.countMediaTimelines();
 			timelineElementsCount.should.be.exactly(1);
 
-			result = timeline.getElementsForFrame(specifiedFrame);
+			result = timeline.getElementsForFrame(specifiedFrameNumber);
 			result.should.have.lengthOf(1);
 		});
 	});
