@@ -355,8 +355,15 @@ describe('Timeline', function(){
 			var specifiedFrame = 42,
 				specifiedMediaObjectId1 = '42',
 				specifiedMediaObjectId2 = '82',
-				specifiedMediaObject1 = { getGuid : function () { return specifiedMediaObjectId1; } },
-				specifiedMediaObject2 = { getGuid : function () { return specifiedMediaObjectId2; } },
+				defaultProperties = { },
+				specifiedMediaObject1 = { 
+					getGuid : function () { return specifiedMediaObjectId1; },
+					getProperties : function () { return defaultProperties; }
+				},
+				specifiedMediaObject2 = { 
+					getGuid : function () { return specifiedMediaObjectId2; }, 
+					getProperties : function () { return defaultProperties; }
+				},
 				timeline = new Timeline(),
 				timelineElementsCount,
 				result;
@@ -375,8 +382,15 @@ describe('Timeline', function(){
 			var specifiedFrame = 42,
 				specifiedMediaObjectId1 = '42',
 				specifiedMediaObjectId2 = '82',
-				specifiedMediaObject1 = { getGuid : function () { return specifiedMediaObjectId1; } },
-				specifiedMediaObject2 = { getGuid : function () { return specifiedMediaObjectId2; } },
+				defaultProperties = { },
+				specifiedMediaObject1 = { 
+					getGuid : function () { return specifiedMediaObjectId1; },
+					getProperties : function () { return defaultProperties; }
+				},
+				specifiedMediaObject2 = { 
+					getGuid : function () { return specifiedMediaObjectId2; }, 
+					getProperties : function () { return defaultProperties; }
+				},
 				timeline = new Timeline(),
 				timelineElementsCount,
 				result;

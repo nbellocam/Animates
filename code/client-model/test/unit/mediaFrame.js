@@ -5,38 +5,38 @@
 var MediaFrame = require('../../src/mediaFrame'),
 	should = require("should");
 
-describe('MediaFrame', function(){
+describe('MediaFrame', function() {
+
+	function MediaObjectMock () {
+		this.getProperties = function properties () {
+			return {
+				h : 100,
+				w : 200,
+				l : 10
+			};
+		};
+	}
+
 	describe('Constructor', function(){
-		it('Should use default properties', function(){
-			var mediaFrame = new MediaFrame(),
-				defaultProperties = mediaFrame.properties();
-			defaultProperties.currentFrame.should.be.exactly(-1);
-			defaultProperties.mediaObject.should.be.empty;
+		it('Should fail without mediaObject option', function(){
+			should(function () { new MediaFrame(); }).throw();
 		});	
 
 		it('Should use constructor properties', function(){
-			var someProperties = {
-					h : 100,
-					w : 200,
-					l : 10
-				},
-				mediaFrame = new MediaFrame(someProperties),
-				defaultProperties = mediaFrame.properties();
+			var mediaObject = new MediaObjectMock(),
+				mediaFrame = new MediaFrame({ mediaObject :  mediaObject}),
+				currentProperties = mediaFrame.properties();
 
-			defaultProperties.h.should.be.exactly(100);
-			defaultProperties.w.should.be.exactly(200);
-			defaultProperties.l.should.be.exactly(10);
+			currentProperties.h.should.be.exactly(100);
+			currentProperties.w.should.be.exactly(200);
+			currentProperties.l.should.be.exactly(10);
 		});	
 	});
 
 	describe('#properties', function(){
 		it('Should override passed properties leaving the missing ones untouched', function(){
-			var someProperties = {
-					h : 100,
-					w : 200,
-					l : 10
-				},
-				mediaFrame = new MediaFrame(someProperties),
+			var mediaObject = new MediaObjectMock(),
+				mediaFrame = new MediaFrame({ mediaObject :  mediaObject}),
 				currentProperties = mediaFrame.properties();
 
 			currentProperties.h.should.be.exactly(100);

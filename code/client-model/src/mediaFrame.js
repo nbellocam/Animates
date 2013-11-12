@@ -1,6 +1,7 @@
 'use strict';
 
-var Common = require('animates-common');
+var Common = require('animates-common'),
+	MediaObject = require('./mediaObject');
 
 /**
  *  Creates a new MediaFrame.
@@ -10,12 +11,13 @@ var Common = require('animates-common');
  *  @param {integer} options.currentFrame the current frame number which is represented by the instance.
  */
 function MediaFrame (options) {
-	var _self = this, // Save the this reference for later use
-		defaultProperties = {
+	var _self = this,
+		defaultOptions = {
 			currentFrame : -1,
-			mediaObject : {}
+			mediaObject : null
 		},
-		currentProperties = Common.extend(options || {}, defaultProperties);
+		currentOptions,
+		currentProperties;
 
 	/**
 	 * Sets or gets the properties
@@ -34,6 +36,8 @@ function MediaFrame (options) {
 	 *  Constructor
 	 */
 	(function init() {
+		currentOptions = Common.extend(options || {}, defaultOptions),
+		currentProperties = currentOptions.mediaObject.getProperties();
 	}());
 }
 
