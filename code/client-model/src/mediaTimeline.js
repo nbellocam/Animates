@@ -37,7 +37,7 @@ function MediaTimeline (options) {
 			
 			for (var i = effectsArray.length - 1; i >= 0; i--) {
 				
-				mediaObjectFrame = effectsArray[i].getPropertiesForFrame(currentFrame, mediaObjectFrame);
+				mediaObjectFrame.properties(effectsArray[i].getPropertiesForFrame(currentFrame, mediaObjectFrame.properties()));
 			}
 
 			return mediaObjectFrame;
