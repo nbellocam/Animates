@@ -41,6 +41,20 @@ describe('MediaObject', function(){
 			should.equal(propertyValue, undefined);
 		});
 
+		it('Should return undefined if property is empty', function(){
+			var instance = new MediaObject(),
+				propertyValue = instance.getProperty('');
+
+			should.equal(propertyValue, undefined);
+		});
+
+		it('Should return undefined if property is not passed by argument', function(){
+			var instance = new MediaObject(),
+				propertyValue = instance.getProperty();
+
+			should.equal(propertyValue, undefined);
+		});
+
 		it('Should return the property if it exits', function(){
 			var specifiedPropertyValue = 'value1',
 				instance = new MediaObject({propertyName: specifiedPropertyValue}),
