@@ -21,15 +21,15 @@ function MoveEffect(options) {
 
 	/**
 	 * Calculates the new shape properties based on the original ones and the actual frame.
-	 * @param {integer} frame The actual frame.
+	 * @param {integer} frameNumber The actual frame.
 	 * @param {object} originalProperties The original properties.
 	 */
-	this.getPropertiesForFrame = function (frame, beginShapeFrame) {
-		var startFrame = _self.startFrame,
-			endFrame = _self.endFrame;
-		if (frame > startFrame){
+	this.getPropertiesForFrame = function (frameNumber, beginShapeFrame) {
+		var startFrameNumber = _self.startFrameNumber,
+			endFrameNumber = _self.endFrameNumber;
+		if (frameNumber > startFrameNumber){
 			if (typeof path !== 'undefined' && typeof path.getPositionFor === 'function' ) {
-				var currentPos = path.getPositionFor(startFrame, endFrame, (frame < endFrame) ? frame : endFrame );
+				var currentPos = path.getPositionFor(startFrameNumber, endFrameNumber, (frameNumber < endFrameNumber) ? frameNumber : endFrameNumber );
 
 				if (typeof currentPos.x !== 'undefined' ){
 					beginShapeFrame.x = currentPos.x;

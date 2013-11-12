@@ -11,18 +11,18 @@ function MediaTimeline (options) {
 
 	var _self = this, // Save the this reference for later use
 		mediaObject = options.mediaObject,
-		startFrame = options.startFrame || 0,
-		endFrame = options.endFrame || -1,
+		startFrameNumber = options.startFrameNumber || 0,
+		endFrameNumber = options.endFrameNumber || -1,
 		effects = {};
 
 
 	/**
 	 * Calculates the media object based on the original properties and the current frame.
-	 * @param {integer} currentFrame The current frame.
+	 * @param {integer} currentFrameNumber The current frame.
 	 */
-	this.getMediaFrameFor = function getMediaFrameFor(currentFrame) {
-		if (startFrame <= currentFrame){
-			var mediaObjectFrame = new MediaFrame({ mediaObject: mediaObject, currentFrame: currentFrame }),
+	this.getMediaFrameFor = function getMediaFrameFor(currentFrameNumber) {
+		if (startFrameNumber <= currentFrameNumber){
+			var mediaObjectFrame = new MediaFrame({ mediaObject: mediaObject, currentFrameNumber: currentFrameNumber }),
 				effectsArray = [],
 				currentEffect;
 
@@ -33,16 +33,16 @@ function MediaTimeline (options) {
 			}
 
 			effectsArray.sort(function(a,b){
-				return a.endFrame - b.endFrame;
+				return a.endFrameNumber - b.endFrameNumber;
 			});
 			
 			for (var i = effectsArray.length - 1; i >= 0; i--) {
 				currentEffect = effectsArray[i];
-				if (currentFrame > currentEffect.startFrame){
+				if (currentFrameNumber > currentEffect.startFrameNumber){
 
 					mediaObjectFrame.properties(
 						currentEffect.getPropertiesForFrame(
-							(currentFrame < currentEffect.endFrame) ? currentFrame : currentEffect.endFrame,
+							(currentFrameNumber < currentEffect.endFrameNumber) ? currentFrameNumber : currentEffect.endFrameNumber,
 							mediaObjectFrame.properties()
 						)
 					);
@@ -66,45 +66,45 @@ function MediaTimeline (options) {
 	 * Get the start frame
 	 * @return {integer} The number of the start frame.
 	 */
-	this.getStartFrame = function getStartFrame() {
-		return startFrame;
+	this.getStartFrameNumber = function getStartFrameNumber() {
+		return startFrameNumber;
 	};
 
 	/**
 	 * Set the start frame for this media object
 	 * @param {integer} newStartFrame The start frame for this media object.
 	 */
-	this.setStartFrame = function setStartFrame(newStartFrame) {
-		startFrame = newStartFrame;
+	this.setStartFrameNumber = function setStartFrameNumber(newStartFrameNumber) {
+		startFrameNumber = newStartFrameNumber;
 	};
 
 	/**
 	 * Calculates the end frame based on the effects and the configured end frame.
 	 * @return {integer} The number of the end frame.
 	 */
-	this.getEndFrame = function getEndFrame() {
-		var currentEndFrame = endFrame,
+	this.getEndFrameNumber = function getEndFrameNumber() {
+		var currentEndFrameNumber = endFrameNumber,
 		i,
-		effectEndFrame;
+		effectEndFrameNumber;
 
 		for (var id in effects) {
 			if (effects.hasOwnProperty(id)) {
-				effectEndFrame = effects[id].endFrame;
-				if (effectEndFrame > currentEndFrame){
-					currentEndFrame = effectEndFrame;
+				effectEndFrameNumber = effects[id].endFrameNumber;
+				if (effectEndFrameNumber > currentEndFrameNumber){
+					currentEndFrameNumber = effectEndFrameNumber;
 				}
 			}
 		}
 
-		return currentEndFrame;
+		return currentEndFrameNumber;
 	};
 
 	/**
 	 * Set the end frame for this media object
 	 * @param {integer} newEndFrame The end frame for this media object.
 	 */
-	this.setEndFrame = function setEndFrame(newEndFrame) {
-		endFrame = newEndFrame;
+	this.setEndFrameNumber = function setEndFrameNumber(newEndFrameNumber) {
+		endFrameNumber = newEndFrameNumber;
 	};
 
 	/**

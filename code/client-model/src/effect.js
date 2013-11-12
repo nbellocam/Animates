@@ -12,9 +12,9 @@ function Effect (options) {
 	var _self = this,
 		guid = ''; // Save the this reference for later use
 
-	this.startFrame = options.startFrame || 0;
+	this.startFrameNumber = options.startFrameNumber || 0;
 
-	this.endFrame = options.endFrame || -1;
+	this.endFrameNumber = options.endFrameNumber || -1;
 
 	/**
 	 * Calculates the new shape properties based on the original ones and the actual frame.
