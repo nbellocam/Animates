@@ -12,7 +12,21 @@ var MoveEffect = require('../../src/effects/moveEffect'),
 describe('Retrive all MediaFrames for a specific frame number from the Timeline', function(){
 	describe('One rectangle', function(){
 		it('Should retrive the MediaFrame object related to the rectangle', function(){
-			var rectangle = new Rectangle(),
+			var specifiedProperties = {
+					position : {
+						x : 1,
+						y : 2,
+						z : 3
+					},
+					opacity: 42,
+					border : {
+						type : 'border',
+						color : 'blue'
+					},
+					height: 32,
+					width: 84
+				},
+				rectangle = new Rectangle(specifiedProperties),
 				timeline = new Timeline(),
 				specificCurrentFrameNumber = 42,
 				mediaTimeline,
@@ -38,16 +52,151 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			properties = mediaFrame.properties();
 
 			properties.should.have.property('position');
-			properties.position.should.have.property('x',0);
-			properties.position.should.have.property('y',0);
-			properties.position.should.have.property('z',0);
-			properties.should.have.property('opacity',1);
+			properties.position.should.have.property('x', specifiedProperties.position.x);
+			properties.position.should.have.property('y', specifiedProperties.position.y);
+			properties.position.should.have.property('z', specifiedProperties.position.z);
+			properties.should.have.property('opacity', specifiedProperties.opacity);
 			properties.should.have.property('border');
-			properties.border.should.have.property('type','none');
-			properties.border.should.have.property('color','black');
+			properties.border.should.have.property('type', specifiedProperties.border.type);
+			properties.border.should.have.property('color', specifiedProperties.border.color);
 
-			properties.should.have.property('height', 100);
-			properties.should.have.property('width', 100);
+			properties.should.have.property('height', specifiedProperties.height);
+			properties.should.have.property('width', specifiedProperties.width);
+		});
+
+		it('Should retrive the MediaFrame object related to the rectangle updated with the move effect', function(){
+			var specifiedProperties = {
+					position : {
+						x : 0,
+						y : 0,
+						z : 0
+					},
+					opacity: 42,
+					border : {
+						type : 'border',
+						color : 'blue'
+					},
+					height: 32,
+					width: 84
+				},
+				rectangle = new Rectangle(specifiedProperties),
+				timeline = new Timeline(),
+				specificCurrentFrameNumber = 42,
+				mediaTimeline,
+				mediaFramesCollection,
+				mediaFrame,
+				properties;
+
+			timeline.addMediaObject(rectangle);
+
+			mediaTimeline = timeline.getMediaTimeline(rectangle.getGuid());
+			should.exists(mediaTimeline);
+			mediaTimeline.should.be.instanceOf(MediaTimeline);
+
+			mediaFramesCollection = timeline.getElementsForFrame(specificCurrentFrameNumber);
+			should.exists(mediaFramesCollection);
+			mediaFramesCollection.should.have.lengthOf(1);
+
+			mediaFrame = mediaFramesCollection[0];
+
+			should.exists(mediaFrame);
+			mediaFrame.should.be.instanceOf(MediaFrame);
+
+			properties = mediaFrame.properties();
+
+			properties.should.have.property('position');
+			properties.position.should.have.property('x', specifiedProperties.position.x);
+			properties.position.should.have.property('y', specifiedProperties.position.y);
+			properties.position.should.have.property('z', specifiedProperties.position.z);
+			properties.should.have.property('opacity', specifiedProperties.opacity);
+			properties.should.have.property('border');
+			properties.border.should.have.property('type', specifiedProperties.border.type);
+			properties.border.should.have.property('color', specifiedProperties.border.color);
+
+			properties.should.have.property('height', specifiedProperties.height);
+			properties.should.have.property('width', specifiedProperties.width);
+		});
+
+		it('Should retrive the MediaFrame objects related to the two rectangles', function(){
+			var specifiedProperties = {
+					position : {
+						x : 1,
+						y : 2,
+						z : 3
+					},
+					opacity: 42,
+					border : {
+						type : 'border',
+						color : 'blue'
+					},
+					height: 32,
+					width: 84
+				},
+				rectangle1 = new Rectangle(specifiedProperties),
+				rectangle2 = new Rectangle(specifiedProperties),
+				timeline = new Timeline(),
+				specificCurrentFrameNumber = 42,
+				mediaTimeline,
+				mediaFramesCollection,
+				mediaFrame,
+				properties;
+
+			timeline.addMediaObject(rectangle1);
+			timeline.addMediaObject(rectangle2);
+
+			// MediaTimelines tests
+			mediaTimeline = timeline.getMediaTimeline(rectangle1.getGuid());
+			should.exists(mediaTimeline);
+			mediaTimeline.should.be.instanceOf(MediaTimeline);
+
+			mediaTimeline = timeline.getMediaTimeline(rectangle2.getGuid());
+			should.exists(mediaTimeline);
+			mediaTimeline.should.be.instanceOf(MediaTimeline);
+
+			//MediaFrames tests
+			mediaFramesCollection = timeline.getElementsForFrame(specificCurrentFrameNumber);
+			should.exists(mediaFramesCollection);
+			mediaFramesCollection.should.have.lengthOf(2);
+
+			// First rectangle
+			mediaFrame = mediaFramesCollection[0];
+
+			should.exists(mediaFrame);
+			mediaFrame.should.be.instanceOf(MediaFrame);
+
+			properties = mediaFrame.properties();
+
+			properties.should.have.property('position');
+			properties.position.should.have.property('x', specifiedProperties.position.x);
+			properties.position.should.have.property('y', specifiedProperties.position.y);
+			properties.position.should.have.property('z', specifiedProperties.position.z);
+			properties.should.have.property('opacity', specifiedProperties.opacity);
+			properties.should.have.property('border');
+			properties.border.should.have.property('type', specifiedProperties.border.type);
+			properties.border.should.have.property('color', specifiedProperties.border.color);
+
+			properties.should.have.property('height', specifiedProperties.height);
+			properties.should.have.property('width', specifiedProperties.width);
+
+			// Second rectangle
+			mediaFrame = mediaFramesCollection[1];
+
+			should.exists(mediaFrame);
+			mediaFrame.should.be.instanceOf(MediaFrame);
+
+			properties = mediaFrame.properties();
+
+			properties.should.have.property('position');
+			properties.position.should.have.property('x', specifiedProperties.position.x);
+			properties.position.should.have.property('y', specifiedProperties.position.y);
+			properties.position.should.have.property('z', specifiedProperties.position.z);
+			properties.should.have.property('opacity', specifiedProperties.opacity);
+			properties.should.have.property('border');
+			properties.border.should.have.property('type', specifiedProperties.border.type);
+			properties.border.should.have.property('color', specifiedProperties.border.color);
+
+			properties.should.have.property('height', specifiedProperties.height);
+			properties.should.have.property('width', specifiedProperties.width);
 		});
 	});
 });
