@@ -26,19 +26,52 @@ function Path (options) {
 			return {}; // The position can't be determined
 		}
 
+		var startX = _self.startPosition.x,
+			startY = _self.startPosition.y,
+			endX = _self.endPosition.x,
+			endY = _self.endPosition.y;
+
+		if (endFrameNumber === -1){
+			var frameDelta = currentFrameNumber - startFrameNumber,
+				currentXPosition,
+				currentYPosition,
+				finalXPosition,
+				finalYPosition;
+
+			if (startX === endX){
+				finalXPosition = startX;
+			} else if (startX < endX){
+				currentXPosition = startX + frameDelta;
+				finalXPosition = currentXPosition >= endX ? endX : currentXPosition;
+			} else {
+				currentXPosition = startX - frameDelta;
+				finalXPosition = currentXPosition <= endX ? endX : currentXPosition;
+			}
+
+			if (startY === endY){
+				finalYPosition = startY;
+			} else if (startY < endY){
+				currentYPosition = startY + frameDelta;
+				finalYPosition = currentYPosition >= endY ? endY : currentYPosition;
+			} else {
+				currentYPosition = startY - frameDelta;
+				finalYPosition = currentYPosition <= endY ? endY : currentYPosition;
+			}
+
+			return { x: finalXPosition, y: finalYPosition };
+		}
+
 		if (endFrameNumber <= currentFrameNumber){
-			return { x: _self.endPosition.x, y: _self.endPosition.y };		
+			return { x: endX, y: endY };		
 		}
 
 		var frameLength = endFrameNumber - startFrameNumber,
 			// relativeCurrentFrameNumber = (currentFrameNumber - startFrameNumber),
 			relativeFramePosition = (currentFrameNumber - startFrameNumber) / frameLength,
-			startX = _self.startPosition.x,
-			startY = _self.startPosition.y,
 			//xTotalDelta = _self.endPosition.x - startX,
-			xDelta = (_self.endPosition.x - startX) * relativeFramePosition,
+			xDelta = (endX - startX) * relativeFramePosition,
 			//yTotalDelta = _self.endPosition.y - startY,
-			yDelta = (_self.endPosition.y - startY) * relativeFramePosition;
+			yDelta = (endY - startY) * relativeFramePosition;
 
 		return {x: startX + xDelta, y: startY + yDelta};
 	};

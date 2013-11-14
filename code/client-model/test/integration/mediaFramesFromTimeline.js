@@ -7,6 +7,7 @@ var MoveEffect = require('../../src/effects/moveEffect'),
 	Timeline = require('../../src/timeline'),
 	MediaFrame = require('../../src/mediaFrame'),
 	MediaTimeline = require('../../src/mediaTimeline'),
+	Path = require('../../src/utils/path'),
 	should = require("should");
 
 describe('Retrive all MediaFrames for a specific frame number from the Timeline', function(){
@@ -82,6 +83,11 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 				rectangle = new Rectangle(specifiedProperties),
 				timeline = new Timeline(),
 				specificCurrentFrameNumber = 42,
+				specificCurrentFrameNumber2 = specificCurrentFrameNumber / 2,
+				specifiedEndPosition = { x: specificCurrentFrameNumber, y: specificCurrentFrameNumber },
+				path = new Path({ endPosition : specifiedEndPosition }),
+				specifiedPath = new Path(),
+				moveEffect = new MoveEffect({ path: specifiedPath }),
 				mediaTimeline,
 				mediaFramesCollection,
 				mediaFrame,
@@ -92,6 +98,8 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			mediaTimeline = timeline.getMediaTimeline(rectangle.getGuid());
 			should.exists(mediaTimeline);
 			mediaTimeline.should.be.instanceOf(MediaTimeline);
+			mediaTimeline.addEffect(moveEffect);
+			mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
 
 			mediaFramesCollection = timeline.getElementsForFrame(specificCurrentFrameNumber);
 			should.exists(mediaFramesCollection);
@@ -105,8 +113,31 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			properties = mediaFrame.properties();
 
 			properties.should.have.property('position');
-			properties.position.should.have.property('x', specifiedProperties.position.x);
-			properties.position.should.have.property('y', specifiedProperties.position.y);
+			properties.position.should.have.property('x', specificCurrentFrameNumber);
+			properties.position.should.have.property('y', specificCurrentFrameNumber);
+			properties.position.should.have.property('z', specifiedProperties.position.z);
+			properties.should.have.property('opacity', specifiedProperties.opacity);
+			properties.should.have.property('border');
+			properties.border.should.have.property('type', specifiedProperties.border.type);
+			properties.border.should.have.property('color', specifiedProperties.border.color);
+
+			properties.should.have.property('height', specifiedProperties.height);
+			properties.should.have.property('width', specifiedProperties.width);
+
+			mediaFramesCollection = timeline.getElementsForFrame(specificCurrentFrameNumber2);
+			should.exists(mediaFramesCollection);
+			mediaFramesCollection.should.have.lengthOf(1);
+
+			mediaFrame = mediaFramesCollection[0];
+
+			should.exists(mediaFrame);
+			mediaFrame.should.be.instanceOf(MediaFrame);
+
+			properties = mediaFrame.properties();
+
+			properties.should.have.property('position');
+			properties.position.should.have.property('x', specificCurrentFrameNumber2);
+			properties.position.should.have.property('y', specificCurrentFrameNumber2);
 			properties.position.should.have.property('z', specifiedProperties.position.z);
 			properties.should.have.property('opacity', specifiedProperties.opacity);
 			properties.should.have.property('border');
