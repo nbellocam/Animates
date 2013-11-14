@@ -27,10 +27,16 @@ function MoveEffect(options) {
 	this.getPropertiesForFrame = function (frameNumber, beginShapeFrame) {
 		var startFrameNumber = _self.startFrameNumber,
 			endFrameNumber = _self.endFrameNumber;
-		
+
 		if (frameNumber > startFrameNumber){
 			if (typeof path !== 'undefined' && typeof path.getPositionFor === 'function' ) {
-				var currentPos = path.getPositionFor(startFrameNumber, endFrameNumber, (frameNumber < endFrameNumber) ? frameNumber : endFrameNumber );
+				var currentPos;
+
+				if (endFrameNumber === -1){
+					currentPos = path.getPositionFor(startFrameNumber, endFrameNumber, frameNumber );
+				} else {
+					currentPos = path.getPositionFor(startFrameNumber, endFrameNumber, (frameNumber < endFrameNumber) ? frameNumber : endFrameNumber );
+				}
 
 				if (typeof currentPos.x !== 'undefined' ){
 					beginShapeFrame.x = currentPos.x;

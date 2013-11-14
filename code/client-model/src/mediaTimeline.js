@@ -40,12 +40,16 @@ function MediaTimeline (options) {
 				currentEffect = effectsArray[i];
 				if (currentFrameNumber > currentEffect.startFrameNumber){
 
-					mediaObjectFrame.properties(
-						currentEffect.getPropertiesForFrame(
-							(currentFrameNumber < currentEffect.endFrameNumber) ? currentFrameNumber : currentEffect.endFrameNumber,
-							mediaObjectFrame.properties()
-						)
-					);
+					if (currentEffect.endFrameNumber === -1 ){
+						mediaObjectFrame.properties(currentEffect.getPropertiesForFrame(currentFrameNumber, mediaObjectFrame.properties()));
+					} else {
+						mediaObjectFrame.properties(
+							currentEffect.getPropertiesForFrame(
+								(currentFrameNumber < currentEffect.endFrameNumber) ? currentFrameNumber : currentEffect.endFrameNumber,
+								mediaObjectFrame.properties()
+							)
+						);
+					}
 				}
 			}
 

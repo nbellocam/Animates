@@ -564,5 +564,7 @@ describe('MediaTimeline', function(){
 			properties.should.have.property('x', 2);
 			properties.should.have.property('y', 2);
 		});
+		
+		it('Should update the properties of a MediaFrame when endFrame is -1.');
 	});
 });

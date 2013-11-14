@@ -145,5 +145,8 @@ describe('MoveEffect', function(){
 			endShapeFrame.should.have.property('x', specifiedX*specifiedEndFrameNumber);
 			endShapeFrame.should.have.property('y', specifiedY*specifiedEndFrameNumber);
 		});
+
+		it('Should retrive a copy of the original frame with no changes if the frame is before the initialFrame (with endFrame -1)');
+		it('Should use always the current frame when the end frame is -1');
 	});
 });
