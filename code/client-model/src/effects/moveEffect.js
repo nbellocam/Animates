@@ -17,7 +17,7 @@ function MoveEffect(options) {
 	this.base(options); // Call base constructor
 	
 	var _self = this, // Save the this reference for later use
-	path = options.path;
+		path = options.path;
 
 	/**
 	 * Calculates the new shape properties based on the original ones and the actual frame.
@@ -27,6 +27,7 @@ function MoveEffect(options) {
 	this.getPropertiesForFrame = function (frameNumber, beginShapeFrame) {
 		var startFrameNumber = _self.startFrameNumber,
 			endFrameNumber = _self.endFrameNumber;
+		
 		if (frameNumber > startFrameNumber){
 			if (typeof path !== 'undefined' && typeof path.getPositionFor === 'function' ) {
 				var currentPos = path.getPositionFor(startFrameNumber, endFrameNumber, (frameNumber < endFrameNumber) ? frameNumber : endFrameNumber );
