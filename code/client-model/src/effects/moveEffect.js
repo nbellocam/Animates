@@ -24,7 +24,7 @@ function MoveEffect(options) {
 	 * @param {integer} frameNumber The actual frame.
 	 * @param {object} originalProperties The original properties.
 	 */
-	this.getPropertiesForFrame = function (frameNumber, beginShapeFrame) {
+	this.getPropertiesForFrame = function (frameNumber, beginShapeFrameProperties) {
 		var startFrameNumber = _self.startFrameNumber,
 			endFrameNumber = _self.endFrameNumber;
 
@@ -39,16 +39,16 @@ function MoveEffect(options) {
 				}
 
 				if (typeof currentPos.x !== 'undefined' ){
-					beginShapeFrame.x = currentPos.x;
+					beginShapeFrameProperties.position.x = currentPos.x;
 				}
 
 				if (typeof currentPos.y !== 'undefined' ){
-					beginShapeFrame.y = currentPos.y;
+					beginShapeFrameProperties.position.y = currentPos.y;
 				}
 			}
 		}
 
-		return beginShapeFrame;
+		return beginShapeFrameProperties;
 	};
 
 	(function init() { 

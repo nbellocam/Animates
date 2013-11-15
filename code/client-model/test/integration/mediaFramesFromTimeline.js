@@ -101,6 +101,9 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			mediaTimeline.addEffect(moveEffect);
 			mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
 
+			mediaTimeline = timeline.getMediaTimeline(rectangle.getGuid());
+			mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
+
 			mediaFramesCollection = timeline.getElementsForFrame(specificCurrentFrameNumber);
 			should.exists(mediaFramesCollection);
 			mediaFramesCollection.should.have.lengthOf(1);

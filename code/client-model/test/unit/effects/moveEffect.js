@@ -65,13 +65,14 @@ describe('MoveEffect', function(){
 			var specifiedFrameNumber = 42,
 				specifiedX = 24,
 				specifiedY = 32,
-				beginShapeFrame = { x:specifiedX, y:specifiedY },
+				beginShapeFrame = { position : { x:specifiedX, y:specifiedY } },
 				effect = new MoveEffect(),
 				endShapeFrame = effect.getPropertiesForFrame(specifiedFrameNumber, beginShapeFrame);
 
 			should.strictEqual(endShapeFrame, beginShapeFrame);
-			endShapeFrame.should.have.property('x', specifiedX);
-			endShapeFrame.should.have.property('y', specifiedY);
+			endShapeFrame.should.have.property('position');
+			endShapeFrame.position.should.have.property('x', specifiedX);
+			endShapeFrame.position.should.have.property('y', specifiedY);
 		});
 
 		it('Should return the original frame not adding the x and y properties if path was passed without the getPositionFor function.', function(){
@@ -82,6 +83,7 @@ describe('MoveEffect', function(){
 				endShapeFrame = effect.getPropertiesForFrame(specifiedFrameNumber, beginShapeFrame);
 
 			should.strictEqual(endShapeFrame, beginShapeFrame);
+			endShapeFrame.should.not.have.property('position');
 			endShapeFrame.should.not.have.properties('x', 'y');
 		});
 
@@ -89,20 +91,21 @@ describe('MoveEffect', function(){
 			var specifiedFrameNumber = 42,
 				specifiedX = 24,
 				specifiedY = 32,
-				beginShapeFrame = { x:specifiedX, y:specifiedY },
+				beginShapeFrame = { position : { x:specifiedX, y:specifiedY } },
 				specifiedPath = {},
 				effect = new MoveEffect({ path: specifiedPath }),
 				endShapeFrame = effect.getPropertiesForFrame(specifiedFrameNumber, beginShapeFrame);
 
-			endShapeFrame.should.have.property('x', specifiedX);
-			endShapeFrame.should.have.property('y', specifiedY);
+			endShapeFrame.should.have.property('position');
+			endShapeFrame.position.should.have.property('x', specifiedX);
+			endShapeFrame.position.should.have.property('y', specifiedY);
 		});
 
 		it('Should return the original frame with the new values.', function(){
 			var specifiedFrameNumber = 42,
 				specifiedX = 24,
 				specifiedY = 32,
-				beginShapeFrame = { x:specifiedX, y:specifiedY },
+				beginShapeFrame = { position : { x:specifiedX, y:specifiedY } },
 				resultX = specifiedX * 2,
 				resultY = specifiedY * 2,
 				specifiedPath = { getPositionFor: function(startFrameNumber, endFrameNumber, currentFrame) { return { x:resultX, y:resultY }; } },
@@ -110,8 +113,10 @@ describe('MoveEffect', function(){
 				endShapeFrame = effect.getPropertiesForFrame(specifiedFrameNumber, beginShapeFrame);
 
 			should.strictEqual(endShapeFrame, beginShapeFrame);
-			endShapeFrame.should.have.property('x', resultX);
-			endShapeFrame.should.have.property('y', resultY);
+
+			endShapeFrame.should.have.property('position');
+			endShapeFrame.position.should.have.property('x', resultX);
+			endShapeFrame.position.should.have.property('y', resultY);
 		});
 
 		it('Should retrive a copy of the original frame with no changes if the frame is before the initialFrame', function(){
@@ -119,7 +124,7 @@ describe('MoveEffect', function(){
 				specifiedStartFrameNumber = 100,
 				specifiedX = 24,
 				specifiedY = 32,
-				beginShapeFrame = { x:specifiedX, y:specifiedY },
+				beginShapeFrame = { position : { x:specifiedX, y:specifiedY } },
 				resultX = specifiedX * 2,
 				resultY = specifiedY * 2,
 				specifiedPath = { getPositionFor: function(startFrameNumber, endFrameNumber, currentFrame) { return { x:resultX, y:resultY }; } },
@@ -127,8 +132,10 @@ describe('MoveEffect', function(){
 				endShapeFrame = effect.getPropertiesForFrame(specifiedFrameNumber, beginShapeFrame);
 
 			should.strictEqual(endShapeFrame, beginShapeFrame);
-			endShapeFrame.should.have.property('x', specifiedX);
-			endShapeFrame.should.have.property('y', specifiedY);
+
+			endShapeFrame.should.have.property('position');
+			endShapeFrame.position.should.have.property('x', specifiedX);
+			endShapeFrame.position.should.have.property('y', specifiedY);
 		});
 
 		it('Should retrive a copy of the end frame with no extra changes if the frame is after the endFrameNumber', function(){
@@ -136,14 +143,17 @@ describe('MoveEffect', function(){
 				specifiedEndFrameNumber = 40,
 				specifiedX = 24,
 				specifiedY = 32,
-				beginShapeFrame = { x:specifiedX, y:specifiedY },
+				resultX = specifiedX * specifiedEndFrameNumber,
+				resultY = specifiedY * specifiedEndFrameNumber,
+				beginShapeFrame = { position : { x:specifiedX, y:specifiedY } },
 				specifiedPath = { getPositionFor: function(startFrameNumber, endFrameNumber, currentFrame) { return { x:(specifiedX*currentFrame), y:(specifiedY*currentFrame) }; } },
 				effect = new MoveEffect({ endFrameNumber : specifiedEndFrameNumber, path: specifiedPath }),
 				endShapeFrame = effect.getPropertiesForFrame(specifiedFrameNumber, beginShapeFrame);
 
 			should.strictEqual(endShapeFrame, beginShapeFrame);
-			endShapeFrame.should.have.property('x', specifiedX*specifiedEndFrameNumber);
-			endShapeFrame.should.have.property('y', specifiedY*specifiedEndFrameNumber);
+			endShapeFrame.should.have.property('position');
+			endShapeFrame.position.should.have.property('x', resultX);
+			endShapeFrame.position.should.have.property('y', resultY);
 		});
 
 		it('Should retrive a copy of the original frame with no changes if the frame is before the initialFrame (with endFrame -1)');
