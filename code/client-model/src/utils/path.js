@@ -18,8 +18,10 @@ function Path (options) {
 
 	/**
 	 * Calculates the new position based on the the currentFrameNumber, the start and end frames and the start and end position.
-	 * @param {integer} frame The actual frame.
-	 * @param {object} originalProperties The original properties.
+	 * @param {integer} startFrameNumber The start frame number.
+	 * @param {integer} endFrameNumber The end frame number.
+	 * @param {integer} currentFrameNumber The current frame number.
+	 * @returns {object} The postion {x, y} for the current frame
 	 */
 	this.getPositionFor = function (startFrameNumber, endFrameNumber, currentFrameNumber) {
 		if (startFrameNumber > currentFrameNumber){

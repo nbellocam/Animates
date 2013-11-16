@@ -14,17 +14,17 @@ var Common = require('animates-common'),
 function MoveEffect(options) {
 	options = options || {};
 
-	this.base(options); // Call base constructor
+	this.base(options);
 	
-	var _self = this, // Save the this reference for later use
+	var _self = this,
 		path = options.path;
 
 	/**
-	 * Calculates the new shape properties based on the original ones and the actual frame.
+	 * Calculates the new shape properties based on the original ones and the current frame.
 	 * @param {integer} frameNumber The actual frame.
-	 * @param {object} originalProperties The original properties.
+	 * @param {object} mediaFrameProperties The original media frame properties.
 	 */
-	this.getPropertiesForFrame = function (frameNumber, beginShapeFrameProperties) {
+	this.getPropertiesForFrame = function (frameNumber, mediaFrameProperties) {
 		var startFrameNumber = _self.startFrameNumber,
 			endFrameNumber = _self.endFrameNumber;
 
@@ -39,16 +39,16 @@ function MoveEffect(options) {
 				}
 
 				if (typeof currentPos.x !== 'undefined' ){
-					beginShapeFrameProperties.position.x = currentPos.x;
+					mediaFrameProperties.position.x = currentPos.x;
 				}
 
 				if (typeof currentPos.y !== 'undefined' ){
-					beginShapeFrameProperties.position.y = currentPos.y;
+					mediaFrameProperties.position.y = currentPos.y;
 				}
 			}
 		}
 
-		return beginShapeFrameProperties;
+		return mediaFrameProperties;
 	};
 
 	(function init() { 

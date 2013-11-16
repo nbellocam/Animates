@@ -17,8 +17,8 @@ describe('MediaFrame', function() {
 		};
 	}
 
-	describe('Constructor', function(){
-		it('Should fail without mediaObject option', function(){
+	describe('constructor', function(){
+		it('Should fail without mediaObject option.', function(){
 			should(function () { new MediaFrame(); }).throw();
 		});	
 
@@ -33,8 +33,8 @@ describe('MediaFrame', function() {
 		});	
 	});
 
-	describe('#properties', function(){
-		it('Should override passed properties leaving the missing ones untouched', function(){
+	describe('properties()', function(){
+		it('Should override passed properties leaving the missing ones untouched.', function(){
 			var mediaObject = new MediaObjectMock(),
 				mediaFrame = new MediaFrame({ mediaObject :  mediaObject}),
 				currentProperties = mediaFrame.properties();

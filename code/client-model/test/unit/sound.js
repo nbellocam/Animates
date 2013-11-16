@@ -6,8 +6,8 @@ var Sound = require('../../src/sound'),
 	should = require("should");
 
 describe('Sound', function(){
-	describe('Constructor', function(){
-		it('Should generate a random guid', function(){
+	describe('constructor', function(){
+		it('Should generate a random guid.', function(){
 			var instance = new Sound(),
 				instance2 = new Sound();
 
@@ -15,7 +15,7 @@ describe('Sound', function(){
 			instance.getGuid().should.not.be.equal(instance2.getGuid());
 		});
 
-		it('Should set default properties', function(){
+		it('Should set default properties.', function(){
 			var sound = new Sound(),
 				properties = sound.getProperties();
 
@@ -23,7 +23,7 @@ describe('Sound', function(){
 			properties.should.have.property('volumen', 100);
 		});
 
-		it('Should set the properties passed in the constructor', function(){
+		it('Should set the properties passed in the constructor.', function(){
 			var specifiedVolumen = 42,
 				specifiedSource = 'a source',
 				instance = new Sound({

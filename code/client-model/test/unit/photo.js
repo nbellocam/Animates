@@ -6,8 +6,8 @@ var Photo = require('../../src/photo'),
 	should = require("should");
 
 describe('Photo', function(){
-	describe('Constructor', function(){
-		it('Should generate a random guid', function(){
+	describe('constructor', function(){
+		it('Should generate a random guid.', function(){
 			var instance = new Photo(),
 				instance2 = new Photo();
 
@@ -31,7 +31,7 @@ describe('Photo', function(){
 			properties.should.have.property('source');
 		});
 
-		it('Should set the properties passed in the constructor', function(){
+		it('Should set the properties passed in the constructor.', function(){
 			var specifiedX = 1,
 				specifiedY = 2,
 				specifiedZ = 3,

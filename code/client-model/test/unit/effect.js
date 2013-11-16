@@ -6,8 +6,8 @@ var Effect = require('../../src/effect'),
 	should = require("should");
 
 describe('Effect', function(){
-	describe('Constructor', function(){
-		it('Should generate a random guid', function(){
+	describe('constructor', function(){
+		it('Should generate a random guid.', function(){
 			var effect1 = new Effect(),
 				effect2 = new Effect();
 
@@ -16,15 +16,15 @@ describe('Effect', function(){
 		});
 	});
 
-	describe('StartFrame', function(){
-		it('Should start at 0 if it not specified otherwise', function(){
+	describe('startFrame', function(){
+		it('Should start at 0 if it not specified otherwise.', function(){
 			var effect = new Effect(),
 				startFrameNumber = effect.startFrameNumber;
 
 			startFrameNumber.should.be.exactly(0);
 		});
 
-		it('Should start at the value specified using the constructor', function(){
+		it('Should start at the value specified using the constructor.', function(){
 			var specifiedInitialFrameNumber = 42,
 				effect = new Effect({ startFrameNumber : specifiedInitialFrameNumber }),
 				startFrameNumber = effect.startFrameNumber;
@@ -33,15 +33,15 @@ describe('Effect', function(){
 		});
 	});
 
-	describe('EndFrame', function(){
-		it('Should end at -1 if it not specified otherwise', function(){
+	describe('endFrame', function(){
+		it('Should end at -1 if it not specified otherwise.', function(){
 			var effect = new Effect(),
 				endFrameNumber = effect.endFrameNumber;
 
 			endFrameNumber.should.be.exactly(-1);
 		});
 
-		it('Should end at the value specified using the constructor', function(){
+		it('Should end at the value specified using the constructor.', function(){
 			var specifiedEndFrameNumber = 42,
 				effect = new Effect({ endFrameNumber : specifiedEndFrameNumber }),
 				endFrameNumber = effect.endFrameNumber;
@@ -50,34 +50,34 @@ describe('Effect', function(){
 		});
 	});
 
-	describe('#getPropertiesForFrame()', function(){
+	describe('getPropertiesForFrame()', function(){
 		it('Should return the original frame.', function(){
 			var specifiedFrame = 42,
-				beginShapeFrame = {},
+				mediaFrame = {},
 				effect = new Effect(),
-				endShapeFrame = effect.getPropertiesForFrame(specifiedFrame, beginShapeFrame);
+				endShapeFrame = effect.getPropertiesForFrame(specifiedFrame, mediaFrame);
 
-			should.strictEqual(endShapeFrame, beginShapeFrame);
+			should.strictEqual(endShapeFrame, mediaFrame);
 		});
 
 		it('Should return the original frame even with the frame after the end frame.', function(){
 			var specifiedEndFrameNumber = 42,
 				specifiedFrameNumber = 100,
-				beginShapeFrame = {},
+				mediaFrame = {},
 				effect = new Effect({ endFrameNumber : specifiedEndFrameNumber }),
-				endShapeFrame = effect.getPropertiesForFrame(specifiedFrameNumber, beginShapeFrame);
+				endShapeFrame = effect.getPropertiesForFrame(specifiedFrameNumber, mediaFrame);
 
-			should.strictEqual(endShapeFrame, beginShapeFrame);
+			should.strictEqual(endShapeFrame, mediaFrame);
 		});
 
 		it('Should return the original frame specially with the frame before the start frame.', function(){
 			var specifiedInitialFrameNumber = 100,
 				specifiedFrameNumber = 42,
-				beginShapeFrame = {},
+				mediaFrame = {},
 				effect = new Effect({ startFrameNumber : specifiedInitialFrameNumber }),
-				endShapeFrame = effect.getPropertiesForFrame(specifiedFrameNumber, beginShapeFrame);
+				endShapeFrame = effect.getPropertiesForFrame(specifiedFrameNumber, mediaFrame);
 
-			should.strictEqual(endShapeFrame, beginShapeFrame);
+			should.strictEqual(endShapeFrame, mediaFrame);
 		});
 	});
 });

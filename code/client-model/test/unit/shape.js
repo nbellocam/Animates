@@ -6,8 +6,8 @@ var Shape = require('../../src/shape'),
 	should = require("should");
 
 describe('Shape', function(){
-	describe('Constructor', function(){
-		it('Should generate a random guid', function(){
+	describe('constructor', function(){
+		it('Should generate a random guid.', function(){
 			var instance = new Shape(),
 				instance2 = new Shape();
 
@@ -15,7 +15,7 @@ describe('Shape', function(){
 			instance.getGuid().should.not.be.equal(instance2.getGuid());
 		});
 
-		it('Should set default properties', function(){
+		it('Should set default properties.', function(){
 			var shape = new Shape(),
 				properties = shape.getProperties();
 
@@ -29,7 +29,7 @@ describe('Shape', function(){
 			properties.border.should.have.property('color','black');
 		});
 
-		it('Should set the properties passed in the constructor', function(){
+		it('Should set the properties passed in the constructor.', function(){
 			var specifiedX = 1,
 				specifiedY = 2,
 				specifiedZ = 3,

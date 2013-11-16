@@ -6,15 +6,15 @@ var MediaTimeline = require('../../src/mediaTimeline'),
 	should = require("should");
 
 describe('MediaTimeline', function(){
-	describe('EffectsCollections', function(){
-		it('Should not contain any effect when created', function(){
+	describe('*effectsCollections', function(){
+		it('Should not contain any effect when created.', function(){
 			var mediaTimeline = new MediaTimeline(),
 				effects = mediaTimeline.getEffects();
 
 			effects.should.be.empty;
 		});
 
-		it('Should add a new effect', function(){
+		it('Should add a new effect.', function(){
 			var mediaTimeline = new MediaTimeline(),
 				effects,
 				effectId = 'myId',
@@ -27,7 +27,7 @@ describe('MediaTimeline', function(){
 			effects.should.have.property(effectId);
 		});
 
-		it('Should not add a new invalid effect', function(){
+		it('Should not add a new invalid effect.', function(){
 			var mediaTimeline = new MediaTimeline(),
 				effects,
 				effect;
@@ -38,7 +38,7 @@ describe('MediaTimeline', function(){
 			effects.should.be.empty;
 		});
 
-		it('Should remove an effect', function(){
+		it('Should remove an effect.', function(){
 			var mediaTimeline = new MediaTimeline(),
 				effects,
 				effectId = 'myId',
@@ -51,7 +51,7 @@ describe('MediaTimeline', function(){
 			effects.should.be.empty;
 		});
 
-		it('Should not fail to remove a not existing effect', function(){
+		it('Should not fail to remove a not existing effect.', function(){
 			var mediaTimeline = new MediaTimeline(),
 				effects,
 				effectId = 'myId';
@@ -62,7 +62,7 @@ describe('MediaTimeline', function(){
 			effects.should.be.empty;
 		});
 
-		it('Should not fail a call to remove with no parameter', function(){
+		it('Should not fail a call to remove with no parameter.', function(){
 			var mediaTimeline = new MediaTimeline(),
 				effects;
 
@@ -73,7 +73,7 @@ describe('MediaTimeline', function(){
 		});
 	});
 
-	describe('getMediaObjectId', function(){
+	describe('getMediaObjectId()', function(){
 		it('Should return the media object id', function(){
 			var specifiedMediaObjectId = '42',
 				specifiedMediaObject = { getGuid : function () { return specifiedMediaObjectId; } },
@@ -84,15 +84,15 @@ describe('MediaTimeline', function(){
 		});
 	});
 
-	describe('StartFrameNumber', function(){
-		it('Should start at 0 if it not specified otherwise', function(){
+	describe('*startFrameNumber', function(){
+		it('Should start at 0 if it not specified otherwise.', function(){
 			var mediaTimeline = new MediaTimeline(),
 				startFrameNumber = mediaTimeline.getStartFrameNumber();
 
 			startFrameNumber.should.be.exactly(0);
 		});
 
-		it('Should start at the value specified using the constructor', function(){
+		it('Should start at the value specified using the constructor.', function(){
 			var specifiedStartFrameNumber = 42,
 				mediaTimeline = new MediaTimeline({ startFrameNumber : specifiedStartFrameNumber }),
 				startFrameNumber = mediaTimeline.getStartFrameNumber();
@@ -100,7 +100,7 @@ describe('MediaTimeline', function(){
 			startFrameNumber.should.be.exactly(specifiedStartFrameNumber);
 		});
 
-		it('Should start at the value specified using the set method', function(){
+		it('Should start at the value specified using the set method.', function(){
 			var specifiedStartFrameNumber = 42,
 				mediaTimeline = new MediaTimeline(),
 				startFrameNumber;
@@ -112,15 +112,15 @@ describe('MediaTimeline', function(){
 		});
 	});
 
-	describe('EndFrameNumber', function(){
-		it('Should end at -1 if it not specified otherwise (without effects)', function(){
+	describe('*endFrameNumber', function(){
+		it('Should end at -1 if it not specified otherwise (without effects).', function(){
 			var mediaTimeline = new MediaTimeline(),
 				endFrameNumber = mediaTimeline.getEndFrameNumber();
 
 			endFrameNumber.should.be.exactly(-1);
 		});
 
-		it('Should end at the value specified using the constructor (without effects)', function(){
+		it('Should end at the value specified using the constructor (without effects).', function(){
 			var specifiedEndFrameNumber = 42,
 				mediaTimeline = new MediaTimeline({ endFrameNumber : specifiedEndFrameNumber }),
 				endFrameNumber = mediaTimeline.getEndFrameNumber();
@@ -128,7 +128,7 @@ describe('MediaTimeline', function(){
 			endFrameNumber.should.be.exactly(specifiedEndFrameNumber);
 		});
 
-		it('Should end at the value specified using the set method (without effects)', function(){
+		it('Should end at the value specified using the set method (without effects).', function(){
 			var specifiedEndFrameNumber = 42,
 				mediaTimeline = new MediaTimeline(),
 				endFrameNumber;
@@ -139,7 +139,7 @@ describe('MediaTimeline', function(){
 			endFrameNumber.should.be.exactly(specifiedEndFrameNumber);
 		});
 
-		it('Should end at -1 if it not specified otherwise (with effects that ends in -1)', function(){
+		it('Should end at -1 if it not specified otherwise (with effects that ends in -1).', function(){
 			var mediaTimeline = new MediaTimeline(),
 				endFrameNumber,
 				effectId = 'myId',
@@ -152,7 +152,7 @@ describe('MediaTimeline', function(){
 			endFrameNumber.should.be.exactly(-1);
 		});
 
-		it('Should end at the value specified using the constructor (with effects that ends in -1)', function(){
+		it('Should end at the value specified using the constructor (with effects that ends in -1).', function(){
 			var specifiedEndFrameNumber = 42,
 				mediaTimeline = new MediaTimeline({ endFrameNumber : specifiedEndFrameNumber }),
 				endFrameNumber,
@@ -166,7 +166,7 @@ describe('MediaTimeline', function(){
 			endFrameNumber.should.be.exactly(specifiedEndFrameNumber);
 		});
 
-		it('Should end at the value specified using the set method (with effects that ends in -1)', function(){
+		it('Should end at the value specified using the set method (with effects that ends in -1).', function(){
 			var specifiedEndFrameNumber = 42,
 				mediaTimeline = new MediaTimeline(),
 				endFrameNumber,
@@ -183,7 +183,7 @@ describe('MediaTimeline', function(){
 			endFrameNumber.should.be.exactly(specifiedEndFrameNumber);
 		});
 
-		it('Should end at the value specified (with effects that ends before)', function(){
+		it('Should end at the value specified (with effects that ends before).', function(){
 			var specifiedEndFrameNumber = 42,
 				mediaTimeline = new MediaTimeline({ endFrameNumber : specifiedEndFrameNumber }),
 				endFrameNumber,
@@ -199,7 +199,7 @@ describe('MediaTimeline', function(){
 			endFrameNumber.should.be.exactly(specifiedEndFrameNumber);
 		});
 
-		it('Should end at the value of the effect (with effects that ends after)', function(){
+		it('Should end at the value of the effect (with effects that ends after).', function(){
 			var specifiedEndFrameNumber = 42,
 				effectEndFrameNumber = 84,
 				mediaTimeline = new MediaTimeline({ endFrameNumber : specifiedEndFrameNumber }),
@@ -216,7 +216,7 @@ describe('MediaTimeline', function(){
 		});
 	});
 
-	describe('getMediaFrameFor', function(){
+	describe('getMediaFrameFor()', function(){
 		it('Should return a new mediaFrame when no effects are present.', function(){
 			var currentFrameNumber = 42,
 				specifiedMediaObjectId = '42',
@@ -232,7 +232,7 @@ describe('MediaTimeline', function(){
 			mediaFrame.properties().should.have.property('x', 0);
 		});
 
-		it('Should not retrive a MediaFrame if the frame is before the initialFrame', function(){
+		it('Should not retrive a MediaFrame if the frame is before the initialFrame.', function(){
 			var currentFrameNumber = 42,
 				specifiedStartFrameNumber = 100,
 				specifiedMediaObjectId = '42',
@@ -313,7 +313,7 @@ describe('MediaTimeline', function(){
 			mediaFrame.properties().should.have.property('x', 2);
 		});
 
-		it('Should retrive the end MediaFrame with no extra changes if the frame is after the endFrameNumber', function(){
+		it('Should retrive the end MediaFrame with no extra changes if the frame is after the endFrameNumber.', function(){
 			var currentFrameNumber = 42,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
@@ -346,7 +346,7 @@ describe('MediaTimeline', function(){
 			mediaFrame.properties().should.have.property('x', 4);
 		});
 
-		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends first, only one effect)', function(){
+		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends first, only one effect).', function(){
 			var currentFrameNumber = 3,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
@@ -389,7 +389,7 @@ describe('MediaTimeline', function(){
 			mediaFrame.properties().should.have.property('x', 2);
 		});
 
-		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends last, only one effect)', function(){
+		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends last, only one effect).', function(){
 			var currentFrameNumber = 3,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
@@ -432,7 +432,7 @@ describe('MediaTimeline', function(){
 			mediaFrame.properties().should.have.property('x', 2);
 		});
 
-		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends first)', function(){
+		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends first).', function(){
 			var currentFrameNumber = 8,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
@@ -475,7 +475,7 @@ describe('MediaTimeline', function(){
 			mediaFrame.properties().should.have.property('x', 11);
 		});
 
-		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends last)', function(){
+		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends last).', function(){
 			var currentFrameNumber = 8,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },

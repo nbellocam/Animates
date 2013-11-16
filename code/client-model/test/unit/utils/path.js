@@ -6,7 +6,7 @@ var Path = require('../../../src/utils/path'),
 	should = require("should");
 
 describe('Path', function(){
-	describe('StartPosition', function(){
+	describe('startPosition', function(){
 		it('Should start at (0,0) if it not specified otherwise', function(){
 			var path = new Path(),
 				startPosition = path.startPosition;
@@ -26,7 +26,7 @@ describe('Path', function(){
 		});
 	});
 
-	describe('EndPosition', function(){
+	describe('endPosition', function(){
 		it('Should end at (0,0) if it not specified otherwise', function(){
 			var path = new Path(),
 				endPosition = path.endPosition;
@@ -46,7 +46,7 @@ describe('Path', function(){
 		});
 	});
 
-	describe('#getPositionFor()', function(){
+	describe('getPositionFor()', function(){
 		it('Should return an object with no x and y properties if currentFrameNumber is less than startFrameNumber', function(){
 			var startFrameNumber = 12,
 				endFrameNumber = 100,

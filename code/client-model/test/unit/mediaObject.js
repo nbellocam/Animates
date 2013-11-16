@@ -6,8 +6,8 @@ var MediaObject = require('../../src/mediaObject'),
 	should = require("should");
 
 describe('MediaObject', function(){
-	describe('Constructor', function(){
-		it('Should generate a random guid', function(){
+	describe('constructor', function(){
+		it('Should generate a random guid.', function(){
 			var mediaObject = new MediaObject(),
 				mediaObject2 = new MediaObject();
 
@@ -16,15 +16,15 @@ describe('MediaObject', function(){
 		});
 	});
 
-	describe('#getProperties', function(){
-		it('Should return an empty object is no option is passed as parameter', function(){
+	describe('getProperties()', function(){
+		it('Should return an empty object is no option is passed as parameter.', function(){
 			var instance = new MediaObject(),
 				properties = instance.getProperties();
 
 			properties.should.be.empty;
 		});
 
-		it('Should return the same property that is passed by parameter', function(){
+		it('Should return the same property that is passed by parameter.', function(){
 			var specifiedPropertyValue = 'value1',
 				instance = new MediaObject({propertyName: specifiedPropertyValue}),
 				properties = instance.getProperties();
@@ -33,29 +33,29 @@ describe('MediaObject', function(){
 		});
 	});
 
-	describe('#getProperty', function(){
-		it('Should return undefined if property does not exits', function(){
+	describe('getProperty()', function(){
+		it('Should return undefined if property does not exits.', function(){
 			var instance = new MediaObject(),
 				propertyValue = instance.getProperty('invalidProperty');
 
 			should.equal(propertyValue, undefined);
 		});
 
-		it('Should return undefined if property is empty', function(){
+		it('Should return undefined if property is empty.', function(){
 			var instance = new MediaObject(),
 				propertyValue = instance.getProperty('');
 
 			should.equal(propertyValue, undefined);
 		});
 
-		it('Should return undefined if property is not passed by argument', function(){
+		it('Should return undefined if property is not passed by argument.', function(){
 			var instance = new MediaObject(),
 				propertyValue = instance.getProperty();
 
 			should.equal(propertyValue, undefined);
 		});
 
-		it('Should return the property if it exits', function(){
+		it('Should return the property if it exits.', function(){
 			var specifiedPropertyValue = 'value1',
 				instance = new MediaObject({propertyName: specifiedPropertyValue}),
 				propertyValue = instance.getProperty('propertyName');
@@ -64,8 +64,8 @@ describe('MediaObject', function(){
 		});
 	});
 
-	describe('#setProperty', function(){
-		it('Should create a new property if the property does not exits', function(){
+	describe('setProperty()', function(){
+		it('Should create a new property if the property does not exits.', function(){
 			var specifiedPropertyValue = 'value1',
 				instance = new MediaObject(),
 				properties = instance.getProperties();
@@ -79,7 +79,7 @@ describe('MediaObject', function(){
 			properties.should.have.property('propertyName', specifiedPropertyValue);
 		});
 
-		it('Should update a property if it already exits', function(){
+		it('Should update a property if it already exits.', function(){
 			var originalPropertyValue = 'oldValue',
 				newPropertyValue = 'newValue',
 				instance = new MediaObject({propertyName: originalPropertyValue}),
