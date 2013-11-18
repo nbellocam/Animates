@@ -17,14 +17,14 @@ function Path (options) {
 	this.endPosition = options.endPosition || { x: 0, y:0 };
 
 	/**
-	 * Calculates the new position based on the the currentFrameNumber, the start and end frames and the start and end position.
-	 * @param {integer} startFrameNumber The start frame number.
-	 * @param {integer} endFrameNumber The end frame number.
-	 * @param {integer} currentFrameNumber The current frame number.
-	 * @returns {object} The postion {x, y} for the current frame
+	 * Calculates the new position based on the the currentTick, the start and end ticks and the start and end position.
+	 * @param {integer} startTick The start tick number.
+	 * @param {integer} endTick The end tick number.
+	 * @param {integer} currentTick The current tick number.
+	 * @returns {object} The postion {x, y} for the current tick
 	 */
-	this.getPositionFor = function (startFrameNumber, endFrameNumber, currentFrameNumber) {
-		if (startFrameNumber > currentFrameNumber){
+	this.getPositionFor = function (startTick, endTick, currentTick) {
+		if (startTick > currentTick){
 			return {}; // The position can't be determined
 		}
 
@@ -33,8 +33,8 @@ function Path (options) {
 			endX = _self.endPosition.x,
 			endY = _self.endPosition.y;
 
-		if (endFrameNumber === -1){
-			var frameDelta = currentFrameNumber - startFrameNumber,
+		if (endTick === -1){
+			var tickDelta = currentTick - startTick,
 				currentXPosition,
 				currentYPosition,
 				finalXPosition,
@@ -43,39 +43,36 @@ function Path (options) {
 			if (startX === endX){
 				finalXPosition = startX;
 			} else if (startX < endX){
-				currentXPosition = startX + frameDelta;
+				currentXPosition = startX + tickDelta;
 				finalXPosition = currentXPosition >= endX ? endX : currentXPosition;
 			} else {
-				currentXPosition = startX - frameDelta;
+				currentXPosition = startX - tickDelta;
 				finalXPosition = currentXPosition <= endX ? endX : currentXPosition;
 			}
 
 			if (startY === endY){
 				finalYPosition = startY;
 			} else if (startY < endY){
-				currentYPosition = startY + frameDelta;
+				currentYPosition = startY + tickDelta;
 				finalYPosition = currentYPosition >= endY ? endY : currentYPosition;
 			} else {
-				currentYPosition = startY - frameDelta;
+				currentYPosition = startY - tickDelta;
 				finalYPosition = currentYPosition <= endY ? endY : currentYPosition;
 			}
 
 			return { x: finalXPosition, y: finalYPosition };
 		}
 
-		if (endFrameNumber <= currentFrameNumber){
-			return { x: endX, y: endY };		
+		if (endTick <= currentTick){
+			return { 'x' : endX, 'y' : endY };		
 		}
 
-		var frameLength = endFrameNumber - startFrameNumber,
-			// relativeCurrentFrameNumber = (currentFrameNumber - startFrameNumber),
-			relativeFramePosition = (currentFrameNumber - startFrameNumber) / frameLength,
-			//xTotalDelta = _self.endPosition.x - startX,
-			xDelta = (endX - startX) * relativeFramePosition,
-			//yTotalDelta = _self.endPosition.y - startY,
-			yDelta = (endY - startY) * relativeFramePosition;
+		var ticksAmount = endTick - startTick,
+			currentPathPercentage = (currentTick - startTick) / ticksAmount,
+			xDelta = (endX - startX) * currentPathPercentage,
+			yDelta = (endY - startY) * currentPathPercentage;
 
-		return {x: startX + xDelta, y: startY + yDelta};
+		return { 'x' : startX + xDelta, 'y' : startY + yDelta};
 	};
 
 	(function init() {
