@@ -16,101 +16,97 @@ describe('MoveEffect', function(){
 		});
 	});
 	
-	describe('startFrameNumber', function(){
+	describe('startTick', function(){
 		it('Should start at 0 if it not specified otherwise', function(){
-			var effect = new MoveEffect(),
-				startFrameNumber = effect.startFrameNumber;
+			var effect = new MoveEffect();
 
-			startFrameNumber.should.be.exactly(0);
+			effect.startTick.should.be.exactly(0);
 		});
 
 		it('Should start at the value specified using the constructor', function(){
-			var specifiedStartFrameNumber = 42,
-				effect = new MoveEffect({ startFrameNumber : specifiedStartFrameNumber }),
-				startFrameNumber = effect.startFrameNumber;
+			var startTick = 42,
+				effect = new MoveEffect({ 'startTick' : startTick });
 
-			startFrameNumber.should.be.exactly(specifiedStartFrameNumber);
+			effect.startTick.should.be.exactly(startTick);
 		});
 	});
 
-	describe('endFrameNumber', function(){
+	describe('endTick', function(){
 		it('Should end at -1 if it not specified otherwise', function(){
-			var effect = new MoveEffect(),
-				endFrameNumber = effect.endFrameNumber;
+			var effect = new MoveEffect();
 
-			endFrameNumber.should.be.exactly(-1);
+			effect.endTick.should.be.exactly(-1);
 		});
 
 		it('Should end at the value specified using the constructor', function(){
-			var specifiedStartFrameNumber = 42,
-				effect = new MoveEffect({ endFrameNumber : specifiedStartFrameNumber }),
-				endFrameNumber = effect.endFrameNumber;
+			var endTick = 42,
+				effect = new MoveEffect({ 'endTick' : endTick });
 
-			endFrameNumber.should.be.exactly(specifiedStartFrameNumber);
+			effect.endTick.should.be.exactly(endTick);
 		});
 	});
 
-	describe('getPropertiesForFrame()', function(){
-		it('Should return the original frame not adding the x and y properties if path was not passed.', function(){
-			var specifiedFrameNumber = 42,
+	describe('getProperties()', function(){
+		it('Should return the original tick not adding the x and y properties if path was not passed.', function(){
+			var tick = 42,
 				mediaFrameProperties = {},
 				effect = new MoveEffect(),
-				resultMediaFrameProperties = effect.getPropertiesForFrame(specifiedFrameNumber, mediaFrameProperties);
+				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
 
 			should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
-			resultMediaFrameProperties.should.not.have.properties('x', 'y');
+			resultMediaFrameProperties.should.not.have.property('position');
 		});
 
-		it('Should return the original frame not updating the x and y properties if path was not passed.', function(){
-			var specifiedFrameNumber = 42,
-				specifiedX = 24,
-				specifiedY = 32,
-				mediaFrameProperties = { position : { x:specifiedX, y:specifiedY } },
+		it('Should return the original tick not updating the x and y properties if path was not passed.', function(){
+			var tick = 42,
+				x = 24,
+				y = 32,
+				mediaFrameProperties = { position : { 'x' : x, 'y' : y } },
 				effect = new MoveEffect(),
-				resultMediaFrameProperties = effect.getPropertiesForFrame(specifiedFrameNumber, mediaFrameProperties);
+				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
 
 			should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
 			resultMediaFrameProperties.should.have.property('position');
-			resultMediaFrameProperties.position.should.have.property('x', specifiedX);
-			resultMediaFrameProperties.position.should.have.property('y', specifiedY);
+			resultMediaFrameProperties.position.should.have.property('x', x);
+			resultMediaFrameProperties.position.should.have.property('y', y);
 		});
 
-		it('Should return the original frame not adding the x and y properties if path was passed without the getPositionFor function.', function(){
-			var specifiedFrameNumber = 42,
+		it('Should return the original tick not adding the x and y properties if path was passed without the getPositionFor function.', function(){
+			var tick = 42,
 				mediaFrameProperties = {},
-				specifiedPath = {},
-				effect = new MoveEffect({ path: specifiedPath }),
-				resultMediaFrameProperties = effect.getPropertiesForFrame(specifiedFrameNumber, mediaFrameProperties);
+				path = {},
+				effect = new MoveEffect({ 'path' : path }),
+				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
 
 			should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
 			resultMediaFrameProperties.should.not.have.property('position');
 			resultMediaFrameProperties.should.not.have.properties('x', 'y');
 		});
 
-		it('Should return the original frame not updating the x and y properties if path was passed without the getPositionFor function.', function(){
-			var specifiedFrameNumber = 42,
-				specifiedX = 24,
-				specifiedY = 32,
-				mediaFrameProperties = { position : { x:specifiedX, y:specifiedY } },
-				specifiedPath = {},
-				effect = new MoveEffect({ path: specifiedPath }),
-				resultMediaFrameProperties = effect.getPropertiesForFrame(specifiedFrameNumber, mediaFrameProperties);
+		it('Should return the original tick not updating the x and y properties if path was passed without the getPositionFor function.', function(){
+			var tick = 42,
+				x = 24,
+				y = 32,
+				mediaFrameProperties = { 'position' : { 'x' : x, 'y' : y } },
+				path = {},
+				effect = new MoveEffect({ 'path' : path }),
+				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
 
 			resultMediaFrameProperties.should.have.property('position');
-			resultMediaFrameProperties.position.should.have.property('x', specifiedX);
-			resultMediaFrameProperties.position.should.have.property('y', specifiedY);
+			resultMediaFrameProperties.position.should.have.property('x', x);
+			resultMediaFrameProperties.position.should.have.property('y', y);
 		});
 
-		it('Should return the original frame with the new values.', function(){
-			var specifiedFrameNumber = 42,
-				specifiedX = 24,
-				specifiedY = 32,
-				mediaFrameProperties = { position : { x:specifiedX, y:specifiedY } },
-				resultX = specifiedX * 2,
-				resultY = specifiedY * 2,
-				specifiedPath = { getPositionFor: function(startFrameNumber, endFrameNumber, currentFrame) { return { x:resultX, y:resultY }; } },
-				effect = new MoveEffect({ path: specifiedPath }),
-				resultMediaFrameProperties = effect.getPropertiesForFrame(specifiedFrameNumber, mediaFrameProperties);
+		it('Should return the original tick with the new values.', function(){
+			var tick = 42,
+				x = 24,
+				y = 32,
+				mediaFrameProperties = { 'position' : { 'x' : x, 'y' : y } },
+				resultX = x * 2,
+				resultY = y * 2,
+				path = { getPositionFor: function(startTick, endTick, currentTick) { return { 'x' : resultX, 'y' : resultY }; } },
+				effect = new MoveEffect({ 'path' : path }),
+				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
 
 			should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
 
@@ -119,36 +115,36 @@ describe('MoveEffect', function(){
 			resultMediaFrameProperties.position.should.have.property('y', resultY);
 		});
 
-		it('Should retrive a copy of the original frame with no changes if the frame is before the initialFrame', function(){
-			var specifiedFrameNumber = 42,
-				specifiedStartFrameNumber = 100,
-				specifiedX = 24,
-				specifiedY = 32,
-				mediaFrameProperties = { position : { x:specifiedX, y:specifiedY } },
-				resultX = specifiedX * 2,
-				resultY = specifiedY * 2,
-				specifiedPath = { getPositionFor: function(startFrameNumber, endFrameNumber, currentFrame) { return { x:resultX, y:resultY }; } },
-				effect = new MoveEffect({ startFrameNumber : specifiedStartFrameNumber, path: specifiedPath }),
-				resultMediaFrameProperties = effect.getPropertiesForFrame(specifiedFrameNumber, mediaFrameProperties);
+		it('Should retrive a copy of the original tick with no changes if the tick is before the startTick', function(){
+			var tick = 42,
+				startTick = 100,
+				x = 24,
+				y = 32,
+				mediaFrameProperties = { 'position' : { 'x' : x, 'y' : y } },
+				resultX = x * 2,
+				resultY = y * 2,
+				path = { getPositionFor: function(startTick, endTick, currentTick) { return { 'x' : resultX, 'y' : resultY }; } },
+				effect = new MoveEffect({ 'startTick' : startTick, 'path' : path }),
+				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
 
 			should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
 
 			resultMediaFrameProperties.should.have.property('position');
-			resultMediaFrameProperties.position.should.have.property('x', specifiedX);
-			resultMediaFrameProperties.position.should.have.property('y', specifiedY);
+			resultMediaFrameProperties.position.should.have.property('x', x);
+			resultMediaFrameProperties.position.should.have.property('y', y);
 		});
 
-		it('Should retrive a copy of the end frame with no extra changes if the frame is after the endFrameNumber', function(){
-			var specifiedFrameNumber = 42,
-				specifiedEndFrameNumber = 40,
-				specifiedX = 24,
-				specifiedY = 32,
-				resultX = specifiedX * specifiedEndFrameNumber,
-				resultY = specifiedY * specifiedEndFrameNumber,
-				mediaFrameProperties = { position : { x:specifiedX, y:specifiedY } },
-				specifiedPath = { getPositionFor: function(startFrameNumber, endFrameNumber, currentFrame) { return { x:(specifiedX*currentFrame), y:(specifiedY*currentFrame) }; } },
-				effect = new MoveEffect({ endFrameNumber : specifiedEndFrameNumber, path: specifiedPath }),
-				resultMediaFrameProperties = effect.getPropertiesForFrame(specifiedFrameNumber, mediaFrameProperties);
+		it('Should retrive a copy of the end tick with no extra changes if the tick is after the endTick', function(){
+			var tick = 42,
+				endTick = 40,
+				x = 24,
+				y = 32,
+				resultX = x * endTick,
+				resultY = y * endTick,
+				mediaFrameProperties = { position : { 'x' : x, 'y' : y } },
+				path = { getPositionFor: function(startTick, endTick, currentTick) { return { x:(x*currentTick), y:(y*currentTick) }; } },
+				effect = new MoveEffect({ 'endTick' : endTick, 'path' : path }),
+				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
 
 			should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
 			resultMediaFrameProperties.should.have.property('position');
@@ -156,7 +152,7 @@ describe('MoveEffect', function(){
 			resultMediaFrameProperties.position.should.have.property('y', resultY);
 		});
 
-		it('Should retrive a copy of the original frame with no changes if the frame is before the initialFrame (with endFrame -1)');
-		it('Should use always the current frame when the end frame is -1');
+		it('Should retrive a copy of the original tick with no changes if the tick is before the startTick (with endTick -1)');
+		it('Should use always the current tick when the end tick is -1');
 	});
 });

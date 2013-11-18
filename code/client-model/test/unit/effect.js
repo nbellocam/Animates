@@ -16,68 +16,65 @@ describe('Effect', function(){
 		});
 	});
 
-	describe('startFrame', function(){
+	describe('startTick', function(){
 		it('Should start at 0 if it not specified otherwise.', function(){
-			var effect = new Effect(),
-				startFrameNumber = effect.startFrameNumber;
+			var effect = new Effect();
 
-			startFrameNumber.should.be.exactly(0);
+			effect.startTick.should.be.exactly(0);
 		});
 
 		it('Should start at the value specified using the constructor.', function(){
-			var specifiedInitialFrameNumber = 42,
-				effect = new Effect({ startFrameNumber : specifiedInitialFrameNumber }),
-				startFrameNumber = effect.startFrameNumber;
+			var startTick = 42,
+				effect = new Effect({ 'startTick' : startTick });
 
-			startFrameNumber.should.be.exactly(specifiedInitialFrameNumber);
+			effect.startTick.should.be.exactly(startTick);
 		});
 	});
 
-	describe('endFrame', function(){
+	describe('endTick', function(){
 		it('Should end at -1 if it not specified otherwise.', function(){
 			var effect = new Effect(),
-				endFrameNumber = effect.endFrameNumber;
+				endTick = effect.endTick;
 
-			endFrameNumber.should.be.exactly(-1);
+			endTick.should.be.exactly(-1);
 		});
 
 		it('Should end at the value specified using the constructor.', function(){
-			var specifiedEndFrameNumber = 42,
-				effect = new Effect({ endFrameNumber : specifiedEndFrameNumber }),
-				endFrameNumber = effect.endFrameNumber;
+			var endTick = 42,
+				effect = new Effect({ 'endTick' : endTick });
 
-			endFrameNumber.should.be.exactly(specifiedEndFrameNumber);
+			effect.endTick.should.be.exactly(endTick);
 		});
 	});
 
-	describe('getPropertiesForFrame()', function(){
+	describe('getPropertiesF()', function(){
 		it('Should return the original frame.', function(){
-			var specifiedFrame = 42,
+			var tick = 42,
 				mediaFrame = {},
 				effect = new Effect(),
-				endShapeFrame = effect.getPropertiesForFrame(specifiedFrame, mediaFrame);
+				mediaFrameProperties = effect.getProperties(tick, mediaFrame);
 
-			should.strictEqual(endShapeFrame, mediaFrame);
+			should.strictEqual(mediaFrameProperties, mediaFrame);
 		});
 
 		it('Should return the original frame even with the frame after the end frame.', function(){
-			var specifiedEndFrameNumber = 42,
-				specifiedFrameNumber = 100,
+			var endTick = 42,
+				tick = 100,
 				mediaFrame = {},
-				effect = new Effect({ endFrameNumber : specifiedEndFrameNumber }),
-				endShapeFrame = effect.getPropertiesForFrame(specifiedFrameNumber, mediaFrame);
+				effect = new Effect({ 'endTick' : endTick }),
+				mediaFrameProperties = effect.getProperties(tick, mediaFrame);
 
-			should.strictEqual(endShapeFrame, mediaFrame);
+			should.strictEqual(mediaFrameProperties, mediaFrame);
 		});
 
 		it('Should return the original frame specially with the frame before the start frame.', function(){
-			var specifiedInitialFrameNumber = 100,
-				specifiedFrameNumber = 42,
+			var startTick = 100,
+				tick = 42,
 				mediaFrame = {},
-				effect = new Effect({ startFrameNumber : specifiedInitialFrameNumber }),
-				endShapeFrame = effect.getPropertiesForFrame(specifiedFrameNumber, mediaFrame);
+				effect = new Effect({ 'startTick' : startTick }),
+				mediaFrameProperties = effect.getProperties(tick, mediaFrame);
 
-			should.strictEqual(endShapeFrame, mediaFrame);
+			should.strictEqual(mediaFrameProperties, mediaFrame);
 		});
 	});
 });

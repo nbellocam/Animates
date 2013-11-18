@@ -12,17 +12,17 @@ function Effect (options) {
 	var _self = this,
 		guid = ''; // Save the this reference for later use
 
-	this.startFrameNumber = options.startFrameNumber || 0;
+	this.startTick = options.startTick || 0;
 
-	this.endFrameNumber = options.endFrameNumber || -1;
+	this.endTick = options.endTick || -1;
 
 	/**
-	 * Calculates the new shape properties based on the original ones and the actual frame.
-	 * @param {integer} frame The actual frame.
+	 * Calculates the new shape properties based on the original ones and the current tick.
+	 * @param {integer} tick The current tick number.
 	 * @param {object} originalProperties The original properties.
 	 */
-	this.getPropertiesForFrame = function (frame, beginShapeFrame) {
-		return beginShapeFrame;
+	this.getProperties = function (tick, mediaFrameProperties) {
+		return mediaFrameProperties;
 	};
 
 	/**

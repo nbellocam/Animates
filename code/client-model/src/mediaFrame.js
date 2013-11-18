@@ -8,12 +8,12 @@ var Common = require('animates-common'),
  *  @class Represents the specific frame of a media object. 
  *  @param {object} options the constructor options.
  *  @param {MediaObject} options.mediaObject the frame mediaObject reference.
- *  @param {integer} options.currentFrameNumber the current frame number which is represented by the instance.
+ *  @param {integer} options.currentTick the current tick number which is represented by the instance.
  */
 function MediaFrame (options) {
 	var _self = this,
 		defaultOptions = {
-			currentFrameNumber : -1,
+			currentTick : -1,
 			mediaObject : null
 		},
 		currentOptions,
