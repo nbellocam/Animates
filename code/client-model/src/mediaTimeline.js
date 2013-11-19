@@ -11,18 +11,18 @@ function MediaTimeline (options) {
 
 	var _self = this, // Save the this reference for later use
 		mediaObject = options.mediaObject,
-		startFrameNumber = options.startFrameNumber || 0,
-		endFrameNumber = options.endFrameNumber || -1,
+		startTick = options.startTick || 0,
+		endTick = options.endTick || -1,
 		effects = {};
 
 
 	/**
-	 * Calculates the media object based on the original properties and the current frame.
-	 * @param {integer} currentFrameNumber The current frame.
+	 * Calculates the media object based on the original properties and the current tick.
+	 * @param {integer} currentTick The current tick.
 	 */
-	this.getMediaFrameFor = function getMediaFrameFor(currentFrameNumber) {
-		if (startFrameNumber <= currentFrameNumber){
-			var mediaObjectFrame = new MediaFrame({ mediaObject: mediaObject, currentFrameNumber: currentFrameNumber }),
+	this.getMediaFrameFor = function getMediaFrameFor(currentTick) {
+		if (startTick <= currentTick){
+			var mediaObjectFrame = new MediaFrame({ 'mediaObject' : mediaObject, 'currentTick' : currentTick }),
 				effectsArray = [],
 				currentEffect;
 
@@ -33,19 +33,19 @@ function MediaTimeline (options) {
 			}
 
 			effectsArray.sort(function(a,b){
-				return a.endFrameNumber - b.endFrameNumber;
+				return a.endTick - b.endTick;
 			});
 			
 			for (var i = effectsArray.length - 1; i >= 0; i--) {
 				currentEffect = effectsArray[i];
-				if (currentFrameNumber > currentEffect.startFrameNumber){
+				if (currentTick > currentEffect.startTick){
 
-					if (currentEffect.endFrameNumber === -1 ){
-						mediaObjectFrame.properties(currentEffect.getPropertiesForFrame(currentFrameNumber, mediaObjectFrame.properties()));
+					if (currentEffect.endTick === -1 ){
+						mediaObjectFrame.properties(currentEffect.getProperties(currentTick, mediaObjectFrame.properties()));
 					} else {
 						mediaObjectFrame.properties(
-							currentEffect.getPropertiesForFrame(
-								(currentFrameNumber < currentEffect.endFrameNumber) ? currentFrameNumber : currentEffect.endFrameNumber,
+							currentEffect.getProperties(
+								(currentTick < currentEffect.endTick) ? currentTick : currentEffect.endTick,
 								mediaObjectFrame.properties()
 							)
 						);
@@ -67,48 +67,47 @@ function MediaTimeline (options) {
 	};
 
 	/**
-	 * Get the start frame
-	 * @return {integer} The number of the start frame.
+	 * Get the start tick
+	 * @return {integer} The number of the start tick.
 	 */
-	this.getStartFrameNumber = function getStartFrameNumber() {
-		return startFrameNumber;
+	this.getStartTick = function getStartTick() {
+		return startTick;
 	};
 
 	/**
-	 * Set the start frame for this media object
-	 * @param {integer} newStartFrame The start frame for this media object.
+	 * Set the start tick for this media object
+	 * @param {integer} tick The start tick for this media object.
 	 */
-	this.setStartFrameNumber = function setStartFrameNumber(newStartFrameNumber) {
-		startFrameNumber = newStartFrameNumber;
+	this.setStartTick = function setStartTick(tick) {
+		startTick = tick;
 	};
 
 	/**
-	 * Calculates the end frame based on the effects and the configured end frame.
-	 * @return {integer} The number of the end frame.
+	 * Calculates the end tick based on the effects and the configured end tick.
+	 * @return {integer} The number of the end tick.
 	 */
-	this.getEndFrameNumber = function getEndFrameNumber() {
-		var currentEndFrameNumber = endFrameNumber,
-		i,
-		effectEndFrameNumber;
+	this.getEndTick = function getEndTick() {
+		var currentEndTick = endTick,
+			effectEndTick;
 
 		for (var id in effects) {
 			if (effects.hasOwnProperty(id)) {
-				effectEndFrameNumber = effects[id].endFrameNumber;
-				if (effectEndFrameNumber > currentEndFrameNumber){
-					currentEndFrameNumber = effectEndFrameNumber;
+				effectEndTick = effects[id].endTick;
+				if (effectEndTick > currentEndTick){
+					currentEndTick = effectEndTick;
 				}
 			}
 		}
 
-		return currentEndFrameNumber;
+		return currentEndTick;
 	};
 
 	/**
-	 * Set the end frame for this media object
-	 * @param {integer} newEndFrame The end frame for this media object.
+	 * Set the end tick for this media object
+	 * @param {integer} tick The end tick for this media object.
 	 */
-	this.setEndFrameNumber = function setEndFrameNumber(newEndFrameNumber) {
-		endFrameNumber = newEndFrameNumber;
+	this.setEndTick = function setEndTick(tick) {
+		endTick = tick;
 	};
 
 	/**

@@ -18,7 +18,7 @@ describe('MediaTimeline', function(){
 			var mediaTimeline = new MediaTimeline(),
 				effects,
 				effectId = 'myId',
-				effect = { property: "value" , getGuid : function () { return effectId; } };
+				effect = { property: "value" , 'getGuid' : function () { return effectId; } };
 
 			mediaTimeline.addEffect(effect);
 			effects = mediaTimeline.getEffects();
@@ -42,7 +42,7 @@ describe('MediaTimeline', function(){
 			var mediaTimeline = new MediaTimeline(),
 				effects,
 				effectId = 'myId',
-				effect = { property: "value" , getGuid : function () { return effectId; } };
+				effect = { 'property': "value" , 'getGuid' : function () { return effectId; } };
 
 			mediaTimeline.addEffect(effect);
 			mediaTimeline.removeEffect(effectId);
@@ -76,480 +76,459 @@ describe('MediaTimeline', function(){
 	describe('getMediaObjectId()', function(){
 		it('Should return the media object id', function(){
 			var specifiedMediaObjectId = '42',
-				specifiedMediaObject = { getGuid : function () { return specifiedMediaObjectId; } },
-				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				specifiedMediaObject = { 'getGuid' : function () { return specifiedMediaObjectId; } },
+				mediaTimeline = new MediaTimeline( { 'mediaObject' : specifiedMediaObject } ),
 				mediaObjectId = mediaTimeline.getMediaObjectId();
 
 			mediaObjectId.should.be.exactly(specifiedMediaObjectId);
 		});
 	});
 
-	describe('*startFrameNumber', function(){
+	describe('*startTick', function(){
 		it('Should start at 0 if it not specified otherwise.', function(){
 			var mediaTimeline = new MediaTimeline(),
-				startFrameNumber = mediaTimeline.getStartFrameNumber();
+				startTick = mediaTimeline.getStartTick();
 
-			startFrameNumber.should.be.exactly(0);
+			startTick.should.be.exactly(0);
 		});
 
 		it('Should start at the value specified using the constructor.', function(){
-			var specifiedStartFrameNumber = 42,
-				mediaTimeline = new MediaTimeline({ startFrameNumber : specifiedStartFrameNumber }),
-				startFrameNumber = mediaTimeline.getStartFrameNumber();
+			var startTick = 42,
+				mediaTimeline = new MediaTimeline({ 'startTick' : startTick });
 
-			startFrameNumber.should.be.exactly(specifiedStartFrameNumber);
+			mediaTimeline.getStartTick().should.be.exactly(startTick);
 		});
 
 		it('Should start at the value specified using the set method.', function(){
-			var specifiedStartFrameNumber = 42,
-				mediaTimeline = new MediaTimeline(),
-				startFrameNumber;
+			var startTick = 42,
+				mediaTimeline = new MediaTimeline();
 
-			mediaTimeline.setStartFrameNumber(specifiedStartFrameNumber);
-			startFrameNumber = mediaTimeline.getStartFrameNumber();
-
-			startFrameNumber.should.be.exactly(specifiedStartFrameNumber);
+			mediaTimeline.setStartTick(startTick);
+			mediaTimeline.getStartTick().should.be.exactly(startTick);
 		});
 	});
 
-	describe('*endFrameNumber', function(){
+	describe('*endTick', function(){
 		it('Should end at -1 if it not specified otherwise (without effects).', function(){
-			var mediaTimeline = new MediaTimeline(),
-				endFrameNumber = mediaTimeline.getEndFrameNumber();
+			var mediaTimeline = new MediaTimeline();
 
-			endFrameNumber.should.be.exactly(-1);
+			mediaTimeline.getEndTick().should.be.exactly(-1);
 		});
 
 		it('Should end at the value specified using the constructor (without effects).', function(){
-			var specifiedEndFrameNumber = 42,
-				mediaTimeline = new MediaTimeline({ endFrameNumber : specifiedEndFrameNumber }),
-				endFrameNumber = mediaTimeline.getEndFrameNumber();
+			var endTick = 42,
+				mediaTimeline = new MediaTimeline({ 'endTick' : endTick });
 
-			endFrameNumber.should.be.exactly(specifiedEndFrameNumber);
+			mediaTimeline.getEndTick().should.be.exactly(endTick);
 		});
 
 		it('Should end at the value specified using the set method (without effects).', function(){
-			var specifiedEndFrameNumber = 42,
-				mediaTimeline = new MediaTimeline(),
-				endFrameNumber;
+			var endTick = 42,
+				mediaTimeline = new MediaTimeline();
 
-			mediaTimeline.setEndFrameNumber(specifiedEndFrameNumber);
-			endFrameNumber = mediaTimeline.getEndFrameNumber();
+			mediaTimeline.setEndTick(endTick);
 
-			endFrameNumber.should.be.exactly(specifiedEndFrameNumber);
+			mediaTimeline.getEndTick().should.be.exactly(endTick);
 		});
 
 		it('Should end at -1 if it not specified otherwise (with effects that ends in -1).', function(){
 			var mediaTimeline = new MediaTimeline(),
-				endFrameNumber,
 				effectId = 'myId',
-				effectEndFrameNumber = -1,
-				effect = { endFrameNumber : effectEndFrameNumber, getGuid : function () { return effectId; } };
+				effectEndTick = -1,
+				effect = { 'endTick' : effectEndTick, 'getGuid' : function () { return effectId; } };
 
 			mediaTimeline.addEffect(effect);
-			endFrameNumber = mediaTimeline.getEndFrameNumber();
 
-			endFrameNumber.should.be.exactly(-1);
+			mediaTimeline.getEndTick().should.be.exactly(-1);
 		});
 
 		it('Should end at the value specified using the constructor (with effects that ends in -1).', function(){
-			var specifiedEndFrameNumber = 42,
-				mediaTimeline = new MediaTimeline({ endFrameNumber : specifiedEndFrameNumber }),
-				endFrameNumber,
+			var endTick = 42,
+				mediaTimeline = new MediaTimeline({ 'endTick' : endTick }),
 				effectId = 'myId',
-				effectEndFrameNumber = -1,
-				effect = { endFrameNumber : effectEndFrameNumber, getGuid : function () { return effectId; } };
+				effectEndTick = -1,
+				effect = { 'endTick' : effectEndTick, 'getGuid' : function () { return effectId; } };
 
 			mediaTimeline.addEffect(effect);
-			endFrameNumber = mediaTimeline.getEndFrameNumber();
 
-			endFrameNumber.should.be.exactly(specifiedEndFrameNumber);
+			mediaTimeline.getEndTick().should.be.exactly(endTick);
 		});
 
 		it('Should end at the value specified using the set method (with effects that ends in -1).', function(){
-			var specifiedEndFrameNumber = 42,
+			var endTick = 42,
 				mediaTimeline = new MediaTimeline(),
-				endFrameNumber,
 				effectId = 'myId',
-				effectEndFrameNumber = -1,
-				effect = { endFrameNumber : effectEndFrameNumber, getGuid : function () { return effectId; } };
+				effectEndTick = -1,
+				effect = { 'endTick' : effectEndTick, 'getGuid' : function () { return effectId; } };
 
 
-			mediaTimeline.setEndFrameNumber(specifiedEndFrameNumber);
+			mediaTimeline.setEndTick(endTick);
 			mediaTimeline.addEffect(effect);
 
-			endFrameNumber = mediaTimeline.getEndFrameNumber();
-
-			endFrameNumber.should.be.exactly(specifiedEndFrameNumber);
+			mediaTimeline.getEndTick().should.be.exactly(endTick);
 		});
 
 		it('Should end at the value specified (with effects that ends before).', function(){
-			var specifiedEndFrameNumber = 42,
-				mediaTimeline = new MediaTimeline({ endFrameNumber : specifiedEndFrameNumber }),
-				endFrameNumber,
+			var endTick = 42,
+				mediaTimeline = new MediaTimeline({ 'endTick' : endTick }),
 				effectId = 'myId',
-				effectEndFrameNumber = 30,
-				effect = { endFrameNumber : effectEndFrameNumber, getGuid : function () { return effectId; } };
+				effectEndTick = 30,
+				effect = { 'endTick' : effectEndTick, 'getGuid' : function () { return effectId; } };
 
 
 			mediaTimeline.addEffect(effect);
 
-			endFrameNumber = mediaTimeline.getEndFrameNumber();
-
-			endFrameNumber.should.be.exactly(specifiedEndFrameNumber);
+			mediaTimeline.getEndTick().should.be.exactly(endTick);
 		});
 
 		it('Should end at the value of the effect (with effects that ends after).', function(){
-			var specifiedEndFrameNumber = 42,
-				effectEndFrameNumber = 84,
-				mediaTimeline = new MediaTimeline({ endFrameNumber : specifiedEndFrameNumber }),
-				endFrameNumber,
+			var endTick = 42,
+				effectEndTick = 84,
+				mediaTimeline = new MediaTimeline({ 'endTick' : endTick }),
 				effectId = 'myId',
-				effect = { endFrameNumber : effectEndFrameNumber, getGuid : function () { return effectId; } };
+				effect = { 'endTick' : effectEndTick, 'getGuid' : function () { return effectId; } };
 
 
 			mediaTimeline.addEffect(effect);
 
-			endFrameNumber = mediaTimeline.getEndFrameNumber();
-
-			endFrameNumber.should.be.exactly(effectEndFrameNumber);
+			mediaTimeline.getEndTick().should.be.exactly(effectEndTick);
 		});
 	});
 
 	describe('getMediaFrameFor()', function(){
 		it('Should return a new mediaFrame when no effects are present.', function(){
-			var currentFrameNumber = 42,
+			var currentTick = 42,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
 				specifiedMediaObject = { 
-					getGuid : function () { return specifiedMediaObjectId; },
-					getProperties : function () { return defaultProperties; }
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
-				mediaFrame = mediaTimeline.getMediaFrameFor(currentFrameNumber);
+				mediaFrame = mediaTimeline.getMediaFrameFor(currentTick);
 
 			mediaFrame.should.exists;
 			mediaFrame.properties().should.have.property('x', 0);
 		});
 
 		it('Should not retrive a MediaFrame if the frame is before the initialFrame.', function(){
-			var currentFrameNumber = 42,
-				specifiedStartFrameNumber = 100,
+			var currentTick = 42,
+				startTick = 100,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
 				specifiedMediaObject = { 
-					getGuid : function () { return specifiedMediaObjectId; },
-					getProperties : function () { return defaultProperties; }
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
 				},
-				mediaTimeline = new MediaTimeline( { startFrameNumber: specifiedStartFrameNumber, mediaObject: specifiedMediaObject } ),
-				mediaFrame = mediaTimeline.getMediaFrameFor(currentFrameNumber);
+				mediaTimeline = new MediaTimeline( { startTick: startTick, mediaObject: specifiedMediaObject } ),
+				mediaFrame = mediaTimeline.getMediaFrameFor(currentTick);
 
 			should.not.exists(mediaFrame);
 		});
 
 		it('Should return a new mediaFrame when effects are present but start before the current frame.', function(){
-			var currentFrameNumber = 1,
+			var currentTick = 1,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
 				specifiedMediaObject = { 
-					getGuid : function () { return specifiedMediaObjectId; },
-					getProperties : function () { return defaultProperties; }
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
 				mediaFrame,
-				effectStartFrameNumber = 2,
-				effectEndFrameNumber = 5,
+				effectStartTick = 2,
+				effectEndTick = 5,
 				effectId = 'myId',
-				getPropertiesForFrameFunction = function (frameNumber, beginMediaFrameProperties) {
-					beginMediaFrameProperties.x += (frameNumber - 1);
-					return beginMediaFrameProperties;
+				getPropertiesFunction = function (tick, mediaFrameProperties) {
+					mediaFrameProperties.x += (tick - 1);
+					return mediaFrameProperties;
 				},
 				effect = {
-					startFrameNumber : effectStartFrameNumber,
-					endFrameNumber : effectEndFrameNumber,
-					getGuid : function () { return effectId; },
-					getPropertiesForFrame : getPropertiesForFrameFunction
+					'startTick' : effectStartTick,
+					'endTick' : effectEndTick,
+					'getGuid' : function () { return effectId; },
+					'getProperties' : getPropertiesFunction
 				};
 
 
 			mediaTimeline.addEffect(effect);
 
-			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrameNumber);
+			mediaFrame = mediaTimeline.getMediaFrameFor(currentTick);
 
 			mediaFrame.should.exists;
 			mediaFrame.properties().should.have.property('x', 0);
 		});
 
 		it('Should update the properties of a MediaFrame, based on the frame number as an effects specified.', function(){
-			var currentFrameNumber = 3,
+			var currentTick = 3,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
 				specifiedMediaObject = { 
-					getGuid : function () { return specifiedMediaObjectId; },
-					getProperties : function () { return defaultProperties; }
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
 				mediaFrame,
-				effectStartFrameNumber = 2,
-				effectEndFrameNumber = 5,
+				effectStartTick = 2,
+				effectEndTick = 5,
 				effectId = 'myId',
-				getPropertiesForFrameFunction = function (frameNumber, beginMediaFrameProperties) {
-					beginMediaFrameProperties.x += (frameNumber - 1);
-					return beginMediaFrameProperties;
+				getPropertiesFunction = function (tick, mediaFrameProperties) {
+					mediaFrameProperties.x += (tick - 1);
+					return mediaFrameProperties;
 				},
 				effect = {
-					startFrameNumber : effectStartFrameNumber,
-					endFrameNumber : effectEndFrameNumber,
-					getGuid : function () { return effectId; },
-					getPropertiesForFrame : getPropertiesForFrameFunction
+					'startTick' : effectStartTick,
+					'endTick' : effectEndTick,
+					'getGuid' : function () { return effectId; },
+					'getProperties' : getPropertiesFunction
 				};
 
 
 			mediaTimeline.addEffect(effect);
 
-			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrameNumber);
+			mediaFrame = mediaTimeline.getMediaFrameFor(currentTick);
 
 			mediaFrame.should.exists;
 			mediaFrame.properties().should.have.property('x', 2);
 		});
 
-		it('Should retrive the end MediaFrame with no extra changes if the frame is after the endFrameNumber.', function(){
-			var currentFrameNumber = 42,
+		it('Should retrive the end MediaFrame with no extra changes if the frame is after the endTick.', function(){
+			var currentTick = 42,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
 				specifiedMediaObject = { 
-					getGuid : function () { return specifiedMediaObjectId; },
-					getProperties : function () { return defaultProperties; }
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
 				mediaFrame,
-				effectStartFrameNumber = 2,
-				effectEndFrameNumber = 5,
+				effectStartTick = 2,
+				effectEndTick = 5,
 				effectId = 'myId',
-				getPropertiesForFrameFunction = function (frameNumber, beginMediaFrameProperties) {
-					beginMediaFrameProperties.x += (frameNumber - 1);
-					return beginMediaFrameProperties;
+				getPropertiesFunction = function (tick, mediaFrameProperties) {
+					mediaFrameProperties.x += (tick - 1);
+					return mediaFrameProperties;
 				},
 				effect = {
-					startFrameNumber : effectStartFrameNumber,
-					endFrameNumber : effectEndFrameNumber,
-					getGuid : function () { return effectId; },
-					getPropertiesForFrame : getPropertiesForFrameFunction
+					'startTick' : effectStartTick,
+					'endTick' : effectEndTick,
+					'getGuid' : function () { return effectId; },
+					'getProperties' : getPropertiesFunction
 				};
 
 
 			mediaTimeline.addEffect(effect);
 
-			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrameNumber);
+			mediaFrame = mediaTimeline.getMediaFrameFor(currentTick);
 
 			mediaFrame.should.exists;
 			mediaFrame.properties().should.have.property('x', 4);
 		});
 
 		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends first, only one effect).', function(){
-			var currentFrameNumber = 3,
+			var currentTick = 3,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
 				specifiedMediaObject = { 
-					getGuid : function () { return specifiedMediaObjectId; },
-					getProperties : function () { return defaultProperties; }
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
 				mediaFrame,
-				getPropertiesForFrameFunction = function (frameNumber, beginMediaFrameProperties) {
-					beginMediaFrameProperties.x += (frameNumber - 1);
-					return beginMediaFrameProperties;
+				getPropertiesFunction = function (tick, mediaFrameProperties) {
+					mediaFrameProperties.x += (tick - 1);
+					return mediaFrameProperties;
 				},
-				effectStartFrameNumber1 = 2,
-				effectEndFrameNumber1 = 5,
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
 				effectId1 = 'myId1',
 				effect1 = {
-					startFrameNumber : effectStartFrameNumber1,
-					endFrameNumber : effectEndFrameNumber1,
-					getGuid : function () { return effectId1; },
-					getPropertiesForFrame : getPropertiesForFrameFunction
+					'startTick' : effectStartTick1,
+					'endTick' : effectEndTick1,
+					'getGuid' : function () { return effectId1; },
+					'getProperties' : getPropertiesFunction
 				},
-				effectStartFrameNumber2 = 6,
-				effectEndFrameNumber2 = 10,
+				effectStartTick2 = 6,
+				effectEndTick2 = 10,
 				effectId2 = 'myId2',
 				effect2 = {
-					startFrameNumber : effectStartFrameNumber2,
-					endFrameNumber : effectEndFrameNumber2,
-					getGuid : function () { return effectId2; },
-					getPropertiesForFrame : getPropertiesForFrameFunction
+					'startTick' : effectStartTick2,
+					'endTick' : effectEndTick2,
+					'getGuid' : function () { return effectId2; },
+					'getProperties' : getPropertiesFunction
 				};
 
 
 			mediaTimeline.addEffect(effect1);
 			mediaTimeline.addEffect(effect2);
 
-			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrameNumber);
+			mediaFrame = mediaTimeline.getMediaFrameFor(currentTick);
 
 			mediaFrame.should.exists;
 			mediaFrame.properties().should.have.property('x', 2);
 		});
 
 		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends last, only one effect).', function(){
-			var currentFrameNumber = 3,
+			var currentTick = 3,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
 				specifiedMediaObject = { 
-					getGuid : function () { return specifiedMediaObjectId; },
-					getProperties : function () { return defaultProperties; }
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
 				mediaFrame,
-				getPropertiesForFrameFunction = function (frameNumber, beginMediaFrameProperties) {
-					beginMediaFrameProperties.x += (frameNumber - 1);
-					return beginMediaFrameProperties;
+				getPropertiesFunction = function (tick, mediaFrameProperties) {
+					mediaFrameProperties.x += (tick - 1);
+					return mediaFrameProperties;
 				},
-				effectStartFrameNumber1 = 2,
-				effectEndFrameNumber1 = 5,
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
 				effectId1 = 'myId2',
 				effect1 = {
-					startFrameNumber : effectStartFrameNumber1,
-					endFrameNumber : effectEndFrameNumber1,
-					getGuid : function () { return effectId1; },
-					getPropertiesForFrame : getPropertiesForFrameFunction
+					'startTick' : effectStartTick1,
+					'endTick' : effectEndTick1,
+					'getGuid' : function () { return effectId1; },
+					'getProperties' : getPropertiesFunction
 				},
-				effectStartFrameNumber2 = 6,
-				effectEndFrameNumber2 = 10,
+				effectStartTick2 = 6,
+				effectEndTick2 = 10,
 				effectId2 = 'myId1',
 				effect2 = {
-					startFrameNumber : effectStartFrameNumber2,
-					endFrameNumber : effectEndFrameNumber2,
-					getGuid : function () { return effectId2; },
-					getPropertiesForFrame : getPropertiesForFrameFunction
+					'startTick' : effectStartTick2,
+					'endTick' : effectEndTick2,
+					'getGuid' : function () { return effectId2; },
+					'getProperties' : getPropertiesFunction
 				};
 
 
 			mediaTimeline.addEffect(effect2);
 			mediaTimeline.addEffect(effect1);
 
-			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrameNumber);
+			mediaFrame = mediaTimeline.getMediaFrameFor(currentTick);
 
 			mediaFrame.should.exists;
 			mediaFrame.properties().should.have.property('x', 2);
 		});
 
 		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends first).', function(){
-			var currentFrameNumber = 8,
+			var currentTick = 8,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
 				specifiedMediaObject = { 
-					getGuid : function () { return specifiedMediaObjectId; },
-					getProperties : function () { return defaultProperties; }
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
 				mediaFrame,
-				getPropertiesForFrameFunction = function (frameNumber, beginMediaFrameProperties) {
-					beginMediaFrameProperties.x += (frameNumber - 1);
-					return beginMediaFrameProperties;
+				getPropertiesFunction = function (tick, mediaFrameProperties) {
+					mediaFrameProperties.x += (tick - 1);
+					return mediaFrameProperties;
 				},
-				effectStartFrameNumber1 = 2,
-				effectEndFrameNumber1 = 5,
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
 				effectId1 = 'myId1',
 				effect1 = {
-					startFrameNumber : effectStartFrameNumber1,
-					endFrameNumber : effectEndFrameNumber1,
-					getGuid : function () { return effectId1; },
-					getPropertiesForFrame : getPropertiesForFrameFunction
+					'startTick' : effectStartTick1,
+					'endTick' : effectEndTick1,
+					'getGuid' : function () { return effectId1; },
+					'getProperties' : getPropertiesFunction
 				},
-				effectStartFrameNumber2 = 6,
-				effectEndFrameNumber2 = 10,
+				effectStartTick2 = 6,
+				effectEndTick2 = 10,
 				effectId2 = 'myId2',
 				effect2 = {
-					startFrameNumber : effectStartFrameNumber2,
-					endFrameNumber : effectEndFrameNumber2,
-					getGuid : function () { return effectId2; },
-					getPropertiesForFrame : getPropertiesForFrameFunction
+					'startTick' : effectStartTick2,
+					'endTick' : effectEndTick2,
+					'getGuid' : function () { return effectId2; },
+					'getProperties' : getPropertiesFunction
 				};
 
 
 			mediaTimeline.addEffect(effect1);
 			mediaTimeline.addEffect(effect2);
 
-			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrameNumber);
+			mediaFrame = mediaTimeline.getMediaFrameFor(currentTick);
 
 			mediaFrame.should.exists;
 			mediaFrame.properties().should.have.property('x', 11);
 		});
 
 		it('Should update the properties of a MediaFrame, based on the frame number as two continuos effects specified. (first the one that ends last).', function(){
-			var currentFrameNumber = 8,
+			var currentTick = 8,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
 				specifiedMediaObject = { 
-					getGuid : function () { return specifiedMediaObjectId; },
-					getProperties : function () { return defaultProperties; }
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
 				mediaFrame,
-				getPropertiesForFrameFunction = function (frameNumber, beginMediaFrameProperties) {
-					beginMediaFrameProperties.x += (frameNumber - 1);
-					return beginMediaFrameProperties;
+				getPropertiesFunction = function (tick, mediaFrameProperties) {
+					mediaFrameProperties.x += (tick - 1);
+					return mediaFrameProperties;
 				},
-				effectStartFrameNumber1 = 2,
-				effectEndFrameNumber1 = 5,
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
 				effectId1 = 'myId2',
 				effect1 = {
-					startFrameNumber : effectStartFrameNumber1,
-					endFrameNumber : effectEndFrameNumber1,
-					getGuid : function () { return effectId1; },
-					getPropertiesForFrame : getPropertiesForFrameFunction
+					'startTick' : effectStartTick1,
+					'endTick' : effectEndTick1,
+					'getGuid' : function () { return effectId1; },
+					'getProperties' : getPropertiesFunction
 				},
-				effectStartFrameNumber2 = 6,
-				effectEndFrameNumber2 = 10,
+				effectStartTick2 = 6,
+				effectEndTick2 = 10,
 				effectId2 = 'myId1',
 				effect2 = {
-					startFrameNumber : effectStartFrameNumber2,
-					endFrameNumber : effectEndFrameNumber2,
-					getGuid : function () { return effectId2; },
-					getPropertiesForFrame : getPropertiesForFrameFunction
+					'startTick' : effectStartTick2,
+					'endTick' : effectEndTick2,
+					'getGuid' : function () { return effectId2; },
+					'getProperties' : getPropertiesFunction
 				};
 
 
 			mediaTimeline.addEffect(effect2);
 			mediaTimeline.addEffect(effect1);
 
-			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrameNumber);
+			mediaFrame = mediaTimeline.getMediaFrameFor(currentTick);
 
 			mediaFrame.should.exists;
 			mediaFrame.properties().should.have.property('x', 11);
 		});
 
 		it('Should update the properties of a MediaFrame, based on the frame number as two simultaneous effects specified.', function(){
-			var currentFrameNumber = 3,
+			var currentTick = 3,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0, y : 0 },
 				specifiedMediaObject = { 
-					getGuid : function () { return specifiedMediaObjectId; },
-					getProperties : function () { return defaultProperties; }
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
 				mediaFrame,
-				effectStartFrameNumber1 = 2,
-				effectEndFrameNumber1 = 5,
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
 				effectId1 = 'myId1',
 				effect1 = {
-					startFrameNumber : effectStartFrameNumber1,
-					endFrameNumber : effectEndFrameNumber1,
-					getGuid : function () { return effectId1; },
-					getPropertiesForFrame : function (frameNumber, beginMediaFrameProperties) {
-						beginMediaFrameProperties.x += (frameNumber - 1);
-						return beginMediaFrameProperties;
+					'startTick' : effectStartTick1,
+					'endTick' : effectEndTick1,
+					'getGuid' : function () { return effectId1; },
+					'getProperties' : function (tick, mediaFrameProperties) {
+						mediaFrameProperties.x += (tick - 1);
+						return mediaFrameProperties;
 					}
 				},
-				effectStartFrameNumber2 = 2,
-				effectEndFrameNumber2 = 5,
+				effectStartTick2 = 2,
+				effectEndTick2 = 5,
 				effectId2 = 'myId2',
 				effect2 = {
-					startFrameNumber : effectStartFrameNumber2,
-					endFrameNumber : effectEndFrameNumber2,
-					getGuid : function () { return effectId2; },
-					getPropertiesForFrame : function (frameNumber, beginMediaFrameProperties) {
-						beginMediaFrameProperties.y += (frameNumber - 1);
-						return beginMediaFrameProperties;
+					'startTick' : effectStartTick2,
+					'endTick' : effectEndTick2,
+					'getGuid' : function () { return effectId2; },
+					'getProperties' : function (tick, mediaFrameProperties) {
+						mediaFrameProperties.y += (tick - 1);
+						return mediaFrameProperties;
 					},
 				},
 				properties;
@@ -557,7 +536,7 @@ describe('MediaTimeline', function(){
 			mediaTimeline.addEffect(effect1);
 			mediaTimeline.addEffect(effect2);
 
-			mediaFrame = mediaTimeline.getMediaFrameFor(currentFrameNumber);
+			mediaFrame = mediaTimeline.getMediaFrameFor(currentTick);
 
 			mediaFrame.should.exists;
 			properties = mediaFrame.properties();
