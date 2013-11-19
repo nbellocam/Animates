@@ -7,7 +7,7 @@ var MediaTimeline = require('./mediaTimeline');
  *  @class Represents a Timeline. 
  */
 function Timeline (options) {
-	var _self = this, // Save the this reference for later use
+	var _self = this,
 		mediaTimelineCollection = [];
 
 	/**
@@ -49,7 +49,7 @@ function Timeline (options) {
 	/**
 	 * Return the media timeline element related to the media object id passed by parameter
 	 * @param  {string} mediaObjectId the if of the media object 
-	 * @return {MediaTimeline}               the media timeline related to the media object id passed by parameter
+	 * @returns {MediaTimeline} the media timeline related to the media object id passed by parameter
 	 */
 	this.getMediaTimeline = function getMediaTimeline(mediaObjectId) {
 		var current, i;
@@ -80,14 +80,14 @@ function Timeline (options) {
 	};
 
 	/**
-	 * Calculates all the elements for the current frame.
-	 * @param {integer} currentFrameNumber The current frame.
+	 * Calculates all the elements for the current tick number.
+	 * @param {integer} currentTick The current tick number.
 	 */
-	this.getElementsForFrame = function getElementsForFrame(currentFrameNumber) {
+	this.getElements = function getElements(currentTick) {
 		var elements = [], i;
 		
 		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
-			elements.push(mediaTimelineCollection[i].getMediaFrameFor(currentFrameNumber));
+			elements.push(mediaTimelineCollection[i].getMediaFrameFor(currentTick));
 		}
 
 		return elements;

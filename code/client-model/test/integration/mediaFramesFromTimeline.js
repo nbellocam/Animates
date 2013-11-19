@@ -41,7 +41,7 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			should.exists(mediaTimeline);
 			mediaTimeline.should.be.instanceOf(MediaTimeline);
 
-			mediaFramesCollection = timeline.getElementsForFrame(specificCurrentFrameNumber);
+			mediaFramesCollection = timeline.getElements(specificCurrentFrameNumber);
 			should.exists(mediaFramesCollection);
 			mediaFramesCollection.should.have.lengthOf(1);
 
@@ -104,7 +104,7 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			mediaTimeline = timeline.getMediaTimeline(rectangle.getGuid());
 			mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
 
-			mediaFramesCollection = timeline.getElementsForFrame(specificCurrentFrameNumber);
+			mediaFramesCollection = timeline.getElements(specificCurrentFrameNumber);
 			should.exists(mediaFramesCollection);
 			mediaFramesCollection.should.have.lengthOf(1);
 
@@ -127,7 +127,7 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			properties.should.have.property('height', specifiedProperties.height);
 			properties.should.have.property('width', specifiedProperties.width);
 
-			mediaFramesCollection = timeline.getElementsForFrame(specificCurrentFrameNumber2);
+			mediaFramesCollection = timeline.getElements(specificCurrentFrameNumber2);
 			should.exists(mediaFramesCollection);
 			mediaFramesCollection.should.have.lengthOf(1);
 
@@ -188,7 +188,7 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			mediaTimeline.should.be.instanceOf(MediaTimeline);
 
 			//MediaFrames tests
-			mediaFramesCollection = timeline.getElementsForFrame(specificCurrentFrameNumber);
+			mediaFramesCollection = timeline.getElements(specificCurrentFrameNumber);
 			should.exists(mediaFramesCollection);
 			mediaFramesCollection.should.have.lengthOf(2);
 
@@ -287,8 +287,8 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
 
 
-			//First time that getElementsForFrame
-			mediaFramesCollection = timeline.getElementsForFrame(specificCurrentFrameNumber);
+			//First time that getElements
+			mediaFramesCollection = timeline.getElements(specificCurrentFrameNumber);
 			should.exists(mediaFramesCollection);
 			mediaFramesCollection.should.have.lengthOf(2);
 
@@ -333,8 +333,8 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			properties.should.have.property('width', specifiedProperties.width);
 
 
-			//Second time that getElementsForFrame
-			mediaFramesCollection = timeline.getElementsForFrame(specificCurrentFrameNumber2);
+			//Second time that getElements
+			mediaFramesCollection = timeline.getElements(specificCurrentFrameNumber2);
 			should.exists(mediaFramesCollection);
 			mediaFramesCollection.should.have.lengthOf(2);
 

@@ -338,7 +338,7 @@ describe('Timeline', function(){
 		});
 	});
 
-	describe('getElementsForFrame()', function(){
+	describe('getElements()', function(){
 		it('Should return an empty array if no elements are present in the timeline.', function(){
 			var specifiedFrameNumber = 42,
 				timeline = new Timeline(),
@@ -347,7 +347,7 @@ describe('Timeline', function(){
 
 			timelineElementsCount.should.be.exactly(0);
 
-			result = timeline.getElementsForFrame(specifiedFrameNumber);
+			result = timeline.getElements(specifiedFrameNumber);
 			result.should.be.empty;
 		});
 
@@ -374,7 +374,7 @@ describe('Timeline', function(){
 			timelineElementsCount = timeline.countMediaTimelines();
 			timelineElementsCount.should.be.exactly(2);
 
-			result = timeline.getElementsForFrame(specifiedFrameNumber);
+			result = timeline.getElements(specifiedFrameNumber);
 			result.should.have.lengthOf(2);
 		});
 
@@ -406,7 +406,7 @@ describe('Timeline', function(){
 			timelineElementsCount = timeline.countMediaTimelines();
 			timelineElementsCount.should.be.exactly(1);
 
-			result = timeline.getElementsForFrame(specifiedFrameNumber);
+			result = timeline.getElements(specifiedFrameNumber);
 			result.should.have.lengthOf(1);
 		});
 	});
