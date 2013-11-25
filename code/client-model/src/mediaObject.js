@@ -17,7 +17,7 @@ function MediaObject (options) {
 	 */
 	this.getProperties = function getProperties()
 	{
-		return properties;
+		return Common.clone(properties);
 	};
 
 	/**

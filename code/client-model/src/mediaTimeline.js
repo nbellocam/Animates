@@ -33,13 +33,12 @@ function MediaTimeline (options) {
 			}
 
 			effectsArray.sort(function(a,b){
-				return a.endTick - b.endTick;
+				return b.endTick - a.endTick;
 			});
 			
 			for (var i = effectsArray.length - 1; i >= 0; i--) {
 				currentEffect = effectsArray[i];
-				if (currentTick > currentEffect.startTick){
-
+				if (currentTick >= currentEffect.startTick){
 					if (currentEffect.endTick === -1 ){
 						mediaObjectFrame.properties(currentEffect.getProperties(currentTick, mediaObjectFrame.properties()));
 					} else {
