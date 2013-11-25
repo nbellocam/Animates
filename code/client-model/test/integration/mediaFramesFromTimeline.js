@@ -40,12 +40,12 @@ var utils = {
 		properties.should.have.property('height', specifiedProperties.height);
 		properties.should.have.property('width', specifiedProperties.width);
 	},
-	testMediaFrameCollection : function (timeline, specificTick, expectedCollectionLenght, elementToTest){
+	testMediaFrameCollection : function (timeline, specificTick){
 		var mediaFramesCollection = timeline.getElements(specificTick);
 		should.exists(mediaFramesCollection);
-		mediaFramesCollection.should.have.lengthOf(expectedCollectionLenght);
+		mediaFramesCollection.should.have.lengthOf(1);
 
-		var mediaFrame = mediaFramesCollection[elementToTest];
+		var mediaFrame = mediaFramesCollection[0];
 
 		should.exists(mediaFrame);
 		mediaFrame.should.be.instanceOf(MediaFrame);
@@ -72,7 +72,7 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			should.exists(mediaTimeline);
 			mediaTimeline.should.be.instanceOf(MediaTimeline);
 
-			mediaFrame = utils.testMediaFrameCollection(timeline, specificTick, 1, 0);
+			mediaFrame = utils.testMediaFrameCollection(timeline, specificTick);
 			properties = mediaFrame.properties();
 			utils.testMediaFrameProperties(properties, specifiedProperties, specifiedProperties.position.x, specifiedProperties.position.y);
 		});
@@ -106,22 +106,22 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
 
 			// mediaFrameCollection for time "specificEndTick"
-			mediaFrame = utils.testMediaFrameCollection(timeline, specificEndTick, 1, 0);
+			mediaFrame = utils.testMediaFrameCollection(timeline, specificEndTick);
 			properties = mediaFrame.properties();
 			utils.testMediaFrameProperties(properties, specifiedProperties, specificEndTick, specificEndTick);
 
 			// mediaFrameCollection for time "specificTick"
-			mediaFrame = utils.testMediaFrameCollection(timeline, specificTick, 1, 0);
+			mediaFrame = utils.testMediaFrameCollection(timeline, specificTick);
 			properties = mediaFrame.properties();
 			utils.testMediaFrameProperties(properties, specifiedProperties, specificTick, specificTick);
 
 			// mediaFrameCollection for time "0"
-			mediaFrame = utils.testMediaFrameCollection(timeline, 0, 1, 0);
+			mediaFrame = utils.testMediaFrameCollection(timeline, 0);
 			properties = mediaFrame.properties();
 			utils.testMediaFrameProperties(properties, specifiedProperties, specifiedProperties.position.x, specifiedProperties.position.y);
 
 			// mediaFrameCollection for time "specificEndTick"
-			mediaFrame = utils.testMediaFrameCollection(timeline, specificEndTick * 2, 1, 0);
+			mediaFrame = utils.testMediaFrameCollection(timeline, specificEndTick * 2);
 			properties = mediaFrame.properties();
 			utils.testMediaFrameProperties(properties, specifiedProperties, specificEndTick, specificEndTick);
 		});
@@ -163,45 +163,43 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			mediaTimeline.getEffects().should.have.property(moveEffect2.getGuid());
 
 			// mediaFrameCollection for time "specificEndTick1"
-			mediaFrame = utils.testMediaFrameCollection(timeline, specificEndTick1, 1, 0);
+			mediaFrame = utils.testMediaFrameCollection(timeline, specificEndTick1);
 			properties = mediaFrame.properties();
 			utils.testMediaFrameProperties(properties, specifiedProperties, specificEndTick1, specificEndTick1);
 
 			// mediaFrameCollection for time "specificTick1"
-			mediaFrame = utils.testMediaFrameCollection(timeline, specificTick1, 1, 0);
+			mediaFrame = utils.testMediaFrameCollection(timeline, specificTick1);
 			properties = mediaFrame.properties();
 			utils.testMediaFrameProperties(properties, specifiedProperties, specificTick1, specificTick1);
 
 			// mediaFrameCollection for time "0"
-			mediaFrame = utils.testMediaFrameCollection(timeline, 0, 1, 0);
+			mediaFrame = utils.testMediaFrameCollection(timeline, 0);
 			properties = mediaFrame.properties();
 			utils.testMediaFrameProperties(properties, specifiedProperties, 0, 0);
 
 			// mediaFrameCollection for time "specificEndTick2"
 			console.log("specificEndTick2: "+ specificEndTick2);
-			mediaFrame = utils.testMediaFrameCollection(timeline, specificEndTick2, 1, 0);
+			mediaFrame = utils.testMediaFrameCollection(timeline, specificEndTick2);
 			properties = mediaFrame.properties();
 			utils.testMediaFrameProperties(properties, specifiedProperties, 0, 0);
 
 			// mediaFrameCollection for time "specificTick2"
-			mediaFrame = utils.testMediaFrameCollection(timeline, specificTick2, 1, 0);
+			mediaFrame = utils.testMediaFrameCollection(timeline, specificTick2);
 			properties = mediaFrame.properties();
 			utils.testMediaFrameProperties(properties, specifiedProperties, specificTick1, specificTick1);
 
 			// mediaFrameCollection for time "specificTick2"
-			mediaFrame = utils.testMediaFrameCollection(timeline, specificEndTick2 * 2, 1, 0);
+			mediaFrame = utils.testMediaFrameCollection(timeline, specificEndTick2 * 2);
 			properties = mediaFrame.properties();
 			utils.testMediaFrameProperties(properties, specifiedProperties, 0, 0);
 		});
-
-// TODO review from here
 
 		it('Should retrive the MediaFrame objects related to the two rectangles', function(){
 			var specifiedProperties = utils.createSpecifiedProperties(),
 				rectangle1 = new Rectangle(specifiedProperties),
 				rectangle2 = new Rectangle(specifiedProperties),
 				timeline = new Timeline(),
-				specificCurrentFrameNumber = 42,
+				specificTick = 42,
 				mediaTimeline,
 				mediaFramesCollection,
 				mediaFrame,
@@ -220,13 +218,12 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			mediaTimeline.should.be.instanceOf(MediaTimeline);
 
 			//MediaFrames tests
-			mediaFramesCollection = timeline.getElements(specificCurrentFrameNumber);
+			mediaFramesCollection = timeline.getElements(specificTick);
 			should.exists(mediaFramesCollection);
 			mediaFramesCollection.should.have.lengthOf(2);
 
 			// First rectangle
 			mediaFrame = mediaFramesCollection[0];
-
 			should.exists(mediaFrame);
 			mediaFrame.should.be.instanceOf(MediaFrame);
 
@@ -235,7 +232,6 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 
 			// Second rectangle
 			mediaFrame = mediaFramesCollection[1];
-
 			should.exists(mediaFrame);
 			mediaFrame.should.be.instanceOf(MediaFrame);
 
@@ -243,93 +239,93 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			utils.testMediaFrameProperties(properties, specifiedProperties, specifiedProperties.position.x, specifiedProperties.position.y);
 		});
 
-		//it('Should retrive the MediaFrame objects related to the two rectangles, one of them updated with the move effect', function(){
-		//	var specifiedProperties = utils.createSpecifiedProperties(),
-		//		rectangle1 = new Rectangle(specifiedProperties),
-		//		rectangle2 = new Rectangle(specifiedProperties),
-		//		timeline = new Timeline(),
-		//		specificCurrentFrameNumber = 42,
-		//		specificCurrentFrameNumber2 = specificCurrentFrameNumber / 2,
-		//		specifiedEndPosition = { x: specificCurrentFrameNumber, y: specificCurrentFrameNumber },
-		//		specifiedPath = new Path({ endPosition : specifiedEndPosition }),
-		//		moveEffect = new MoveEffect({ path: specifiedPath }),
-		//		mediaTimeline,
-		//		mediaFramesCollection,
-		//		mediaFrame,
-		//		properties;
+		it('Should retrive the MediaFrame objects related to the two rectangles, one of them updated with the move effect', function(){
+			var specifiedProperties = utils.createSpecifiedProperties(),
+				rectangle1 = new Rectangle(specifiedProperties),
+				rectangle2 = new Rectangle(specifiedProperties),
+				timeline = new Timeline(),
+				specificTick = 42,
+				specificTick2 = specificTick / 2,
+				specifiedEndPosition = { x: specificTick, y: specificTick },
+				specifiedPath = new Path({ endPosition : specifiedEndPosition }),
+				moveEffect = new MoveEffect({ path: specifiedPath, endTick: specificTick }),
+				mediaTimeline,
+				mediaFramesCollection,
+				mediaFrame,
+				properties;
 
-		//	timeline.addMediaObject(rectangle1);
-		//	timeline.addMediaObject(rectangle2);
+			timeline.addMediaObject(rectangle1);
+			timeline.addMediaObject(rectangle2);
 
-		//	//First rectangle add effect
-		//	mediaTimeline = timeline.getMediaTimeline(rectangle1.getGuid());
-		//	should.exists(mediaTimeline);
-		//	mediaTimeline.should.be.instanceOf(MediaTimeline);
+			//First rectangle add effect
+			mediaTimeline = timeline.getMediaTimeline(rectangle1.getGuid());
+			should.exists(mediaTimeline);
+			mediaTimeline.should.be.instanceOf(MediaTimeline);
 			
-		//	mediaTimeline.addEffect(moveEffect);
-		//	mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
+			mediaTimeline.addEffect(moveEffect);
+			mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
 
-		//	mediaTimeline = timeline.getMediaTimeline(rectangle1.getGuid());
-		//	mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
+			mediaTimeline = timeline.getMediaTimeline(rectangle1.getGuid());
+			mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
 
-		//	//Second rectangle add effect
-		//	mediaTimeline = timeline.getMediaTimeline(rectangle1.getGuid());
-		//	should.exists(mediaTimeline);
-		//	mediaTimeline.should.be.instanceOf(MediaTimeline);
+			//Second rectangle add effect
+			mediaTimeline = timeline.getMediaTimeline(rectangle2.getGuid());
+			should.exists(mediaTimeline);
+			mediaTimeline.should.be.instanceOf(MediaTimeline);
 			
-		//	mediaTimeline.addEffect(moveEffect);
-		//	mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
+			mediaTimeline.addEffect(moveEffect);
+			mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
 
-		//	mediaTimeline = timeline.getMediaTimeline(rectangle1.getGuid());
-		//	mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
-
-
-		//	//First time that getElements
-		//	mediaFramesCollection = timeline.getElements(specificCurrentFrameNumber);
-		//	should.exists(mediaFramesCollection);
-		//	mediaFramesCollection.should.have.lengthOf(2);
-
-		//	//First rectangle
-		//	mediaFrame = mediaFramesCollection[0];
-
-		//	should.exists(mediaFrame);
-		//	mediaFrame.should.be.instanceOf(MediaFrame);
-
-		//	properties = mediaFrame.properties();
-		//	utils.testMediaFrameProperties(properties, specifiedProperties, specificCurrentFrameNumber, specificCurrentFrameNumber);
-
-		//	//Second rectangle
-		//	mediaFrame = mediaFramesCollection[0];
-
-		//	should.exists(mediaFrame);
-		//	mediaFrame.should.be.instanceOf(MediaFrame);
-
-		//	properties = mediaFrame.properties();
-		//	utils.testMediaFrameProperties(properties, specifiedProperties, specificCurrentFrameNumber, specificCurrentFrameNumber);
+			mediaTimeline = timeline.getMediaTimeline(rectangle2.getGuid());
+			mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
 
 
-		//	//Second time that getElements
-		//	mediaFramesCollection = timeline.getElements(specificCurrentFrameNumber2);
-		//	should.exists(mediaFramesCollection);
-		//	mediaFramesCollection.should.have.lengthOf(2);
+			//First time that getElements
+			mediaFramesCollection = timeline.getElements(specificTick);
+			should.exists(mediaFramesCollection);
+			mediaFramesCollection.should.have.lengthOf(2);
 
-		//	//First rectangle
-		//	mediaFrame = mediaFramesCollection[0];
+			//First rectangle
+			mediaFrame = mediaFramesCollection[0];
 
-		//	should.exists(mediaFrame);
-		//	mediaFrame.should.be.instanceOf(MediaFrame);
+			should.exists(mediaFrame);
+			mediaFrame.should.be.instanceOf(MediaFrame);
 
-		//	properties = mediaFrame.properties();
-		//	utils.testMediaFrameProperties(properties, specifiedProperties, specificCurrentFrameNumber2, specificCurrentFrameNumber2);
+			properties = mediaFrame.properties();
+			utils.testMediaFrameProperties(properties, specifiedProperties, specificTick, specificTick);
 
-		//	//Second rectangle
-		//	mediaFrame = mediaFramesCollection[1];
+			//Second rectangle
+			mediaFrame = mediaFramesCollection[0];
 
-		//	should.exists(mediaFrame);
-		//	mediaFrame.should.be.instanceOf(MediaFrame);
+			should.exists(mediaFrame);
+			mediaFrame.should.be.instanceOf(MediaFrame);
 
-		//	properties = mediaFrame.properties();
-		//	utils.testMediaFrameProperties(properties, specifiedProperties, specificCurrentFrameNumber2, specificCurrentFrameNumber2);
-		//});
+			properties = mediaFrame.properties();
+			utils.testMediaFrameProperties(properties, specifiedProperties, specificTick, specificTick);
+
+
+			//Second time that getElements
+			mediaFramesCollection = timeline.getElements(specificTick2);
+			should.exists(mediaFramesCollection);
+			mediaFramesCollection.should.have.lengthOf(2);
+
+			//First rectangle
+			mediaFrame = mediaFramesCollection[0];
+
+			should.exists(mediaFrame);
+			mediaFrame.should.be.instanceOf(MediaFrame);
+
+			properties = mediaFrame.properties();
+			utils.testMediaFrameProperties(properties, specifiedProperties, specificTick2, specificTick2);
+
+			//Second rectangle
+			mediaFrame = mediaFramesCollection[1];
+
+			should.exists(mediaFrame);
+			mediaFrame.should.be.instanceOf(MediaFrame);
+
+			properties = mediaFrame.properties();
+			utils.testMediaFrameProperties(properties, specifiedProperties, specificTick2, specificTick2);
+		});
 	});
 });
