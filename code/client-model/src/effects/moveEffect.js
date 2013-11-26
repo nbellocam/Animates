@@ -28,7 +28,7 @@ function MoveEffect(options) {
 		var startTick = _self.startTick,
 			endTick = _self.endTick;
 
-		if (tick > startTick){
+		if (tick >= startTick){
 			if (typeof path !== 'undefined' && typeof path.getPositionFor === 'function' ) {
 				var currentPos;
 
