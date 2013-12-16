@@ -1,11 +1,23 @@
 'use strict';
 
 var model = {
-	Effect : require('./effect'),
-	MediaFrame : require('./mediaFrame'),
+	// Core
 	MediaObject : require('./mediaObject'),
+	VisualMediaObject : require('./visualMediaObject'),
+	Effect : require('./effect'),
+	Timeline : requiere('./timeline'),
+	MediaTimeline : require('./mediaTimeline'),
+	MediaFrame : require('./mediaFrame'),
+
+	// media objects
 	Shape : require('./shape'),
-	VisualMediaObject : require('./visualMediaObject')
+	Rectangle : require('./shapes/rectangle'),
+	Photo : require('./photo'),
+	Sound : requiere('./sound'),
+
+	// effects
+	MoveEffect : require('./effects/moveEffect'),
+	Path : require('./utils/path'),
 };
 
  module.exports = model;
