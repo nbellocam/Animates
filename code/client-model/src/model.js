@@ -5,7 +5,7 @@ var model = {
 	MediaObject : require('./mediaObject'),
 	VisualMediaObject : require('./visualMediaObject'),
 	Effect : require('./effect'),
-	Timeline : requiere('./timeline'),
+	Timeline : require('./timeline'),
 	MediaTimeline : require('./mediaTimeline'),
 	MediaFrame : require('./mediaFrame'),
 
@@ -13,7 +13,7 @@ var model = {
 	Shape : require('./shape'),
 	Rectangle : require('./shapes/rectangle'),
 	Photo : require('./photo'),
-	Sound : requiere('./sound'),
+	Sound : require('./sound'),
 
 	// effects
 	MoveEffect : require('./effects/moveEffect'),
