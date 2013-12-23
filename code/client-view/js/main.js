@@ -1,32 +1,48 @@
+var Animates = {};
+
+(function (ns){
+
+  /**
+   *  Creates a new Animation.
+   *  @class Represents an Animation . 
+   */ 
+  var Animation = function (options) 
+  {
+    var $this = this; // Save the this reference for later use
+
+    this.startFrame = options.startFrame || 0;
+
+    this.endFrame = options.endFrame || -1;
+    
+    /**
+     * Calculates the new shape properties based on the original ones and the actual frame.
+     * @param {integer} frame The actual frame.
+     * @param {object} originalProperties The original properties.
+     */
+    this.getPropertiesForFrame = function (frame, originalProperties) 
+    {
+    };
+
+    (function init() {
+    })();
+
+  };
+
+  ns.Animation = Animation;
+
+})(Animates);
+
 
 window.onload = function (){
 	var canvas = new fabric.Canvas('mainCanvas');
+
+  // TODO update width and height to the size of the screen.
 	canvas.setHeight(500);
 	canvas.setWidth(800);
 
 
-/*var IdRect = fabric.util.createClass(fabric.Rect, {
-  type: 'IdRect',
-  initialize: function(options) {
-    options || (options = { });
-    this.callSuper('initialize', options);
-    this.set('id', options.id || '');
-  },
-  toObject: function() {
-    return fabric.util.object.extend(this.callSuper('toObject'), {
-      id: this.get('id')
-    });
-  },
-  _render: function(ctx) {
-    this.callSuper('_render', ctx);
-    ctx.font = '20px Helvetica';
-    ctx.fillStyle = '#333';
-    ctx.fillText(this.label, -this.width/2, -this.height/2 + 20);
-  }
-});*/
-
 	var rect = new fabric.Rect({
-		 	left: 5, top: 5, fill: 'red', width: 10, height: 20
+		 	left: 50, top: 50, fill: 'red', width: 70, height: 150
 		});
 
 	rect.id = "Hola mundo";

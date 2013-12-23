@@ -542,7 +542,7 @@ var model = {
 	MediaObject : require('./mediaObject'),
 	VisualMediaObject : require('./visualMediaObject'),
 	Effect : require('./effect'),
-	Timeline : requiere('./timeline'),
+	Timeline : require('./timeline'),
 	MediaTimeline : require('./mediaTimeline'),
 	MediaFrame : require('./mediaFrame'),
 
@@ -550,7 +550,7 @@ var model = {
 	Shape : require('./shape'),
 	Rectangle : require('./shapes/rectangle'),
 	Photo : require('./photo'),
-	Sound : requiere('./sound'),
+	Sound : require('./sound'),
 
 	// effects
 	MoveEffect : require('./effects/moveEffect'),
@@ -558,7 +558,7 @@ var model = {
 };
 
  module.exports = model;
-},{"./effect":2,"./effects/moveEffect":3,"./mediaFrame":4,"./mediaObject":5,"./mediaTimeline":6,"./photo":8,"./shape":9,"./shapes/rectangle":10,"./utils/path":11,"./visualMediaObject":12}],8:[function(require,module,exports){
+},{"./effect":2,"./effects/moveEffect":3,"./mediaFrame":4,"./mediaObject":5,"./mediaTimeline":6,"./photo":8,"./shape":9,"./shapes/rectangle":10,"./sound":11,"./timeline":12,"./utils/path":13,"./visualMediaObject":14}],8:[function(require,module,exports){
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
@@ -591,7 +591,7 @@ Common.inherits(Photo, VisualMediaObject, 'VisualMediaObject');
 
 module.exports = Photo;
 
-},{"./visualMediaObject":12,"animates-common":1}],9:[function(require,module,exports){
+},{"./visualMediaObject":14,"animates-common":1}],9:[function(require,module,exports){
 'use strict';
 
 var VisualMediaObject = require('./visualMediaObject'),
@@ -618,7 +618,7 @@ Common.inherits(Shape, VisualMediaObject, 'VisualMediaObject');
 
 module.exports = Shape;
 
-},{"./visualMediaObject":12,"animates-common":1}],10:[function(require,module,exports){
+},{"./visualMediaObject":14,"animates-common":1}],10:[function(require,module,exports){
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
@@ -652,6 +652,141 @@ Common.inherits(Rectangle, Shape, 'Shape');
 module.exports = Rectangle;
 
 },{"../shape":9,"animates-common":1}],11:[function(require,module,exports){
+'use strict';
+
+var MediaObject = require('./mediaObject'),
+	Common = require('animates-common');
+
+/**
+ *  Creates a new Sound
+ *  @class Represents a Sound. 
+ */
+function Sound (options) {
+	var _self = this,
+		defaultProperties = {
+			volumen : 100,
+			source : ''
+		},
+		properties = Common.extend(options || {}, defaultProperties);
+
+	this.MediaObject(properties); // Call base constructor
+
+	/**
+	 *  Constructor
+	 */ 
+	(function init() {
+	}());
+}
+
+Common.inherits(Sound, MediaObject, 'MediaObject');
+
+module.exports = Sound;
+},{"./mediaObject":5,"animates-common":1}],12:[function(require,module,exports){
+'use strict';
+
+var MediaTimeline = require('./mediaTimeline');
+
+/**
+ *  Creates a new Timeline
+ *  @class Represents a Timeline. 
+ */
+function Timeline (options) {
+	var _self = this,
+		mediaTimelineCollection = [];
+
+	/**
+	 * Add a new media timeline element related with the media object passed by parameter
+	 * @param {object} mediaObject the media object to be added.
+	 */
+	this.addMediaObject = function addMediaObject(mediaObject) {
+		// Generate a new MediaTimeline using the mediaObject data.
+		if (mediaObject !== undefined){
+			var found = false,
+				i,
+				mediaObjectId = mediaObject.getGuid();
+
+			for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
+				if (mediaTimelineCollection[i].getMediaObjectId() === mediaObjectId){
+					found = true;
+				}
+			}
+
+			if (!found){
+				mediaTimelineCollection.push(new MediaTimeline({ mediaObject : mediaObject }));
+			}
+		}
+	};
+
+	/**
+	 * Remove a media object element and its related media timeline.
+	 * @param {string} mediaObjectId the id of the media object element that will be removed.
+	 */
+	this.removeMediaObject = function removeMediaObject(mediaObjectId) {
+		var i;
+		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
+			if (mediaTimelineCollection[i].getMediaObjectId() === mediaObjectId){
+				mediaTimelineCollection.splice(i, 1);
+			}
+		}
+	};
+
+	/**
+	 * Return the media timeline element related to the media object id passed by parameter
+	 * @param  {string} mediaObjectId the if of the media object 
+	 * @returns {MediaTimeline} the media timeline related to the media object id passed by parameter
+	 */
+	this.getMediaTimeline = function getMediaTimeline(mediaObjectId) {
+		var current, i;
+
+		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
+			current = mediaTimelineCollection[i];
+			if (current.getMediaObjectId() === mediaObjectId){
+				return current;
+			}
+		}
+
+		return undefined;
+	};
+
+	/**
+	 * Returns the amount of media timelines in this timeline
+	 * @return {integer} The amount of media timelines in this timeline
+	 */
+	this.countMediaTimelines = function countMediaTimelines() {
+		return mediaTimelineCollection.length;
+	};
+
+	/**
+	 * Remove all the elements in the timeline
+	 */
+	this.clearAllElements = function clearAllElements() {
+		mediaTimelineCollection.length = 0;
+	};
+
+	/**
+	 * Calculates all the elements for the current tick number.
+	 * @param {integer} currentTick The current tick number.
+	 */
+	this.getElements = function getElements(currentTick) {
+		var elements = [], i;
+		
+		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
+			elements.push(mediaTimelineCollection[i].getMediaFrameFor(currentTick));
+		}
+
+		return elements;
+	};
+
+	/**
+	 *  Constructor
+	 */
+	(function init() {
+	}());
+
+}
+
+module.exports = Timeline;
+},{"./mediaTimeline":6}],13:[function(require,module,exports){
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
@@ -735,7 +870,7 @@ function Path (options) {
 
 module.exports = Path;
 
-},{}],12:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 'use strict';
