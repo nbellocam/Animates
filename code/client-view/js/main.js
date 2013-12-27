@@ -31,29 +31,3 @@ var Animates = {};
   ns.Animation = Animation;
 
 })(Animates);
-
-
-window.onload = function (){
-	var canvas = new fabric.Canvas('mainCanvas');
-
-  // TODO update width and height to the size of the screen.
-	canvas.setHeight(500);
-	canvas.setWidth(800);
-
-
-	var rect = new fabric.Rect({
-		 	left: 50, top: 50, fill: 'red', width: 70, height: 150
-		});
-
-	rect.id = "Hola mundo";
-
-	canvas.add(rect);
-
-	canvas.on('object:modified', function(options) {
-	  if (options.target) {
-	    console.log('an object was clicked! ', options.target.type);
-	  }
-	});
-
-	rect.set('angle', 45);
-}
