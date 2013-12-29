@@ -1,45 +1,25 @@
-animates.controller('CanvasCtrl', function($scope, shapeCreator) {
+'use strict';
+
+animates.controller('CanvasCtrl', function($scope, shapeCreator, currentCanvas, shapeSync) {
 	var canvas = new fabric.Canvas('mainCanvas');
+  currentCanvas.instance = canvas;
 
     $scope.initialize = function() {
       canvas.setHeight(500);
       canvas.setWidth(800);
 
-      var rect = shapeCreator.createRectangle();
-
-      canvas.add(rect);
-
       canvas.on('object:modified', function(options) {
         if (options.target) {
-          console.log('an object was clicked! ', options.target.type);
+          //console.log('an object was clicked! ', options.target.type);
+          shapeSync.syncFromFabric(options.target);
+          //TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
         }
       });
 
+      var rect = shapeCreator.createRectangle();
+      canvas.add(rect);
+
       rect.set('angle', 45);
       canvas.renderAll();
-    }
-
-    $scope.addCircle = function() {
-      alert("Circle still not available!");
-    }
-
-    $scope.addTriangle = function() {
-      alert("Triangle still not available!");
-    }
-
-    $scope.addStar = function() {
-      alert("Star still not available!");
-    }
-
-    $scope.addImage = function() {
-      alert("Image still not available!");
-    }
-
-    $scope.addText = function() {
-      alert("Text still not available!");
-    }
-
-    $scope.addSound = function() {
-      alert("Sound still not available!");
     }
 });	

@@ -1,7 +1,10 @@
-animates.controller('ToolbarCtrl', function($scope) {
+'use strict';
 
+animates.controller('ToolbarCtrl', function($scope, shapeCreator, currentCanvas) {
     $scope.addRectangle = function() {
-      alert("Rectangle added!");
+      if (currentCanvas.instance){
+        currentCanvas.instance.add(shapeCreator.createRectangle());
+      }
     }
 
     $scope.addCircle = function() {
