@@ -10,7 +10,7 @@ animates.controller('CanvasCtrl', function($scope) {
 			 	left: 50, top: 50, fill: 'red', width: 70, height: 150
 			});
 
-		rect.id = "Hola mundo";
+		rect.model = new model.Rectangle();
 
 		canvas.add(rect);
 
