@@ -11,6 +11,9 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		meta: {
 			output : 'build/output',
+			packageEntryName : 'model',
+			packageOutputFileName : 'model.js',
+			packageEntryPoint : 'src/model.js',
 			src	: 'src/**/*.js',
 			tests : 'test/**/*.js',
 			gruntFile : 'Gruntfile.js',
@@ -29,11 +32,6 @@ module.exports = function (grunt) {
 									src: [src], 
 									dest: output + '/doc'
 								};
-
-			if(grunt.file.exists(output)) {
-				grunt.file.delete(output);
-			}
-			grunt.file.mkdir(output);
 
 			grunt.config.set('jsdoc.dist', jsdocConfig);
 
@@ -132,11 +130,6 @@ module.exports = function (grunt) {
 					}
 				};
 
-			if(grunt.file.exists(output)) {
-				grunt.file.delete(output);
-			}
-			grunt.file.mkdir(output);
-
 			grunt.loadNpmTasks('grunt-mocha-test');
 			grunt.config.set('mochaTest', mochaConfig);
 
@@ -190,7 +183,52 @@ module.exports = function (grunt) {
 		}
 	);
 
-	grunt.registerTask('dev', ['lint:all', 'tests']);
+	grunt.registerTask('package-model', 
+		function () {
+			grunt.config.requires('meta.output');
+			grunt.config.requires('meta.packageEntryName');
+			grunt.config.requires('meta.packageOutputFileName');
+			grunt.config.requires('meta.packageEntryPoint');
 
-	grunt.registerTask('default', ['lint:all', 'tests', 'doc']);
+			var output = grunt.config.get('meta.output'),
+				packageEntryName = grunt.config.get('meta.packageEntryName'),
+				packageOutputFileName = grunt.config.get('meta.packageOutputFileName'),
+				packageEntryPoint = grunt.config.get('meta.packageEntryPoint'),
+				browserifyConfig =	{
+									src: [packageEntryPoint], 
+									dest: output + '/' + packageOutputFileName,
+									options: {
+										standalone: packageEntryName
+									}
+								};
+
+			grunt.config.set('browserify.dist', browserifyConfig);
+
+			grunt.loadNpmTasks('grunt-browserify');
+
+			grunt.task.run('browserify');
+		}
+	);
+
+	grunt.registerTask('resetOutput', 
+		function () {
+			grunt.config.requires('meta.output');
+
+			var output = grunt.config.get('meta.output');
+
+			if(grunt.file.exists(output)) {
+				grunt.file.delete(output);
+			}
+
+			grunt.file.mkdir(output);
+		}
+	);
+
+	grunt.registerTask('dev', ['lint:all', 'resetOutput', 'tests']);
+
+	grunt.registerTask('package', ['resetOutput', 'package-model']);
+
+	grunt.registerTask('build', ['lint:all', 'resetOutput', 'tests', 'doc', 'package-model']);
+
+	grunt.registerTask('default', ['lint:all', 'resetOutput', 'tests', 'doc']);
 };
