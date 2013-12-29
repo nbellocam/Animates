@@ -1,26 +1,22 @@
-animates.controller('CanvasCtrl', function($scope) {
+animates.controller('CanvasCtrl', function($scope, shapeCreator) {
 	var canvas = new fabric.Canvas('mainCanvas');
 
     $scope.initialize = function() {
-		canvas.setHeight(500);
-		canvas.setWidth(800);
+      canvas.setHeight(500);
+      canvas.setWidth(800);
 
+      var rect = shapeCreator.createRectangle();
 
-		var rect = new fabric.Rect({
-			 	left: 50, top: 50, fill: 'red', width: 70, height: 150
-			});
+      canvas.add(rect);
 
-		rect.model = new model.Rectangle();
+      canvas.on('object:modified', function(options) {
+        if (options.target) {
+          console.log('an object was clicked! ', options.target.type);
+        }
+      });
 
-		canvas.add(rect);
-
-		canvas.on('object:modified', function(options) {
-		  if (options.target) {
-		    console.log('an object was clicked! ', options.target.type);
-		  }
-		});
-
-		rect.set('angle', 45);
+      rect.set('angle', 45);
+      canvas.renderAll();
     }
 
     $scope.addCircle = function() {
