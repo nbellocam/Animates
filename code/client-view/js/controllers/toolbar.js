@@ -1,6 +1,6 @@
 'use strict';
 
-animates.controller('ToolbarCtrl', function($scope, shapeCreator, currentCanvas) {
+animates.controller('ToolbarCtrl', function($scope, shapeCreator, currentCanvas, canvasUtils) {
     $scope.addRectangle = function() {
       if (currentCanvas.instance){
         currentCanvas.instance.add(shapeCreator.createRectangle());
@@ -33,26 +33,11 @@ animates.controller('ToolbarCtrl', function($scope, shapeCreator, currentCanvas)
 
     $scope.removeElements = function() {
       var canvas = currentCanvas.instance;
-
-      if (canvas){
-        var allObjects = canvas.getObjects(),
-          j, object, objects;
-
-        for (var i = 0; i < allObjects.length; i++) {
-          object = allObjects[i]
-          if (object.active) {
-            if (object.group) {
-              objects = object.group.objects;
-              for (j = objects.length - 1; j >= 0; j--) {
-                canvas.remove(objects[j]);
-              };
-            } else {
-              canvas.remove(object);
-            }
-          }
-        }
-      }
       
+      canvasUtils.applyToActiveElements(function(activeElement){
+        canvas.remove(activeElement);
+      });
+
       canvas.renderAll();
     };
 });
