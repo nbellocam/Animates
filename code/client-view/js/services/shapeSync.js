@@ -15,10 +15,17 @@ angular.module('animates')
 				return diff;
 			},
 			sync = function sync(fabricObject, fromFabric){
-				//TODO change to use switch if it is posible
-				if (fabricObject.type === 'Rect'){
-					return syncRectangle(fabricObject, fromFabric);
+				var diff;
+
+				switch (fabricObject.type) {
+					case 'Rect':
+						diff = syncRectangle(fabricObject, fromFabric);
+						break;
+					default:
+						break;
 				}
+
+				return diff;
 			},
 			syncFromFabric = function syncFromFabric(fabricObject){
 				return sync(fabricObject, true);
