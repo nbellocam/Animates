@@ -2,12 +2,28 @@
 
 angular.module('animates')
 	.factory('shapeSync', function () {
-		var syncRectangle = function syncRectangle(fabricRect, fromFabric){
-				var diff = [],
-					model = fabricRect.model;
+		var syncVisualMediaObject = function syncVisualMediaObject(fabricObject, fromFabric){					
+				var model = fabricRect.model,
+					diff = [];
+
+					// Fabric Object: angle, borderColor, fill,height, width, opacity, top, left
+					// http://fabricjs.com/docs/fabric.Object.html
+				if (fromFabric){
+					// TODO: update model properties from fabricRect;
+					//Model properties: position.x,position.y, position.z, opacity, border.type, border.color
+				} else {
+					// TODO: update fabricRect properties from model;
+				}
+
+				return diff;
+			},
+			syncRectangle = function syncRectangle(fabricRect, fromFabric){
+				var model = fabricRect.model,
+					diff = syncVisualMediaObject(fabricRect, fromFabric);
 
 				if (fromFabric){
 					// TODO: update model properties from fabricRect;
+					//Model properties: height, width
 				} else {
 					// TODO: update fabricRect properties from model;
 				}
