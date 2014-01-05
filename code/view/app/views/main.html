@@ -1,36 +1,101 @@
-<div class="header">
-  <ul class="nav nav-pills pull-right">
-    <li class="active"><a ng-href="#">Home</a></li>
-    <li><a ng-href="#">About</a></li>
-    <li><a ng-href="#">Contact</a></li>
-  </ul>
-  <h3 class="text-muted">view</h3>
-</div>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Animates</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li class="divider"></li>
+              <li class="dropdown-header">Nav header</li>
+              <li><a href="#">Separated link</a></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li>
+        </ul>
+        <form class="navbar-form navbar-right">
+          <div class="form-group">
+            <input type="text" placeholder="Email" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="password" placeholder="Password" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-success">Sign in</button>
+        </form>
+      </div><!--/.navbar-collapse -->
+    </div>
+  </div>
 
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!</a></p>
-</div>
+  <nav class="navbar navbar-default" role="navigation" ng-controller="ToolbarCtrl">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Tools</span>
+      </button>
+    </div>
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-left">
+        <div class="btn-toolbar" role="toolbar">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default navbar-btn" ng-click="addImage();"><span class="glyphicon glyphicon-picture"></span></button>
+            <button type="button" class="btn btn-default navbar-btn" ng-click="addText();"><span class="glyphicon glyphicon-font"></span></button>
+            <button type="button" class="btn btn-default navbar-btn" ng-click="addSound();"><span class="glyphicon glyphicon-music"></span></button>
+          </div>
 
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default navbar-btn" ng-click="addRectangle();"><i class="fa fa-square-o"></i></button>
+            <button type="button" class="btn btn-default navbar-btn" ng-click="addCircle();"><i class="fa fa-circle-o"></i></button>
+            <button type="button" class="btn btn-default navbar-btn" ng-click="addTriangle();"><i class="fa fa-play fa-rotate-270"></i></button>
+            <button type="button" class="btn btn-default navbar-btn" ng-click="addStar();"><span class="glyphicon glyphicon-star"></span></button>
+          </div>
 
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
-</div>
+        </div>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <div class="btn-toolbar" role="toolbar">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-home"></span></button>
+            <button type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-play"></span></button>
+            <button type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-star right"></span></button>
+            <button type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-download-alt"></span></button>
+            <button type="button" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-share-alt"></span></button>
+            <button type="button" class="btn btn-default navbar-btn" ng-click="removeElements();"><span class="glyphicon glyphicon-trash"></span></button>
+          </div>
+        </div >
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
 
-<div class="footer">
-  <p>♥ from the Yeoman team</p>
-</div>
+      <div class="canvas-content" ng-controller="CanvasCtrl">
+          <canvas id="mainCanvas" ng-init="initialize();">
+          </canvas>
+        </div>
+
+      </div>
+    </div>
+
+    <hr>
+
+    <footer>
+      <p>&copy; Animates 2014</p>
+    </footer>
+  </div>

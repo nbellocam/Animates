@@ -16,6 +16,7 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
@@ -25,7 +26,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container" ng-include="'views/main.html'" ng-controller="MainCtrl"></div>
+    <div ng-include="'views/main.html'"></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -49,11 +50,19 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <!-- endbower -->
+
+    <script src="bower_components/fabric/dist/all.min.js"></script>
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/model.js"></script>
         <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/canvas.js"></script>
+        <script src="scripts/controllers/toolbar.js"></script>
+        <script src="scripts/services/canvasUtils.js"></script>
+        <script src="scripts/services/currentCanvas.js"></script>
+        <script src="scripts/services/shapeCreator.js"></script>
+        <script src="scripts/services/shapeSync.js"></script>
         <!-- endbuild -->
 </body>
 </html>
