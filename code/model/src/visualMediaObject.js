@@ -22,7 +22,9 @@ function VisualMediaObject (options) {
 			border : {
 				type : 'none',
 				color : 'black'
-			}
+			},
+			fill : 'black',
+			angle : 0,
 		},
 		properties = Common.extend(options || {}, defaultProperties);
 
