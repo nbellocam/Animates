@@ -1,4 +1,4 @@
 require('blanket')({
   // Only files that match the pattern will be instrumented
-  pattern: 'client-model/src/'
+  pattern: 'model/src/'
 });
