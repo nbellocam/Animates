@@ -170,6 +170,30 @@ exports.clone = clone;
 },{}],2:[function(require,module,exports){
 'use strict';
 
+/**
+ *  Creates a new Canvas.
+ *  @class Represents a Canvas. 
+ */
+function Canvas (options) {
+	var _self = this; // Save the this reference for later use
+
+	this.height = options.height || 100;
+	this.width = options.width || 100;
+	this.backgroundColor = options.backgroundColor || 'white';
+	this.backgroundImage = options.backgroundImage || '';
+
+	/**
+	 *  Constructor
+	 */
+	(function init() {
+	}());
+}
+
+module.exports = Canvas;
+
+},{}],3:[function(require,module,exports){
+'use strict';
+
 var Common = require('animates-common');
 
 /**
@@ -213,7 +237,7 @@ function Effect (options) {
 
 module.exports = Effect;
 
-},{"animates-common":1}],3:[function(require,module,exports){
+},{"animates-common":1}],4:[function(require,module,exports){
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 'use strict';
@@ -276,7 +300,7 @@ Common.inherits(MoveEffect, Effect);
 
 module.exports = MoveEffect;
 
-},{"../effect.js":2,"animates-common":1}],4:[function(require,module,exports){
+},{"../effect.js":3,"animates-common":1}],5:[function(require,module,exports){
 'use strict';
 
 var Common = require('animates-common'),
@@ -322,7 +346,7 @@ function MediaFrame (options) {
 
 module.exports = MediaFrame;
 
-},{"./mediaObject":5,"animates-common":1}],5:[function(require,module,exports){
+},{"./mediaObject":6,"animates-common":1}],6:[function(require,module,exports){
 'use strict';
 
 var Common = require('animates-common');
@@ -386,7 +410,7 @@ function MediaObject (options) {
 }
 
 module.exports = MediaObject;
-},{"animates-common":1}],6:[function(require,module,exports){
+},{"animates-common":1}],7:[function(require,module,exports){
 'use strict';
 
 var MediaFrame = require('./mediaFrame');
@@ -535,7 +559,7 @@ function MediaTimeline (options) {
 
 module.exports = MediaTimeline;
 
-},{"./mediaFrame":4}],7:[function(require,module,exports){
+},{"./mediaFrame":5}],8:[function(require,module,exports){
 'use strict';
 
 var model = {
@@ -546,6 +570,7 @@ var model = {
 	Timeline : require('./timeline'),
 	MediaTimeline : require('./mediaTimeline'),
 	MediaFrame : require('./mediaFrame'),
+	Canvas : require('./canvas'),
 
 	// media objects
 	Shape : require('./shape'),
@@ -559,7 +584,7 @@ var model = {
 };
 
  module.exports = model;
-},{"./effect":2,"./effects/moveEffect":3,"./mediaFrame":4,"./mediaObject":5,"./mediaTimeline":6,"./photo":8,"./shape":9,"./shapes/rectangle":10,"./sound":11,"./timeline":12,"./utils/path":13,"./visualMediaObject":14}],8:[function(require,module,exports){
+},{"./canvas":2,"./effect":3,"./effects/moveEffect":4,"./mediaFrame":5,"./mediaObject":6,"./mediaTimeline":7,"./photo":9,"./shape":10,"./shapes/rectangle":11,"./sound":12,"./timeline":13,"./utils/path":14,"./visualMediaObject":15}],9:[function(require,module,exports){
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
@@ -592,7 +617,7 @@ Common.inherits(Photo, VisualMediaObject, 'VisualMediaObject');
 
 module.exports = Photo;
 
-},{"./visualMediaObject":14,"animates-common":1}],9:[function(require,module,exports){
+},{"./visualMediaObject":15,"animates-common":1}],10:[function(require,module,exports){
 'use strict';
 
 var VisualMediaObject = require('./visualMediaObject'),
@@ -619,7 +644,7 @@ Common.inherits(Shape, VisualMediaObject, 'VisualMediaObject');
 
 module.exports = Shape;
 
-},{"./visualMediaObject":14,"animates-common":1}],10:[function(require,module,exports){
+},{"./visualMediaObject":15,"animates-common":1}],11:[function(require,module,exports){
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
@@ -652,7 +677,7 @@ Common.inherits(Rectangle, Shape, 'Shape');
 
 module.exports = Rectangle;
 
-},{"../shape":9,"animates-common":1}],11:[function(require,module,exports){
+},{"../shape":10,"animates-common":1}],12:[function(require,module,exports){
 'use strict';
 
 var MediaObject = require('./mediaObject'),
@@ -682,7 +707,7 @@ function Sound (options) {
 Common.inherits(Sound, MediaObject, 'MediaObject');
 
 module.exports = Sound;
-},{"./mediaObject":5,"animates-common":1}],12:[function(require,module,exports){
+},{"./mediaObject":6,"animates-common":1}],13:[function(require,module,exports){
 'use strict';
 
 var MediaTimeline = require('./mediaTimeline');
@@ -787,7 +812,7 @@ function Timeline (options) {
 }
 
 module.exports = Timeline;
-},{"./mediaTimeline":6}],13:[function(require,module,exports){
+},{"./mediaTimeline":7}],14:[function(require,module,exports){
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 
@@ -871,7 +896,7 @@ function Path (options) {
 
 module.exports = Path;
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*global Animates */
 /*jslint node: true, todo: true, white: true, plusplus:true */
 'use strict';
@@ -896,7 +921,9 @@ function VisualMediaObject (options) {
 			border : {
 				type : 'none',
 				color : 'black'
-			}
+			},
+			fill : 'black',
+			angle : 0,
 		},
 		properties = Common.extend(options || {}, defaultProperties);
 
@@ -913,7 +940,7 @@ Common.inherits(VisualMediaObject, MediaObject, 'MediaObject');
 
 module.exports = VisualMediaObject;
 
-},{"./mediaObject":5,"animates-common":1}]},{},[7])
-(7)
+},{"./mediaObject":6,"animates-common":1}]},{},[8])
+(8)
 });
 ;
