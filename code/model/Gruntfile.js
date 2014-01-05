@@ -230,5 +230,5 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('build', ['lint:all', 'resetOutput', 'tests', 'doc', 'package-model']);
 
-	grunt.registerTask('default', ['lint:all', 'resetOutput', 'tests', 'doc']);
+	grunt.registerTask('default', ['lint:all', 'resetOutput', 'tests', 'package-model']);
 };
