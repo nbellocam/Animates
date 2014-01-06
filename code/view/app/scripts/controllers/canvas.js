@@ -17,7 +17,7 @@ angular.module('animatesApp')
 
 				return canvas;
 			},
-			canvas = createCanvas('mainCanvas');;
+			canvas = createCanvas('mainCanvas');
 		
 		currentCanvas.instance = canvas;
 
@@ -35,5 +35,5 @@ angular.module('animatesApp')
 
 			rect.set('angle', 45);
 			canvas.renderAll();
-		}
-	}); 
+		};
+	});

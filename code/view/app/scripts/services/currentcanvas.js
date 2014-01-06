@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('animatesApp')
-	.value('currentCanvas', 
+	.value('currentCanvas',
 		{ instance: undefined }
 	);

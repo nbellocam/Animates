@@ -9,27 +9,27 @@ angular.module('animatesApp')
 		};
 
 		$scope.addCircle = function() {
-			alert("Circle still not available!");
+			alert('Circle still not available!');
 		};
 
 		$scope.addTriangle = function() {
-			alert("Triangle still not available!");
+			alert('Triangle still not available!');
 		};
 
 		$scope.addStar = function() {
-			alert("Star still not available!");
+			alert('Star still not available!');
 		};
 
 		$scope.addImage = function() {
-			alert("Image still not available!");
+			alert('Image still not available!');
 		};
 
 		$scope.addText = function() {
-			alert("Text still not available!");
+			alert('Text still not available!');
 		};
 
 		$scope.addSound = function() {
-			alert("Sound still not available!");
+			alert('Sound still not available!');
 		};
 
 		$scope.removeElements = function() {
@@ -41,4 +41,4 @@ angular.module('animatesApp')
 
 			canvas.renderAll();
 		};
-});
+	});

@@ -10,13 +10,13 @@ angular.module('animatesApp')
 					j, object, objects;
 
 				for (var i = 0; i < allObjects.length; i++) {
-					object = allObjects[i]
+					object = allObjects[i];
 					if (object.active) {
 						if (object.group) {
 							objects = object.group.objects;
 							for (j = objects.length - 1; j >= 0; j--) {
 								activeElementFunction(objects[j]);
-							};
+							}
 						} else {
 							activeElementFunction(object);
 						}

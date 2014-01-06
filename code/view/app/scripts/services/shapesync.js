@@ -2,17 +2,40 @@
 
 angular.module('animatesApp')
 	.factory('shapeSync', function () {
-		var syncVisualMediaObject = function syncVisualMediaObject(fabricObject, fromFabric){         
-				var model = fabricRect.model,
+		var syncProperty = function syncVisualMediaObject(fabricProperty, model, fromFabric, propertyName, diff){
+				var modelProperty = model.getProperty(propertyName);
+				var newestValue = fromFabric ? fabricProperty : modelProperty;
+
+				if (fabricProperty !== modelProperty){
+					var diffElement = {
+						oldValue : fromFabric ? modelProperty : fabricProperty,
+						newValue : newestValue,
+						propertyName : propertyName
+					};
+
+					diff.push(diffElement);
+
+					if (fromFabric){
+						model.setProperty(propertyName, newestValue);
+					}
+				}
+
+				return newestValue;
+			},
+			syncVisualMediaObject = function syncVisualMediaObject(fabricObject, fromFabric){
+				var model = fabricObject.model,
 					diff = [];
 
 					// Fabric Object: angle, borderColor, fill,height, width, opacity, top, left
 					// http://fabricjs.com/docs/fabric.Object.html
 				if (fromFabric){
-					// TODO: update model properties from fabricRect;
+					syncProperty(fabricObject.angle, model, fromFabric, 'angle', diff);
+					syncProperty(fabricObject.left, model, fromFabric, 'position.x', diff);
+					syncProperty(fabricObject.top, model, fromFabric, 'position.y', diff);
+					// TODO: update model properties from fabricObject;
 					//Model properties: position.x,position.y, position.z, opacity, border.type, border.color
 				} else {
-					// TODO: update fabricRect properties from model;
+					// TODO: update fabricObject properties from model;
 				}
 
 				return diff;
@@ -24,6 +47,8 @@ angular.module('animatesApp')
 				if (fromFabric){
 					// TODO: update model properties from fabricRect;
 					//Model properties: height, width
+					syncProperty(fabricRect.currentHeight || fabricRect.height, model, fromFabric, 'height', diff);
+					syncProperty(fabricRect.currentWidth || fabricRect.width, model, fromFabric, 'width', diff);
 				} else {
 					// TODO: update fabricRect properties from model;
 				}
@@ -34,7 +59,7 @@ angular.module('animatesApp')
 				var diff;
 
 				switch (fabricObject.type) {
-					case 'Rect':
+					case 'rect':
 						diff = syncRectangle(fabricObject, fromFabric);
 						break;
 					default:
