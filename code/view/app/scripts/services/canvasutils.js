@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('canvasUtils', function (currentCanvas) {
+	.factory('canvasUtils', function (canvasService) {
 		var applyToActiveElements = function applyToActiveElements(activeElementFunction){
-			var canvas = currentCanvas.instance;
+			var canvas = canvasService.getInstance();
 
 			if (canvas){
 				var allObjects = canvas.getObjects(),

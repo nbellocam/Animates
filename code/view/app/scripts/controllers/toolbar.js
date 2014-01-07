@@ -1,11 +1,9 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('ToolbarCtrl', function($scope, shapeCreator, currentCanvas, canvasUtils) {
+	.controller('ToolbarCtrl', function($scope, shapeCreator, canvasService, canvasUtils) {
 		$scope.addRectangle = function() {
-			if (currentCanvas.instance){
-				currentCanvas.instance.add(shapeCreator.createRectangle());
-			}
+			canvasService.add(shapeCreator.createRectangle());
 		};
 
 		$scope.addCircle = function() {
@@ -33,12 +31,8 @@ angular.module('animatesApp')
 		};
 
 		$scope.removeElements = function() {
-			var canvas = currentCanvas.instance;
-			
 			canvasUtils.applyToActiveElements(function(activeElement){
-				canvas.remove(activeElement);
+				canvasService.remove(activeElement);
 			});
-
-			canvas.renderAll();
 		};
 	});

@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('shapeCreator', function (shapeSync) {
-		var createRectangle = function createRectangle(){
+	.factory('shapeCreator', function (shapeSync, $window) {
+		var fabric = $window.fabric,
+			model = $window.model,
+			createRectangle = function createRectangle(){
 			// TODO: we need to pass the model and fabric in the correct ways to angular.
 			var rect = new fabric.Rect({
 					left: 50,
