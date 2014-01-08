@@ -36,14 +36,20 @@ angular.module('animatesApp')
 				setWidth(width);
 
 				canvasInstance.calcOffset();
-
-				//TODO create viewPort
+				
+				updateViewport();
+			},
+			updateViewport = function updateViewport(viewportPorcentage, topPorcentage, leftPorcentage){
+				viewportPorcentage = viewportPorcentage || 0.8;
+				topPorcentage = topPorcentage || 0.1;
+				leftPorcentage = leftPorcentage || leftPorcentage || 0.1;
+				var viewport = canvasInstance.model.updateViewport(viewportPorcentage, topPorcentage, leftPorcentage);
 				var rect = new fabric.Rect({
-					left: 50,
-					top: 50,
+					left: viewport.left,
+					top: viewport.top,
 					fill: '#FAF8B9',
-					width: width - 100,
-					height: height - 100,
+					width: viewport.width,
+					height: viewport.height,
 					borderColor : '#3F3F3F',
 					evented: false,
 					opacity: 0.2,
