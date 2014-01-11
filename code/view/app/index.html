@@ -18,6 +18,7 @@
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/layout-default.css">
     <!-- endbuild -->
   </head>
   <body ng-app="animatesApp">
@@ -26,7 +27,11 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div ng-include="'views/main.html'"></div>
+<div class="ui-layout-center"><div ng-include="'views/main.html'"></div></div>
+<div class="ui-layout-south">South</div>
+<div class="ui-layout-east">East</div>
+
+    
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -49,20 +54,30 @@
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
+    <script src="bower_components/jquery-ui/ui/jquery.ui.core.js"></script>
     <!-- endbower -->
 
     <script src="bower_components/fabric/dist/all.min.js"></script>
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/vendors/jquery.layout.min-1.3.0.js"></script>
+
         <script src="scripts/model.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/canvas.js"></script>
         <script src="scripts/controllers/toolbar.js"></script>
-        <script src="scripts/services/canvasUtils.js"></script>
-        <script src="scripts/services/shapeCreator.js"></script>
-        <script src="scripts/services/shapeSync.js"></script>
-        <script src="scripts/services/canvasService.js"></script>
+        <script src="scripts/services/canvasutils.js"></script>
+        <script src="scripts/services/shapecreator.js"></script>
+        <script src="scripts/services/shapesync.js"></script>
+        <script src="scripts/services/canvasservice.js"></script>
         <!-- endbuild -->
+
+<script>
+    $(document).ready(function () {
+        $('body').layout({ applyDefaultStyles: true });
+    });
+</script>
 </body>
 </html>
