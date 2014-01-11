@@ -2,13 +2,12 @@
 
 angular.module('animatesApp')
 	.service('canvasService', function Canvasservice(shapeSync, $window) {
-		var w = angular.element($window),
-			fabric = $window.fabric,
+		var fabric = $window.fabric,
 			model = $window.model,
 			viewportHeight = 500,
 			viewportWidth = 500,
-			minTop = 50,
-			minLeft = 50,
+			minTop = 100,
+			minLeft = 100,
 			createCanvas = function createCanvas(id, height, width) {
 				var canvas = new fabric.Canvas(id);
 				canvas.model = new model.Canvas();
@@ -26,15 +25,19 @@ angular.module('animatesApp')
 
 				return canvas;
 			},
-			canvasInstance = createCanvas('mainCanvas', w.height() * 0.5, w.width() * 0.6),
+			canvasInstance = createCanvas('mainCanvas', 480, 640),
 			getInstance = function getInstance(){
 				return canvasInstance;
 			},
 			setHeight = function setHeight(height){
+				var minHeight = viewportHeight + (minTop * 2);
+				height = (minHeight > height) ? minHeight : height;
 				canvasInstance.setHeight(height);
 				canvasInstance.model.height = height;
 			},
 			setWidth = function setWidth(width){
+				var minWidth = viewportWidth + (minLeft * 2);
+				width = (minWidth > width) ? minWidth : width;
 				canvasInstance.setWidth(width);
 				canvasInstance.model.width = width;
 			},
