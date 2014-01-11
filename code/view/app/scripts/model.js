@@ -186,11 +186,21 @@ function Canvas (options) {
 
 	this.viewport = options.viewport || {};
 
-	this.updateViewport = function updateViewport(viewportPorcentage, topPorcentage, leftPorcentage){
+
+	this.updateViewportByPorcentage = function updateViewportByPorcentage(viewportPorcentage, topPorcentage, leftPorcentage){
 		_self.viewport.height = _self.height * viewportPorcentage;
 		_self.viewport.width = _self.width * viewportPorcentage;
 		_self.viewport.top = _self.height * topPorcentage;
 		_self.viewport.left = _self.width * leftPorcentage;
+
+		return _self.viewport;
+	};
+
+	this.updateViewportBySize = function updateViewportBySize(height, width, top, left){
+		_self.viewport.height = height;
+		_self.viewport.width = width;
+		_self.viewport.top = top;
+		_self.viewport.left = left;
 
 		return _self.viewport;
 	};

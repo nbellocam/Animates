@@ -2,11 +2,18 @@
 
 angular.module('animatesApp')
 	.service('canvasService', function Canvasservice(shapeSync, $window) {
-		var fabric = $window.fabric,
+		var w = angular.element($window),
+			fabric = $window.fabric,
 			model = $window.model,
-			createCanvas = function createCanvas(id) {
+			viewportHeight = 500,
+			viewportWidth = 500,
+			minTop = 50,
+			minLeft = 50,
+			createCanvas = function createCanvas(id, height, width) {
 				var canvas = new fabric.Canvas(id);
 				canvas.model = new model.Canvas();
+				viewportHeight = height || viewportHeight;
+				viewportWidth = width || viewportWidth;
 				
 				// TODO: Update Properties
 
@@ -19,7 +26,7 @@ angular.module('animatesApp')
 
 				return canvas;
 			},
-			canvasInstance = createCanvas('mainCanvas'),
+			canvasInstance = createCanvas('mainCanvas', w.height() * 0.5, w.width() * 0.6),
 			getInstance = function getInstance(){
 				return canvasInstance;
 			},
@@ -36,18 +43,22 @@ angular.module('animatesApp')
 				setWidth(width);
 
 				canvasInstance.calcOffset();
-				
-				updateViewport();
+
+				updateViewport(height, width);
 			},
-			updateViewport = function updateViewport(viewportPorcentage, topPorcentage, leftPorcentage){
-				viewportPorcentage = viewportPorcentage || 0.8;
-				topPorcentage = topPorcentage || 0.1;
-				leftPorcentage = leftPorcentage || leftPorcentage || 0.1;
-				var viewport = canvasInstance.model.updateViewport(viewportPorcentage, topPorcentage, leftPorcentage);
+			updateViewport = function updateViewport(height, width){
+				var top = (height - viewportHeight) / 2,
+					left = (width - viewportWidth) / 2;
+
+				top = (top < minTop) ? minTop : top;
+				left = (left < minLeft) ? minLeft : left;
+
+				var viewport = canvasInstance.model.updateViewportBySize(viewportHeight, viewportWidth, top, left);
+
 				var rect = new fabric.Rect({
 					left: viewport.left,
 					top: viewport.top,
-					fill: '#FAF8B9',
+					fill: '#C0C0C0',
 					width: viewport.width,
 					height: viewport.height,
 					borderColor : '#3F3F3F',
@@ -68,6 +79,9 @@ angular.module('animatesApp')
 			},
 			remove = function remove(element){
 				canvasInstance.remove(element);
+			},
+			clear = function clear(){
+				canvasInstance.clear();
 			};
 
 		return {
@@ -75,6 +89,7 @@ angular.module('animatesApp')
 			setSize : setSize,
 			renderAll : renderAll,
 			add : add,
-			remove : remove
+			remove : remove,
+			clear : clear
 		};
 	});
