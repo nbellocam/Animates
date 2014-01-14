@@ -7,11 +7,6 @@ body {
     padding-bottom: 20px;
 }
 
-.canvas-content{
-  margin-top: 20px;
-  border: 1px solid black;
-}
-
 .canvas-container{
   border: 2px solid red;
 }
