@@ -118,7 +118,15 @@
 
 <script>
     $(document).ready(function () {
-        $('body').layout({ applyDefaultStyles: true });
+        window.layout = $('body').layout({ 
+          applyDefaultStyles: true, 
+          west:{
+            size: 60,
+            resizable:false,
+            onresize : function (panelName, element, state, options){
+              //TODO view how to save state size.
+            }
+          }});
     });
 </script>
 </body>
