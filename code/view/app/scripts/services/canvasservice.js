@@ -23,6 +23,15 @@ angular.module('animatesApp')
 					}
 				});
 
+				canvas.on('object:selected', function(event) {
+					if (event.target.model) {
+						shapeSync.syncFromFabric(options.target);
+						//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
+					}
+				});
+
+				canvas.on("after:render", function(){canvas.calcOffset();});
+
 				return canvas;
 			},
 			canvasInstance = createCanvas('mainCanvas', 480, 640),
