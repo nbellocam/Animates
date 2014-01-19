@@ -10,16 +10,12 @@ angular.module('animatesApp')
 					resizable:false
 				},
 				center: {
-					onresize : function (panelName, element, state){
-						canvasService.clear();
-						canvasService.setSize(state.innerHeight, state.innerWidth);
-						canvasService.renderAll();
+					onresize : function (panelName, element, state, options){
+						canvasService.updateSize(state.innerHeight, state.innerWidth);
 					}
 				}
 			});
 
-			canvasService.clear();
-			canvasService.setSize(layout.state.center.innerHeight, layout.state.center.innerWidth);
-			canvasService.renderAll();
+			canvasService.updateSize(layout.state.center.innerHeight, layout.state.center.innerWidth);
 		});
 	});
