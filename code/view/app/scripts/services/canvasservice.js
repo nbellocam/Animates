@@ -44,28 +44,20 @@ angular.module('animatesApp')
 				return canvas;
 			},
 			canvasInstance = createCanvas('mainCanvas', 480, 640),
-			getInstance = function getInstance(){
-				return canvasInstance;
-			},
+			viewportInstance,
 			setHeight = function setHeight(height){
 				var minHeight = viewportHeight + (minTop * 2);
 				height = (minHeight > height) ? minHeight : height;
+
 				canvasInstance.setHeight(height);
 				canvasInstance.model.height = height;
 			},
 			setWidth = function setWidth(width){
 				var minWidth = viewportWidth + (minLeft * 2);
 				width = (minWidth > width) ? minWidth : width;
+
 				canvasInstance.setWidth(width);
 				canvasInstance.model.width = width;
-			},
-			setSize = function setSize(height, width){
-				setHeight(height);
-				setWidth(width);
-
-				canvasInstance.calcOffset();
-
-				updateViewport(height, width);
 			},
 			updateViewport = function updateViewport(height, width){
 				var top = (height - viewportHeight) / 2,
@@ -76,45 +68,64 @@ angular.module('animatesApp')
 
 				var viewport = canvasInstance.model.updateViewportBySize(viewportHeight, viewportWidth, top, left);
 
-				var rect = new fabric.Rect({
-					left: viewport.left,
-					top: viewport.top,
-					fill: '#C0C0C0',
-					width: viewport.width,
-					height: viewport.height,
-					borderColor : '#3F3F3F',
-					evented: false,
-					opacity: 0.2,
-					selectable: false
-				});
+				if (viewportInstance){
+					viewportInstance.set({ 
+						left: viewport.left,
+						top: viewport.top,
+						width: viewport.width,
+						height: viewport.height
+					});
+				} else {
+					viewportInstance = new fabric.Rect({
+						left: viewport.left,
+						top: viewport.top,
+						fill: '#C0C0C0',
+						width: viewport.width,
+						height: viewport.height,
+						borderColor : '#3F3F3F',
+						evented: false,
+						opacity: 0.2,
+						selectable: false,
+						strokeWidth: 2,
+						stroke: '#3F3F3F'
+					});
 
-				rect.set({ strokeWidth: 2, stroke: '#3F3F3F' });
+					canvasInstance.add(viewportInstance);
+				}
 
-				canvasInstance.add(rect);
+				return viewport;
+			},
+			updateAllObjects = function updateAllObjects(viewport){
+				//TODO update all the objects taking in consideration the new viewport
 			},
 			renderAll = function renderAll(){
 				canvasInstance.renderAll();
-			},
-			add = function add(element){
-				canvasInstance.add(element);
-			},
-			remove = function remove(element){
-				canvasInstance.remove(element);
-			},
-			clear = function clear(){
-				canvasInstance.clear();
-			},
-			getSelectedShape = function getSelectedShape (){
-				return selectedShape;
 			};
 
 		return {
-			getInstance : getInstance,
-			setSize : setSize,
-			renderAll : renderAll,
-			add : add,
-			remove : remove,
-			clear : clear,
-			getSelectedShape : getSelectedShape
+			getInstance : function getInstance(){
+				return canvasInstance;
+			},
+			updateSize : function updateSize(height, width){
+				setHeight(height);
+				setWidth(width);
+
+				var viewport = updateViewport(height, width);
+				updateAllObjects(viewport);
+
+				renderAll();
+			},
+			add : function add(element){
+				canvasInstance.add(element);
+			},
+			remove : function remove(element){
+				canvasInstance.remove(element);
+			},
+			clear : function clear(){
+				canvasInstance.clear();
+			},
+			getSelectedShape : function getSelectedShape (){
+				return selectedShape;
+			}
 		};
 	});

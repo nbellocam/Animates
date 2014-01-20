@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="styles/ui.layout.default.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="animatesApp">
+  <body ng-app="animatesApp" ng-controller="LayoutCtrl">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -74,17 +74,17 @@
     <div class="ui-layout-west"><div ng-include="'views/toolbar.html'"></div></div>
     <div class="ui-layout-south">South</div>
     <div class="ui-layout-east"><div ng-include="'views/propertiesPanel.html'"></div></div>
-    
+
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
-       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
+      ga('create', 'UA-XXXXX-X');
+      ga('send', 'pageview');
     </script>
 
     <!--[if lt IE 9]>
@@ -115,20 +115,8 @@
         <script src="scripts/services/shapecreator.js"></script>
         <script src="scripts/services/shapesync.js"></script>
         <script src="scripts/services/canvasservice.js"></script>
+        <script src="scripts/controllers/layout.js"></script>
         <!-- endbuild -->
 
-<script>
-    $(document).ready(function () {
-        window.layout = $('body').layout({ 
-          applyDefaultStyles: true, 
-          west:{
-            size: 60,
-            resizable:false,
-            onresize : function (panelName, element, state, options){
-              //TODO view how to save state size.
-            }
-          }});
-    });
-</script>
-</body>
+  </body>
 </html>
