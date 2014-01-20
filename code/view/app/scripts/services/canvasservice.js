@@ -30,7 +30,7 @@ angular.module('animatesApp')
 					}
 				});
 
-				canvas.on("after:render", function(){canvas.calcOffset();});
+				canvas.on('after:render', function(){canvas.calcOffset();});
 
 				return canvas;
 			},
@@ -60,7 +60,7 @@ angular.module('animatesApp')
 				var viewport = canvasInstance.model.updateViewportBySize(viewportHeight, viewportWidth, top, left);
 
 				if (viewportInstance){
-					viewportInstance.set({ 
+					viewportInstance.set({
 						left: viewport.left,
 						top: viewport.top,
 						width: viewport.width,
@@ -86,8 +86,22 @@ angular.module('animatesApp')
 
 				return viewport;
 			},
-			updateAllObjects = function updateAllObjects(viewport){
-				//TODO update all the objects taking in consideration the new viewport
+			updateAllObjects = function updateAllObjects(viewport, oldViewport){
+				var diffTop = viewport.top - oldViewport.top,
+					diffLeft = viewport.left - oldViewport.left,
+					allObjects = canvasInstance.getObjects(),
+					object;
+
+				for (var i = 0; i < allObjects.length; i++) {
+					object = allObjects[i];
+					if (object !== viewportInstance) {
+						object.set({
+							left: diffLeft + object.left,
+							top: diffTop + object.top
+						});
+						//TODO review what to do with the model
+					}
+				}
 			},
 			renderAll = function renderAll(){
 				canvasInstance.renderAll();
@@ -101,8 +115,17 @@ angular.module('animatesApp')
 				setHeight(height);
 				setWidth(width);
 
-				var viewport = updateViewport(height, width);
-				updateAllObjects(viewport);
+				var viewport = canvasInstance.model.viewport,
+					oldViewport = {
+						left : viewport.left,
+						top : viewport.top,
+						height : viewport.height,
+						width : viewport.width
+					};
+
+				viewport = updateViewport(height, width);
+
+				updateAllObjects(viewport, oldViewport);
 
 				renderAll();
 			},
