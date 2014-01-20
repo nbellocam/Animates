@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('animatesApp')
-	.service('canvasService', function Canvasservice(shapeSync, $window) {
+	.service('canvasService', function Canvasservice(shapeSync, $window, $rootScope) {
 		var fabric = $window.fabric,
 			model = $window.model,
 			viewportHeight = 500,
 			viewportWidth = 500,
 			minTop = 100,
 			minLeft = 100,
+			selectedShape = null,
 			createCanvas = function createCanvas(id, height, width) {
 				var canvas = new fabric.Canvas(id);
 				canvas.model = new model.Canvas();
@@ -16,17 +17,25 @@ angular.module('animatesApp')
 				
 				// TODO: Update Properties
 
-				canvas.on('object:modified', function(options) {
-					if (options.target) {
-						shapeSync.syncFromFabric(options.target);
+				canvas.on('object:modified', function(event) {
+					if (event.target) {
+						shapeSync.syncFromFabric(event.target);
 						//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
+						$rootScope.$broadcast('shapeChange', event.target);
 					}
 				});
 
+				canvas.on('selection:cleared', function (event){
+					$rootScope.$broadcast('selectedShapeChange', null);
+				});
+
 				canvas.on('object:selected', function(event) {
-					if (event.target.model) {
-						shapeSync.syncFromFabric(options.target);
-						//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
+					if (!event.target._objects)
+					{
+						selectedShape = event.target;
+						$rootScope.$broadcast('selectedShapeChange', event.target);
+					} else {
+						$rootScope.$broadcast('selectedShapeChange', null);
 					}
 				});
 
@@ -94,6 +103,9 @@ angular.module('animatesApp')
 			},
 			clear = function clear(){
 				canvasInstance.clear();
+			},
+			getSelectedShape = function getSelectedShape (){
+				return selectedShape;
 			};
 
 		return {
@@ -102,6 +114,7 @@ angular.module('animatesApp')
 			renderAll : renderAll,
 			add : add,
 			remove : remove,
-			clear : clear
+			clear : clear,
+			getSelectedShape : getSelectedShape
 		};
 	});
