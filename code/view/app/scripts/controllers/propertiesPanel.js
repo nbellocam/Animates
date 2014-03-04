@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('PropertiesPanelCtrl', function($scope, $rootScope, $location, canvasService, canvasUtils) {
+	.controller('PropertiesPanelCtrl', function($scope, $rootScope, $location, canvasService) {
 		$scope.properties = null;
 
 		$scope.empty = function () {
