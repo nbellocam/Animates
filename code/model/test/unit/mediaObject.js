@@ -48,6 +48,22 @@ describe('MediaObject', function(){
 			should.equal(propertyValue, undefined);
 		});
 
+		it('Should return undefined if parent property is empty.', function(){
+			var instance = new MediaObject(),
+				propertyValue = instance.getProperty('parentPropertyName.innerPropertyName');
+
+			should.equal(propertyValue, undefined);
+		});
+
+		it('Should return undefined if inner property is empty.', function(){
+			var instance = new MediaObject({
+					parentPropertyName: { }
+				}),
+				propertyValue = instance.getProperty('parentPropertyName.innerPropertyName');
+
+			should.equal(propertyValue, undefined);
+		});
+
 		it('Should return undefined if property is not passed by argument.', function(){
 			var instance = new MediaObject(),
 				propertyValue = instance.getProperty();
@@ -59,6 +75,18 @@ describe('MediaObject', function(){
 			var specifiedPropertyValue = 'value1',
 				instance = new MediaObject({propertyName: specifiedPropertyValue}),
 				propertyValue = instance.getProperty('propertyName');
+
+			propertyValue.should.eql(specifiedPropertyValue);
+		});
+
+		it('Should return the inner property if it exits.', function(){
+			var specifiedPropertyValue = 'value',
+				instance = new MediaObject({
+					parentPropertyName: {
+						innerPropertyName : specifiedPropertyValue
+					}
+				}),
+				propertyValue = instance.getProperty('parentPropertyName.innerPropertyName');
 
 			propertyValue.should.eql(specifiedPropertyValue);
 		});
@@ -92,6 +120,61 @@ describe('MediaObject', function(){
 			properties = instance.getProperties();
 
 			properties.should.have.property('propertyName', newPropertyValue);
+		});
+
+		it('Should create a new full property path if the property does not exits at all.', function(){
+			var specifiedPropertyValue = 'value1',
+				instance = new MediaObject(),
+				properties = instance.getProperties();
+
+			properties.should.not.have.property('parentPropertyName');
+
+			instance.setProperty('parentPropertyName.innerPropertyName', specifiedPropertyValue);
+
+			properties = instance.getProperties();
+
+			properties.should.have.property('parentPropertyName');
+
+			properties.parentPropertyName.should.have.property('innerPropertyName', specifiedPropertyValue);
+		});
+
+		it('Should create a new full property path if the inner property does not exits.', function(){
+			var specifiedPropertyValue = 'value1',
+				instance = new MediaObject({
+					parentPropertyName: {}
+				}),
+				properties = instance.getProperties();
+
+
+			properties.should.have.property('parentPropertyName');
+			properties.parentPropertyName.should.not.have.property('innerPropertyName');
+
+			instance.setProperty('parentPropertyName.innerPropertyName', specifiedPropertyValue);
+
+			properties = instance.getProperties();
+
+			properties.parentPropertyName.should.have.property('innerPropertyName', specifiedPropertyValue);
+		});
+
+		it('Should update a inner property if it already exits.', function(){
+			var originalPropertyValue = 'oldValue',
+				newPropertyValue = 'newValue',
+				instance = new MediaObject({
+					parentPropertyName: {
+						innerPropertyName : originalPropertyValue
+					}
+				}),
+				properties = instance.getProperties();
+
+
+			properties.should.have.property('parentPropertyName');
+			properties.parentPropertyName.should.have.property('innerPropertyName');
+
+			instance.setProperty('parentPropertyName.innerPropertyName', newPropertyValue);
+
+			properties = instance.getProperties();
+
+			properties.parentPropertyName.should.have.property('innerPropertyName', newPropertyValue);
 		});
 	});
 });
