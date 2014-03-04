@@ -4,7 +4,7 @@ angular.module('animatesApp')
 	.controller('LayoutCtrl', function ($scope, canvasService) {
 		angular.element(document).ready(function () {
 			var layout = angular.element('body').layout({
-				applyDefaultStyles: true,
+				applyDefaultStyles: false,
 				west:{
 					size: 60,
 					resizable:false

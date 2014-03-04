@@ -9,41 +9,7 @@ angular.module('animatesApp')
 			minTop = 100,
 			minLeft = 100,
 			selectedShape = null,
-			createCanvas = function createCanvas(id, height, width) {
-				var canvas = new fabric.Canvas(id);
-				canvas.model = new model.Canvas();
-				viewportHeight = height || viewportHeight;
-				viewportWidth = width || viewportWidth;
-				
-				// TODO: Update Properties
-
-				canvas.on('object:modified', function(event) {
-					if (event.target) {
-						shapeSync.syncFromFabric(event.target);
-						//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
-						$rootScope.$broadcast('shapeChange', event.target);
-					}
-				});
-
-				canvas.on('selection:cleared', function (event){
-					$rootScope.$broadcast('selectedShapeChange', null);
-				});
-
-				canvas.on('object:selected', function(event) {
-					if (!event.target._objects)
-					{
-						selectedShape = event.target;
-						$rootScope.$broadcast('selectedShapeChange', event.target);
-					} else {
-						$rootScope.$broadcast('selectedShapeChange', null);
-					}
-				});
-
-				canvas.on('after:render', function(){canvas.calcOffset();});
-
-				return canvas;
-			},
-			canvasInstance = createCanvas('mainCanvas', 480, 640),
+			canvasInstance,
 			viewportInstance,
 			setHeight = function setHeight(height){
 				var minHeight = viewportHeight + (minTop * 2);
@@ -79,15 +45,14 @@ angular.module('animatesApp')
 					viewportInstance = new fabric.Rect({
 						left: viewport.left,
 						top: viewport.top,
-						fill: '#C0C0C0',
 						width: viewport.width,
 						height: viewport.height,
-						borderColor : '#3F3F3F',
+						fill: '#FFF',
 						evented: false,
-						opacity: 0.2,
+						opacity: 1,
 						selectable: false,
 						strokeWidth: 2,
-						stroke: '#3F3F3F'
+						stroke: '#BBB'
 					});
 
 					canvasInstance.add(viewportInstance);
@@ -117,6 +82,44 @@ angular.module('animatesApp')
 			};
 
 		return {
+			createCanvas : function createCanvas(id, height, width) {
+				var canvas = new fabric.Canvas(id, {
+					backgroundColor: '#F3F3F3'
+				});
+				canvas.model = new model.Canvas();
+				viewportHeight = height || viewportHeight;
+				viewportWidth = width || viewportWidth;
+				
+				// TODO: Update Properties
+
+				canvas.on('object:modified', function(event) {
+					if (event.target) {
+						shapeSync.syncFromFabric(event.target);
+						//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
+						$rootScope.$broadcast('shapeChange', event.target);
+					}
+				});
+
+				canvas.on('selection:cleared', function (event){
+					$rootScope.$broadcast('selectedShapeChange', null);
+				});
+
+				canvas.on('object:selected', function(event) {
+					if (!event.target._objects)
+					{
+						selectedShape = event.target;
+						$rootScope.$broadcast('selectedShapeChange', event.target);
+					} else {
+						$rootScope.$broadcast('selectedShapeChange', null);
+					}
+				});
+
+				canvas.on('after:render', function(){
+					canvas.calcOffset();
+				});
+
+				canvasInstance = canvas;
+			},
 			getInstance : function getInstance(){
 				return canvasInstance;
 			},
