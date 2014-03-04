@@ -402,7 +402,17 @@ function MediaObject (options) {
 	this.getProperty = function getProperties(name)
 	{
 		if (name){
-			return properties[name];
+			var parts = name.split('.'),
+			parent = properties,
+			currentPart = '',
+			length = parts.length;
+
+			for(var i = 0; i < length && parent; i++) {
+				currentPart = parts[i];
+				parent = parent[currentPart] || undefined;
+			}
+
+			return parent;
 		}
 
 		return undefined;
@@ -415,7 +425,20 @@ function MediaObject (options) {
 	this.setProperty = function setProperty(name, value)
 	{
 		if (name){
-			properties[name] = value;
+			var parts = name.split('.'),
+			parent = properties,
+			oldParent,
+			currentPart = '',
+			length = parts.length;
+
+			for(var i = 0; i < length; i++) {
+				currentPart = parts[i];
+				oldParent = parent;
+				oldParent[currentPart] = parent[currentPart] || {};
+				parent = oldParent[currentPart];
+			}
+
+			oldParent[currentPart] = value;
 		}
 	};
 
