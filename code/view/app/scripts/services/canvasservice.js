@@ -100,7 +100,7 @@ angular.module('animatesApp')
 					}
 				});
 
-				canvas.on('selection:cleared', function (event){
+				canvas.on('selection:cleared', function (){
 					$rootScope.$broadcast('selectedShapeChange', null);
 				});
 
