@@ -103,9 +103,9 @@ angular.module('animatesApp')
 				canvasInstance.setWidth(getNewValue(width, canvasInstance.model.width, canvasConfig.canvasMinPosition.left));
 
 				var oldCanvasPosition = {
-						left : canvasPosition.left,
-						top : canvasPosition.top
-					};
+					left : canvasPosition.left,
+					top : canvasPosition.top
+				};
 				
 				updateCanvasPosition(height, width);
 				updateAllObjects(canvasPosition, oldCanvasPosition);
