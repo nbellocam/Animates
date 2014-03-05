@@ -1,64 +1,34 @@
 'use strict';
 
 angular.module('animatesApp')
-	.service('canvasService', function Canvasservice(shapeSync, $window, $rootScope) {
+	.service('canvasService', function Canvasservice(shapeSync, $window, $rootScope, canvasConfig) {
 		var fabric = $window.fabric,
 			model = $window.model,
-			viewportHeight = 500,
-			viewportWidth = 500,
-			minTop = 100,
-			minLeft = 100,
+			canvasPosition = {
+				left: canvasConfig.canvasMinPosition.left,
+				top: canvasConfig.canvasMinPosition.top
+			},
 			selectedShape = null,
 			canvasInstance,
 			viewportInstance,
-			setHeight = function setHeight(height){
-				var minHeight = viewportHeight + (minTop * 2);
-				height = (minHeight > height) ? minHeight : height;
+			updateCanvasPosition = function updateCanvasPosition(height, width){
+				var top = (height - canvasInstance.model.height) / 2,
+					left = (width - canvasInstance.model.width) / 2;
 
-				canvasInstance.setHeight(height);
-				canvasInstance.model.height = height;
-			},
-			setWidth = function setWidth(width){
-				var minWidth = viewportWidth + (minLeft * 2);
-				width = (minWidth > width) ? minWidth : width;
+				canvasPosition.top = (top < canvasConfig.canvasMinPosition.top) ? canvasConfig.canvasMinPosition.top : top;
+				canvasPosition.left = (left < canvasConfig.canvasMinPosition.left) ? canvasConfig.canvasMinPosition.left : left;
 
-				canvasInstance.setWidth(width);
-				canvasInstance.model.width = width;
-			},
-			updateViewport = function updateViewport(height, width){
-				var top = (height - viewportHeight) / 2,
-					left = (width - viewportWidth) / 2;
-
-				top = (top < minTop) ? minTop : top;
-				left = (left < minLeft) ? minLeft : left;
-
-				var viewport = canvasInstance.model.updateViewportBySize(viewportHeight, viewportWidth, top, left);
-
-				if (viewportInstance){
-					viewportInstance.set({
-						left: viewport.left,
-						top: viewport.top,
-						width: viewport.width,
-						height: viewport.height
-					});
-				} else {
-					viewportInstance = new fabric.Rect({
-						left: viewport.left,
-						top: viewport.top,
-						width: viewport.width,
-						height: viewport.height,
-						fill: '#FFF',
-						evented: false,
-						opacity: 1,
-						selectable: false,
-						strokeWidth: 2,
-						stroke: '#BBB'
-					});
-
+				if (!viewportInstance){
+					viewportInstance = new fabric.Rect(canvasConfig.viewportInitialConfig);
 					canvasInstance.add(viewportInstance);
 				}
 
-				return viewport;
+				viewportInstance.set({
+					left: canvasPosition.left,
+					top: canvasPosition.top,
+					width: canvasInstance.model.width,
+					height: canvasInstance.model.height
+				});
 			},
 			updateAllObjects = function updateAllObjects(viewport, oldViewport){
 				var diffTop = viewport.top - oldViewport.top,
@@ -83,12 +53,12 @@ angular.module('animatesApp')
 
 		return {
 			createCanvas : function createCanvas(id, height, width) {
-				var canvas = new fabric.Canvas(id, {
-					backgroundColor: '#F3F3F3'
+				var canvas = new fabric.Canvas(id, canvasConfig.canvasInitialConfig);
+
+				canvas.model = new model.Canvas({
+					height: height || canvasConfig.canvasDefaultSize.height,
+					width: width || canvasConfig.canvasDefaultSize.width
 				});
-				canvas.model = new model.Canvas();
-				viewportHeight = height || viewportHeight;
-				viewportWidth = width || viewportWidth;
 				
 				// TODO: Update Properties
 
@@ -124,20 +94,21 @@ angular.module('animatesApp')
 				return canvasInstance;
 			},
 			updateSize : function updateSize(height, width){
-				setHeight(height);
-				setWidth(width);
+				var getNewValue = function getNewValue(newValue, originalValue, minMargin){
+					var minValue = originalValue + (minMargin * 2);
+					return (minValue > newValue) ? minValue : newValue;
+				};
 
-				var viewport = canvasInstance.model.viewport,
-					oldViewport = {
-						left : viewport.left,
-						top : viewport.top,
-						height : viewport.height,
-						width : viewport.width
+				canvasInstance.setHeight(getNewValue(height, canvasInstance.model.height, canvasConfig.canvasMinPosition.top));
+				canvasInstance.setWidth(getNewValue(width, canvasInstance.model.width, canvasConfig.canvasMinPosition.left));
+
+				var oldCanvasPosition = {
+						left : canvasPosition.left,
+						top : canvasPosition.top
 					};
-
-				viewport = updateViewport(height, width);
-
-				updateAllObjects(viewport, oldViewport);
+				
+				updateCanvasPosition(height, width);
+				updateAllObjects(canvasPosition, oldCanvasPosition);
 
 				renderAll();
 			},
