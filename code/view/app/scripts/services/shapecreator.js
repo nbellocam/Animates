@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('shapeCreator', function (shapeSync, $window) {
+	.factory('shapeCreator', function (canvasService, shapeSync, $window) {
 		var fabric = $window.fabric,
 			model = $window.model,
 			createRectangle = function createRectangle(){
@@ -15,7 +15,7 @@ angular.module('animatesApp')
 					});
 
 				rect.model = new model.Rectangle();
-				shapeSync.syncFromFabric(rect);
+				shapeSync.syncFromFabric(rect, canvasService.getCanvasPosition());
 				return rect;
 			};
 		

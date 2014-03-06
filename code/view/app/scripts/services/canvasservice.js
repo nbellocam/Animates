@@ -64,7 +64,7 @@ angular.module('animatesApp')
 
 				canvas.on('object:modified', function(event) {
 					if (event.target) {
-						shapeSync.syncFromFabric(event.target);
+						shapeSync.syncFromFabric(event.target, canvasPosition);
 						//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
 						$rootScope.$broadcast('shapeChange', event.target);
 					}
@@ -123,6 +123,12 @@ angular.module('animatesApp')
 			},
 			getSelectedShape : function getSelectedShape (){
 				return selectedShape;
+			},
+			getCanvasPosition : function getCanvasPosition(){
+				return {
+					left : canvasPosition.left,
+					top : canvasPosition.top
+				};
 			}
 		};
 	});

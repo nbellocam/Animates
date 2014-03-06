@@ -2,7 +2,7 @@
 
 angular.module('animatesApp')
 	.factory('shapeSync', function () {
-		var syncProperty = function syncVisualMediaObject(fabricProperty, model, fromFabric, propertyName, diff){
+		var syncProperty = function syncProperty(fabricProperty, model, fromFabric, propertyName, diff){
 				var modelProperty = model.getProperty(propertyName);
 				var newestValue = fromFabric ? fabricProperty : modelProperty;
 
@@ -22,7 +22,7 @@ angular.module('animatesApp')
 
 				return newestValue;
 			},
-			syncVisualMediaObject = function syncVisualMediaObject(fabricObject, fromFabric){
+			syncVisualMediaObject = function syncVisualMediaObject(fabricObject, canvasPosition, fromFabric){
 				var model = fabricObject.model,
 					diff = [];
 
@@ -30,8 +30,8 @@ angular.module('animatesApp')
 					// http://fabricjs.com/docs/fabric.Object.html
 				if (fromFabric){
 					syncProperty(fabricObject.angle, model, fromFabric, 'angle', diff);
-					syncProperty(fabricObject.left, model, fromFabric, 'position.x', diff);
-					syncProperty(fabricObject.top, model, fromFabric, 'position.y', diff);
+					syncProperty(fabricObject.left - canvasPosition.left, model, fromFabric, 'position.x', diff);
+					syncProperty(fabricObject.top - canvasPosition.top, model, fromFabric, 'position.y', diff);
 					// TODO: update model properties from fabricObject;
 					//Model properties: position.x,position.y, position.z, opacity, border.type, border.color
 				} else {
@@ -40,9 +40,9 @@ angular.module('animatesApp')
 
 				return diff;
 			},
-			syncRectangle = function syncRectangle(fabricRect, fromFabric){
+			syncRectangle = function syncRectangle(fabricRect, canvasPosition, fromFabric){
 				var model = fabricRect.model,
-					diff = syncVisualMediaObject(fabricRect, fromFabric);
+					diff = syncVisualMediaObject(fabricRect, canvasPosition, fromFabric);
 
 				if (fromFabric){
 					// TODO: update model properties from fabricRect;
@@ -55,12 +55,12 @@ angular.module('animatesApp')
 
 				return diff;
 			},
-			sync = function sync(fabricObject, fromFabric){
+			sync = function sync(fabricObject, canvasPosition, fromFabric){
 				var diff;
 
 				switch (fabricObject.type) {
 					case 'rect':
-						diff = syncRectangle(fabricObject, fromFabric);
+						diff = syncRectangle(fabricObject, canvasPosition, fromFabric);
 						break;
 					default:
 						break;
@@ -68,11 +68,11 @@ angular.module('animatesApp')
 
 				return diff;
 			},
-			syncFromFabric = function syncFromFabric(fabricObject){
-				return sync(fabricObject, true);
+			syncFromFabric = function syncFromFabric(fabricObject, canvasPosition){
+				return sync(fabricObject, canvasPosition, true);
 			},
-			syncFromModel = function syncFromModel(fabricObject){
-				return sync(fabricObject, false);
+			syncFromModel = function syncFromModel(fabricObject, canvasPosition){
+				return sync(fabricObject, canvasPosition, false);
 			};
 		
 		return {
