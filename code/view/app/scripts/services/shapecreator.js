@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('shapeCreator', function (canvasService, shapeSync, $window) {
+	.factory('shapeCreator', function shapeCreator(canvasService, shapeSync, $window) {
 		var fabric = $window.fabric,
 			model = $window.model,
 			createRectangle = function createRectangle(){

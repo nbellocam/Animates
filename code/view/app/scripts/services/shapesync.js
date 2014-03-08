@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('shapeSync', function () {
+	.factory('shapeSync', function shapeSync() {
 		var syncProperty = function syncProperty(fabricProperty, model, fromFabric, propertyName, diff){
 				var modelProperty = model.getProperty(propertyName);
 				var newestValue = fromFabric ? fabricProperty : modelProperty;

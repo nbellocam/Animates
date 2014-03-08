@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('ToolbarCtrl', function($scope, shapeCreator, canvasService, canvasUtils) {
+	.controller('ToolbarCtrl', function ToolbarCtrl($scope, shapeCreator, canvasService, canvasUtils) {
 		$scope.addRectangle = function() {
 			canvasService.add(shapeCreator.createRectangle());
 		};
