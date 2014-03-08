@@ -753,23 +753,27 @@ function Timeline (options) {
 	/**
 	 * Add a new media timeline element related with the media object passed by parameter
 	 * @param {object} mediaObject the media object to be added.
+	 * @return {object} The corresponding mediaTimeline object
 	 */
 	this.addMediaObject = function addMediaObject(mediaObject) {
 		// Generate a new MediaTimeline using the mediaObject data.
 		if (mediaObject !== undefined){
-			var found = false,
+			var mediaTimeline,
 				i,
 				mediaObjectId = mediaObject.getGuid();
 
-			for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
+			for (i = mediaTimelineCollection.length - 1; i >= 0 && !mediaTimeline; i--) {
 				if (mediaTimelineCollection[i].getMediaObjectId() === mediaObjectId){
-					found = true;
+					mediaTimeline = mediaTimelineCollection[i];
 				}
 			}
 
-			if (!found){
-				mediaTimelineCollection.push(new MediaTimeline({ mediaObject : mediaObject }));
+			if (!mediaTimeline){
+				mediaTimeline = new MediaTimeline({ mediaObject : mediaObject });
+				mediaTimelineCollection.push(mediaTimeline);
 			}
+
+			return mediaTimeline;
 		}
 	};
 
