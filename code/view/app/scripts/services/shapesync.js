@@ -36,7 +36,7 @@ angular.module('animatesApp')
 						}),
 						moveEffect = new model.MoveEffect({
 							path : path,
-							startTick : 0, // TODO define start and end frames of the effect
+							startTick : timelineService.getLastSelectedFrame(), // TODO define start and end frames of the effect
 							endTick : timelineService.getCurrentFrame()
 						});
 						
@@ -86,7 +86,7 @@ angular.module('animatesApp')
 
 					if (timelineService.startsAtCurrentFrame(mediaTimeline)){
 						var mediaObject = mediaTimeline.getMediaObject();
-						
+
 						syncModelProperty(fabricRect.currentHeight || fabricRect.height, mediaObject, 'height', diff);
 						syncModelProperty(fabricRect.currentWidth || fabricRect.width, mediaObject, 'width', diff);
 					} else {
