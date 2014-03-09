@@ -14,14 +14,14 @@ angular.module('animatesApp')
 				$scope.properties = null;
 			} else {
 				$location.path('propertiesPanel');
-				$scope.properties = canvasShape.model.getProperties();
+				$scope.properties = canvasShape.model.properties();
 			}
 			$scope.$apply();
 		});
 
 		$rootScope.$on('shapeChange', function (event, canvasShape){
-			if (canvasService.getSelectedShape().model.getGuid() === canvasShape.model.getGuid()) {
-				$scope.properties = canvasService.getSelectedShape().model.getProperties();
+			if (canvasService.getSelectedShape().model.getMediaObjectGuid() === canvasShape.model.getMediaObjectGuid()) {
+				$scope.properties = canvasService.getSelectedShape().model.properties();
 				$scope.$apply();
 			}
 		});

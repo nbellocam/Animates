@@ -51,4 +51,103 @@ describe('MediaFrame', function() {
 			currentProperties.l.should.be.exactly(10);
 		});	
 	});
+
+	describe('getProperty()', function(){
+		it('Should return undefined if property does not exits.', function(){
+			var instance = new MediaFrame({
+					mediaObject : {
+						getProperties : function getProperties() {
+							return {};
+						}
+					}
+				}),
+				propertyValue = instance.getProperty('invalidProperty');
+
+			should.equal(propertyValue, undefined);
+		});
+
+		it('Should return undefined if property is empty.', function(){
+			var instance = new MediaFrame({
+					mediaObject : {
+						getProperties : function getProperties() {
+							return {};
+						}
+					}
+				}),
+				propertyValue = instance.getProperty('');
+
+			should.equal(propertyValue, undefined);
+		});
+
+		it('Should return undefined if parent property is empty.', function(){
+			var instance = new MediaFrame({
+					mediaObject : {
+						getProperties : function getProperties() {
+							return {};
+						}
+					}
+				}),
+				propertyValue = instance.getProperty('parentPropertyName.innerPropertyName');
+
+			should.equal(propertyValue, undefined);
+		});
+
+		it('Should return undefined if inner property is empty.', function(){
+			var instance = new MediaFrame({
+					mediaObject : {
+						getProperties : function getProperties() {
+							return { parentPropertyName: {} };
+						}
+					}
+				}),
+				propertyValue = instance.getProperty('parentPropertyName.innerPropertyName');
+
+			should.equal(propertyValue, undefined);
+		});
+
+		it('Should return undefined if property is not passed by argument.', function(){
+			var instance = new MediaFrame({
+					mediaObject : {
+						getProperties : function getProperties() {
+							return {};
+						}
+					}
+				}),
+				propertyValue = instance.getProperty();
+
+			should.equal(propertyValue, undefined);
+		});
+
+		it('Should return the property if it exits.', function(){
+			var specifiedPropertyValue = 'value1',
+				instance = new MediaFrame({
+					mediaObject : {
+						getProperties : function getProperties() {
+							return { propertyName: specifiedPropertyValue };
+						}
+					}
+				}),
+				propertyValue = instance.getProperty('propertyName');
+
+			propertyValue.should.eql(specifiedPropertyValue);
+		});
+
+		it('Should return the inner property if it exits.', function(){
+			var specifiedPropertyValue = 'value',
+				instance = new MediaFrame({
+					mediaObject : {
+						getProperties : function getProperties() {
+							return { 
+								parentPropertyName: {
+									innerPropertyName : specifiedPropertyValue
+								} 
+							};
+						}
+					}
+				}),
+				propertyValue = instance.getProperty('parentPropertyName.innerPropertyName');
+
+			propertyValue.should.eql(specifiedPropertyValue);
+		});
+	});
 });

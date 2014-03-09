@@ -1,26 +1,47 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('shapeSync', function shapeSync() {
-		var syncProperty = function syncProperty(fabricProperty, model, fromFabric, propertyName, diff){
+	.factory('shapeSync', function shapeSync(timelineService) {
+		var syncModelProperty = function syncModelProperty(fabricValue, model, propertyName, diff){
 				var modelProperty = model.getProperty(propertyName);
-				var newestValue = fromFabric ? fabricProperty : modelProperty;
 
-				if (fabricProperty !== modelProperty){
-					var diffElement = {
-						oldValue : fromFabric ? modelProperty : fabricProperty,
-						newValue : newestValue,
+				if (fabricValue !== modelProperty){
+					diff.push({
+						oldValue : modelProperty,
+						newValue : fabricValue,
 						propertyName : propertyName
-					};
+					});
 
-					diff.push(diffElement);
-
-					if (fromFabric){
-						model.setProperty(propertyName, newestValue);
-					}
+					model.setProperty(propertyName, fabricValue);
 				}
+			},
+			syncFabricProperty = function syncProperty(modelValue, fabricObject, propertyName){
+				var fabricProperty = fabricObject.get(propertyName);
 
-				return newestValue;
+				if (modelValue !== fabricProperty){
+					//TODO review if model to fabric changes need to be added to the diff collection
+					fabricObject.set(propertyName, modelValue);
+				}
+			},
+			addMoveEffectIfRequired = function addMoveEffectIfRequired(model, fabricObject, canvasPosition, mediaTimeline){
+				var posXStart = model.getProperty('position.x'),
+					posYStart = model.getProperty('position.y'),
+					posXEnd = fabricObject.left - canvasPosition.left,
+					posYEnd = fabricObject.top - canvasPosition.top;
+
+				if (posXStart !== posXEnd || posYStart !== posYEnd) {
+					var path = new model.Path({
+							startPosition: { x: posXStart, y: posYStart },
+							endPosition: { x: posXEnd, y: posYEnd }
+						}),
+						moveEffect = new model.MoveEffect({
+							path : path,
+							startTick : 0, // TODO define start and end frames of the effect
+							endTick : timelineService.getCurrentFrame()
+						});
+						
+					mediaTimeline.addEffect(moveEffect);
+				}
 			},
 			syncVisualMediaObject = function syncVisualMediaObject(fabricObject, canvasPosition, fromFabric){
 				var model = fabricObject.model,
@@ -29,12 +50,26 @@ angular.module('animatesApp')
 					// Fabric Object: angle, borderColor, fill,height, width, opacity, top, left
 					// http://fabricjs.com/docs/fabric.Object.html
 				if (fromFabric){
-					syncProperty(fabricObject.angle, model, fromFabric, 'angle', diff);
-					syncProperty(fabricObject.left - canvasPosition.left, model, fromFabric, 'position.x', diff);
-					syncProperty(fabricObject.top - canvasPosition.top, model, fromFabric, 'position.y', diff);
+					var mediaTimeline = timelineService.getMediaTimeline(model);
+
+					if (timelineService.startsAtCurrentFrame(mediaTimeline)){
+						var mediaObject = mediaTimeline.getMediaObject();
+
+						syncModelProperty(fabricObject.angle, mediaObject, 'angle', diff);
+						syncModelProperty(fabricObject.left - canvasPosition.left, mediaObject, 'position.x', diff);
+						syncModelProperty(fabricObject.top - canvasPosition.top, mediaObject, 'position.y', diff);
+					} else {
+						addMoveEffectIfRequired(model, fabricObject, canvasPosition, mediaTimeline);
+						// TODO: rotate effect if angle's property changed
+					}
+					
 					// TODO: update model properties from fabricObject;
 					//Model properties: position.x,position.y, position.z, opacity, border.type, border.color
 				} else {
+					syncFabricProperty(model.getProperty('fill'), fabricObject, 'fill');
+					syncFabricProperty(model.getProperty('angle'), fabricObject, 'angle');
+					syncFabricProperty(model.getProperty('position.x') + canvasPosition.left, fabricObject, 'left');
+					syncFabricProperty(model.getProperty('position.y') + canvasPosition.top, fabricObject, 'top');
 					// TODO: update fabricObject properties from model;
 				}
 
@@ -47,9 +82,21 @@ angular.module('animatesApp')
 				if (fromFabric){
 					// TODO: update model properties from fabricRect;
 					//Model properties: height, width
-					syncProperty(fabricRect.currentHeight || fabricRect.height, model, fromFabric, 'height', diff);
-					syncProperty(fabricRect.currentWidth || fabricRect.width, model, fromFabric, 'width', diff);
+					var mediaTimeline = timelineService.getMediaTimeline(model);
+
+					if (timelineService.startsAtCurrentFrame(mediaTimeline)){
+						var mediaObject = mediaTimeline.getMediaObject();
+						
+						syncModelProperty(fabricRect.currentHeight || fabricRect.height, mediaObject, 'height', diff);
+						syncModelProperty(fabricRect.currentWidth || fabricRect.width, mediaObject, 'width', diff);
+					} else {
+						// TODO: scale effect if properties changed
+					}
+
+					fabricRect.model = mediaTimeline.getMediaFrameFor(timelineService.getCurrentFrame());
 				} else {
+					syncFabricProperty(model.getProperty('height'), fabricRect, 'height');
+					syncFabricProperty(model.getProperty('width'), fabricRect, 'width');
 					// TODO: update fabricRect properties from model;
 				}
 

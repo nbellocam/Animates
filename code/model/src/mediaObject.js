@@ -21,10 +21,10 @@ function MediaObject (options) {
 	};
 
 	/**
-	 * Get the properties
-	 * @return {Object} The current properties
+	 * Get the property named after the first parameter value 
+	 * @return {Object} The property value
 	 */
-	this.getProperty = function getProperties(name)
+	this.getProperty = function getProperty(name)
 	{
 		if (name){
 			var parts = name.split('.'),
@@ -34,7 +34,7 @@ function MediaObject (options) {
 
 			for(var i = 0; i < length && parent; i++) {
 				currentPart = parts[i];
-				parent = parent[currentPart] || undefined;
+				parent = parent[currentPart];
 			}
 
 			return parent;
@@ -45,7 +45,7 @@ function MediaObject (options) {
 
 	/**
 	 * Set the property named after the first parameter value 
-	 * @return {Object} The current properties
+	 * @return {Object} The property value
 	 */
 	this.setProperty = function setProperty(name, value)
 	{

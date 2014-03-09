@@ -343,6 +343,37 @@ function MediaFrame (options) {
 	};
 
 	/**
+	 * Get the property named after the first parameter value 
+	 * @return {Object} The property value
+	 */
+	this.getProperty = function getProperty(name)
+	{
+		if (name){
+			var parts = name.split('.'),
+			parent = currentProperties,
+			currentPart = '',
+			length = parts.length;
+
+			for(var i = 0; i < length && parent; i++) {
+				currentPart = parts[i];
+				parent = parent[currentPart];
+			}
+
+			return parent;
+		}
+
+		return undefined;
+	};
+
+	/**
+	 * Gets the guid of the original MediaObject
+	 * @return {string} the guid
+	 */
+	this.getMediaObjectGuid = function getMediaObjectGuid (values) {
+		return currentOptions.mediaObject.getGuid();
+	};
+
+	/**
 	 *  Constructor
 	 */
 	(function init() {
@@ -377,10 +408,10 @@ function MediaObject (options) {
 	};
 
 	/**
-	 * Get the properties
-	 * @return {Object} The current properties
+	 * Get the property named after the first parameter value 
+	 * @return {Object} The property value
 	 */
-	this.getProperty = function getProperties(name)
+	this.getProperty = function getProperty(name)
 	{
 		if (name){
 			var parts = name.split('.'),
@@ -390,7 +421,7 @@ function MediaObject (options) {
 
 			for(var i = 0; i < length && parent; i++) {
 				currentPart = parts[i];
-				parent = parent[currentPart] || undefined;
+				parent = parent[currentPart];
 			}
 
 			return parent;
@@ -401,7 +432,7 @@ function MediaObject (options) {
 
 	/**
 	 * Set the property named after the first parameter value 
-	 * @return {Object} The current properties
+	 * @return {Object} The property value
 	 */
 	this.setProperty = function setProperty(name, value)
 	{
@@ -458,7 +489,6 @@ function MediaTimeline (options) {
 		endTick = options.endTick || -1,
 		effects = {};
 
-
 	/**
 	 * Calculates the media object based on the original properties and the current tick.
 	 * @param {integer} currentTick The current tick.
@@ -506,6 +536,14 @@ function MediaTimeline (options) {
 	 */
 	this.getMediaObjectId = function getMediaObjectId() {
 		return mediaObject.getGuid();
+	};
+
+	/**
+	 * Get the media object
+	 * @return {string} The media object.
+	 */
+	this.getMediaObject = function getMediaObject() {
+		return mediaObject;
 	};
 
 	/**

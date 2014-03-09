@@ -33,6 +33,37 @@ function MediaFrame (options) {
 	};
 
 	/**
+	 * Get the property named after the first parameter value 
+	 * @return {Object} The property value
+	 */
+	this.getProperty = function getProperty(name)
+	{
+		if (name){
+			var parts = name.split('.'),
+			parent = currentProperties,
+			currentPart = '',
+			length = parts.length;
+
+			for(var i = 0; i < length && parent; i++) {
+				currentPart = parts[i];
+				parent = parent[currentPart];
+			}
+
+			return parent;
+		}
+
+		return undefined;
+	};
+
+	/**
+	 * Gets the guid of the original MediaObject
+	 * @return {string} the guid
+	 */
+	this.getMediaObjectGuid = function getMediaObjectGuid (values) {
+		return currentOptions.mediaObject.getGuid();
+	};
+
+	/**
 	 *  Constructor
 	 */
 	(function init() {

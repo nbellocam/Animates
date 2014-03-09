@@ -8,13 +8,20 @@ angular.module('animatesApp')
 		
 		return {
 			addMediaObject : function addMediaObject(mediaObject){
-				return timeline.addMediaObject(mediaObject);
+				var mediaTimeline = timeline.addMediaObject(mediaObject);
+				return mediaTimeline.getMediaFrameFor(currentFrame);
 			},
 			getMediaFrames : function getMediaFrames(){
 				return timeline.getElements(currentFrame);
 			},
+			getMediaTimeline : function getMediaTimeline(mediaFrame){
+				return timeline.getMediaTimeline(mediaFrame.getMediaObjectGuid());
+			},
 			getCurrentFrame : function getCurrentFrame(){
 				return currentFrame;
+			},
+			startsAtCurrentFrame : function startsAtCurrentFrame(mediaTimeline){
+				return mediaTimeline.getStartTick() === currentFrame;
 			}
 		};
 	});

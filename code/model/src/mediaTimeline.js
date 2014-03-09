@@ -15,7 +15,6 @@ function MediaTimeline (options) {
 		endTick = options.endTick || -1,
 		effects = {};
 
-
 	/**
 	 * Calculates the media object based on the original properties and the current tick.
 	 * @param {integer} currentTick The current tick.
@@ -63,6 +62,14 @@ function MediaTimeline (options) {
 	 */
 	this.getMediaObjectId = function getMediaObjectId() {
 		return mediaObject.getGuid();
+	};
+
+	/**
+	 * Get the media object
+	 * @return {string} The media object.
+	 */
+	this.getMediaObject = function getMediaObject() {
+		return mediaObject;
 	};
 
 	/**
