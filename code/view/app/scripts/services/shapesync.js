@@ -36,8 +36,8 @@ angular.module('animatesApp')
 						}),
 						moveEffect = new model.MoveEffect({
 							path : path,
-							startTick : timelineService.getLastSelectedFrame(), // TODO define start and end frames of the effect
-							endTick : timelineService.getCurrentFrame()
+							startTick : timelineService.getLastSelectedTick(), // TODO define start and end frames of the effect
+							endTick : timelineService.getCurrentTick()
 						});
 						
 					mediaTimeline.addEffect(moveEffect);
@@ -52,7 +52,7 @@ angular.module('animatesApp')
 				if (fromFabric){
 					var mediaTimeline = timelineService.getMediaTimeline(model);
 
-					if (timelineService.startsAtCurrentFrame(mediaTimeline)){
+					if (timelineService.startsAtCurrentTick(mediaTimeline)){
 						var mediaObject = mediaTimeline.getMediaObject();
 
 						syncModelProperty(fabricObject.angle, mediaObject, 'angle', diff);
@@ -84,7 +84,7 @@ angular.module('animatesApp')
 					//Model properties: height, width
 					var mediaTimeline = timelineService.getMediaTimeline(model);
 
-					if (timelineService.startsAtCurrentFrame(mediaTimeline)){
+					if (timelineService.startsAtCurrentTick(mediaTimeline)){
 						var mediaObject = mediaTimeline.getMediaObject();
 
 						syncModelProperty(fabricRect.currentHeight || fabricRect.height, mediaObject, 'height', diff);
@@ -93,7 +93,7 @@ angular.module('animatesApp')
 						// TODO: scale effect if properties changed
 					}
 
-					fabricRect.model = mediaTimeline.getMediaFrameFor(timelineService.getCurrentFrame());
+					fabricRect.model = mediaTimeline.getMediaFrameFor(timelineService.getCurrentTick());
 				} else {
 					syncFabricProperty(model.getProperty('height'), fabricRect, 'height');
 					syncFabricProperty(model.getProperty('width'), fabricRect, 'width');

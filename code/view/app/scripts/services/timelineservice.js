@@ -3,29 +3,29 @@
 angular.module('animatesApp')
 	.service('timelineService', function timelineService($window) {
 		var model = $window.model,
-			currentFrame = 0,
-			lastSelectedFrame = 0,
+			currentTick = 0,
+			lastSelectedTick = 0,
 			timeline = new model.Timeline(); //TODO: review if this should be moved somewhere else
 		
 		return {
 			addMediaObject : function addMediaObject(mediaObject){
 				var mediaTimeline = timeline.addMediaObject(mediaObject);
-				return mediaTimeline.getMediaFrameFor(currentFrame);
+				return mediaTimeline.getMediaFrameFor(currentTick);
 			},
 			getMediaFrames : function getMediaFrames(){
-				return timeline.getElements(currentFrame);
+				return timeline.getElements(currentTick);
 			},
 			getMediaTimeline : function getMediaTimeline(mediaFrame){
 				return timeline.getMediaTimeline(mediaFrame.getMediaObjectGuid());
 			},
-			getCurrentFrame : function getCurrentFrame(){
-				return currentFrame;
+			getCurrentTick : function getCurrentTick(){
+				return currentTick;
 			},
-			getLastSelectedFrame : function getLastSelectedFrame(){
-				return lastSelectedFrame;
+			getLastSelectedTick : function getLastSelectedTick(){
+				return lastSelectedTick;
 			}
-			startsAtCurrentFrame : function startsAtCurrentFrame(mediaTimeline){
-				return mediaTimeline.getStartTick() === currentFrame;
+			startsAtCurrentTick : function startsAtCurrentTick(mediaTimeline){
+				return mediaTimeline.getStartTick() === currentTick;
 			}
 		};
 	});
