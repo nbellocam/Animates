@@ -151,8 +151,6 @@ module.exports = function (grunt) {
 
 
 
-
-
     // Renames files for browser caching purposes
     rev: {
       dist: {
@@ -273,6 +271,11 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      timeline: {
+        expand: true,
+        src: '../timeline/dist/**/*',
+        dest : '<%= yeoman.app %>/bower_components/timeline/'
       }
     },
 
@@ -326,6 +329,10 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.registerTask('install-dep', function (target) {
+    grunt.task.run('bower-install');
+    grunt.task.run('copy:timeline');
+  });
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
@@ -334,7 +341,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'bower-install',
+      'install-dep',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
@@ -357,7 +364,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'bower-install',
+    'install-dep',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
