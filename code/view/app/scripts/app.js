@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('animatesApp', []);
+angular.module('animatesApp', ['animates.angular-timeline']);
