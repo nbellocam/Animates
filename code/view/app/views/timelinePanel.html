@@ -1,0 +1,82 @@
+  <style type="text/css">
+    .timelinesContainer {
+      width : 100%;
+      height: 100%;
+      border: 1px solid black;
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
+    .time-axis-major {
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      background-color: blue;
+      box-shadow: 0px 0px 3px #888897;
+    }
+    .time-axis-minor {
+      position: absolute;
+      height: 3px;
+      width: 1px;
+      bottom: 0px;
+      background-color: black;
+      box-shadow: 0px 0px 3px #888897;
+    }
+    .timeline-header {
+      border: 1px solid transparent;
+      clear: both;
+      float:left;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      width: 150px;
+      height: 30px;
+      border: 1px solid green;
+    }
+    .timeline-content {
+      border-top: 1px dotted grey;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      background-color: lightgray;
+      overflow: hidden;
+    }
+    .timeline-event {
+      position: relative;
+      height: 30px;
+      border: 1px solid red;
+      float: left;
+    }
+
+    .timeline-event.selected {
+      background-color: yellow;
+    }
+  </style>
+  <div ng-controller="TimelinePanelCtrl" class="panel timelinePanel">
+    <div class="timelinesContainer">
+      <div class="time-axis-major" style="left:200px"></div>
+      <div class="time-axis-minor" style="left:205px"></div>
+      <div class="time-nav-indicator"></div>
+      <div class="timeline">
+        <div class="timeline-header"><span>Track 1</span></div>
+        <div class="timeline-content" id="1">
+          <div class="timeline-event" style="width:300px;"></div>
+          <div class="timeline-event" style="width:50px;"></div>
+          <div class="timeline-event selected" style="width:150px;"></div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-header"><span>Track 2</span></div>
+        <div class="timeline-content" id="1">
+          <div class="timeline-event" style="left:300px;width:300px;"></div>
+          <div class="timeline-event" style="left:350px;width:50px;"></div>
+          <div class="timeline-event selected" style="left:500px;width:150px;"></div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-header"><span>Track 3</span></div>
+        <div class="timeline-content" id="1">
+          <div class="timeline-event" style="left:200px;width:100px;"></div>
+          <div class="timeline-event" style="left:250px;width:50px;"></div>
+          <div class="timeline-event selected" style="left:500px;width:150px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
