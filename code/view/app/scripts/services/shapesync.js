@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('shapeSync', function shapeSync(timelineService) {
+	.factory('shapeSync', function shapeSync(timelineService, effectCreator) {
 		var syncModelProperty = function syncModelProperty(fabricValue, model, propertyName, diff){
 				var modelProperty = model.getProperty(propertyName);
 
@@ -23,26 +23,6 @@ angular.module('animatesApp')
 					fabricObject.set(propertyName, modelValue);
 				}
 			},
-			addMoveEffectIfRequired = function addMoveEffectIfRequired(model, fabricObject, canvasPosition, mediaTimeline){
-				var posXStart = model.getProperty('position.x'),
-					posYStart = model.getProperty('position.y'),
-					posXEnd = fabricObject.left - canvasPosition.left,
-					posYEnd = fabricObject.top - canvasPosition.top;
-
-				if (posXStart !== posXEnd || posYStart !== posYEnd) {
-					var path = new model.Path({
-							startPosition: { x: posXStart, y: posYStart },
-							endPosition: { x: posXEnd, y: posYEnd }
-						}),
-						moveEffect = new model.MoveEffect({
-							path : path,
-							startTick : timelineService.getLastSelectedTick(), // TODO define start and end frames of the effect
-							endTick : timelineService.getCurrentTick()
-						});
-						
-					mediaTimeline.addEffect(moveEffect);
-				}
-			},
 			syncVisualMediaObject = function syncVisualMediaObject(fabricObject, canvasPosition, fromFabric){
 				var model = fabricObject.model,
 					diff = [];
@@ -59,7 +39,7 @@ angular.module('animatesApp')
 						syncModelProperty(fabricObject.left - canvasPosition.left, mediaObject, 'position.x', diff);
 						syncModelProperty(fabricObject.top - canvasPosition.top, mediaObject, 'position.y', diff);
 					} else {
-						addMoveEffectIfRequired(model, fabricObject, canvasPosition, mediaTimeline);
+						effectCreator.addMoveEffectIfRequired(model, fabricObject, canvasPosition, mediaTimeline);
 						// TODO: rotate effect if angle's property changed
 					}
 					

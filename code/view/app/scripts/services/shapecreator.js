@@ -2,11 +2,11 @@
 
 angular.module('animatesApp')
 	.factory('shapeCreator', function shapeCreator(canvasService, timelineService, shapeSync, $window) {
-		var fabric = $window.fabric,
-			model = $window.model,
+		var Fabric = $window.fabric,
+			Model = $window.model,
 			createRectangle = function createRectangle(){
 				// TODO: we need to pass the model and fabric in the correct ways to angular.
-				var rectModel = new model.Rectangle({
+				var rectModel = new Model.Rectangle({
 						position: {
 							x: 0,
 							y: 0
@@ -16,7 +16,7 @@ angular.module('animatesApp')
 						height: 150
 					}),
 					mediaFrame = timelineService.addMediaObject(rectModel),
-					rect = new fabric.Rect();
+					rect = new Fabric.Rect();
 
 				rect.model = mediaFrame;
 				shapeSync.syncFromModel(rect, canvasService.getCanvasPosition());
