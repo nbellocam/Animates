@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('TimelinePanelCtrl', function($scope, $rootScope, $location, canvasService) {
+	.controller('TimelinePanelCtrl', function($scope, $rootScope, $location, canvasService, timelineService) {
 		$scope.timelines = [{
 			guid : 'timeline1',
 			name : 'timeline1-name',
@@ -28,14 +28,14 @@ angular.module('animatesApp')
 			if (canvasShape === null) {
 				$scope.properties = null;
 			} else {
-				$scope.properties = canvasShape.model.getProperties();
+				$scope.properties = canvasShape.model.properties;
 			}
 			$scope.$apply();
 		});
 
 		$rootScope.$on('shapeChange', function (event, canvasShape){
-			if (canvasService.getSelectedShape().model.getGuid() === canvasShape.model.getGuid()) {
-				$scope.properties = canvasService.getSelectedShape().model.getProperties();
+			if (canvasService.getSelectedShape().model.getMediaObjectGuid() === canvasShape.model.getMediaObjectGuid()) {
+				$scope.properties = canvasService.getSelectedShape().model.properties();
 				$scope.$apply();
 			}
 		});
