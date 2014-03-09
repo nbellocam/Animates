@@ -2,7 +2,7 @@
 
 angular.module('animatesApp')
 	.controller('TimelinePanelCtrl', function($scope, $rootScope, $location, canvasService, canvasUtils) {
-		$scope.properties = null;
+		$scope.timelines = null;
 
 		$scope.empty = function () {
 			var isEmpty = ($scope.properties === null);
