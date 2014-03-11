@@ -11,6 +11,9 @@ angular.module('animatesApp')
 				var mediaTimeline = timeline.addMediaObject(mediaObject);
 				return mediaTimeline.getMediaFrameFor(currentTick);
 			},
+			removeMediaObject : function removeMediaObject(mediaObjectId){
+				timeline.removeMediaObject(mediaObjectId);
+			},
 			getMediaFrames : function getMediaFrames(){
 				return timeline.getElements(currentTick);
 			},
