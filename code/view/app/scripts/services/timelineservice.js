@@ -4,7 +4,6 @@ angular.module('animatesApp')
 	.service('timelineService', function timelineService($window) {
 		var Model = $window.model,
 			currentTick = 0,
-			lastSelectedTick = 0,
 			timeline = new Model.Timeline(); //TODO: review if this should be moved somewhere else
 		
 		return {
@@ -21,8 +20,9 @@ angular.module('animatesApp')
 			getCurrentTick : function getCurrentTick(){
 				return currentTick;
 			},
-			getLastSelectedTick : function getLastSelectedTick(){
-				return lastSelectedTick;
+			getDefaultStartTick : function getDefaultStartTick(){
+				var defaultStartTick = currentTick - 10;
+				return (defaultStartTick < 0) ? 0 : defaultStartTick;
 			},
 			startsAtCurrentTick : function startsAtCurrentTick(mediaTimeline){
 				return mediaTimeline.getStartTick() === currentTick;
