@@ -272,6 +272,11 @@ module.exports = function (grunt) {
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
       },
+      model: {
+        expand: true,
+        src: '../model/build/output/model.js',
+        dest : '<%= yeoman.app %>/scripts/'
+      },
       timeline: {
         expand: true,
         src: '../timeline/dist/**/*',
@@ -329,9 +334,10 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('install-dep', function (target) {
+  grunt.registerTask('install-dep', function () {
     grunt.task.run('bower-install');
     grunt.task.run('copy:timeline');
+    grunt.task.run('copy:model');
   });
 
   grunt.registerTask('serve', function (target) {
