@@ -98,6 +98,12 @@ function Timeline (options) {
 	};
 
 	/**
+	 * Returns the media timelines collection.
+	 */
+	this.getMediaTimelines = function getMediaTimelines() {
+		return mediaTimelineCollection;
+	};
+	/**
 	 *  Constructor
 	 */
 	(function init() {

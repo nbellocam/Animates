@@ -26,6 +26,9 @@ angular.module('animatesApp')
 			},
 			startsAtCurrentTick : function startsAtCurrentTick(mediaTimeline){
 				return mediaTimeline.getStartTick() === currentTick;
+			},
+			getMediaTimelines : function getMediaTimelines() {
+				return timeline.getMediaTimelines();
 			}
 		};
 	});
