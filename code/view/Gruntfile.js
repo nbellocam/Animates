@@ -273,8 +273,9 @@ module.exports = function (grunt) {
         src: '{,*/}*.css'
       },
       model: {
-        expand: true,
-        src: '../model/build/output/model.js',
+        expand : true,
+        cwd: '../model/build/output',
+        src: 'model.js',
         dest : '<%= yeoman.app %>/scripts/'
       },
       timeline: {
