@@ -9,20 +9,31 @@ angular.module('animatesApp')
 			return isEmpty;
 		};
 
-		$rootScope.$on('selectedShapeChange', function (event, canvasShape){
-			if (canvasShape === null) {
+		$rootScope.$on('selectedShapeChange', function (event, canvasShapes){
+			if (canvasShapes === null) {
 				$scope.properties = null;
-			} else {
+			} else if (canvasShapes.length === 1){
 				$location.path('propertiesPanel');
-				$scope.properties = canvasShape.model.properties();
+				$scope.properties = canvasShapes[0].model.properties();
+			} else {
+				//TODO complete logic for groups
 			}
+
 			$scope.$apply();
 		});
 
-		$rootScope.$on('shapeChange', function (event, canvasShape){
-			if (canvasService.getSelectedShape().model.getMediaObjectGuid() === canvasShape.model.getMediaObjectGuid()) {
-				$scope.properties = canvasService.getSelectedShape().model.properties();
-				$scope.$apply();
+		$rootScope.$on('shapeChange', function (event, canvasShapes){
+			var selectedShapes = canvasService.getSelectedShapes();
+
+			if (selectedShapes !== null) {
+				if (selectedShapes.length === 1 && canvasShapes.length === 1){
+					if (selectedShapes[0].model.getMediaObjectGuid() === canvasShapes[0].model.getMediaObjectGuid()) {
+						$scope.properties = selectedShapes[0].model.properties();
+						$scope.$apply();
+					}
+				} else {
+					//TODO complete logic for groups
+				}
 			}
 		});
 	});

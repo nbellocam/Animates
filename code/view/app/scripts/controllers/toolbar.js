@@ -31,8 +31,13 @@ angular.module('animatesApp')
 		};
 
 		$scope.removeElements = function() {
-			var selectedElement =  canvasService.getSelectedShape();
-			canvasService.remove(selectedElement);
-			timelineService.removeMediaObject(selectedElement.model.getMediaObjectGuid());
+			var selectedElements = canvasService.getSelectedShapes(),
+				selectedElement;
+
+			for (var i = selectedElements.length - 1; i >= 0; i--) {
+				selectedElement = selectedElements[i];
+				canvasService.remove(selectedElement);
+				timelineService.removeMediaObject(selectedElement.model.getMediaObjectGuid());
+			}
 		};
 	});
