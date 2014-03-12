@@ -18,7 +18,7 @@ angular.module('animatesApp')
 						}),
 						moveEffect = new Model.MoveEffect({
 							path : path,
-							startTick : timelineService.getLastSelectedTick(), // TODO define start and end frames of the effect
+							startTick : timelineService.getDefaultStartTick(), // TODO define start and end frames of the effect
 							endTick : timelineService.getCurrentTick()
 						});
 						

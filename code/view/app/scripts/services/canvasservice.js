@@ -8,7 +8,7 @@ angular.module('animatesApp')
 				left: canvasConfig.canvasMinPosition.left,
 				top: canvasConfig.canvasMinPosition.top
 			},
-			selectedShape = null,
+			selectedShapes = null,
 			canvasInstance,
 			viewportInstance,
 			updateCanvasPosition = function updateCanvasPosition(height, width){
@@ -64,9 +64,21 @@ angular.module('animatesApp')
 
 				canvas.on('object:modified', function(event) {
 					if (event.target) {
-						shapeSync.syncFromFabric(event.target, canvasPosition);
-						//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
-						$rootScope.$broadcast('shapeChange', event.target);
+						if (event.target.objects ){
+							var objects = event.target.objects;
+
+							//TODO this is not working fine: the event.target contains the real changes.
+							for (var i = objects.length - 1; i >= 0; i--) {
+								shapeSync.syncFromFabric(objects[i], canvasPosition);
+								//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
+							}
+
+							$rootScope.$broadcast('shapeChange', objects);
+						} else {
+							shapeSync.syncFromFabric(event.target, canvasPosition);
+							//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
+							$rootScope.$broadcast('shapeChange', [event.target]);
+						}
 					}
 				});
 
@@ -74,11 +86,16 @@ angular.module('animatesApp')
 					$rootScope.$broadcast('selectedShapeChange', null);
 				});
 
+				canvas.on('selection:created', function(event) {
+					selectedShapes = event.target.getObjects();
+					$rootScope.$broadcast('selectedShapeChange', selectedShapes);
+				});
+
 				canvas.on('object:selected', function(event) {
 					if (!event.target._objects)
 					{
-						selectedShape = event.target;
-						$rootScope.$broadcast('selectedShapeChange', event.target);
+						selectedShapes = [ event.target ];
+						$rootScope.$broadcast('selectedShapeChange', selectedShapes);
 					} else {
 						$rootScope.$broadcast('selectedShapeChange', null);
 					}
@@ -121,8 +138,8 @@ angular.module('animatesApp')
 			clear : function clear(){
 				canvasInstance.clear();
 			},
-			getSelectedShape : function getSelectedShape (){
-				return selectedShape;
+			getSelectedShapes : function getSelectedShapes (){
+				return selectedShapes;
 			},
 			getCanvasPosition : function getCanvasPosition(){
 				return {

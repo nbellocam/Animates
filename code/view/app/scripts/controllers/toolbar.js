@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('ToolbarCtrl', function ToolbarCtrl($scope, shapeCreator, canvasService, canvasUtils) {
+	.controller('ToolbarCtrl', function ToolbarCtrl($scope, shapeCreator, canvasService, canvasUtils, timelineService) {
 		$scope.addRectangle = function() {
 			canvasService.add(shapeCreator.createRectangle());
 		};
@@ -31,8 +31,13 @@ angular.module('animatesApp')
 		};
 
 		$scope.removeElements = function() {
-			canvasUtils.applyToActiveElements(function(activeElement){
-				canvasService.remove(activeElement);
-			});
+			var selectedElements = canvasService.getSelectedShapes(),
+				selectedElement;
+
+			for (var i = selectedElements.length - 1; i >= 0; i--) {
+				selectedElement = selectedElements[i];
+				canvasService.remove(selectedElement);
+				timelineService.removeMediaObject(selectedElement.model.getMediaObjectGuid());
+			}
 		};
 	});

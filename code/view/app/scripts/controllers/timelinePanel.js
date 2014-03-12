@@ -7,7 +7,6 @@ angular.module('animatesApp')
 		$scope.timelines = [];
 		
 		$scope.$watchCollection('timelineService.getMediaTimelines()', function (newVal, oldVal) {
-			console.log('coll changed');
 			$scope.adaptMediaTimelines(newVal);
 		});
 
