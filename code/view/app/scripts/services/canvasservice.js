@@ -65,7 +65,7 @@ angular.module('animatesApp')
 				canvas.on('object:modified', function(event) {
 					if (event.target) {
 						if (event.target.objects ){
-							var objects = event.target.objects;
+							var objects = event.target.getObjects();
 
 							//TODO this is not working fine: the event.target contains the real changes.
 							for (var i = objects.length - 1; i >= 0; i--) {
@@ -127,6 +127,9 @@ angular.module('animatesApp')
 				updateCanvasPosition(height, width);
 				updateAllObjects(canvasPosition, oldCanvasPosition);
 
+				canvasInstance.forEachObject(function (obj){
+					obj.setCoords();
+				});
 				renderAll();
 			},
 			add : function add(element){
