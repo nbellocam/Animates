@@ -6,14 +6,14 @@ angular.module('animatesApp')
 
 		$scope.timelines = [];
 		
-		$scope.$watchCollection('timelineService.getMediaTimelines()', function (newVal, oldVal) {
+		$scope.$watchCollection('timelineService.getMediaTimelines()', function (newVal) { //, oldVal
 			$scope.adaptMediaTimelines(newVal);
 		});
 
 		$scope.adaptMediaTimelines = function adaptMediaTimelines (mediaTimelines){
 			$scope.timelines = [];
 			angular.forEach(mediaTimelines, function (mediaTimeline){
-				var timeline = { 
+				var timeline = {
 					guid : mediaTimeline.getMediaObjectId(),
 					name : mediaTimeline.getMediaObjectId(),
 					events : []

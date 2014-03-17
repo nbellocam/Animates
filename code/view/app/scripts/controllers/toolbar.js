@@ -31,12 +31,16 @@ angular.module('animatesApp')
 		};
 
 		$scope.removeElements = function() {
-			var selectedElements = canvasService.getSelectedShapes(),
-				selectedElement;
+			var selectedElement = canvasService.getSelectedShape();
 
-			for (var i = selectedElements.length - 1; i >= 0; i--) {
-				selectedElement = selectedElements[i];
-				canvasService.remove(selectedElement);
+			if (selectedElement.isType('group')){
+				selectedElement.forEachObject(function (obj){
+					canvasService.remove(obj);
+					timelineService.removeMediaObject(obj.model.getMediaObjectGuid());
+				});
+				canvasService.getInstance().discardActiveGroup().renderAll();
+			} else {
+				selectedElement.remove();
 				timelineService.removeMediaObject(selectedElement.model.getMediaObjectGuid());
 			}
 		};
