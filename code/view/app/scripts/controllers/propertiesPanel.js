@@ -9,12 +9,12 @@ angular.module('animatesApp')
 			return isEmpty;
 		};
 
-		$rootScope.$on('selectedShapeChange', function (event, canvasShapes){
-			if (canvasShapes === null) {
+		$rootScope.$on('selectedShapeChange', function (event, canvasShape){
+			if (canvasShape === null) {
 				$scope.properties = null;
-			} else if (canvasShapes.length === 1){
+			} else if (!canvasShape.isType('group')){
 				$location.path('propertiesPanel');
-				$scope.properties = canvasShapes[0].model.properties();
+				$scope.properties = canvasShape.model.properties();
 			} else {
 				//TODO complete logic for groups
 			}
@@ -22,13 +22,13 @@ angular.module('animatesApp')
 			$scope.$apply();
 		});
 
-		$rootScope.$on('shapeChange', function (event, canvasShapes){
-			var selectedShapes = canvasService.getSelectedShapes();
+		$rootScope.$on('shapeChange', function (event, canvasShape){
+			var selectedShapes = canvasService.getSelectedShape();
 
 			if (selectedShapes !== null) {
-				if (selectedShapes.length === 1 && canvasShapes.length === 1){
-					if (selectedShapes[0].model.getMediaObjectGuid() === canvasShapes[0].model.getMediaObjectGuid()) {
-						$scope.properties = selectedShapes[0].model.properties();
+				if (!selectedShapes.isType('group') && !canvasShape.isType('group')){
+					if (selectedShapes.model.getMediaObjectGuid() === canvasShape.model.getMediaObjectGuid()) {
+						$scope.properties = selectedShapes.model.properties();
 						$scope.$apply();
 					}
 				} else {
