@@ -9,6 +9,16 @@ angular.module('animatesApp')
 			return isEmpty;
 		};
 
+		var createGroupProperties = function createGroupProperties(fabricGroup){
+			var canvasPosition = canvasService.getCanvasPosition();
+			return {
+				'# of items in group': fabricGroup.size(),
+				'Group angle': fabricGroup.getAngle(),
+				'Group x position': fabricGroup.left - canvasPosition.left,
+				'Group y position': fabricGroup.top - canvasPosition.top,
+			};
+		};
+
 		$rootScope.$on('selectedShapeChange', function (event, canvasShape){
 			if (canvasShape === null) {
 				$scope.properties = null;
@@ -16,7 +26,8 @@ angular.module('animatesApp')
 				$location.path('propertiesPanel');
 				$scope.properties = canvasShape.model.properties();
 			} else {
-				//TODO complete logic for groups
+				$location.path('propertiesPanel');
+				$scope.properties = createGroupProperties(canvasShape);
 			}
 
 			$scope.$apply();
@@ -32,7 +43,8 @@ angular.module('animatesApp')
 						$scope.$apply();
 					}
 				} else {
-					//TODO complete logic for groups
+					$scope.properties = createGroupProperties(canvasShape);
+					$scope.$apply();
 				}
 			}
 		});
