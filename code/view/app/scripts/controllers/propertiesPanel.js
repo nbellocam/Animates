@@ -22,6 +22,7 @@ angular.module('animatesApp')
 		$rootScope.$on('selectedShapeChange', function (event, canvasShape){
 			if (canvasShape === null) {
 				$scope.properties = null;
+				
 			} else if (!canvasShape.isType('group')){
 				$location.path('propertiesPanel');
 				$scope.properties = canvasShape.model.properties();
@@ -29,8 +30,10 @@ angular.module('animatesApp')
 				$location.path('propertiesPanel');
 				$scope.properties = createGroupProperties(canvasShape);
 			}
-
-			$scope.$apply();
+			
+			if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+				$scope.$apply();
+			}
 		});
 
 		$rootScope.$on('shapeChange', function (event, canvasShape){
