@@ -51,108 +51,113 @@ angular.module('animatesApp')
 				canvasInstance.renderAll();
 			};
 
-		return {
-			createCanvas : function createCanvas(id, height, width) {
-				var canvas = new fabric.Canvas(id, canvasConfig.canvasInitialConfig);
+		this.createCanvas = function createCanvas(id, height, width) {
+			var canvas = new fabric.Canvas(id, canvasConfig.canvasInitialConfig);
 
-				canvas.model = new model.Canvas({
-					height: height || canvasConfig.canvasDefaultSize.height,
-					width: width || canvasConfig.canvasDefaultSize.width
-				});
-				
-				// TODO: Update Properties
+			canvas.model = new model.Canvas({
+				height: height || canvasConfig.canvasDefaultSize.height,
+				width: width || canvasConfig.canvasDefaultSize.width
+			});
+			
+			// TODO: Update Properties
 
-				canvas.on('object:modified', function(event) {
-					if (event.target) {
-						if (!event.target.isType('group')){
-							shapeSync.syncFromFabric(event.target, canvasPosition);
+			canvas.on('object:modified', function(event) {
+				if (event.target) {
+					if (!event.target.isType('group')){
+						shapeSync.syncFromFabric(event.target, canvasPosition);
+						//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
+					}
+
+					$rootScope.$broadcast('shapeChange', event.target);
+				}
+			});
+
+			canvas.on('selection:cleared', function (){
+				if (selectedShape.isType('group')){
+					var allObjects = canvas.getObjects(),
+						object;
+
+					for (var i = 0; i < allObjects.length; i++) {
+						object = allObjects[i];
+						if (object !== viewportInstance) {
+							shapeSync.syncFromFabric(object, canvasPosition);
 							//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
 						}
-
-						$rootScope.$broadcast('shapeChange', event.target);
 					}
-				});
+				}
+				selectedShape = null;
+				$rootScope.$broadcast('selectedShapeChange', null);
+			});
 
-				canvas.on('selection:cleared', function (){
-					if (selectedShape.isType('group')){
-						var allObjects = canvas.getObjects(),
-							object;
+			canvas.on('selection:created', function(event) {
+				selectedShape = event.target;
+				$rootScope.$broadcast('selectedShapeChange', selectedShape);
+			});
 
-						for (var i = 0; i < allObjects.length; i++) {
-							object = allObjects[i];
-							if (object !== viewportInstance) {
-								shapeSync.syncFromFabric(object, canvasPosition);
-								//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
-							}
-						}
-					}
-					selectedShape = null;
-					$rootScope.$broadcast('selectedShapeChange', null);
-				});
-
-				canvas.on('selection:created', function(event) {
+			canvas.on('object:selected', function(event) {
+				if (event.target)
+				{
 					selectedShape = event.target;
 					$rootScope.$broadcast('selectedShapeChange', selectedShape);
-				});
+				} else {
+					$rootScope.$broadcast('selectedShapeChange', null);
+				}
+			});
 
-				canvas.on('object:selected', function(event) {
-					if (event.target)
-					{
-						selectedShape = event.target;
-						$rootScope.$broadcast('selectedShapeChange', selectedShape);
-					} else {
-						$rootScope.$broadcast('selectedShapeChange', null);
-					}
-				});
+			canvas.on('after:render', function(){
+				canvas.calcOffset();
+			});
 
-				canvas.on('after:render', function(){
-					canvas.calcOffset();
-				});
+			canvasInstance = canvas;
+		};
+		
+		this.getInstance = function getInstance(){
+			return canvasInstance;
+		};
 
-				canvasInstance = canvas;
-			},
-			getInstance : function getInstance(){
-				return canvasInstance;
-			},
-			updateSize : function updateSize(height, width){
-				var getNewValue = function getNewValue(newValue, originalValue, minMargin){
-					var minValue = originalValue + (minMargin * 2);
-					return (minValue > newValue) ? minValue : newValue;
-				};
+		this.updateSize = function updateSize(height, width){
+			var getNewValue = function getNewValue(newValue, originalValue, minMargin){
+				var minValue = originalValue + (minMargin * 2);
+				return (minValue > newValue) ? minValue : newValue;
+			};
 
-				canvasInstance.setHeight(getNewValue(height, canvasInstance.model.height, canvasConfig.canvasMinPosition.top));
-				canvasInstance.setWidth(getNewValue(width, canvasInstance.model.width, canvasConfig.canvasMinPosition.left));
+			canvasInstance.setHeight(getNewValue(height, canvasInstance.model.height, canvasConfig.canvasMinPosition.top));
+			canvasInstance.setWidth(getNewValue(width, canvasInstance.model.width, canvasConfig.canvasMinPosition.left));
 
-				var oldCanvasPosition = {
-					left : canvasPosition.left,
-					top : canvasPosition.top
-				};
-				
-				updateCanvasPosition(height, width);
-				updateAllObjects(canvasPosition, oldCanvasPosition);
+			var oldCanvasPosition = {
+				left : canvasPosition.left,
+				top : canvasPosition.top
+			};
+			
+			updateCanvasPosition(height, width);
+			updateAllObjects(canvasPosition, oldCanvasPosition);
 
-				canvasInstance.forEachObject(function (obj){
-					obj.setCoords();
-				});
-				renderAll();
-			},
-			add : function add(element){
-				canvasInstance.add(element);
-			},
-			remove : function remove(element){
-				canvasInstance.remove(element);
-			},
-			clear : function clear(){
-				canvasInstance.clear();
-			},
-			getSelectedShape : function getSelectedShape(){
-				return selectedShape;
-			},
-			getCanvasPosition : function getCanvasPosition(){
-				return {
-					left : canvasPosition.left,
-					top : canvasPosition.top
-				};
-			}
+			canvasInstance.forEachObject(function (obj){
+				obj.setCoords();
+			});
+			renderAll();
+		};
+
+		this.add = function add(element){
+			canvasInstance.add(element);
+		};
+		
+		this.remove = function remove(element){
+			canvasInstance.remove(element);
+		};
+
+		this.clear = function clear(){
+			canvasInstance.clear();
+		};
+
+		this.getSelectedShape = function getSelectedShape(){
+			return selectedShape;
+		};
+
+		this.getCanvasPosition = function getCanvasPosition(){
+			return {
+				left : canvasPosition.left,
+				top : canvasPosition.top
+			};
 		};
 	});
