@@ -1,14 +1,15 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('TimelinePanelCtrl', function($scope, $rootScope, $location, canvasService, timelineService) {
-		$scope.timelineService = timelineService;
-
+	.controller('TimelinePanelCtrl', function($scope, $rootScope, canvasService, timelineService) {
 		$scope.timelines = [];
 		
-		$scope.$watchCollection('timelineService.getMediaTimelines()', function (newVal) { //, oldVal
-			$scope.adaptMediaTimelines(newVal);
-		});
+		$scope.$watchCollection(function () {
+				return timelineService.getMediaTimelines();
+			},
+			function (newVal) { //, oldVal
+				$scope.adaptMediaTimelines(newVal);
+			});
 
 		$scope.adaptMediaTimelines = function adaptMediaTimelines (mediaTimelines){
 			$scope.timelines = [];
