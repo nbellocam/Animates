@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('PropertiesPanelCtrl', function PropertiesPanelCtrl($scope, $rootScope, $location, canvasService) {
+	.controller('PropertiesPanelCtrl', function PropertiesPanelCtrl($scope, $rootScope, canvasService) {
 		$scope.properties = null;
 
 		$scope.empty = function () {
@@ -22,16 +22,13 @@ angular.module('animatesApp')
 		$rootScope.$on('selectedShapeChange', function (event, canvasShape){
 			if (canvasShape === null) {
 				$scope.properties = null;
-				
 			} else if (!canvasShape.isType('group')){
-				$location.path('propertiesPanel');
 				$scope.properties = canvasShape.model.properties();
 			} else {
-				$location.path('propertiesPanel');
 				$scope.properties = createGroupProperties(canvasShape);
 			}
 			
-			if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
 				$scope.$apply();
 			}
 		});
