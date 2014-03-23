@@ -20,11 +20,14 @@ angular.module('animatesApp')
 			getMediaTimeline : function getMediaTimeline(mediaFrame){
 				return timeline.getMediaTimeline(mediaFrame.getMediaObjectGuid());
 			},
+			setCurrentTick : function setCurrentTick(tick){
+				currentTick = tick;
+			},
 			getCurrentTick : function getCurrentTick(){
 				return currentTick;
 			},
 			getDefaultStartTick : function getDefaultStartTick(){
-				var defaultStartTick = currentTick - 10;
+				var defaultStartTick = currentTick - 20;
 				return (defaultStartTick < 0) ? 0 : defaultStartTick;
 			},
 			startsAtCurrentTick : function startsAtCurrentTick(mediaTimeline){

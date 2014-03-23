@@ -9,7 +9,11 @@ angular.module('animatesApp')
 			},
 			function (newVal) { //, oldVal
 				$scope.adaptMediaTimelines(newVal);
-			});
+			}, true);
+
+		$scope.$on('currentTickChanged', function(event, newVal) {
+			timelineService.setCurrentTick(newVal);
+		});
 
 		$scope.adaptMediaTimelines = function adaptMediaTimelines (mediaTimelines){
 			$scope.timelines = [];
@@ -24,8 +28,8 @@ angular.module('animatesApp')
 					timeline.events.push(
 						{
 							name : effect.getGuid(),
-							start : effect.getStartTick(),
-							duration : effect.getEndTick() - effect.getStartTick()
+							start : effect.startTick,
+							duration : effect.endTick - effect.startTick
 						}
 					);
 				});
