@@ -4,7 +4,7 @@ module.exports = {
     //db: "mongodb://localhost/mean-dev",
     db: "mongodb://animates-admin:Passw0rd@ds030817.mongolab.com:30817/animates-dev",
     app: {
-        name: "MEAN - A Modern Stack - Development"
+        name: "Animates - Development"
     },
     facebook: {
         clientID: "APP_ID",

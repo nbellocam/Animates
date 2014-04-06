@@ -2,9 +2,9 @@
 
 module.exports = {
     //db: "mongodb://localhost/mean",
-    db: "mongodb://animates-admin:Passw0rd@ds030817.mongolab.com:30817/animates-dev",
+    db: "mongodb://AnimatesMongoDB:Tj2h2YKxcrYT3LbrIQJbj4UftCrCwPWqsn4USqdVJ6M-@ds031088.mongolab.com:31088/AnimatesMongoDB",
     app: {
-        name: "MEAN - A Modern Stack - Production"
+        name: "Animates"
     },
     facebook: {
         clientID: "APP_ID",
