@@ -105,6 +105,14 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   popd
 )
 
+:: 4. Install bower packages
+IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
+  pushd %DEPLOYMENT_TARGET%
+  call !NPM_CMD! postinstall --production
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
+)
+
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Post deployment stub
