@@ -2,13 +2,14 @@
   "name": "animates",
   "version": "0.0.0",
   "dependencies": {
+    "connect-mongo": "~0.4.0",
     "express": "~3.4.3",
+    "grunt-cli": "^0.1.13",
+    "jade": "~1.2.0",
     "lodash": "~2.4.1",
     "mongoose": "~3.8.8",
-    "connect-mongo": "~0.4.0",
     "passport": "~0.2.0",
-    "passport-local": "~0.1.6",
-    "jade": "~1.2.0"
+    "passport-local": "~0.1.6"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -64,7 +65,6 @@
   },
   "scripts": {
     "start": "node node_modules/grunt-cli/bin/grunt serve:dist",
-    "test": "node node_modules/grunt-cli/bin/grunt test",
-    "postinstall": "node node_modules/bower/bin/bower install"
+    "test": "node node_modules/grunt-cli/bin/grunt test"
   }
 }
