@@ -4,7 +4,7 @@ var Common = require('animates-common');
 
 /**
  *  Creates a new Effect.
- *  @class Represents an Effect . 
+ *  @class Represents an Effect .
  */
 function Effect (options) {
 	options = options || {};
@@ -35,7 +35,7 @@ function Effect (options) {
 
 	/**
 	 *  Constructor
-	 */ 
+	 */
 	(function init() {
 		guid = Common.createGuid();
 	}());
