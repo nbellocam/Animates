@@ -3,13 +3,22 @@
 angular.module('animatesApp')
 	.controller('TimelinePanelCtrl', function($scope, $rootScope, canvasService, timelineService) {
 		$scope.timelines = [];
-		
-		$scope.$watchCollection(function () {
+		var watches = [];
+
+		var w = $scope.$watchCollection(function () {
 				return timelineService.getMediaTimelines();
 			},
 			function (newVal) { //, oldVal
+				angular.forEach(watches, function (watch) { watch(); });
 				$scope.adaptMediaTimelines(newVal);
-			}, true);
+				angular.forEach(newVal, function (mediaTimeline){
+					$scope.$watchCollection(function () {
+						return mediaTimeline.getEffects();
+					}, function () {
+						$scope.adaptMediaTimelines(timelineService.getMediaTimelines());
+					});
+				});
+			});
 
 		$scope.$on('currentTickChanged', function(event, newVal) {
 			timelineService.setCurrentTick(newVal);
