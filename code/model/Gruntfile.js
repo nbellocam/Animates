@@ -1,6 +1,8 @@
 /*global module:false */
 /*jshint node:true */
 
+var path = require('path');
+
 module.exports = function (grunt) {
 	'use strict';
 
@@ -30,7 +32,7 @@ module.exports = function (grunt) {
 				src = grunt.config.get('meta.src'),
 				jsdocConfig =	{
 									src: [src], 
-									dest: output + '/doc'
+									dest: path.join(output, 'doc')
 								};
 
 			grunt.config.set('jsdoc.dist', jsdocConfig);
@@ -116,7 +118,7 @@ module.exports = function (grunt) {
 							quiet: true,
 							// specify a destination file to capture the mocha
 							// output (the quiet option does not suppress this)
-							captureFile: output + '/coverage.html'
+							captureFile: path.join(output, 'coverage.html')
 						},
 						src: [tests]
 					},
@@ -129,6 +131,15 @@ module.exports = function (grunt) {
 						src: [tests]
 					}
 				};
+
+			if (target === 'build'){
+				var testPath = path.join(output, 'test-reports');
+				grunt.file.mkdir(testPath);
+
+				mochaConfig.test.options.reporter = 'xunit';
+				mochaConfig.test.options.quiet = true;
+				mochaConfig.test.options.captureFile = path.join(testPath, 'model.xml');
+			}
 
 			grunt.loadNpmTasks('grunt-mocha-test');
 			grunt.config.set('mochaTest', mochaConfig);
@@ -196,7 +207,7 @@ module.exports = function (grunt) {
 				packageEntryPoint = grunt.config.get('meta.packageEntryPoint'),
 				browserifyConfig =	{
 									src: [packageEntryPoint], 
-									dest: output + '/' + packageOutputFileName,
+									dest: path.join(output, packageOutputFileName),
 									options: {
 										standalone: packageEntryName
 									}
@@ -228,7 +239,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('package', ['resetOutput', 'package-model']);
 
-	grunt.registerTask('build', ['lint:all', 'resetOutput', 'tests', 'doc', 'package-model']);
+	grunt.registerTask('build', ['lint:all', 'resetOutput', 'tests:build', 'doc', 'package-model']);
 
 	grunt.registerTask('default', ['lint:all', 'resetOutput', 'tests', 'package-model']);
 };

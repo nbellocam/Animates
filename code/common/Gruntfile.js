@@ -1,6 +1,8 @@
 /*global module:false */
 /*jshint node:true */
 
+var path = require('path');
+
 module.exports = function (grunt) {
 	'use strict';
 
@@ -27,13 +29,8 @@ module.exports = function (grunt) {
 				src = grunt.config.get('meta.src'),
 				jsdocConfig =	{
 									src: [src], 
-									dest: output + '/doc'
+									dest: path.join(output, 'doc')
 								};
-
-			if(grunt.file.exists(output)) {
-				grunt.file.delete(output);
-			}
-			grunt.file.mkdir(output);
 
 			grunt.config.set('jsdoc.dist', jsdocConfig);
 
@@ -116,7 +113,7 @@ module.exports = function (grunt) {
 							quiet: true,
 							// specify a destination file to capture the mocha
 							// output (the quiet option does not suppress this)
-							captureFile: output + '/coverage.html'
+							captureFile: path.join(output, 'coverage.html')
 						},
 						src: [tests]
 					},
@@ -130,10 +127,14 @@ module.exports = function (grunt) {
 					}
 				};
 
-			if(grunt.file.exists(output)) {
-				grunt.file.delete(output);
+			if (target === 'build'){
+				var testPath = path.join(output, 'test-reports');
+				grunt.file.mkdir(testPath);
+
+				mochaConfig.test.options.reporter = 'xunit';
+				mochaConfig.test.options.quiet = true;
+				mochaConfig.test.options.captureFile = path.join(testPath, 'model.xml');
 			}
-			grunt.file.mkdir(output);
 
 			grunt.loadNpmTasks('grunt-mocha-test');
 			grunt.config.set('mochaTest', mochaConfig);
@@ -188,7 +189,23 @@ module.exports = function (grunt) {
 		}
 	);
 
-	grunt.registerTask('dev', ['lint:all', 'tests']);
+	grunt.registerTask('resetOutput', 
+		function () {
+			grunt.config.requires('meta.output');
 
-	grunt.registerTask('default', ['lint:all', 'tests', 'doc']);
+			var output = grunt.config.get('meta.output');
+
+			if(grunt.file.exists(output)) {
+				grunt.file.delete(output);
+			}
+
+			grunt.file.mkdir(output);
+		}
+	);
+
+	grunt.registerTask('dev', ['lint:all', 'resetOutput', 'tests']);
+
+	grunt.registerTask('build', ['lint:all', 'resetOutput', 'tests:build', 'doc', 'package-model']);
+
+	grunt.registerTask('default', ['lint:all', 'resetOutput', 'tests', 'doc']);
 };

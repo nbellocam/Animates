@@ -4,7 +4,9 @@
   "private": true,
   "main": "./src/common.js",
   "scripts": {
-    "test": "grunt",
+    "test": "grunt"
+  },
+  "config": {
     "travis-cov": {
       "threshold": 80
     }

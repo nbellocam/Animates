@@ -63,3 +63,5 @@ npm install
 $GRUNT_CMD install-dep
 cd ..
 echo "Completed installing site..."
+
+cd ..

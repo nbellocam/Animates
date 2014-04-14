@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "test": "grunt",
+    "test": "grunt"
+  },
+  "config": {
     "travis-cov": {
       "threshold": 80
     }
