@@ -60,5 +60,6 @@ echo "Completed installing view..."
 echo "Installing site..."
 cd site
 npm install
+$GRUNT_CMD install-dep
 cd ..
 echo "Completed installing site..."

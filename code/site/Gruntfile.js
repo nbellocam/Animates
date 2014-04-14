@@ -418,6 +418,11 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.registerTask('install-dep', function () {
+    grunt.task.run('bower-install');
+    //grunt.task.run('copy:view');
+  });
+
   // Used for delaying livereload until after server has restarted
   grunt.registerTask('wait', function () {
     grunt.log.ok('Waiting for server reload...');
@@ -442,7 +447,7 @@ module.exports = function (grunt) {
     if (target === 'debug') {
       return grunt.task.run([
         'clean:server',
-        'bower-install',
+        'install-dep',
         'concurrent:server',
         'autoprefixer',
         'concurrent:debug'
@@ -451,7 +456,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'bower-install',
+      'install-dep',
       'concurrent:server',
       'autoprefixer',
       'express:dev',
@@ -490,7 +495,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'bower-install',
+    'install-dep',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',

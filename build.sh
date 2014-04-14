@@ -4,6 +4,8 @@
 
 # server project
 ./install.sh
+
+
 cd code/server
 npm install
 ./node_modules/.bin/mocha --recursive -R xunit test/ > ../../build/test-reports/server.xml
