@@ -386,6 +386,12 @@ module.exports = function (grunt) {
     'htmlmin'
   ]);
 
+  grunt.registerTask('ci-build', [
+    'newer:jshint:all',
+    'test',
+    'build'
+  ]);
+
   grunt.registerTask('default', [
     'newer:jshint',
     'test',

@@ -519,4 +519,10 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.registerTask('ci-build', [
+    'newer:jshint:all',
+    'test',
+    'build'
+  ]);
 };
