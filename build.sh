@@ -5,7 +5,28 @@
 # install all dependencies
 ./install.sh
 
-# This file install all packages for each project.
+if [[ ! -n "$GRUNT_CMD" ]]; then
+	GRUNT_CMD=`command -v grunt`
+
+	if [[ ! -n "$GRUNT_CMD" ]]; then
+	  echo "Grunt was not found."
+	  pushd ..
+	  npm install grunt-cli
+
+	  if [ ! $? -eq 0 ]; then
+	    echo "An error has occurred during installing grunt-cli."
+	    exit 1
+	  fi
+
+	  BASEPATH=$PWD
+	  GRUNT_CMD="$BASEPATH/node_modules/grunt-cli/bin/grunt"
+	  popd
+	fi
+fi
+
+echo "Using grunt from: $GRUNT_CMD"
+
+# This file run the build tasks all packages for each project.
 
 cd code
 
