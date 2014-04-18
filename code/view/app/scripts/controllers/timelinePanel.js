@@ -5,7 +5,7 @@ angular.module('animatesApp')
 		$scope.timelines = [];
 		var watches = [];
 
-		var w = $scope.$watchCollection(function () {
+		$scope.$watchCollection(function () {
 				return timelineService.getMediaTimelines();
 			},
 			function (newVal) { //, oldVal
