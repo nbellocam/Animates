@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # This file runs all the requiered operation for the build server for each project.
 
 # install all dependencies
