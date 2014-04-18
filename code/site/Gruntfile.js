@@ -514,14 +514,14 @@ module.exports = function (grunt) {
     grunt.task.run(['build']);
   });
 
-  grunt.registerTask('default', [
-    'newer:jshint',
-    'test',
+  grunt.registerTask('ci-build', [
+    'newer:jshint:all',
+    //'test',
     'build'
   ]);
 
-  grunt.registerTask('ci-build', [
-    'newer:jshint:all',
+  grunt.registerTask('default', [
+    'newer:jshint',
     'test',
     'build'
   ]);
