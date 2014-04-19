@@ -115,8 +115,8 @@ module.exports = function (grunt) {
       ],
       build:{ 
         options: {
-          reporter: require('jslint'),
-          reporterOutput: 'build/output/jshint.result',
+          reporter: 'jslint',
+          reporterOutput: 'build/output/jshint-result.xml',
           force: true
         },
         src: ['<%= yeoman.app %>/scripts/{,*/}*.js'],

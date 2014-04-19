@@ -33,7 +33,7 @@ cd code
 echo "Running build task for common..."
 cd common
 $GRUNT_CMD ci-build
-mkdir -d ../../build/common
+mkdir -p ../../build/common
 cp -r build/output ../../build/common
 cd ..
 echo "Completed running build task common..."
@@ -42,7 +42,7 @@ echo "Completed running build task common..."
 echo "Running build task model..."
 cd model
 $GRUNT_CMD ci-build
-mkdir -d ../../build/model
+mkdir -p ../../build/model
 cp -r build/output ../../build/model
 cd ..
 echo "Completed running build task model..."
@@ -51,8 +51,8 @@ echo "Completed running build task model..."
 echo "Running build task timeline..."
 cd timeline
 $GRUNT_CMD ci-build
-mkdir -d ../../build/timeline
-# cp -r build/output ../../build/timeline
+mkdir -p ../../build/timeline
+cp -r build/output ../../build/timeline
 cd ..
 echo "Completed running build task timeline..."
 
@@ -60,8 +60,8 @@ echo "Completed running build task timeline..."
 echo "Running build task view..."
 cd view
 $GRUNT_CMD ci-build
-mkdir -d ../../build/view
-# cp -r build/output ../../build/view
+mkdir -p ../../build/view
+cp -r build/output ../../build/view
 cd ..
 echo "Completed running build task view..."
 
@@ -69,7 +69,7 @@ echo "Completed running build task view..."
 echo "Running build task site..."
 cd site
 $GRUNT_CMD ci-build
-mkdir -d ../../build/site
-# cp -r build/output ../../build/site
+mkdir -p ../../build/site
+cp -r build/output ../../build/site
 cd ..
 echo "Completed running build task site..."

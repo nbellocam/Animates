@@ -79,8 +79,8 @@ module.exports = function (grunt) {
 					grunt.config.requires('meta.src');
 					grunt.config.requires('meta.tests');
 					grunt.config.requires('meta.output');
-					jshintConfig.options.reporter = require('jslint');
-					jshintConfig.options.reporterOutput = path.join(output, 'jshint.result');
+					jshintConfig.options.reporter = 'jslint';
+					jshintConfig.options.reporterOutput = path.join(output, 'jshint-result.xml');
 					jshintConfig.options.force = true;
 					break;
 				default:
