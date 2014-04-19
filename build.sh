@@ -37,16 +37,23 @@ function cpBuildOutput {
 }
 
 function buildProject {
-	echo "Running build task for $1..."
+	echo .
+	echo "=============="
+	echo "\e[1;4;33mRunning build task for $1..."
+	echo "=============="
 	pushd $1
 	resetBuildOutput
 	$GRUNT_CMD ci-build
 	cpBuildOutput $1
-	popd ..
-	echo "Completed running build task $1..."
+	popd
+	echo .
+	echo "=============="
+	echo "\e[1;4;33mCompleted running build task $1..."
+	echo "=============="
+	echo .
 }
 
-echo "Using grunt from: $GRUNT_CMD"
+echo "\e[1;4;33mUsing grunt from: $GRUNT_CMD"
 
 # This file run the build tasks all packages for each project.
 
