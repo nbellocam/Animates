@@ -44,6 +44,7 @@ echo "Completed installing model..."
 echo "Installing timeline..."
 cd timeline
 npm install
+bower install
 $GRUNT_CMD package
 cd ..
 echo "Completed installing timeline..."
@@ -52,6 +53,7 @@ echo "Completed installing timeline..."
 echo "Installing view..."
 cd view
 npm install
+bower install
 $GRUNT_CMD install-dep
 cd ..
 echo "Completed installing view..."
@@ -60,6 +62,7 @@ echo "Completed installing view..."
 echo "Installing site..."
 cd site
 npm install
+bower install
 $GRUNT_CMD install-dep
 cd ..
 echo "Completed installing site..."
