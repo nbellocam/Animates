@@ -82,6 +82,7 @@ module.exports = function (grunt) {
 					jshintConfig.options.reporter = 'jslint';
 					jshintConfig.options.reporterOutput = path.join(output, 'jshint-result.xml');
 					jshintConfig.options.force = true;
+					target = 'all';
 					break;
 				default:
 					target = 'all';
