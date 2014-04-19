@@ -352,6 +352,17 @@ module.exports = function (grunt) {
           ]
         }]
       },
+      build: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.dist %>',
+          dest: 'build/output/site',
+          src: [
+            '**/*'
+          ]
+        }]
+      },
       styles: {
         expand: true,
         cwd: '<%= yeoman.app %>/styles',
@@ -534,7 +545,8 @@ module.exports = function (grunt) {
   grunt.registerTask('ci-build', [
     'newer:jshint:build',
     //'test',
-    'build'
+    'build',
+    'copy:build'
   ]);
 
   grunt.registerTask('default', [
