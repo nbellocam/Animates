@@ -25,7 +25,7 @@ fi
 
 function resetBuildOutput {
 	if [ -d "build/output" ]; then
-		rm -r build/output
+		rm -rf build/output
 	fi
 
 	mkdir -p build/output
