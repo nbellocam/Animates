@@ -31,9 +31,18 @@ function resetBuildOutput {
 	mkdir -p build/output
 }
 
+function replacePathInPaths {
+	sed -E "s@(file name)=\"([^\"]*)\"@\1=\"$1\/\2\"@g" jshint-result.xml > jshint-result.xml.tmp
+	mv jshint-result.xml.tmp jshint-result.xml
+}
+
 function cpBuildOutput {
 	mkdir -p "../../build/$1"
 	cp -r build/output/. "../../build/$1/"
+	
+	pushd "../../build/$1/"
+	replacePathInPaths $1
+	popd
 }
 
 function buildProject {
