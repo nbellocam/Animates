@@ -103,7 +103,7 @@ module.exports = function (grunt) {
         '!<%= yeoman.app %>/scripts/model.js',
         '!<%= yeoman.app %>/scripts/vendors/{,*/}*.js'
       ],
-      build:{ 
+      build:{
         options: {
           reporter: 'jslint',
           reporterOutput: 'build/output/jshint-result.xml',

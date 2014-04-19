@@ -31,6 +31,21 @@ function resetBuildOutput {
 	mkdir -p build/output
 }
 
+function cpBuildOutput {
+	mkdir -p "../../build/$1"
+	cp -r build/output/. "../../build/$1/"
+}
+
+function buildProject {
+	echo "Running build task for $1..."
+	pushd $1
+	resetBuildOutput
+	$GRUNT_CMD ci-build
+	cpBuildOutput $1
+	pop ..
+	echo "Completed running build task $1..."
+}
+
 echo "Using grunt from: $GRUNT_CMD"
 
 # This file run the build tasks all packages for each project.
@@ -38,51 +53,16 @@ echo "Using grunt from: $GRUNT_CMD"
 cd code
 
 # common project
-echo "Running build task for common..."
-cd common
-resetBuildOutput
-$GRUNT_CMD ci-build
-mkdir -p ../../build/common
-cp -r build/output ../../build/common
-cd ..
-echo "Completed running build task common..."
+buildProject "common"
 
 # model project
-echo "Running build task model..."
-cd model
-resetBuildOutput
-$GRUNT_CMD ci-build
-mkdir -p ../../build/model
-cp -r build/output ../../build/model
-cd ..
-echo "Completed running build task model..."
+buildProject "model"
 
 # timeline project
-echo "Running build task timeline..."
-cd timeline
-resetBuildOutput
-$GRUNT_CMD ci-build
-mkdir -p ../../build/timeline
-cp -r build/output ../../build/timeline
-cd ..
-echo "Completed running build task timeline..."
+buildProject "timeline"
 
 # view project
-echo "Running build task view..."
-cd view
-resetBuildOutput
-$GRUNT_CMD ci-build
-mkdir -p ../../build/view
-cp -r build/output ../../build/view
-cd ..
-echo "Completed running build task view..."
+buildProject "view"
 
 # site project
-echo "Running build task site..."
-cd site
-resetBuildOutput
-$GRUNT_CMD ci-build
-mkdir -p ../../build/site
-cp -r build/output ../../build/site
-cd ..
-echo "Completed running build task site..."
+buildProject "site"

@@ -113,7 +113,7 @@ module.exports = function (grunt) {
       all: [
         '<%= yeoman.app %>/scripts/{,*/}*.js'
       ],
-      build:{ 
+      build:{
         options: {
           reporter: 'jslint',
           reporterOutput: 'build/output/jshint-result.xml',
@@ -203,7 +203,7 @@ module.exports = function (grunt) {
             nodemon.on('config:update', function () {
               setTimeout(function () {
                 require('open')('http://localhost:8080/debug?port=5858');
-              }, 500);              
+              }, 500);
             });
           }
         }
@@ -501,12 +501,14 @@ module.exports = function (grunt) {
         'karma'
       ]);
     }
-
-    else grunt.task.run([
-      'test:server',
-      'test:client'
-    ]);
-  });  
+    
+    else {
+      grunt.task.run([
+        'test:server',
+        'test:client'
+      ]);
+    }
+  });
 
   grunt.registerTask('build', [
     'clean:dist',
