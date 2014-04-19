@@ -178,7 +178,6 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			utils.testMediaFrameProperties(properties, specifiedProperties, 0, 0);
 
 			// mediaFrameCollection for time "specificEndTick2"
-			console.log("specificEndTick2: "+ specificEndTick2);
 			mediaFrame = utils.testMediaFrameCollection(timeline, specificEndTick2);
 			properties = mediaFrame.properties();
 			utils.testMediaFrameProperties(properties, specifiedProperties, 0, 0);
