@@ -23,6 +23,14 @@ if [[ ! -n "$GRUNT_CMD" ]]; then
 	fi
 fi
 
+function resetBuildOutput {
+	if [ -d "build/output" ]; then
+		rm -r build/output
+	fi
+
+	mkdir -p build/output
+}
+
 echo "Using grunt from: $GRUNT_CMD"
 
 # This file run the build tasks all packages for each project.
@@ -32,6 +40,7 @@ cd code
 # common project
 echo "Running build task for common..."
 cd common
+resetBuildOutput
 $GRUNT_CMD ci-build
 mkdir -p ../../build/common
 cp -r build/output ../../build/common
@@ -41,6 +50,7 @@ echo "Completed running build task common..."
 # model project
 echo "Running build task model..."
 cd model
+resetBuildOutput
 $GRUNT_CMD ci-build
 mkdir -p ../../build/model
 cp -r build/output ../../build/model
@@ -50,6 +60,7 @@ echo "Completed running build task model..."
 # timeline project
 echo "Running build task timeline..."
 cd timeline
+resetBuildOutput
 $GRUNT_CMD ci-build
 mkdir -p ../../build/timeline
 cp -r build/output ../../build/timeline
@@ -59,6 +70,7 @@ echo "Completed running build task timeline..."
 # view project
 echo "Running build task view..."
 cd view
+resetBuildOutput
 $GRUNT_CMD ci-build
 mkdir -p ../../build/view
 cp -r build/output ../../build/view
@@ -68,6 +80,7 @@ echo "Completed running build task view..."
 # site project
 echo "Running build task site..."
 cd site
+resetBuildOutput
 $GRUNT_CMD ci-build
 mkdir -p ../../build/site
 cp -r build/output ../../build/site
