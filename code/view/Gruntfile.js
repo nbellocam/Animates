@@ -103,6 +103,14 @@ module.exports = function (grunt) {
         '!<%= yeoman.app %>/scripts/model.js',
         '!<%= yeoman.app %>/scripts/vendors/{,*/}*.js'
       ],
+      build:{ 
+        options: {
+          reporter: require('jslint'),
+          reporterOutput: 'build/output/jshint.result',
+          force: true
+        },
+        src: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+      },
       test: {
         options: {
           jshintrc: 'test/.jshintrc'
@@ -387,7 +395,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('ci-build', [
-    'newer:jshint:all',
+    'newer:jshint:build',
     //'test',
     'build'
   ]);

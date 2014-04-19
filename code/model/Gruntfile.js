@@ -45,8 +45,8 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('lint', 
 		function (target) {
-
 			var src = grunt.config.get('meta.src'),
+				output = grunt.config.get('meta.output'),
 				tests = grunt.config.get('meta.tests'),
 				gruntFile = grunt.config.get('meta.gruntFile'),
 				jshintConfig = {
@@ -74,6 +74,14 @@ module.exports = function (grunt) {
 				case 'all':
 					grunt.config.requires('meta.src');
 					grunt.config.requires('meta.tests');
+					break;
+				case 'build':
+					grunt.config.requires('meta.src');
+					grunt.config.requires('meta.tests');
+					grunt.config.requires('meta.output');
+					jshintConfig.options.reporter = require('jslint');
+					jshintConfig.options.reporterOutput = path.join(output, 'jshint.result');
+					jshintConfig.options.force = true;
 					break;
 				default:
 					target = 'all';
@@ -133,12 +141,9 @@ module.exports = function (grunt) {
 				};
 
 			if (target === 'build'){
-				var testPath = path.join(output, 'test-reports');
-				grunt.file.mkdir(testPath);
-
 				mochaConfig.test.options.reporter = 'xunit';
 				mochaConfig.test.options.quiet = true;
-				mochaConfig.test.options.captureFile = path.join(testPath, 'model.xml');
+				mochaConfig.test.options.captureFile = path.join(output, 'test-results.xml');
 			}
 
 			grunt.loadNpmTasks('grunt-mocha-test');
@@ -239,7 +244,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('package', ['resetOutput', 'package-model']);
 
-	grunt.registerTask('ci-build', ['lint:all', 'resetOutput', 'tests:build', 'doc', 'package-model']);
+	grunt.registerTask('ci-build', ['lint:build', 'resetOutput', 'tests:build', 'doc', 'package-model']);
 
 	grunt.registerTask('default', ['lint:all', 'resetOutput', 'tests', 'package-model']);
 };

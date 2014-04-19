@@ -12,6 +12,8 @@ var config = require('./lib/config/config');
 
 module.exports = function (grunt) {
 
+
+
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
@@ -20,7 +22,6 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
-
     // Project settings
     yeoman: {
       // configurable paths
@@ -112,6 +113,14 @@ module.exports = function (grunt) {
       all: [
         '<%= yeoman.app %>/scripts/{,*/}*.js'
       ],
+      build:{ 
+        options: {
+          reporter: require('jslint'),
+          reporterOutput: 'build/output/jshint.result',
+          force: true
+        },
+        src: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+      },
       test: {
         options: {
           jshintrc: 'test/client/.jshintrc'
@@ -515,7 +524,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('ci-build', [
-    'newer:jshint:all',
+    'newer:jshint:build',
     //'test',
     'build'
   ]);
