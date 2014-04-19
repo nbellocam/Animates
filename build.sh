@@ -23,6 +23,10 @@ if [[ ! -n "$GRUNT_CMD" ]]; then
 	fi
 fi
 
+echo
+echo -e "\e[1;4;33mUsing grunt from: $GRUNT_CMD"
+echo
+
 function resetBuildOutput {
 	if [ -d "build/output" ]; then
 		rm -rf build/output
@@ -63,10 +67,6 @@ function buildProject {
 	echo -e "\e[1;4;33m=============="
 	echo
 }
-
-echo
-echo -e "\e[1;4;33mUsing grunt from: $GRUNT_CMD"
-echo
 
 # This file run the build tasks all packages for each project.
 

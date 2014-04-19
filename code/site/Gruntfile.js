@@ -41,7 +41,7 @@ module.exports = function (grunt) {
       prod: {
         options: {
           script: 'dist/server.js',
-          node_env: 'production'
+          'NODE_ENV': 'production'
         }
       }
     },
@@ -428,7 +428,7 @@ module.exports = function (grunt) {
 
     env: {
       test: {
-        NODE_ENV: 'test'
+        'NODE_ENV': 'test'
       }
     }
   });
