@@ -245,7 +245,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('package', ['resetOutput', 'package-model']);
 
-	grunt.registerTask('ci-build', ['lint:build', 'resetOutput', 'tests:build', 'doc', 'package-model']);
+	grunt.registerTask('ci-build', ['resetOutput', 'lint:build', 'tests:build', 'doc', 'package-model']);
 
-	grunt.registerTask('default', ['lint:all', 'resetOutput', 'tests', 'package-model']);
+	grunt.registerTask('default', ['resetOutput', 'lint:all', 'tests', 'package-model']);
 };
