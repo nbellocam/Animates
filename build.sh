@@ -41,7 +41,7 @@ function cpBuildOutput {
 	cp -r build/output/. "../../build/$1/"
 	
 	pushd "../../build/$1/"
-	replacePathInPaths $1
+	replacePathInPaths "code/$1"
 	popd
 }
 
