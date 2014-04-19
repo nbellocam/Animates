@@ -42,7 +42,7 @@ function buildProject {
 	resetBuildOutput
 	$GRUNT_CMD ci-build
 	cpBuildOutput $1
-	pop ..
+	popd ..
 	echo "Completed running build task $1..."
 }
 
