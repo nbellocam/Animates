@@ -73,20 +73,22 @@ angular.module('animatesApp')
 			});
 
 			canvas.on('selection:cleared', function (){
-				if (selectedShape.isType('group')){
-					var allObjects = canvas.getObjects(),
-						object;
+				if (event.target && selectedShape) {
+					if (selectedShape.isType('group')){
+						var allObjects = canvas.getObjects(),
+							object;
 
-					for (var i = 0; i < allObjects.length; i++) {
-						object = allObjects[i];
-						if (object !== viewportInstance) {
-							shapeSync.syncFromFabric(object, canvasPosition);
-							//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
+						for (var i = 0; i < allObjects.length; i++) {
+							object = allObjects[i];
+							if (object !== viewportInstance) {
+								shapeSync.syncFromFabric(object, canvasPosition);
+								//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
+							}
 						}
 					}
+					selectedShape = null;
+					$rootScope.$broadcast('selectedShapeChange', null);
 				}
-				selectedShape = null;
-				$rootScope.$broadcast('selectedShapeChange', null);
 			});
 
 			canvas.on('selection:created', function(event) {
@@ -148,6 +150,10 @@ angular.module('animatesApp')
 
 		this.clear = function clear(){
 			canvasInstance.clear();
+			if (viewportInstance)
+			{
+				canvasInstance.add(viewportInstance);
+			}
 		};
 
 		this.getSelectedShape = function getSelectedShape(){

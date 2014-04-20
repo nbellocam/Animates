@@ -21,9 +21,18 @@ angular.module('animatesApp')
 				rect.model = mediaFrame;
 				shapeSync.syncFromModel(rect, canvasService.getCanvasPosition());
 				return rect;
+			},
+			createShapeFromFrame = function createShapeFromFrame(mediaFrame){
+				var rectModel = new Model.Rectangle(mediaFrame.properties()),
+					//mediaFrame = timelineService.addMediaObject(rectModel),
+					rect = new Fabric.Rect();
+
+				rect.model = mediaFrame;
+				shapeSync.syncFromModel(rect, canvasService.getCanvasPosition());
+				return rect;
 			};
-		
 		return {
-			createRectangle : createRectangle
+			createRectangle : createRectangle,
+			createShapeFromFrame : createShapeFromFrame
 		};
 	});
