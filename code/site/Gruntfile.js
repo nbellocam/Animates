@@ -525,7 +525,12 @@ module.exports = function (grunt) {
     'clean:dist',
     'install-dep',
     'useminPrepare',
-    'concurrent:dist',
+    //'concurrent:dist',
+    'copy:styles',
+    'imagemin',
+    'svgmin',
+    'htmlmin',
+    // end concurrent
     'autoprefixer',
     'concat',
     'ngmin',
