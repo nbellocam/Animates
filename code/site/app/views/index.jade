@@ -19,7 +19,8 @@ html.no-js
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <!--<link rel="stylesheet" href="styles/main.css">-->
+    <link rel="stylesheet" href="styles/strapped.css">
     <!-- endbuild -->
   body(ng-app="animatesApp")
     //[if lt IE 7]>
@@ -32,7 +33,7 @@ html.no-js
 
     // Add your site or application content here
     
-    div(class="container" ng-view)
+    div(ng-view)
 
     // Google Analytics: change UA-XXXXX-X to be your site's ID.
     script.
