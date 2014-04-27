@@ -51,6 +51,11 @@ function MoveEffect(options) {
 		return mediaFrameProperties;
 	};
 
+	this.getAffectedProperties = function () 
+	{
+		return ['position'];
+	};
+
 	(function init() { 
 		
 	}());

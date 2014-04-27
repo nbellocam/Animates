@@ -15,7 +15,20 @@ describe('MoveEffect', function(){
 			effect1.getGuid().should.not.be.equal(effect2.getGuid());
 		});
 	});
-	
+
+	describe('getAffectedProperties', function(){
+		it('Should return "position"', function(){
+			var effect = new MoveEffect();
+			var effectAffectedProperties = effect.getAffectedProperties();
+
+			should(effectAffectedProperties)
+				.be.instanceof(Array)
+				.and.have.lengthOf(1);
+			should(effectAffectedProperties)
+				.containEql('position');
+		});
+	});
+
 	describe('startTick', function(){
 		it('Should start at 0 if it not specified otherwise', function(){
 			var effect = new MoveEffect();

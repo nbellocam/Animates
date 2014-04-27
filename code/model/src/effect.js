@@ -34,6 +34,15 @@ function Effect (options) {
 	};
 
 	/**
+	 * Gets the array of properties names that the effect modifies
+	 * @return The array of properties names
+	 */
+	this.getAffectedProperties = function () 
+	{
+		return [];
+	};
+
+	/**
 	 *  Constructor
 	 */
 	(function init() {
