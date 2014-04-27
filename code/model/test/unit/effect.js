@@ -16,6 +16,43 @@ describe('Effect', function(){
 		});
 	});
 
+	describe('getCommonAffectedProperties', function(){
+		it('Should return empty array', function(){
+			var effect = new Effect(),
+				effect2 = new Effect();
+
+			(effect.getCommonAffectedProperties(effect2))
+				.should.be.empty;
+		});
+
+		it('Should return common properties', function(){
+			var effect = new Effect(),
+				effect2 = new Effect(),
+				commonProperties;
+
+			effect.getAffectedProperties = function () {return ['a', 'b']};
+			effect2.getAffectedProperties = function () {return ['b']};
+			commonProperties = effect.getCommonAffectedProperties(effect2);
+
+			commonProperties.should.have.lengthOf(1);
+			commonProperties.should.containEql('b');
+
+			commonProperties = effect2.getCommonAffectedProperties(effect);
+
+			commonProperties.should.have.lengthOf(1);
+			commonProperties.should.containEql('b');
+
+			effect.getAffectedProperties = function () {return ['a', 'b']};
+			effect2.getAffectedProperties = function () {return ['b', 'a']};
+			commonProperties = effect.getCommonAffectedProperties(effect2);
+
+			commonProperties.should.have.lengthOf(2);
+			commonProperties.should.containEql('b');
+			commonProperties.should.containEql('a');
+		});
+
+	});
+
 	describe('startTick', function(){
 		it('Should start at 0 if it not specified otherwise.', function(){
 			var effect = new Effect();

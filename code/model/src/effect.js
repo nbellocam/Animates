@@ -43,6 +43,19 @@ function Effect (options) {
 	};
 
 	/**
+	 * Gets the array of properties names that the effect modifies
+	 * @return The array of properties names
+	 */
+	this.getCommonAffectedProperties = function (effect) {
+		var currentAffectedProperties = this.getAffectedProperties(),
+			otherAffectedProperties = effect.getAffectedProperties();
+
+		return currentAffectedProperties.filter(function(n) {
+		    return otherAffectedProperties.indexOf(n) != -1
+		});
+	};
+
+	/**
 	 *  Constructor
 	 */
 	(function init() {
