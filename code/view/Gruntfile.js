@@ -281,6 +281,32 @@ module.exports = function (grunt) {
           src: ['generated/*']
         }]
       },
+      'simple-build': {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>',
+          dest: '<%= yeoman.dist %>',
+          src: [
+            '*.{ico,png,txt}',
+            '*.html',
+            'views/**/*',
+            'bower_components/**/*',
+            'images/**/*',
+            'fonts/*'
+          ]
+        }, {
+          expand: true,
+          cwd: '.tmp/concat/styles',
+          dest: '<%= yeoman.dist %>/styles',
+          src: ['*.css']
+        }, {
+          expand: true,
+          cwd: '.tmp/concat/scripts/',
+          dest: '<%= yeoman.dist %>/scripts',
+          src: ['*.js']
+        }]
+      },
       styles: {
         expand: true,
         cwd: '<%= yeoman.app %>/styles',
@@ -403,6 +429,18 @@ module.exports = function (grunt) {
     'rev',
     'usemin',
     'htmlmin'
+  ]);
+
+  grunt.registerTask('simple-build', [
+    'clean:dist',
+    'install-dep',
+    'useminPrepare',
+    'copy:styles',
+    'autoprefixer',
+    'concat',
+    'ngmin',
+    'copy:simple-build',
+    'usemin'
   ]);
 
   grunt.registerTask('ci-build', [
