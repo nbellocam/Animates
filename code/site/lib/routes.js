@@ -5,7 +5,8 @@ var api = require('./controllers/api'),
     users = require('./controllers/users'),
     session = require('./controllers/session');
 
-var middleware = require('./middleware');
+var authorization = require('./middlewares/authorization');
+var authentication = require('./middlewares/authentication');
 
 /**
  * Application routes
@@ -30,5 +31,5 @@ module.exports = function(app) {
   
   // All other routes to use Angular routing in app/scripts/app.js
   app.get('/partials/*', index.partials);
-  app.get('/*', middleware.setUserCookie, index.index);
+  app.get('/*', authentication.setUserCookie, index.index);
 };
