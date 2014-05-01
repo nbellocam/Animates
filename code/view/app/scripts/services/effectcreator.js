@@ -21,7 +21,8 @@ angular.module('animatesApp')
 							startTick : timelineService.getDefaultStartTick(), // TODO define start and end frames of the effect
 							endTick : timelineService.getCurrentTick()
 						});
-						
+
+					moveEffect.startTick = mediaTimeline.getStartTickFor(moveEffect, moveEffect.endTick);
 					mediaTimeline.addEffect(moveEffect);
 				}
 			},

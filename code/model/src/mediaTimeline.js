@@ -115,7 +115,7 @@ function MediaTimeline (options) {
 	 * @param {integer} upperTickLimit Upper limit tick to look for effects. Effects that starts 
 	 * after this tick may not be considered
 	 */
-	this.getStartTickFor = function (effect, upperTickLimit) {
+	this.getStartTickFor = function getStartTickFor (effect, upperTickLimit) {
 		var endTick = 0;
 
 		// up to now for us there is no effect that conflicts with the requested properties
