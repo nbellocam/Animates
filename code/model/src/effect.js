@@ -60,8 +60,8 @@ function Effect (options) {
 	 * effects also changes
 	 * If the strict parameter is passed as true then all the properties must match
 	 * 
-	 * @param {effect} The effect on which conflicts must be checked
-	 * @param {strict} Strict means that all properties must match to indicate a conflict
+	 * @param {Effect} effect The effect on which conflicts must be checked
+	 * @param {boolean} strict means that all properties must match to indicate a conflict
 	 * @return true if a match was found (according to the strict paramter)
 	 */
 
