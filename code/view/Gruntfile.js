@@ -330,6 +330,17 @@ module.exports = function (grunt) {
         expand: true,
         src: '../timeline/dist/**/*',
         dest : '<%= yeoman.app %>/bower_components/timeline/'
+      },
+      build: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.dist %>',
+          dest: 'build/output/site',
+          src: [
+            '**/*'
+          ]
+        }]
       }
     },
 
@@ -447,7 +458,8 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:simple-build',
-    'usemin'
+    'usemin',
+    'copy:build'
   ]);
 
   grunt.registerTask('ci-build', [

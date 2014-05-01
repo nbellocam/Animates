@@ -223,10 +223,10 @@ module.exports = function (grunt) {
       dist: {
         files: {
           src: [
-            '<%= yeoman.dist %>/public/scripts/{,*/}*.js',
-            '<%= yeoman.dist %>/public/styles/{,*/}*.css',
-            '<%= yeoman.dist %>/public/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/public/styles/fonts/*'
+            '<%= yeoman.dist %>/public/scripts/**/*.js',
+            '<%= yeoman.dist %>/public/styles/**/*.css',
+            '<%= yeoman.dist %>/public/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
+            '<%= yeoman.dist %>/public/styles/fonts/**/*'
           ]
         }
       }
@@ -236,8 +236,8 @@ module.exports = function (grunt) {
     // concat, minify and revision files. Creates configurations in memory so
     // additional tasks can operate on them
     useminPrepare: {
-      html: ['<%= yeoman.app %>/views/index.html',
-             '<%= yeoman.app %>/views/index.jade'],
+      html: ['<%= yeoman.app %>/views/**/*.html',
+             '<%= yeoman.app %>/views/**/*.jade'],
       options: {
         dest: '<%= yeoman.dist %>/public'
       }
@@ -245,9 +245,9 @@ module.exports = function (grunt) {
 
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
-      html: ['<%= yeoman.dist %>/views/{,*/}*.html',
-             '<%= yeoman.dist %>/views/{,*/}*.jade'],
-      css: ['<%= yeoman.dist %>/public/styles/{,*/}*.css'],
+      html: ['<%= yeoman.dist %>/views/**/*.html',
+             '<%= yeoman.dist %>/views/**/*.jade'],
+      css: ['<%= yeoman.dist %>/public/styles/**/*.css'],
       options: {
         assetsDirs: ['<%= yeoman.dist %>/public']
       }
@@ -262,7 +262,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/images',
-          src: '{,*/}*.{png,jpg,jpeg,gif}',
+          src: '**/*.{png,jpg,jpeg,gif}',
           dest: '<%= yeoman.dist %>/public/images'
         }]
       }
@@ -273,7 +273,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/images',
-          src: '{,*/}*.svg',
+          src: '**/*.svg',
           dest: '<%= yeoman.dist %>/public/images'
         }]
       }
@@ -303,18 +303,18 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '.tmp/concat/scripts',
-          src: '*.js',
+          src: '**/*.js',
           dest: '.tmp/concat/scripts'
         }]
       }
     },
 
     // Replace Google CDN references
-    cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/views/*.html']
-      }
-    },
+    //cdnify: {
+    //  dist: {
+    //    html: ['<%= yeoman.dist %>/views/*.html']
+    //  }
+    //},
 
     // Copies remaining files to places other tasks can use
     copy: {
@@ -535,7 +535,7 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
-    'cdnify',
+    //'cdnify',
     'cssmin',
     'uglify',
     'rev',
