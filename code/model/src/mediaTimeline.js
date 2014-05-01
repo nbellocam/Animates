@@ -114,6 +114,7 @@ function MediaTimeline (options) {
 	 * @param {Array} affectedProperties The properties to be considered during the search of effects
 	 * @param {integer} upperTickLimit Upper limit tick to look for effects. Effects that starts 
 	 * after this tick may not be considered
+	 * @return {integer} the start tick
 	 */
 	this.getStartTickFor = function getStartTickFor (effect, upperTickLimit) {
 		var endTick = 0;
@@ -138,6 +139,29 @@ function MediaTimeline (options) {
 		}
 
 		return endTick;
+	};
+
+	/**
+	 * Gets the effects that contains the requested tick
+	 * @param {integer} tick The tick that must be contained by the effects
+	 * @return {Array} The array of effects that contains the tick
+	 */
+	this.getEffectsForTick = function (tick) {
+		var effects = this.getEffects(),
+			resultEffects = [];
+
+		for (var id in effects) {
+			if (effects.hasOwnProperty(id)) {
+				var currentEffect = effects[id];
+
+				// If the effect contains the tick
+				if ((currentEffect.startTick < tick) && (currentEffect.endTick > tick)) {
+					resultEffects.push(currentEffect);
+				}
+			}
+		}
+
+		return resultEffects;
 	};
 
 	/**

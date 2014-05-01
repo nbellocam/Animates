@@ -195,6 +195,79 @@ describe('MediaTimeline', function(){
 		});
 	});
 
+	describe('getEffectsForTick', function () {
+		it('Should not return any effect', function () {
+			var currentTick = 42,
+				specifiedMediaObjectId = '42',
+				defaultProperties = { x : 0 },
+				specifiedMediaObject = { 
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
+				},
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				startTick = null;
+
+			startTick = mediaTimeline.getEffectsForTick(50);
+			startTick.should.be.empty;
+		});
+
+		it('Should return only one effect', function () {
+			var currentTick = 42,
+				specifiedMediaObjectId = '42',
+				defaultProperties = { x : 0 },
+				specifiedMediaObject = { 
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
+				},
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				effect = { 'startTick': 20,'endTick' : 100, 'getGuid' : function () { return 'id'; } },
+				foundEffect = null;
+
+			foundEffect = mediaTimeline.getEffectsForTick(10);
+			foundEffect.should.have.lengthOf(0);
+
+			mediaTimeline.addEffect(effect);
+
+			foundEffect = mediaTimeline.getEffectsForTick(50);
+			foundEffect.should.have.lengthOf(1);
+
+			foundEffect = mediaTimeline.getEffectsForTick(110);
+			foundEffect.should.have.lengthOf(0);
+		});
+
+		it('Should return only return multiple effects', function () {
+			var currentTick = 42,
+				specifiedMediaObjectId = '42',
+				defaultProperties = { x : 0 },
+				specifiedMediaObject = { 
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
+				},
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				effect = { 'startTick': 20,'endTick' : 100, 'getGuid' : function () { return 'id'; } },
+				effect2 = { 'startTick': 10,'endTick' : 70, 'getGuid' : function () { return 'id2'; } },
+				foundEffect = null;
+
+
+			mediaTimeline.addEffect(effect);
+			mediaTimeline.addEffect(effect2);
+
+			foundEffect = mediaTimeline.getEffectsForTick(5);
+			foundEffect.should.have.lengthOf(0);
+
+			foundEffect = mediaTimeline.getEffectsForTick(15);
+			foundEffect.should.have.lengthOf(1);
+			should(foundEffect[0].getGuid()).be.equal('id2');
+
+			foundEffect = mediaTimeline.getEffectsForTick(25);
+			foundEffect.should.have.lengthOf(2);
+			
+			foundEffect = mediaTimeline.getEffectsForTick(75);
+			foundEffect.should.have.lengthOf(1);
+			should(foundEffect[0].getGuid()).be.equal('id');			
+		});
+	});
+
 	describe('getStartTickFor', function() {
 		it('Should return start tick 0 when there are no other effects in the timeline', function () {
 			var currentTick = 42,
