@@ -30,8 +30,8 @@ describe('Effect', function(){
 				effect2 = new Effect(),
 				commonProperties;
 
-			effect.getAffectedProperties = function () {return ['a', 'b']};
-			effect2.getAffectedProperties = function () {return ['b']};
+			effect.getAffectedProperties = function () {return ['a', 'b'];};
+			effect2.getAffectedProperties = function () {return ['b'];};
 			commonProperties = effect.getCommonAffectedProperties(effect2);
 
 			commonProperties.should.have.lengthOf(1);
@@ -42,15 +42,64 @@ describe('Effect', function(){
 			commonProperties.should.have.lengthOf(1);
 			commonProperties.should.containEql('b');
 
-			effect.getAffectedProperties = function () {return ['a', 'b']};
-			effect2.getAffectedProperties = function () {return ['b', 'a']};
+			effect.getAffectedProperties = function () {return ['a', 'b'];};
+			effect2.getAffectedProperties = function () {return ['b', 'a'];};
 			commonProperties = effect.getCommonAffectedProperties(effect2);
 
 			commonProperties.should.have.lengthOf(2);
 			commonProperties.should.containEql('b');
 			commonProperties.should.containEql('a');
 		});
+	});
 
+	describe('HasConflictWithProperties', function () {
+		it('Should indicate conflict without strict', function() {
+			var effect = new Effect(),
+				effect2 = new Effect(),
+				commonProperties;
+
+			effect.getAffectedProperties = function () {return ['a', 'b'];};
+			effect2.getAffectedProperties = function () {return ['b'];};
+
+			effect.HasConflictWithProperties(effect2).should.be.ok;
+			effect2.HasConflictWithProperties(effect).should.be.ok;
+		});
+
+		it('Should not indicate conflict without strict', function() {
+			var effect = new Effect(),
+				effect2 = new Effect(),
+				commonProperties;
+
+			effect.getAffectedProperties = function () {return ['a', 'b'];};
+			effect2.getAffectedProperties = function () {return ['c'];};
+
+			effect.HasConflictWithProperties(effect2).should.not.be.ok;
+			effect2.HasConflictWithProperties(effect).should.not.be.ok;
+		});
+
+		it('Should indicate conflict with strict', function() {
+			var effect = new Effect(),
+				effect2 = new Effect(),
+				commonProperties;
+
+			effect.getAffectedProperties = function () {return ['a', 'b'];};
+			effect2.getAffectedProperties = function () {return ['b', 'a'];};
+
+			effect.HasConflictWithProperties(effect2, true).should.be.ok;
+			effect2.HasConflictWithProperties(effect, true).should.be.ok;
+		});
+
+		it('Should not indicate conflict with strict', function() {
+			var effect = new Effect(),
+				effect2 = new Effect(),
+				commonProperties;
+
+			effect.getAffectedProperties = function () {return ['a', 'b'];};
+			effect2.getAffectedProperties = function () {return ['a', 'b', 'c'];};
+
+			effect.HasConflictWithProperties(effect2, true).should.not.be.ok;
+			effect2.HasConflictWithProperties(effect, true).should.not.be.ok;
+		});
 	});
 
 	describe('startTick', function(){
