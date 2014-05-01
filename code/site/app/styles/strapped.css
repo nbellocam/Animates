@@ -154,3 +154,7 @@ footer {
     display: none;
   }
 }
+
+div > .container {
+  margin-top: 60px;
+}

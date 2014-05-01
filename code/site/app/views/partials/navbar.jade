@@ -18,7 +18,7 @@ nav.navbar.navbar-default.navbar-inverse.navbar-fixed-top(role='navigation', ng-
         li(ng-show='isActive("/")')
           a.nav-link(href='#contact') Contact Us
 
-        li(ng-hide='isActive("/")', ng-repeat='item in menu', ng-class='{active: isActive(item.link)}')
+        li(ng-show='currentUser && !isActive("/")', ng-repeat='item in menu', ng-class='{active: isActive(item.link)}')
           a.nav-link(ng-href='{{item.link}}') {{item.title}}
 
         li(ng-hide='currentUser', ng-class='{active: isActive("/login")}')
