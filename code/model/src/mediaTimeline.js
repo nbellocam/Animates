@@ -109,6 +109,38 @@ function MediaTimeline (options) {
 	};
 
 	/**
+	 * Finds the most suitable start tick for the requested effect considering all 
+	 * effects thay may change the same requested properties before it.
+	 * @param {Array} affectedProperties The properties to be considered during the search of effects
+	 * @param {integer} upperTickLimit Upper limit tick to look for effects. Effects that starts 
+	 * after this tick may not be considered
+	 */
+	this.getStartTickFor = function (effect, upperTickLimit) {
+		var endTick = 0;
+
+		// up to now for us there is no effect that conflicts with the requested properties
+
+		// Look for effects in the media timeline
+		var effects = this.getEffects();
+		for (var id in effects) {
+			if (effects.hasOwnProperty(id)) {
+				var currentEffect = effects[id];
+
+				// Only consider effects that start before the upperLimitTick
+				if (currentEffect.startTick < upperTickLimit){
+					if (currentEffect.HasConflictWithProperties(effect)) {
+						if (endTick < currentEffect.endTick) {
+							endTick = currentEffect.endTick;
+						}
+					}
+				}
+			}
+		}
+
+		return endTick;
+	};
+
+	/**
 	 * Set the end tick for this media object
 	 * @param {integer} tick The end tick for this media object.
 	 */
