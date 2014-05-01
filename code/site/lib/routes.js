@@ -5,8 +5,8 @@ var api = require('./controllers/api'),
     users = require('./controllers/users'),
     session = require('./controllers/session');
 
-var authorization = require('./middlewares/authorization');
-var authentication = require('./middlewares/authentication');
+var authorization = require('./routes/middlewares/authorization');
+var authentication = require('./routes/middlewares/authentication');
 
 /**
  * Application routes

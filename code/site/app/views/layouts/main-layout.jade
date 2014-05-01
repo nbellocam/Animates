@@ -1,7 +1,21 @@
 extends base-layout
 
 block styles
-  //link(rel='stylesheet', href='/css/canvas.css')
+  <!-- build:css({.tmp,app}) styles/main.css -->
+  <!--<link rel="stylesheet" href="styles/main.css">-->
+  <link rel="stylesheet" href="styles/strapped.css">
+  <!-- endbuild -->
 
 block scripts
-  //script(src='/js/lib/fabric.min.js')
+  <!-- build:js({.tmp,app}) scripts/scripts.js -->
+  <script src="scripts/app.js"></script>
+  <script src="scripts/controllers/main.js"></script>
+  <script src="scripts/controllers/navbar.js"></script>
+  <script src="scripts/controllers/login.js"></script>
+  <script src="scripts/controllers/signup.js"></script>
+  <script src="scripts/controllers/settings.js"></script>
+  <script src="scripts/services/auth.js"></script>
+  <script src="scripts/services/session.js"></script>
+  <script src="scripts/services/user.js"></script>
+  <script src="scripts/directives/mongooseError.js"></script>
+  <!-- endbuild -->
