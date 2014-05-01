@@ -51,8 +51,41 @@ function Effect (options) {
 			otherAffectedProperties = effect.getAffectedProperties();
 
 		return currentAffectedProperties.filter(function(n) {
-		    return otherAffectedProperties.indexOf(n) != -1
+			return otherAffectedProperties.indexOf(n) != -1;
 		});
+	};
+
+	/**
+	 * Detects if the current effect change some of the properties of the requested 
+	 * effects also changes
+	 * If the strict parameter is passed as true then all the properties must match
+	 * 
+	 * @param {effect} The effect on which conflicts must be checked
+	 * @param {strict} Strict means that all properties must match to indicate a conflict
+	 * @return true if a match was found (according to the strict paramter)
+	 */
+
+	this.HasConflictWithProperties = function (effect, strict) {
+		// Check for all properties to indicate a conflict
+		var currentAffectedProperties = this.getAffectedProperties(),
+			otherAffectedProperties = effect.getAffectedProperties();
+
+		if (strict) {
+			if (currentAffectedProperties.length == otherAffectedProperties.length) {
+				for (var i = 0; i < currentAffectedProperties.length; i++) {
+					if ((otherAffectedProperties.indexOf(currentAffectedProperties[i])) == -1)
+					{
+						return false;
+					}
+				}
+
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return this.getCommonAffectedProperties(effect).length > 0;
+		}
 	};
 
 	/**
