@@ -3,7 +3,13 @@
 angular.module('animatesApp')
 	.controller('LayoutCtrl', function LayoutCtrl($scope, canvasService) {
 		angular.element(document).ready(function () {
-			var layout = angular.element('body').layout({
+			angular.element('body').layout({
+				spacing: 0,
+				'north__paneSelector': '.outer-layout-north',
+				'center__paneSelector': '.outer-layout-center'
+			});
+
+			var innerLayout = angular.element('div.outer-layout-center').layout({
 				applyDefaultStyles: false,
 				west:{
 					size: 60,
@@ -16,6 +22,6 @@ angular.module('animatesApp')
 				}
 			});
 
-			canvasService.updateSize(layout.state.center.innerHeight, layout.state.center.innerWidth);
+			canvasService.updateSize(innerLayout.state.center.innerHeight, innerLayout.state.center.innerWidth);
 		});
 	});

@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="styles/ui.layout.default.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="animatesApp" ng-controller="LayoutCtrl">
+  <body ng-app="animatesApp">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -75,13 +75,19 @@
       </div>
     </div>
 
-    <!-- Add your site or application content here -->
-    <div class="ui-layout-center">
-      <canvas id="mainCanvas" ng-controller="CanvasCtrl" ng-init="initialize('mainCanvas');"></canvas>
+<!-- <div class="outer-layout-north"> 
+    This is my Fixed Header 
+</div>  -->
+
+    <div class="outer-layout-center" ng-controller="LayoutCtrl">
+      <!-- Add your site or application content here -->
+      <div class="ui-layout-center">
+        <canvas id="mainCanvas" ng-controller="CanvasCtrl" ng-init="initialize('mainCanvas');"></canvas>
+      </div>
+      <div class="ui-layout-west"><div ng-include="'views/toolbar.html'"></div></div>
+      <div class="ui-layout-south"><div ng-include="'views/timelinePanel.html'"></div></div>
+      <div class="ui-layout-east"><div ng-include="'views/propertiesPanel.html'"></div></div>
     </div>
-    <div class="ui-layout-west"><div ng-include="'views/toolbar.html'"></div></div>
-    <div class="ui-layout-south"><div ng-include="'views/timelinePanel.html'"></div></div>
-    <div class="ui-layout-east"><div ng-include="'views/propertiesPanel.html'"></div></div>
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->

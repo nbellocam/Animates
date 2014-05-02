@@ -1,4 +1,9 @@
-﻿.ui-layout-toggler
+﻿.outer-layout-center
+{
+    padding: 0;
+}
+
+.ui-layout-toggler
 {
     background-color: transparent;
     background-image: url(../images/sizers-layout.png);
