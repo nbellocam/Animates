@@ -2,6 +2,7 @@
 
 var api = require('./controllers/api'),
     index = require('./controllers'),
+    editor = require('./controllers/editor'),
     users = require('./controllers/users'),
     session = require('./controllers/session');
 
@@ -31,5 +32,7 @@ module.exports = function(app) {
   
   // All other routes to use Angular routing in app/scripts/app.js
   app.get('/partials/*', index.partials);
+  // All other routes to use Angular routing in app/scripts/app.js
+  app.get('/editor', editor.editor);
   app.get('/*', authentication.setUserCookie, index.index);
 };
