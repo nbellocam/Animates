@@ -1,7 +1,7 @@
 extends layouts/editor-layout
 
 block content
-  div(ng-controller='LayoutCtrl')
+  .ui-layout-center(ng-controller='LayoutCtrl')
     .ui-layout-center
       canvas#mainCanvas(ng-controller='CanvasCtrl', ng-init='initialize("mainCanvas");')
     .ui-layout-west
