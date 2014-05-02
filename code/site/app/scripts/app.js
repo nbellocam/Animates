@@ -25,6 +25,11 @@ angular.module('animatesApp', [
         controller: 'SettingsCtrl',
         authenticate: true
       })
+      .when('/editor', {
+        templateUrl: 'partials/editor',
+        controller: 'LayoutCtrl',
+        authenticate: true
+      })
       .otherwise({
         redirectTo: '/'
       });
