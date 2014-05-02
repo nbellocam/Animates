@@ -5,8 +5,8 @@ block content
     .ui-layout-center
       canvas#mainCanvas(ng-controller='CanvasCtrl', ng-init='initialize("mainCanvas");')
     .ui-layout-west
-      div(ng-include='views/partial/editor/toolbar.html')
+      div(ng-include='partials/editor/toolbar.html')
     .ui-layout-south
-      div(ng-include='views/partial/editor/timelinePanel.html')
+      div(ng-include='partials/editor/timelinePanel.html')
     .ui-layout-east
-      div(ng-include='views/partial/editor/propertiesPanel.html')
+      div(ng-include='partials/editor/propertiesPanel.html')
