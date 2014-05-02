@@ -11,16 +11,18 @@
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-    <!-- build:css styles/vendor.css -->
+    <!-- build:css styles/common-vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <!-- endbower -->
+    <!-- endbuild -->
 
+    <!-- build:css styles/editor-vendor.css -->
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="bower_components/timeline/dist/styles/timeline.css" />
     <!-- endbuild -->
 
-    <!-- build:css({.tmp,app}) styles/main.css -->
+    <!-- build:css({.tmp,app}) styles/editor-main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/ui.layout.default.css">
     <!-- endbuild -->
@@ -96,24 +98,26 @@
     <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
-    <!-- build:js scripts/vendor.js -->
+    <!-- build:js scripts/common-vendor.js -->
     <!-- bower:js -->
-    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
     <!-- endbower -->
+    <!-- endbuild -->
 
+    <!-- build:js scripts/editor-vendor.js -->
+    <script src="bower_components/fabric/dist/fabric.min.js"></script>
     <script src="bower_components/timeline/dist/js/timeline.js"></script>
-    <script src="bower_components/fabric/dist/all.min.js"></script>
     <script src="scripts/vendors/jquery.layout.min-1.3.0.js"></script>
     <!-- endbuild -->
 
-    <!-- build:js({.tmp,app}) scripts/model.js -->
+    <!-- build:js({.tmp,app}) scripts/editor-model.js -->
     <script src="scripts/model.js"></script>
     <!-- endbuild -->
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <!-- build:js({.tmp,app}) scripts/editor-scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/canvas.js"></script>
     <script src="scripts/controllers/toolbar.js"></script>
