@@ -1,7 +1,4 @@
-﻿@import url("layout-default.css");
-@import url("ui.layout.style.css");
-
-.ui-layout-toggler
+﻿.ui-layout-toggler
 {
     background-color: transparent;
     background-image: url(../images/sizers-layout.png);
