@@ -1,6 +1,7 @@
 'use strict';
 
-var path = require('path');
+var path = require('path'),
+    fs = require('fs');
 
 /**
  * Send partial, or 404 if it doesn't exist
@@ -8,13 +9,21 @@ var path = require('path');
 exports.partials = function(req, res) {
   var stripped = req.url.split('.')[0];
   var requestedView = path.join('./', stripped);
-  res.render(requestedView, function(err, html) {
-    if(err) {
-      console.log("Error rendering partial '" + requestedView + "'\n", err);
-      res.status(404);
-      res.send(404);
+  var htmlFilePath = path.join('./views', stripped) + '.html';
+  fs.exists(htmlFilePath, function (exists) {
+    console.log (htmlFilePath);
+    if (exists){
+      res.sendfile(htmlFilePath);
     } else {
-      res.send(html);
+      res.render(requestedView, function(err, html) {
+        if(err) {
+          console.log("Error rendering partial '" + requestedView + "'\n", err);
+          res.status(404);
+          res.send(404);
+        } else {
+          res.send(html);
+        }
+      });
     }
   });
 };
