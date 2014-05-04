@@ -1,17 +1,25 @@
 'use strict';
 
 // User routes use users controller
-var users = require('../controllers/users');
+var users = require('../controllers/users'),
+    session = require('../controllers/session');
 
 module.exports = function(app, passport) {
+    app.post('/api/users', users.create);
+    app.put('/api/users', users.changePassword);
+    app.get('/api/users/me', users.me);
+    app.get('/api/users/:id', users.show);
 
-    app.get('/signin', users.signin);
-    app.get('/signup', users.signup);
-    app.get('/signout', users.signout);
-    app.get('/users/me', users.me);
+    app.post('/api/session', session.login);
+    app.del('/api/session', session.logout);
+
+    //app.get('/signin', users.signin);
+    //app.get('/signup', users.signup);
+    //app.get('/signout', users.signout);
+    //app.get('/users/me', users.me);
 
     // Setting up the users api
-    app.post('/users', users.create);
+    //app.post('/users', users.create);
 
     // Setting up the userId param
     app.param('userId', users.user);
@@ -72,5 +80,4 @@ module.exports = function(app, passport) {
     app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
         failureRedirect: '/siginin'
     }), users.authCallback);
-
 };

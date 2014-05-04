@@ -32,5 +32,7 @@ exports.partials = function(req, res) {
  * Send our single page app
  */
 exports.index = function(req, res) {
-  res.render('index');
+  res.render('index', {
+      user: req.user ? JSON.stringify(req.user) : 'null'
+  });
 };

@@ -3,6 +3,7 @@
 var express = require('express'),
     path = require('path'),
     fs = require('fs'),
+    passport = require('passport'),
     mongoose = require('mongoose');
 
 /**
@@ -19,26 +20,52 @@ var config = require('./lib/config/config');
 var db = mongoose.connect(config.mongo.uri, config.mongo.options);
 
 // Bootstrap models
-var modelsPath = path.join(__dirname, 'lib/models');
-fs.readdirSync(modelsPath).forEach(function (file) {
-  if (/(.*)\.(js$|coffee$)/.test(file)) {
-    require(modelsPath + '/' + file);
-  }
-});
+var models_path = path.join(__dirname, 'lib/models');
+var walk = function(currentPath) {
+    fs.readdirSync(currentPath).forEach(function(file) {
+        var newPath = path.join(currentPath, file);
+        var stat = fs.statSync(newPath);
+        if (stat.isFile()) {
+            if (/(.*)\.(js$|coffee$)/.test(file)) {
+                require(newPath);
+            }
+        } else if (stat.isDirectory()) {
+            walk(newPath);
+        }
+    });
+};
+walk(models_path);
 
 // Populate empty DB with sample data
 require('./lib/config/dummydata');
-  
-// Passport Configuration
-var passport = require('./lib/config/passport');
+
+// Bootstrap passport config
+require('./lib/config/passport')(passport);
 
 var app = express();
 
 // Express settings
-require('./lib/config/express')(app);
+require('./lib/config/express')(app, passport, db);
 
-// Routing
-require('./lib/routes')(app);
+// Bootstrap routes
+var routes_path = path.join(__dirname, 'lib/routes');
+var walk = function(path) {
+    fs.readdirSync(path).forEach(function(file) {
+        var newPath = path.join(path, file);
+        var stat = fs.statSync(newPath);
+        if (stat.isFile()) {
+            if (/(.*)\.(js$|coffee$)/.test(file)) {
+                require(newPath)(app, passport, db);
+            }
+        // We skip the app/routes/middlewares directory as it is meant to be
+        // used and shared by routes as further middlewares and is not a 
+        // route by itself
+        } else if (stat.isDirectory() && file !== 'middlewares') {
+            walk(newPath);
+        }
+    });
+};
+walk(routes_path);
 
 // Start server
 app.listen(config.port, function () {
