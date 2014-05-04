@@ -10,9 +10,8 @@ var mongoose = require('mongoose'),
     User = mongoose.model('User'),
     config = require('./config');
 
-
 module.exports = function(passport) {
-    
+
     // Serialize the user id to push into the session
     passport.serializeUser(function(user, done) {
         done(null, user.id);
@@ -161,7 +160,7 @@ module.exports = function(passport) {
                     user = new User({
                         name: profile.displayName,
                         email: profile.emails[0].value,
-                        username: profile.username,
+                        username: profile.emails[0].value,
                         provider: 'google',
                         google: profile._json
                     });
@@ -184,9 +183,9 @@ module.exports = function(passport) {
             profileFields: ['id', 'first-name', 'last-name', 'email-address']
         },
         function(accessToken, refreshToken, profile, done) {
-          User.findOne({ 
-                'linkedin.id': profile.id 
-            }, function (err, user) {
+            User.findOne({
+                'linkedin.id': profile.id
+            }, function(err, user) {
                 if (!user) {
                     user = new User({
                         name: profile.displayName,
@@ -194,7 +193,7 @@ module.exports = function(passport) {
                         username: profile.emails[0].value,
                         provider: 'linkedin'
                     });
-                    user.save(function (err) {
+                    user.save(function(err) {
                         if (err) console.log(err);
                         return done(err, user);
                     });

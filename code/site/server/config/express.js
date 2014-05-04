@@ -3,6 +3,8 @@
 var express = require('express'),
     path = require('path'),
     config = require('./config'),
+    appPath = process.cwd(),
+    util = require('../utils/util'),
     mongoStore = require('connect-mongo')(express);
 
 /**
@@ -25,6 +27,10 @@ module.exports = function(app, passport, db) {
       // no compression and 9 is best compression, but slowest
       level: 9
   }));
+
+
+  // Enable jsonp
+  //app.enable('jsonp callback');
 
   app.configure('development', function(){
     app.use(require('connect-livereload')());
@@ -80,6 +86,17 @@ module.exports = function(app, passport, db) {
     
     // Router (only error handlers should come after this)
     app.use(app.router);
+
+    function bootstrapRoutes() {
+        // Skip the app/routes/middlewares directory as it is meant to be
+        // used and shared by routes as further middlewares and is not a
+        // route by itself
+        util.walk(path.join(appPath, '/server/routes'), 'middlewares', function(path) {
+            require(path)(app, passport);
+        });
+    }
+
+    bootstrapRoutes();
   });
 
   // Error handler
