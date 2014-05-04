@@ -88,6 +88,10 @@ function Effect (options) {
 		}
 	};
 
+	this.getOptions = function () {
+		return options;
+	};
+
 	/**
 	 *  Constructor
 	 */
