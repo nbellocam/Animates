@@ -32,7 +32,13 @@ exports.partials = function(req, res) {
  * Send our single page app
  */
 exports.index = function(req, res) {
+  // Send some basic starting info to the view
   res.render('index', {
-      user: req.user ? JSON.stringify(req.user) : 'null'
+      user: req.user ? JSON.stringify({
+          name: req.user.name,
+          _id: req.user._id,
+          username: req.user.username,
+          roles: (req.user ? req.user.roles : ['anonymous'])
+      }) : 'null'
   });
 };

@@ -16,14 +16,17 @@ var hasAuthorization = function(req, res, next) {
 
 module.exports = function(app) {
 
-    app.get('/api/projects', projects.all);
-    app.post('/api/projects', authorization.requiresLogin, projects.create);
-    app.get('/api/projects/:projectId', projects.show);
-    app.put('/api/projects/:projectId', authorization.requiresLogin, hasAuthorization, projects.update);
-    app.del('/api/projects/:projectId', authorization.requiresLogin, hasAuthorization, projects.destroy);
-
-    app.get('/editor', editor.editor);
+    app.route('/api/projects')
+        .get(projects.all)
+        .post(authorization.requiresLogin, projects.create);
+    app.route('/api/projects/:projectId')
+        .get(projects.show)
+        .put(authorization.requiresLogin, hasAuthorization, projects.update)
+        .delete(authorization.requiresLogin, hasAuthorization, projects.destroy);
+    app.route('/editor/:projectId')
+        .get(editor.editor);
 
     // Finish with setting up the projectId param
     app.param('projectId', projects.project);
+
 };
