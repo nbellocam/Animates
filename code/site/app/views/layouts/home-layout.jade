@@ -1,0 +1,10 @@
+extends base-layout
+
+block styles
+  <!-- build:css({.tmp,app}) styles/main.css -->
+  <link rel="stylesheet" href="styles/strapped.css">
+  <!-- endbuild -->
+
+block scripts
+  script(type='text/javascript').
+    angular.module('animatesApp',[]);

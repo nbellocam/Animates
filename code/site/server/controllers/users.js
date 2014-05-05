@@ -96,6 +96,29 @@ exports.signin = function(req, res) {
     res.redirect('/login');
 };
 
+
+/**
+ * Show login form
+ */
+exports.login = function(req, res) {
+    if(req.isAuthenticated()) {
+        return res.redirect('/');
+    }
+
+    res.render('index', { user: 'null' });  
+};
+
+/**
+ * Show signup form
+ */
+exports.signup = function(req, res) {
+    if(req.isAuthenticated()) {
+        return res.redirect('/');
+    }
+
+    res.render('index', { user: 'null' });  
+};
+
 /**
  * Find user by id
  */

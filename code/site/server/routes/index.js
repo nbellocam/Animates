@@ -13,7 +13,7 @@ module.exports = function(app) {
     // All other routes to use Angular routing in app/scripts/app.js
     app.route('/partials/*')
         .get(index.partials);
-        
+
     app.route('/*')
-        .get(cookieSession.setUserCookie,  index.index);
+        .get(cookieSession.setUserCookie,  index.home);
 };

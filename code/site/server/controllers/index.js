@@ -11,7 +11,6 @@ exports.partials = function(req, res) {
   var requestedView = path.join('./', stripped);
   var htmlFilePath = path.join('./views', stripped) + '.html';
   fs.exists(htmlFilePath, function (exists) {
-    console.log (htmlFilePath);
     if (exists){
       res.sendfile(htmlFilePath);
     } else {
@@ -41,4 +40,23 @@ exports.index = function(req, res) {
           roles: (req.user ? req.user.roles : ['anonymous'])
       }) : 'null'
   });
+};
+
+/**
+ * Send our single page app
+ */
+exports.home = function(req, res) {
+  if (req.isAuthenticated()){
+    // Send some basic starting info to the view
+    res.render('index', {
+        user: req.user ? JSON.stringify({
+            name: req.user.name,
+            _id: req.user._id,
+            username: req.user.username,
+            roles: (req.user ? req.user.roles : ['anonymous'])
+        }) : 'null'
+    });
+  } else {
+    res.render('home');
+  }
 };

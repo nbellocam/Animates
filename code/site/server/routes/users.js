@@ -19,6 +19,13 @@ module.exports = function(app, passport) {
     .post(session.login)
     .delete(session.logout);
 
+  app.route('/login')
+    .get(users.login);
+
+  app.route('/signup')
+    .get(users.signup);
+    
+
   // Setting up the userId param
   app.param('userId', users.user);
 

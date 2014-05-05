@@ -41,6 +41,8 @@ User.find({}).remove(function() {
   User.create({
     provider: 'local',
     name: 'Test User',
+    username: 'TestUser',
+    roles: ['authenticated'],
     email: 'test@test.com',
     password: 'test'
   }, function() {

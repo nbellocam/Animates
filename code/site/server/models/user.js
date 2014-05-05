@@ -7,6 +7,9 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     crypto = require('crypto');
 
+
+//var authTypes = ['github', 'twitter', 'facebook', 'google', 'linkedin'];
+
 /**
  * User Schema
  */
@@ -15,7 +18,10 @@ var UserSchema = new Schema({
         type: String,
         required: true
     },
-    email: String,
+    email: { 
+        type: String,
+        lowercase: true
+    },
     username: {
         type: String,
         unique: true
@@ -37,13 +43,37 @@ var UserSchema = new Schema({
 /**
  * Virtuals
  */
-UserSchema.virtual('password').set(function(password) {
+UserSchema
+  .virtual('password')
+  .set(function(password) {
     this._password = password;
     this.salt = this.makeSalt();
     this.hashed_password = this.hashPassword(password);
-}).get(function() {
+  })
+  .get(function() {
     return this._password;
-});
+  });
+
+// Basic info to identify the current authenticated user in the app
+UserSchema
+  .virtual('userInfo')
+  .get(function() {
+    return {
+      'username': this.username,
+      'role': this.role,
+      'provider': this.provider
+    };
+  });
+
+// Public profile information
+UserSchema
+  .virtual('profile')
+  .get(function() {
+    return {
+      'username': this.username,
+      'role': this.role
+    };
+  });
 
 /**
  * Validations
