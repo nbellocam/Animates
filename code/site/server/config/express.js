@@ -1,38 +1,32 @@
 'use strict';
 
 var express = require('express'),
+    favicon = require('static-favicon'),
+    morgan = require('morgan'),
+    compression = require('compression'),
+    bodyParser = require('body-parser'),
+    methodOverride = require('method-override'),
+    cookieParser = require('cookie-parser'),
+    session = require('express-session'),
+    errorHandler = require('errorhandler'),
     path = require('path'),
     config = require('./config'),
     appPath = process.cwd(),
     util = require('../utils/util'),
-    mongoStore = require('connect-mongo')(express);
+    MongoStore = require('connect-mongo')(session);
 
 /**
  * Express configuration
  */
 module.exports = function(app, passport, db) {
+  var env = app.get('env');
 
   app.set('showStackError', true);
 
   // Prettify HTML
   app.locals.pretty = true;
 
-  // Should be placed before express.static
-  // To ensure that all assets and data are compressed (utilize bandwidth)
-  app.use(express.compress({
-      filter: function(req, res) {
-          return (/json|text|javascript|css/).test(res.getHeader('Content-Type'));
-      },
-      // Levels are specified in a range of 0 to 9, where-as 0 is
-      // no compression and 9 is best compression, but slowest
-      level: 9
-  }));
-
-
-  // Enable jsonp
-  //app.enable('jsonp callback');
-
-  app.configure('development', function(){
+  if ('development' === env) {
     app.use(require('connect-livereload')());
 
     // Disable caching of scripts for easier testing
@@ -48,59 +42,63 @@ module.exports = function(app, passport, db) {
     app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(path.join(config.root, 'app')));
     app.set('views', config.root + '/app/views');
+  }
 
-    app.use(express.logger('dev'));
-  });
-
-  app.configure('production', function(){
-    app.use(express.favicon(path.join(config.root, 'public', 'favicon.ico')));
+  if ('production' === env) {
+    app.use(compression());
+    app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(express.static(path.join(config.root, 'public')));
     app.set('views', config.root + '/views');
-  });
+  }
 
-  app.configure(function(){
-    app.set('view engine', 'jade');
-    
-    // The cookieParser should be above session
-    app.use(express.cookieParser());
+  // Enable jsonp
+  //app.enable('jsonp callback');
 
-    // Request body parsing middleware should be above methodOverride
-    app.use(express.urlencoded());
-    app.use(express.json());
-    app.use(express.methodOverride());
+  app.set('view engine', 'jade');
 
-    // Persist sessions with mongoStore
-    app.use(express.session({
-      secret: config.sessionSecret,
-      store: new mongoStore({
-        db: db.connection.db,
-        collection: config.sessionCollection
-      }, function () {
-          console.log("db connection open");
-      })
-    }));
+  // Logger
+  app.use(morgan('dev'));
 
-    //use passport session
-    app.use(passport.initialize());
-    app.use(passport.session());
-    
-    // Router (only error handlers should come after this)
-    app.use(app.router);
+  // Request body parsing middleware should be above methodOverride
+  app.use(bodyParser());
+  app.use(methodOverride());
 
-    function bootstrapRoutes() {
-        // Skip the app/routes/middlewares directory as it is meant to be
-        // used and shared by routes as further middlewares and is not a
-        // route by itself
-        util.walk(path.join(appPath, '/server/routes'), 'middlewares', function(path) {
-            require(path)(app, passport);
-        });
-    }
+  // The cookieParser should be above session
+  app.use(cookieParser());
 
-    bootstrapRoutes();
-  });
+  // Persist sessions with mongoStore
+  app.use(session({
+    secret: config.sessionSecret,
+    store: new MongoStore({
+      mongoose_connection: db.connection,
+      collection: config.sessionCollection
+    }, function () {
+        console.log("db connection open");
+    })
+  }));
 
-  // Error handler
-  app.configure('development', function(){
-    app.use(express.errorHandler());
-  });
+  //use passport session
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // Error handler - has to be last
+  if ('development' === app.get('env')) {
+    app.use(errorHandler());
+  }
+
+  function bootstrapRoutes() {
+    // Skip the app/routes/middlewares directory as it is meant to be
+    // used and shared by routes as further middlewares and is not a
+    // route by itself
+    util.walk(path.join(appPath, '/server/routes'), 'middlewares', function(currentPath, file) {
+      if (!/^index\.(js|coffee)$/.test(file)) {
+        require(currentPath)(app, passport);
+      }
+    });
+
+    // Add default routes
+    require(path.join(appPath, '/server/routes/index'))(app, passport);
+  }
+
+  bootstrapRoutes();
 };
