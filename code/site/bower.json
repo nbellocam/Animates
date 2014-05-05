@@ -9,7 +9,6 @@
     "bootstrap": "~3.0.3",
     "angular-resource": "1.2.11",
     "angular-cookies": "1.2.11",
-    "angular-sanitize": "1.2.11",
     "angular-route": "1.2.11",
     "font-awesome": "~4.0.3",
     "jquery-ui": "~1.10.4"

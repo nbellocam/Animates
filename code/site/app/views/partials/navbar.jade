@@ -9,8 +9,8 @@ nav.navbar.navbar-default.navbar-inverse.navbar-static-top(role='navigation', ng
     // /.navbar-header
     .collapse.navbar-collapse.navbar-ex1-collapse
       ul.nav.navbar-nav.navbar-right
-        li(ng-show='currentUser && !isActive("/")', ng-repeat='item in menu', ng-class='{active: isActive(item.link)}')
-          a.nav-link(ng-href='{{item.link}}') {{item.title}}
+        li(ng-repeat='item in menu', ng-show='{{isVisible(item, currentUser)}}', ng-class='{active: isActive(item.link)}')
+          a(ng-href='{{item.link}}') {{item.title}}
 
         li(ng-hide='currentUser', ng-class='{active: isActive("/login")}')
           a.nav-link(href='/login') Login

@@ -1,0 +1,16 @@
+include ../navbar
+
+.container
+  .row
+    .col-sm-12
+      section(data-ng-init='findOne()')
+        span {{project.created | date:'medium'}}
+        | /
+        span {{project.user.name}}
+        h2 {{project.title}}
+        div(data-ng-show='currentUser._id == project.user._id')
+          a.btn(href='/projects/{{project._id}}/edit')
+            i.glyphicon.glyphicon-edit
+          a.btn(data-ng-click='remove();')
+            i.glyphicon.glyphicon-trash
+        div {{project.description}}

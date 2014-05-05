@@ -7,7 +7,12 @@ angular.module('animatesApp')
       'link': '/'
     }, {
       'title': 'Settings',
-      'link': '/settings'
+      'link': '/settings',
+      'requireAuth' : true
+    }, {
+      'title': 'Projects',
+      'link': '/projects',
+      'requireAuth' : true
     }];
     
     $scope.logout = function() {
@@ -20,4 +25,8 @@ angular.module('animatesApp')
     $scope.isActive = function(route) {
       return route === $location.path();
     };
+
+    $scope.isVisible = function(item, currentUser){
+      return (item.requireAuth) ? !!currentUser : true;
+    }
   });

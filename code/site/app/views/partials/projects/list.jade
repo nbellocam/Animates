@@ -1,0 +1,30 @@
+include ../navbar
+
+.container
+  .row
+    .col-sm-12
+      section(data-ng-init='find()')
+        .container
+          .row
+            .col-xs-12.col-sm-6.col-md-4.col-lg-3(data-ng-repeat='project in projects')
+              .panel.panel-default
+                .panel-heading
+                  h3.panel-title
+                    a(data-ng-href='/projects/{{project._id}}') {{project.title}}
+                .panel-body
+                  div {{project.created | date:'short'}}
+                  div {{project.user.name}}
+                  div {{project.description}}
+          .row
+            .col-xs-12.col-sm-6.col-md-4.col-lg-3
+              a.btn.btn-lg.btn-primary(href='/projects/create')
+                span.glyphicon.glyphicon-plus
+                  |  Create
+
+
+        h1(data-ng-hide='!projects || projects.length')
+          | No projects yet.
+          br
+          | Why don't you
+          a(href='/projects/create') Create One
+          | ?

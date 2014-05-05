@@ -3,7 +3,6 @@
 angular.module('animatesApp', [
   'ngCookies',
   'ngResource',
-  'ngSanitize',
   'ngRoute'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
@@ -23,6 +22,26 @@ angular.module('animatesApp', [
       .when('/settings', {
         templateUrl: 'partials/settings',
         controller: 'SettingsCtrl',
+        authenticate: true
+      })
+      .when('/projects', {
+        templateUrl: 'partials/projects/list',
+        controller: 'ProjectsCtrl',
+        authenticate: true
+      })
+      .when('/projects/create', {
+        templateUrl: 'partials/projects/create',
+        controller: 'ProjectsCtrl',
+        authenticate: true
+      })
+      .when('/projects/:projectId/edit', {
+        templateUrl: 'partials/projects/edit',
+        controller: 'ProjectsCtrl',
+        authenticate: true
+      })
+      .when('/projects/:projectId', {
+        templateUrl: 'partials/projects/show',
+        controller: 'ProjectsCtrl',
         authenticate: true
       })
       .otherwise({
