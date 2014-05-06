@@ -19,7 +19,7 @@ angular.module('animatesApp')
 					path = new Model.Path({
 						startPosition: { x: posXStart, y: posYStart },
 						endPosition: { x: posXEnd, y: posYEnd }
-					}),
+					});
 
 					moveEffect = new Model.MoveEffect({
 						path : path,
