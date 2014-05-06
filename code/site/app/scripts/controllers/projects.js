@@ -2,58 +2,60 @@
 
 angular.module('animatesApp')
   .controller('ProjectsCtrl', function ($scope, $routeParams, $location, ProjectService) {
-    $scope.create = function() {
-        var project = new ProjectService({
-            title: this.title//,
-            //content: this.content
-        });
-        project.$save(function(response) {
-            $location.path('projects/' + response._id);
-        });
+	$scope.create = function() {
+		var project = new ProjectService({
+				title: this.title,
+				description: this.description
+			});
 
-        this.title = '';
-        this.content = '';
-    };
+		project.$save(function(response) {
+			$location.path('projects/' + response._id);
+		});
 
-    $scope.remove = function(project) {
-        if (project) {
-            project.$remove();
+		this.title = '';
+		this.content = '';
+	};
 
-            for (var i in $scope.projects) {
-                if ($scope.projects[i] === project) {
-                    $scope.projects.splice(i, 1);
-                }
-            }
-        }
-        else {
-            $scope.project.$remove();
-            $location.path('projects');
-        }
-    };
+	$scope.remove = function(project) {
+		if (project) {
+			project.$remove();
 
-    $scope.update = function() {
-        var project = $scope.project;
-        if (!project.updated) {
-            project.updated = [];
-        }
-        ProjectService.updated.push(new Date().getTime());
+			for (var i in $scope.projects) {
+				if ($scope.projects[i] === project) {
+					$scope.projects.splice(i, 1);
+				}
+			}
+		}
+		else {
+			$scope.project.$remove();
+			$location.path('projects');
+		}
+	};
 
-        project.$update(function() {
-            $location.path('projects/' + project._id);
-        });
-    };
+	$scope.update = function() {
+		var project = $scope.project;
+		if (!project.updated) {
+			project.updated = [];
+		}
+		
+		ProjectService.updated.push(new Date().getTime());
 
-    $scope.find = function() {
-        ProjectService.query(function(projects) {
-            $scope.projects = projects;
-        });
-    };
+		project.$update(function() {
+			$location.path('projects/' + project._id);
+		});
+	};
 
-    $scope.findOne = function() {
-        ProjectService.get({
-            projectId: $routeParams.projectId
-        }, function(project) {
-            $scope.project = project;
-        });
-    };
+	$scope.find = function() {
+		ProjectService.query(function(projects) {
+			$scope.projects = projects;
+		});
+	};
+
+	$scope.findOne = function() {
+		ProjectService.get({
+			projectId: $routeParams.projectId
+		}, function(project) {
+			$scope.project = project;
+		});
+	};
 });

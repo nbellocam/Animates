@@ -28,5 +28,5 @@ angular.module('animatesApp')
 
     $scope.isVisible = function(item, currentUser){
       return (item.requireAuth) ? !!currentUser : true;
-    }
+    };
   });
