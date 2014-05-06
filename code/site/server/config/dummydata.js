@@ -1,8 +1,8 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  User = mongoose.model('User');
-  //Thing = mongoose.model('Thing');
+  User = mongoose.model('User'),
+  Project = mongoose.model('Project');
 
 /**
  * Populate database with sample application data
@@ -45,8 +45,29 @@ User.find({}).remove(function() {
     roles: ['authenticated'],
     email: 'test@test.com',
     password: 'test'
-  }, function() {
+  }, function(err, newUser) {
+      if (err){ 
+        console.log('An error occurs while creating the users');
+        return;
+      }
+
       console.log('finished populating users');
+
+      //Clear old projects, then add projects in
+      Project.find({}).remove(function() {
+        Project.create({
+          title: 'Animation test',
+          description: 'This is an incredible animation test.',
+          user: newUser._id
+        }, {
+          title: 'Animation: The movie',
+          description: 'You should see the second part, it is incredible.',
+          user: newUser._id
+        }, function() {
+             console.log('finished populating projects');
+          }
+        );
+      });
     }
   );
 });

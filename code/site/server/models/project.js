@@ -73,4 +73,36 @@ ProjectSchema.statics.load = function(id, cb) {
 	}).populate('user', 'name username').exec(cb);
 };
 
+/**
+ * Methods
+ */
+ProjectSchema.methods = {
+
+	/**
+     * CanOpBeAppliedBy - check if the user can perform the operation in this project
+     *
+     * @param {String} plainText
+     * @param {String} plainText
+     * @return {Boolean}
+     * @api public
+     */
+	canOpBeAppliedBy : function(op, userId){
+		if (this.user.id === userId) {
+			return true;
+		}
+
+		var workgroupMember;
+		for (var i = this.workgroup.length - 1; i >= 0; i--) {
+			workgroupMember = this.workgroup[i];
+
+			if (workgroupMember.permission === op && 
+				workgroupMember.user.id  === userId){
+				return true;
+			}
+		}
+
+		return false;
+	}
+};
+
 mongoose.model('Project', ProjectSchema);

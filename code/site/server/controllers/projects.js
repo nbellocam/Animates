@@ -25,8 +25,7 @@ exports.project = function(req, res, next, id) {
  */
 exports.create = function(req, res) {
     var project = new Project(req.body);
-    project.user = req.user;
-
+    project.user = req.user._id;
     project.save(function(err) {
         if (err) {
             return res.send('users/signup', {
@@ -45,18 +44,22 @@ exports.create = function(req, res) {
 exports.update = function(req, res) {
     var project = req.project;
 
-    project = _.extend(project, req.body);
+    if (project.canOpBeAppliedBy('update', req.user.id)){
+        project = _.extend(project, req.body);
 
-    project.save(function(err) {
-        if (err) {
-            return res.send('users/signup', {
-                errors: err.errors,
-                project: project
-            });
-        } else {
-            res.jsonp(project);
-        }
-    });
+        project.save(function(err) {
+            if (err) {
+                return res.send('users/signup', {
+                    errors: err.errors,
+                    project: project
+                });
+            } else {
+                res.jsonp(project);
+            }
+        });
+    } else {
+        return res.json(401, { message: 'Unauthorized' });
+    }
 };
 
 /**
@@ -65,30 +68,41 @@ exports.update = function(req, res) {
 exports.destroy = function(req, res) {
     var project = req.project;
 
-    project.remove(function(err) {
-        if (err) {
-            return res.send('users/signup', {
-                errors: err.errors,
-                project: project
-            });
-        } else {
-            res.jsonp(project);
-        }
-    });
+    if (project.canOpBeAppliedBy('delete', req.user.id)){
+        project.remove(function(err) {
+            if (err) {
+                return res.send('users/signup', {
+                    errors: err.errors,
+                    project: project
+                });
+            } else {
+                res.jsonp(project);
+            }
+        });
+    } else {
+        return res.json(401, { message: 'Unauthorized' });
+    }
 };
 
 /**
  * Show an project
  */
 exports.show = function(req, res) {
-    res.jsonp(req.project);
+    if (req.project.canOpBeAppliedBy('see', req.user.id)){
+        res.jsonp(req.project);
+    } else {
+        return res.json(401, { message: 'Unauthorized' });
+    }
 };
 
 /**
  * List of Projects
  */
 exports.all = function(req, res) {
-    Project.find().sort('-created').populate('user', 'name username').exec(function(err, projects) {
+    Project.find({ 'user': req.user._id })
+    //.or()
+    //.where('workgroup.user').equals(req.user._id)
+    .sort('-created').populate('user', 'name username').exec(function(err, projects) {
         if (err) {
             res.render('error', {
                 status: 500
