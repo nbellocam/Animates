@@ -59,6 +59,7 @@ UserSchema
   .virtual('userInfo')
   .get(function() {
     return {
+      '_id': this._id,
       'username': this.username,
       'role': this.role,
       'provider': this.provider
@@ -70,6 +71,7 @@ UserSchema
   .virtual('profile')
   .get(function() {
     return {
+      '_id': this._id,
       'username': this.username,
       'role': this.role
     };

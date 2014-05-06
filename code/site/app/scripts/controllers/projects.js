@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-  .controller('ProjectsCtrl', function ($scope, $routeParams, $location, ProjectService) {
+  .controller('ProjectsCtrl', function ($scope,  $rootScope, $routeParams, $location, ProjectService) {
 	$scope.create = function() {
 		var project = new ProjectService({
 				title: this.title,

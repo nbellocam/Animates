@@ -9,8 +9,10 @@ include ../navbar
         span {{project.user.name}}
         h2 {{project.title}}
         div(data-ng-show='currentUser._id == project.user._id')
-          a.btn(href='/projects/{{project._id}}/edit')
+          a.btn(href='/projects/{{project.id}}/edit')
             i.glyphicon.glyphicon-edit
+          a.btn(href='/editor/{{project.id}}', target="_self")
+            i.glyphicon.glyphicon-edit Editor
           a.btn(data-ng-click='remove();')
             i.glyphicon.glyphicon-trash
         div {{project.description}}

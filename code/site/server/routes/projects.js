@@ -25,12 +25,12 @@ module.exports = function(app) {
         .put(authorization.requiresLogin, hasAuthorization, projects.update)
         .delete(authorization.requiresLogin, hasAuthorization, projects.destroy);
     
+    app.route('/editor/:projectId')
+        .get(authorization.requiresLogin, hasAuthorization, editor.editor);
+
     //temporal route
     app.route('/editor')
         .get(editor.editor);
-
-    app.route('/editor/:projectId')
-        .get(authorization.requiresLogin, hasAuthorization, editor.editor);
 
     // Finish with setting up the projectId param
     app.param('projectId', projects.project);
