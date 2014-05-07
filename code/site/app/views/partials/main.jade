@@ -1,78 +1,72 @@
 include navbar
 
-#top.jumbotron
-  .container
-    h1 Animates
-    h2 A simple way to create animations with others in the web.
-    p
-      a.btn.btn-lg.btn-success(href='/signup') Sign Up Today
-        span.glyphicon.glyphicon-circle-arrow-right
-
 .container
-  h3#benefits.subhead Why Use This Product
+  h1#welcome.subhead Welcome, {{currentUser.name}}!
   .row
-    .col-md-4.col-sm-6.benefit
-      .benefit-ball
-        span.glyphicon.glyphicon-home
-      h3 Benefit Title
-      p
-        | Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
-    // /.benefit
-    .col-md-4.col-sm-6.benefit
-      .benefit-ball
-        span.glyphicon.glyphicon-cloud
-      h3 Benefit Title
-      p
-        | Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-    // /.benefit
-    .col-md-4.col-sm-6.benefit
-      .benefit-ball
-        span.glyphicon.glyphicon-bell
-      h3 Benefit Title
-      p
-        | Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero.
-    // /.benefit
-    .col-md-4.col-sm-6.benefit
-      .benefit-ball
-        span.glyphicon.glyphicon-bullhorn
-      h3 Benefit Title
-      p
-        | Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
-    // /.benefit
-    .col-md-4.col-sm-6.benefit
-      .benefit-ball
-        span.glyphicon.glyphicon-cutlery
-      h3 Benefit Title
-      p
-        | Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-    // /.benefit
-    .col-md-4.col-sm-6.benefit
-      .benefit-ball
-        span.glyphicon.glyphicon-fire
-      h3 Benefit Title
-      p
-        | Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero.
-    // /.benefit
+    .col-md-8.col-sm-12.news-entry
+      .row
+        h2#news News
+        .col-md-4.col-sm-6
+          h3 News Title
+          p
+            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
+        // /.news-entry
+        .col-md-4.col-sm-6.news-entry
+          h3 News Title
+          p
+            | Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+        // /.news-entry
+        .col-md-4.col-sm-6.news-entry
+          h3 News Title
+          p
+            | Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero.
+        // /.news-entry
+        .col-md-4.col-sm-6.news-entry
+          h3 News Title
+          p
+            | Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.
+        // /.news-entry
+        .col-md-4.col-sm-6.news-entry
+          h3 News Title
+          p
+            | Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+        // /.news-entry
+        .col-md-4.col-sm-6.news-entry
+          h3 News Title
+          p
+            | Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero.
+        // /.news-entry
+    .col-md-4.col-sm-6.news-entry
+      .row
+        h2#recents Recents
+        .list-group
+          a.list-group-item(href='#') 
+            span.badge 14
+            | Cras justo odio
+          a.list-group-item(href='#') 
+            span.badge 2
+            | Dapibus ac facilisis in
+          a.list-group-item(href='#') 
+            span.badge 5
+            | Morbi leo risus
+          a.list-group-item(href='#') 
+            span.badge 42
+            | Porta ac consectetur ac
+          a.list-group-item(href='#') 
+            span.badge
+            | Vestibulum at eros
+  
   // /.row
-  .sect-border
-  h3#tour.subhead Take A Tour Of This Product
+  h2#tour.subhead Statistics
   .row
     .col-md-12
       p
         | Duis autem vel eum iriure dolor
     // /.col-md-12
   // /.row
-  .sect-border
-  h3#about.subhead A Little More About Us
-  .row
-    .col-md-10.col-md-offset-1.text-center
-      p
-        | Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.  Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan.
-      p
-        | Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius.
-    // /.col-md-10
-  // /.row
 // /.container
+
+hr
 
 footer
   .container.clearfix

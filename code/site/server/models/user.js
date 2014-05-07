@@ -60,6 +60,7 @@ UserSchema
   .get(function() {
     return {
       '_id': this._id,
+      'name': this.name,
       'username': this.username,
       'role': this.role,
       'provider': this.provider
@@ -72,6 +73,7 @@ UserSchema
   .get(function() {
     return {
       '_id': this._id,
+      'name': this.name,
       'username': this.username,
       'role': this.role
     };
