@@ -3,9 +3,10 @@
 angular.module('animatesApp', [
   'ngCookies',
   'ngResource',
-  'ngRoute'
+  'ngRoute',
+  'LocalStorageModule'
 ])
-  .config(function ($routeProvider, $locationProvider, $httpProvider) {
+  .config(function ($routeProvider, $locationProvider, $httpProvider, localStorageServiceProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'partials/main',
@@ -65,6 +66,8 @@ angular.module('animatesApp', [
         }
       };
     }]);
+
+    localStorageServiceProvider.setPrefix('animates');
   })
   .run(function ($rootScope, $location, Auth) {
 

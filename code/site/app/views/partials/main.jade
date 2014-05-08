@@ -40,21 +40,13 @@ include navbar
       .row
         h2#recents Recents
         .list-group
-          a.list-group-item(href='#') 
+          a.list-group-item(data-ng-href='/projects/{{project.id}}', data-ng-repeat='project in recentProjects')
             span.badge 14
-            | Cras justo odio
-          a.list-group-item(href='#') 
-            span.badge 2
-            | Dapibus ac facilisis in
-          a.list-group-item(href='#') 
-            span.badge 5
-            | Morbi leo risus
-          a.list-group-item(href='#') 
-            span.badge 42
-            | Porta ac consectetur ac
-          a.list-group-item(href='#') 
-            span.badge
-            | Vestibulum at eros
+            | {{project.title}}
+        .list-group(data-ng-hide='!recentProjects || recentProjects.length')
+          .list-group-item
+            | No recent projects yet.
+        
   
   // /.row
   h2#tour.subhead Statistics
