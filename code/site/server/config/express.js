@@ -68,6 +68,7 @@ module.exports = function(app, passport, db) {
 
   // Persist sessions with mongoStore
   app.use(session({
+    key: config.sessionKey,
     secret: config.sessionSecret,
     store: new MongoStore({
       mongoose_connection: db.connection,

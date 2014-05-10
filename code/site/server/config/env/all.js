@@ -15,6 +15,8 @@ module.exports = {
     }
   },
   
+  // Session key for session midware for express
+  sessionKey: 'animates.sid',
   // The secret should be set to a non-guessable string that
   // is used to compute a session hash
   sessionSecret: 'an!m4t3sS3cr3t!',

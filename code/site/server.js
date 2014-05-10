@@ -16,12 +16,12 @@ var config = require('./server/config/config');
 var db = mongoose.connect(config.mongo.uri, config.mongo.options);
 
 // Bootstrap Models, Dependencies, Routes and the app as an express app
-var app = require('./server/config/systemBootstrap')(passport, db);
+var server = require('./server/config/systemBootstrap')(passport, db);
 
 // Start server
-app.listen(config.port, function () {
-  console.log('Express server listening on port %d in %s mode', config.port, app.get('env'));
+server.httpServer.listen(config.port, function () {
+  console.log('Express server listening on port %d in %s mode', config.port, server.app.get('env'));
 });
 
 // Expose app
-exports = module.exports = app;
+exports = module.exports = server.app;

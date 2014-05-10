@@ -2,6 +2,7 @@
 
 var express = require('express'),
     path = require('path'),
+    http = require('http'),
     appPath = process.cwd();
 
 
@@ -26,5 +27,12 @@ module.exports = function(passport, db) {
     var app = express();
     require(path.join(appPath, '/server/config/express'))(app, passport, db);
 
-    return app;
+    var httpServer = http.createServer(app);
+    var io = require(path.join(appPath, '/server/config/socketio'))(httpServer, app, passport, db);
+
+    return {
+        app: app,
+        httpServer: httpServer,
+        socketIo: io
+    };
 };
