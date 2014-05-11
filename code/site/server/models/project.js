@@ -95,13 +95,36 @@ ProjectSchema.methods = {
 		for (var i = this.workgroup.length - 1; i >= 0; i--) {
 			workgroupMember = this.workgroup[i];
 
-			if (workgroupMember.permission === op && 
-				workgroupMember.user.id  === userId){
+			if (workgroupMember.user.id  === userId && 
+				workgroupMember.permission === op){
 				return true;
 			}
 		}
 
 		return false;
+	},
+
+	/**
+     * CanOpBeAppliedBy - check if the user can perform the operation in this project
+     *
+     * @param {String} plainText
+     * @param {String} plainText
+     * @return {Boolean}
+     * @api public
+     */
+	applyDiff : function(diff, user){
+		if (!this.canOpBeAppliedBy('update', user.id)) {
+			return null;
+		}
+
+		this.history.push({
+			user: user,
+			change: diff
+		});
+
+		//TODO update animation with diff
+
+		return this;
 	}
 };
 
