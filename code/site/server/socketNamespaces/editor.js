@@ -6,12 +6,12 @@ var mongoose = require('mongoose'),
 var operateWithProject = function (data, socket, operation, callback) {
 	Project.load(data.projectId, function(err, project) {
 		if (err) {
-			socket.emit('subscribe', { error: err });
+			socket.emit('error-response', { error: err });
 			return;
 		}
 
 		if (!project)  {
-			socket.emit('subscribe', { 
+			socket.emit('error-response', { 
 				error: new Error('Failed to load project ' + data.projectId)
 			});
 			return;
@@ -20,7 +20,7 @@ var operateWithProject = function (data, socket, operation, callback) {
 		if(project.canOpBeAppliedBy(operation, data.user.id)){
 			callback(project, data, socket);
 		} else {
-			socket.emit('subscribe', { 
+			socket.emit('error-response', { 
 				error: new Error('Not enough permissions on project ' + data.projectId)
 			});
 		}

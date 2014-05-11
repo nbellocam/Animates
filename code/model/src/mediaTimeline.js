@@ -193,6 +193,14 @@ function MediaTimeline (options) {
 	};
 
 	/**
+	 * Return the effect.
+	 * @return {Object} A dictionary with all the effects.
+	 */
+	this.getEffect = function getEffect(effectId){
+		return effects[effectId];
+	};
+
+	/**
 	 * Return the collection of effect.
 	 * @return {Object} A dictionary with all the effects.
 	 */

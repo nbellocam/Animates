@@ -15,17 +15,25 @@ function MediaObject (options) {
 	 * Get the properties
 	 * @return {Object} The current properties
 	 */
-	this.getProperties = function getProperties()
-	{
+	this.getProperties = function getProperties() {
 		return Common.clone(properties);
+	};
+
+	/**
+	 * Set the properties
+	 * @params {array} properties An array with properties: values pairs to be updated
+	 */
+	this.setProperties = function setProperties(properties) {
+		for (var i = properties.length - 1; i >= 0; i--) {
+			_self.setProperty(properties[i].propertyName, properties[i].newValue);
+		}
 	};
 
 	/**
 	 * Get the property named after the first parameter value 
 	 * @return {Object} The property value
 	 */
-	this.getProperty = function getProperty(name)
-	{
+	this.getProperty = function getProperty(name) {
 		if (name){
 			var parts = name.split('.'),
 			parent = properties,
@@ -45,10 +53,10 @@ function MediaObject (options) {
 
 	/**
 	 * Set the property named after the first parameter value 
-	 * @return {Object} The property value
+	 * @params {string} name The property name
+	 * @params {Object} value The property value
 	 */
-	this.setProperty = function setProperty(name, value)
-	{
+	this.setProperty = function setProperty(name, value) {
 		if (name){
 			var parts = name.split('.'),
 			parent = properties,
