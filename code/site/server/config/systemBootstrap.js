@@ -25,10 +25,10 @@ module.exports = function(passport, db) {
 
     // Express settings
     var app = express();
-    require(path.join(appPath, '/server/config/express'))(app, passport, db);
+    var appModules = require(path.join(appPath, '/server/config/express'))(app, passport, db);
 
     var httpServer = http.createServer(app);
-    var io = require(path.join(appPath, '/server/config/socketio'))(httpServer, app, passport, db);
+    var io = require(path.join(appPath, '/server/config/socketio'))(httpServer, app, passport, db, appModules);
 
     return {
         app: app,

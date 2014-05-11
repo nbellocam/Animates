@@ -66,16 +66,18 @@ module.exports = function(app, passport, db) {
   // The cookieParser should be above session
   app.use(cookieParser());
 
+  var sessionStore = new MongoStore({
+      mongoose_connection: db.connection,
+      collection: config.sessionCollection
+    }, function () {
+        console.log("Express session store: db connection open");
+    });
+
   // Persist sessions with mongoStore
   app.use(session({
     key: config.sessionKey,
     secret: config.sessionSecret,
-    store: new MongoStore({
-      mongoose_connection: db.connection,
-      collection: config.sessionCollection
-    }, function () {
-        console.log("db connection open");
-    })
+    store: sessionStore
   }));
 
   //use passport session
@@ -83,7 +85,7 @@ module.exports = function(app, passport, db) {
   app.use(passport.session());
 
   // Error handler - has to be last
-  if ('development' === app.get('env')) {
+  if ('development' === env) {
     app.use(errorHandler());
   }
 
@@ -102,4 +104,8 @@ module.exports = function(app, passport, db) {
   }
 
   bootstrapRoutes();
+
+  return {
+    sessionStore: sessionStore
+  };
 };

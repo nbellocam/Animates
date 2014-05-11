@@ -17,7 +17,7 @@ module.exports = function(io) {
 		socket.on('update', function (data) {
 			socket.broadcast.to(data.projectId).emit('update', data.diff); //emit to 'room' except this socket
 		});
-	})
+	});
 
 	return io;
 };
