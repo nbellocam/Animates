@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.service('canvasService', function canvasService(shapeSync, $window, $rootScope, canvasConfig) {
+	.service('canvasService', function canvasService(shapeSync, $window, $rootScope, canvasConfig, animationService) {
 		var fabric = $window.fabric,
 			model = $window.model,
 			canvasPosition = {
@@ -51,13 +51,9 @@ angular.module('animatesApp')
 				canvasInstance.renderAll();
 			};
 
-		this.createCanvas = function createCanvas(id, height, width) {
+		this.createCanvas = function createCanvas(id) {
 			var canvas = new fabric.Canvas(id, canvasConfig.canvasInitialConfig);
-
-			canvas.model = new model.Canvas({
-				height: height || canvasConfig.canvasDefaultSize.height,
-				width: width || canvasConfig.canvasDefaultSize.width
-			});
+			canvas.model = animationService.getInstance().canvas;
 			
 			// TODO: Update Properties
 

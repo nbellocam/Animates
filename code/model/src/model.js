@@ -9,6 +9,7 @@ var model = {
 	MediaTimeline : require('./mediaTimeline'),
 	MediaFrame : require('./mediaFrame'),
 	Canvas : require('./canvas'),
+	Animation : require('./animation'),
 
 	// media objects
 	Shape : require('./shape'),
