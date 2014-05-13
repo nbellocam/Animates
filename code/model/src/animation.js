@@ -14,7 +14,7 @@ function Animation (options) {
 		observers = {};
 
 	this.canvas = new Canvas(options.canvas);
-	this.timeline = new Timeline(options.canvas);
+	this.timeline = new Timeline(options.timeline);
 
 	function applyShapeCreateOperation(opParams, context){
 		var mediaTimeline = _self.timeline.addMediaObject(opParams.mediaObject);
