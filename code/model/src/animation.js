@@ -62,7 +62,7 @@ function Animation (options) {
 			var effect = mediaTimeline.getEffect(opParams.effectId);
 
 			if (effect){
-				//TODO update effect properties in the same way as the shapes properties
+				effect.setOptions(opParams.options);
 				return true;
 			}
 
