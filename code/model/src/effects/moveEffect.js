@@ -16,8 +16,7 @@ function MoveEffect(options) {
 
 	this.base(options);
 	
-	var _self = this,
-		path = options.path;
+	var _self = this;
 
 	/**
 	 * Calculates the new shape properties based on the original ones and the current frame.
@@ -25,8 +24,9 @@ function MoveEffect(options) {
 	 * @param {object} mediaFrameProperties The original media frame properties.
 	 */
 	this.getProperties = function (tick, mediaFrameProperties) {
-		var startTick = _self.startTick,
-			endTick = _self.endTick;
+		var startTick = _self.getOption('startTick'),
+			endTick = _self.getOption('endTick'),
+			path = _self.getOption('path');
 
 		if (tick >= startTick){
 			if (typeof path !== 'undefined' && typeof path.getPositionFor === 'function' ) {

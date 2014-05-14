@@ -33,14 +33,14 @@ describe('MoveEffect', function(){
 		it('Should start at 0 if it not specified otherwise', function(){
 			var effect = new MoveEffect();
 
-			effect.startTick.should.be.exactly(0);
+			effect.getOption('startTick').should.be.exactly(0);
 		});
 
 		it('Should start at the value specified using the constructor', function(){
 			var startTick = 42,
 				effect = new MoveEffect({ 'startTick' : startTick });
 
-			effect.startTick.should.be.exactly(startTick);
+			effect.getOption('startTick').should.be.exactly(startTick);
 		});
 	});
 
@@ -48,14 +48,14 @@ describe('MoveEffect', function(){
 		it('Should end at -1 if it not specified otherwise', function(){
 			var effect = new MoveEffect();
 
-			effect.endTick.should.be.exactly(-1);
+			effect.getOption('endTick').should.be.exactly(-1);
 		});
 
 		it('Should end at the value specified using the constructor', function(){
 			var endTick = 42,
 				effect = new MoveEffect({ 'endTick' : endTick });
 
-			effect.endTick.should.be.exactly(endTick);
+			effect.getOption('endTick').should.be.exactly(endTick);
 		});
 	});
 

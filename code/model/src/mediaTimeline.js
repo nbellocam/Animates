@@ -32,18 +32,18 @@ function MediaTimeline (options) {
 			}
 
 			effectsArray.sort(function(a,b){
-				return b.endTick - a.endTick;
+				return b.getOption('endTick') - a.getOption('endTick');
 			});
 			
 			for (var i = effectsArray.length - 1; i >= 0; i--) {
 				currentEffect = effectsArray[i];
-				if (currentTick >= currentEffect.startTick){
-					if (currentEffect.endTick === -1 ){
+				if (currentTick >= currentEffect.getOption('startTick')) {
+					if (currentEffect.getOption('endTick') === -1 ){
 						mediaObjectFrame.properties(currentEffect.getProperties(currentTick, mediaObjectFrame.properties()));
 					} else {
 						mediaObjectFrame.properties(
 							currentEffect.getProperties(
-								(currentTick < currentEffect.endTick) ? currentTick : currentEffect.endTick,
+								(currentTick < currentEffect.getOption('endTick')) ? currentTick : currentEffect.getOption('endTick'),
 								mediaObjectFrame.properties()
 							)
 						);
@@ -98,7 +98,7 @@ function MediaTimeline (options) {
 
 		for (var id in effects) {
 			if (effects.hasOwnProperty(id)) {
-				effectEndTick = effects[id].endTick;
+				effectEndTick = effects[id].getOption('endTick');
 				if (effectEndTick > currentEndTick){
 					currentEndTick = effectEndTick;
 				}
@@ -128,10 +128,10 @@ function MediaTimeline (options) {
 				var currentEffect = effects[id];
 
 				// Only consider effects that start before the upperLimitTick
-				if (currentEffect.startTick < upperTickLimit){
+				if (currentEffect.getOption('startTick') < upperTickLimit){
 					if (currentEffect.HasConflictWithProperties(effect)) {
-						if (endTick < currentEffect.endTick) {
-							endTick = currentEffect.endTick;
+						if (endTick < currentEffect.getOption('endTick')) {
+							endTick = currentEffect.getOption('endTick');
 						}
 					}
 				}
@@ -155,7 +155,7 @@ function MediaTimeline (options) {
 				var currentEffect = effects[id];
 
 				// If the effect contains the tick
-				if ((currentEffect.startTick < tick) && (currentEffect.endTick > tick)) {
+				if ((currentEffect.getOption('startTick') < tick) && (currentEffect.getOption('endTick') > tick)) {
 					resultEffects.push(currentEffect);
 				}
 			}

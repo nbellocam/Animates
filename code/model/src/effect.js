@@ -7,14 +7,16 @@ var Common = require('animates-common');
  *  @class Represents an Effect .
  */
 function Effect (options) {
+	
 	options = options || {};
 
 	var _self = this,
-		guid = ''; // Save the this reference for later use
-
-	this.startTick = options.startTick || 0;
-
-	this.endTick = options.endTick || -1;
+		guid = '',
+		defaultOptions = {
+			startTick : 0,
+			endTick : -1
+		},
+		currentOptions = {};
 
 	/**
 	 * Calculates the new shape properties based on the original ones and the current tick.
@@ -64,7 +66,6 @@ function Effect (options) {
 	 * @param {boolean} strict means that all properties must match to indicate a conflict
 	 * @return true if a match was found (according to the strict paramter)
 	 */
-
 	this.HasConflictWithProperties = function (effect, strict) {
 		// Check for all properties to indicate a conflict
 		var currentAffectedProperties = this.getAffectedProperties(),
@@ -88,14 +89,29 @@ function Effect (options) {
 		}
 	};
 
+	this.getOption = function (name) {
+		return currentOptions[name];
+	};
+
+	this.setOption = function (name, value) {
+		currentOptions[name] = value;
+	};
+
 	this.getOptions = function () {
-		return options;
+		return Common.clone(currentOptions);
+	};
+
+	this.setOptions = function (options) {
+		for(var name in options) {
+			_self.setOption(name, options[name]);
+		}
 	};
 
 	/**
 	 *  Constructor
 	 */
 	(function init() {
+		currentOptions = Common.extend(options || {}, defaultOptions),
 		guid = Common.createGuid();
 	}());
 }

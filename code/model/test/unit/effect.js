@@ -52,6 +52,104 @@ describe('Effect', function(){
 		});
 	});
 
+	describe('getOption', function () {
+		it('Should return undefined for non-existant custom options', function () {
+			var effect = new Effect({'prop' : 'value'});
+			should.not.exists(effect.getOption('prop1'));
+		});
+
+		it('Should return the value for existant custom options', function () {
+			var effect = new Effect({'prop' : 'value'});
+			effect.getOption('prop').should.equal('value');
+		});
+	});
+
+	describe('setOption', function () {
+		it('Should define new properties if they do not exists', function () {
+			var effect = new Effect({'prop' : 'value'});
+			effect.setOption('prop1', 'value2');
+			effect.getOption('prop1').should.equal('value2');
+		});
+
+		it('Should return update extistant custom options values', function () {
+			var effect = new Effect({'prop' : 'value'});
+			effect.setOption('prop', 'newValue');
+			effect.getOption('prop').should.equal('newValue');
+		});
+	});
+
+	describe('getOptions', function () {
+		it('Should return all existant options (including defaults)', function () {
+			var effect = new Effect({'prop' : 'value', 'prop2' : 'value2'}),
+				options = effect.getOptions();
+			
+			options.should.have.property('prop', 'value');
+			options.should.have.property('prop2', 'value2');
+			options.should.have.property('endTick');
+			options.should.have.property('startTick');
+		});
+
+		it('Should return all existant options (including added after constructor)', function () {
+			var effect = new Effect({'prop' : 'value', 'prop2' : 'value2'}),
+				options = null;
+
+			effect.setOption('newProp', 'newValue');
+			options = effect.getOptions();
+			
+			options.should.have.property('prop', 'value');
+			options.should.have.property('prop2', 'value2');
+			options.should.have.property('newProp', 'newValue');
+			options.should.have.property('endTick');
+			options.should.have.property('startTick');
+		});
+	});
+
+	describe('getOptions', function () {
+		it('Should add all non-existant options', function () {
+			var effect = new Effect({'prop' : 'value', 'prop2' : 'value2'}),
+				options = null;
+
+			effect.setOptions({'newProp' : 'newValue', 'newProp2' : 'newValue2'});
+
+			options = effect.getOptions();
+			
+			options.should.have.property('prop', 'value');
+			options.should.have.property('prop2', 'value2');
+			options.should.have.property('endTick');
+			options.should.have.property('startTick');
+			options.should.have.property('newProp', 'newValue');
+			options.should.have.property('newProp2', 'newValue2');
+		});
+
+		it('Should update all existant options', function () {
+			var effect = new Effect({'prop' : 'value', 'prop2' : 'value2'}),
+				options = null;
+
+			effect.setOptions({'prop' : 'newValue', 'prop2' : 'newValue2'});
+
+			options = effect.getOptions();
+			
+			options.should.have.property('prop', 'newValue');
+			options.should.have.property('prop2', 'newValue2');
+			options.should.have.property('endTick');
+			options.should.have.property('startTick');
+		});
+
+		it('Should update all existant options and add all non-existant', function () {
+			var effect = new Effect({'prop' : 'value', 'prop2' : 'value2'}),
+				options = null;
+
+			effect.setOptions({'prop' : 'newValue', 'newProp' : 'newPropValue'});
+
+			options = effect.getOptions();
+			
+			options.should.have.property('prop', 'newValue');
+			options.should.have.property('prop2', 'value2');
+			options.should.have.property('endTick');
+			options.should.have.property('startTick');
+			options.should.have.property('newProp', 'newPropValue');
+		});
+	});
 	describe('HasConflictWithProperties', function () {
 		it('Should indicate conflict without strict', function() {
 			var effect = new Effect(),
@@ -106,30 +204,29 @@ describe('Effect', function(){
 		it('Should start at 0 if it not specified otherwise.', function(){
 			var effect = new Effect();
 
-			effect.startTick.should.be.exactly(0);
+			effect.getOption('startTick').should.be.exactly(0);
 		});
 
 		it('Should start at the value specified using the constructor.', function(){
 			var startTick = 42,
 				effect = new Effect({ 'startTick' : startTick });
 
-			effect.startTick.should.be.exactly(startTick);
+			effect.getOption('startTick').should.be.exactly(startTick);
 		});
 	});
 
 	describe('endTick', function(){
 		it('Should end at -1 if it not specified otherwise.', function(){
-			var effect = new Effect(),
-				endTick = effect.endTick;
+			var effect = new Effect();
 
-			endTick.should.be.exactly(-1);
+			effect.getOption('endTick').should.be.exactly(-1);
 		});
 
 		it('Should end at the value specified using the constructor.', function(){
 			var endTick = 42,
 				effect = new Effect({ 'endTick' : endTick });
 
-			effect.endTick.should.be.exactly(endTick);
+			effect.getOption('endTick').should.be.exactly(endTick);
 		});
 	});
 
