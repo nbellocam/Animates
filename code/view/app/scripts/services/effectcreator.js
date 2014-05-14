@@ -42,13 +42,13 @@ angular.module('animatesApp')
 					
 					// "Split" : Modify the found effect and insert the new one
 					if (effectToSplit) {
-						moveEffect.getOptions().path.startPosition = effectToSplit.getOptions().path.startPosition;
+						moveEffect.getOptions('path').startPosition = effectToSplit.getOption('path').startPosition;
 						
-						effectToSplit.startTick = timelineService.getCurrentTick();
+						effectToSplit.setOption('startTick', timelineService.getCurrentTick());
 						effectToSplit.getOptions().path.startPosition = { x: posXEnd, y : posYEnd};
 					}
 					
-					moveEffect.startTick = mediaTimeline.getStartTickFor(moveEffect, moveEffect.endTick);
+					moveEffect.setOption('startTick', mediaTimeline.getStartTickFor(moveEffect, moveEffect.getOption('endTick')));
 					
 					mediaTimeline.addEffect(moveEffect);
 				}

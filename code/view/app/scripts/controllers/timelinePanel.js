@@ -37,8 +37,8 @@ angular.module('animatesApp')
 					timeline.events.push(
 						{
 							name : effect.getGuid(),
-							start : effect.startTick,
-							duration : effect.endTick - effect.startTick
+							start : effect.getOption('startTick'),
+							duration : effect.getOption('endTick') - effect.getOption('startTick')
 						}
 					);
 				});
