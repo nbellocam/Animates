@@ -1,9 +1,16 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('ToolbarCtrl', function ToolbarCtrl($scope, shapeCreator, canvasService, canvasUtils, timelineService) {
+	.controller('ToolbarCtrl', function ToolbarCtrl($scope, canvasService, timelineService, animationService) {
+		function applyOperation(target, operation, params){
+			animationService.getInstance().applyOperation(target, operation, params, { sender: 'toolbar' });
+		}
+
 		$scope.addRectangle = function() {
-			canvasService.add(shapeCreator.createRectangle());
+			applyOperation('Shape', 'Create', {
+				mediaObject: new animationService.Model.Rectangle(),
+				tick : timelineService.getCurrentTick()
+			});
 		};
 
 		$scope.addCircle = function() {
@@ -36,13 +43,15 @@ angular.module('animatesApp')
 			if (selectedElement){
 				if (selectedElement.isType('group')){
 					selectedElement.forEachObject(function (obj){
-						canvasService.remove(obj);
-						timelineService.removeMediaObject(obj.model.getMediaObjectGuid());
+						applyOperation('Shape', 'Remove', {
+							mediaObjectId: obj.model.getMediaObjectGuid()
+						});
 					});
 					canvasService.getInstance().discardActiveGroup().renderAll();
 				} else {
-					selectedElement.remove();
-					timelineService.removeMediaObject(selectedElement.model.getMediaObjectGuid());
+					applyOperation('Shape', 'Remove', {
+						mediaObjectId: selectedElement.model.getMediaObjectGuid()
+					});
 				}
 			}
 		};

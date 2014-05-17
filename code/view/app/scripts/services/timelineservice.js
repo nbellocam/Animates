@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('animatesApp')
-	.service('timelineService', function timelineService($window) {
-		var Model = $window.model,
-			currentTick = 0,
-			timeline = new Model.Timeline(); //TODO: review if this should be moved somewhere else
+	.service('timelineService', function timelineService($window, animationService) {
+		var currentTick = 0,
+			timeline = animationService.getInstance().timeline;
 		
 		return {
 			addMediaObject : function addMediaObject(mediaObject){
@@ -14,11 +13,18 @@ angular.module('animatesApp')
 			removeMediaObject : function removeMediaObject(mediaObjectId){
 				timeline.removeMediaObject(mediaObjectId);
 			},
+			getMediaFrame : function getMediaFrame(mediaObjectId){
+				var mediaTimeline = timeline.getMediaTimeline(mediaObjectId);
+				return mediaTimeline ? mediaTimeline.getMediaFrameFor(currentTick) : undefined;
+			},
 			getMediaFrames : function getMediaFrames(){
 				return timeline.getElements(currentTick);
 			},
-			getMediaTimeline : function getMediaTimeline(mediaFrame){
-				return timeline.getMediaTimeline(mediaFrame.getMediaObjectGuid());
+			getMediaTimeline : function getMediaTimeline(mediaObjectId){
+				return timeline.getMediaTimeline(mediaObjectId);
+			},
+			getMediaTimelines : function getMediaTimelines() {
+				return timeline.getMediaTimelines();
 			},
 			setCurrentTick : function setCurrentTick(tick){
 				currentTick = tick;
@@ -32,9 +38,6 @@ angular.module('animatesApp')
 			},
 			startsAtCurrentTick : function startsAtCurrentTick(mediaTimeline){
 				return mediaTimeline.getStartTick() === currentTick;
-			},
-			getMediaTimelines : function getMediaTimelines() {
-				return timeline.getMediaTimelines();
 			}
 		};
 	});

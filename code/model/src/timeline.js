@@ -35,6 +35,8 @@ function Timeline (options) {
 
 			return mediaTimeline;
 		}
+		
+		return undefined;
 	};
 
 	/**

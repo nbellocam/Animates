@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('animatesApp')
-	.service('canvasService', function canvasService(shapeSync, $window, $rootScope, canvasConfig, animationService) {
+	.service('canvasService', function canvasService(shapeSync, $window, $rootScope, canvasConfig, animationService, shapeCreator, timelineService) {
 		var fabric = $window.fabric,
+			_self = this,
 			canvasPosition = {
 				left: canvasConfig.canvasMinPosition.left,
 				top: canvasConfig.canvasMinPosition.top
@@ -48,6 +49,70 @@ angular.module('animatesApp')
 			},
 			renderAll = function renderAll(){
 				canvasInstance.renderAll();
+			},
+			updateMediaObjectInCanvas = function updateMediaObjectInCanvas(mediaObjectId){
+				var allObjects = canvasInstance.getObjects(),
+					founded = false,
+					newMediaFrame = timelineService.getMediaFrame(mediaObjectId),
+					object;
+
+				for (var i = 0; i < allObjects.length; i++) {
+					object = allObjects[i];
+					if (object.model && object.model.getMediaObjectGuid() === mediaObjectId) {
+						founded = true;
+
+						if (newMediaFrame) {
+							object.model = newMediaFrame;
+							shapeSync.syncFromModel(object, _self.getCanvasPosition());
+						} else {
+							_self.remove(object);
+						}
+					}
+				}
+
+				if (!founded && newMediaFrame){
+					var shape = shapeCreator.createShapeFromFrame(newMediaFrame, _self.getCanvasPosition());
+					if (shape){
+						_self.add(shape);
+					}
+				}
+			},
+			canvasModelEventHandler = function canvasModelEventHandler(target, operation, params) {
+				if (target === 'Shape') {
+					switch (operation){
+						case 'Create':
+							var shape = shapeCreator.createShapeFromMediaObject(params.mediaObject, _self.getCanvasPosition());
+							if (shape){
+								_self.add(shape);
+							}
+							renderAll();
+
+							break;
+						case 'Update':
+							updateMediaObjectInCanvas(params.mediaObjectId);
+							renderAll();
+
+							break;
+						case 'Remove':
+							var allObjects = canvasInstance.getObjects(),
+								object;
+
+							for (var i = 0; i < allObjects.length; i++) {
+								object = allObjects[i];
+								if (object.model && object.model.getMediaObjectGuid() === params.mediaObjectId) {
+									_self.remove(object);
+								}
+							}
+							renderAll();
+
+							break;
+						default:
+							break;
+					}
+				} else if (target === 'Effect') {
+					updateMediaObjectInCanvas(params.mediaObjectId);
+					renderAll();
+				}
 			};
 
 		this.createCanvas = function createCanvas(id) {
@@ -55,12 +120,13 @@ angular.module('animatesApp')
 			canvas.model = animationService.getInstance().canvas;
 			
 			// TODO: Update Properties
+			
+			animationService.getInstance().addObserver('CanvasService', canvasModelEventHandler);
 
 			canvas.on('object:modified', function(event) {
 				if (event.target) {
 					if (!event.target.isType('group')){
-						shapeSync.syncFromFabric(event.target, canvasPosition);
-						//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
+						shapeSync.syncFromFabric(event.target, _self.getCanvasPosition());
 					}
 
 					$rootScope.$broadcast('shapeChange', event.target);
@@ -76,8 +142,7 @@ angular.module('animatesApp')
 						for (var i = 0; i < allObjects.length; i++) {
 							object = allObjects[i];
 							if (object !== viewportInstance) {
-								shapeSync.syncFromFabric(object, canvasPosition);
-								//TODO work with the diff that is returned by the shapeSync.syncFromFabric method.
+								shapeSync.syncFromFabric(object, _self.getCanvasPosition());
 							}
 						}
 					}

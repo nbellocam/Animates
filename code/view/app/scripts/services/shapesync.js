@@ -30,7 +30,7 @@ angular.module('animatesApp')
 					// Fabric Object: angle, borderColor, fill,height, width, opacity, top, left
 					// http://fabricjs.com/docs/fabric.Object.html
 				if (fromFabric){
-					var mediaTimeline = timelineService.getMediaTimeline(model);
+					var mediaTimeline = timelineService.getMediaTimeline(model.getMediaObjectGuid());
 
 					if (timelineService.startsAtCurrentTick(mediaTimeline)){
 						var mediaObject = mediaTimeline.getMediaObject();
@@ -62,7 +62,7 @@ angular.module('animatesApp')
 				if (fromFabric){
 					// TODO: update model properties from fabricRect;
 					//Model properties: height, width
-					var mediaTimeline = timelineService.getMediaTimeline(model);
+					var mediaTimeline = timelineService.getMediaTimeline(model.getMediaObjectGuid());
 
 					if (timelineService.startsAtCurrentTick(mediaTimeline)){
 						var mediaObject = mediaTimeline.getMediaObject();
