@@ -6,13 +6,16 @@ var Animation = require('../../src/animation'),
 	Rectangle = require('../../src/shapes/rectangle'),
 	MoveEffect = require('../../src/effects/moveEffect'),
 	Timeline = require('../../src/timeline'),
+	Canvas = require('../../src/canvas'),
 	should = require("should");
 
 
 describe('Animation', function() {
 	describe('Shapes operations', function() {
 		it('Should call observer with Rectangle Shape creation event', function() {
-			var animation = new Animation(),
+			var timeline = new Timeline(),
+				canvas = new Canvas(),
+				animation = new Animation({ timeline : timeline, canvas : canvas}),
 				rec = new Rectangle(),
 				called = false;
 
@@ -24,16 +27,29 @@ describe('Animation', function() {
 				called = true;
 			});
 
-			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec });
+			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec , 'tick' : 100});
 			called.should.be.ok;
+
+			timeline.countMediaTimelines().should.be.equal(1);
+
+			var mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			should.exist(mediaTimeline);
+			mediaTimeline.getStartTick().should.be.equal(100);
+			mediaTimeline.getEndTick().should.be.equal(-1);
 		});
 
 		it('Should call observer with Rectangle Shape remove event', function() {
-			var animation = new Animation(),
+			var timeline = new Timeline(),
+				canvas = new Canvas(),
+				animation = new Animation({ timeline : timeline, canvas : canvas}),
 				rec = new Rectangle(),
 				called = false;
 
 			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec });
+
+			timeline.countMediaTimelines().should.be.equal(1);
+			var mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			should.exist(mediaTimeline);
 
 			animation.addObserver('test', function (target, operation, params, context) {
 				target.should.equal('Shape');
@@ -45,14 +61,27 @@ describe('Animation', function() {
 
 			animation.applyOperation('Shape', 'Remove', { 'mediaObjectId' : rec.getGuid() });
 			called.should.be.ok;
+
+			timeline.countMediaTimelines().should.be.equal(0);
+
+			var mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			should.not.exist(mediaTimeline);
 		});
 
 		it('Should call observer with Rectangle Shape update event', function() {
-			var animation = new Animation(),
+			var timeline = new Timeline(),
+				canvas = new Canvas(),
+				animation = new Animation({ timeline : timeline, canvas : canvas}),
 				rec = new Rectangle(),
-				called = false;
+				called = false,
+				mediaTimeline = null,
+				objectPorperties = null;
 
 			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec });
+
+			timeline.countMediaTimelines().should.be.equal(1);
+			var mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			should.exist(mediaTimeline);
 
 			animation.addObserver('test', function (target, operation, params, context) {
 				target.should.equal('Shape');
@@ -65,15 +94,27 @@ describe('Animation', function() {
 
 			animation.applyOperation('Shape', 'Update', { 'mediaObjectId' : rec.getGuid(), 'properties' : { 'height' : 200, 'width' : 200 }});
 			called.should.be.ok;
+
+			timeline.countMediaTimelines().should.be.equal(1);
+			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			should.exist(mediaTimeline);
+			mediaTimeline.getMediaObject().getGuid().should.equal(rec.getGuid());
+			objectPorperties = mediaTimeline.getMediaObject().getProperties();
+			objectPorperties.should.have.property('height', 200);
+			objectPorperties.should.have.property('width', 200);
 		});
 	});
 
 	describe('Effects operations', function() {
 		it('Should call observer with MoveEffect effect creation event', function() {
-			var animation = new Animation(),
+			var timeline = new Timeline(),
+				canvas = new Canvas(),
+				animation = new Animation({ timeline : timeline, canvas : canvas}),
 				rec = new Rectangle(),
 				eff = new MoveEffect(),
-				called = false;
+				called = false,
+				mediaTimeline = null,
+				effectOptions = null;
 
 			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec });
 
@@ -88,16 +129,30 @@ describe('Animation', function() {
 
 			animation.applyOperation('Effect', 'Create', { 'mediaObjectId' : rec.getGuid() , 'effect' : eff });
 			called.should.be.ok;
+
+			timeline.countMediaTimelines().should.be.equal(1);
+			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			should.exist(mediaTimeline);
+			should.exist(mediaTimeline.getEffect(eff.getGuid()));
 		});
 
 		it('Should call observer with MoveEffect effect remove event', function() {
-			var animation = new Animation(),
+			var timeline = new Timeline(),
+				canvas = new Canvas(),
+				animation = new Animation({ timeline : timeline, canvas : canvas}),
 				rec = new Rectangle(),
 				eff = new MoveEffect(),
-				called = false;
+				called = false,
+				mediaTimeline = null,
+				effectOptions = null;
 
 			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec });
 			animation.applyOperation('Effect', 'Create', { 'mediaObjectId' : rec.getGuid() , 'effect' : eff });
+
+			timeline.countMediaTimelines().should.be.equal(1);
+			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			should.exist(mediaTimeline);
+			should.exist(mediaTimeline.getEffect(eff.getGuid()));
 
 			animation.addObserver('test', function (target, operation, params, context) {
 				target.should.equal('Effect');
@@ -110,13 +165,22 @@ describe('Animation', function() {
 
 			animation.applyOperation('Effect', 'Remove', { 'mediaObjectId' : rec.getGuid() , 'effectId' : eff.getGuid() });
 			called.should.be.ok;
+
+			timeline.countMediaTimelines().should.be.equal(1);
+			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			should.exist(mediaTimeline);
+			should.not.exist(mediaTimeline.getEffect(eff.getGuid()));
 		});
 
 		it('Should call observer with Rectangle Shape update event', function() {
-			var animation = new Animation(),
+			var timeline = new Timeline(),
+				canvas = new Canvas(),
+				animation = new Animation({ timeline : timeline, canvas : canvas}),
 				rec = new Rectangle(),
 				eff = new MoveEffect(),
-				called = false;
+				called = false,
+				mediaTimeline = null,
+				effectOptions = null;
 
 			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec });
 			animation.applyOperation('Effect', 'Create', { 'mediaObjectId' : rec.getGuid() , 'effect' : eff });
@@ -133,6 +197,13 @@ describe('Animation', function() {
 
 			animation.applyOperation('Effect', 'Update', { 'mediaObjectId' : rec.getGuid() , 'effectId' : eff.getGuid(), 'options' : {'newOp' : 'test'} });
 			called.should.be.ok;
+
+			timeline.countMediaTimelines().should.be.equal(1);
+			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			should.exist(mediaTimeline);
+			should.exist(mediaTimeline.getEffect(eff.getGuid()));
+			effectOptions = mediaTimeline.getEffect(eff.getGuid()).getOptions();
+			effectOptions.should.have.property('newOp', 'test');
 		});
 	});
 
