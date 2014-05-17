@@ -8,6 +8,7 @@ var Animation = require('../../src/animation'),
 	Timeline = require('../../src/timeline'),
 	should = require("should");
 
+
 describe('Animation', function() {
 	describe('Shapes operations', function() {
 		it('Should call observer with Rectangle Shape creation event', function() {

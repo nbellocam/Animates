@@ -3,7 +3,6 @@
 angular.module('animatesApp')
 	.service('canvasService', function canvasService(shapeSync, $window, $rootScope, canvasConfig, animationService) {
 		var fabric = $window.fabric,
-			model = $window.model,
 			canvasPosition = {
 				left: canvasConfig.canvasMinPosition.left,
 				top: canvasConfig.canvasMinPosition.top

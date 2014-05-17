@@ -2,20 +2,23 @@
 
 angular.module('animatesApp')
 	.service('animationService', function animationService($window, canvasConfig) {
-		var model = $window.model,
-			self = this,
+		var Model = $window.model,
 			animationInstance;
 			
 		this.createAnimation = function createAnimation(height, width) {
-			self.animationInstance = new model.Animation({
-				canvas : {
+			var canvas = new Model.Canvas({
 					height: height || canvasConfig.canvasDefaultSize.height,
 					width: width || canvasConfig.canvasDefaultSize.width
-				}
+				}),
+				timeline = new Model.Timeline();
+
+			animationInstance = new Model.Animation({
+				canvas : canvas,
+				timeline : timeline
 			});
 		};
 		
 		this.getInstance = function getInstance(){
-			return self.animationInstance;
+			return animationInstance;
 		};
 	});

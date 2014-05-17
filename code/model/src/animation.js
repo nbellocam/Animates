@@ -13,8 +13,8 @@ function Animation (options) {
 	var _self = this, // Save the this reference for later use
 		observers = {};
 
-	this.canvas = new Canvas(options.canvas);
-	this.timeline = new Timeline(options.timeline);
+	_self.canvas = options.canvas || new Canvas();
+	_self.timeline = options.timeline || new Timeline();
 
 	function applyShapeCreateOperation(opParams, context){
 		var mediaTimeline = _self.timeline.addMediaObject(opParams.mediaObject);
