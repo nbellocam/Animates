@@ -2,30 +2,33 @@
 
 angular.module('animatesApp')
 	.factory('shapeSync', function shapeSync(timelineService, effectCreator) {
+		function isEmpty(obj) {
+			for(var prop in obj) {
+				if(obj.hasOwnProperty(prop)) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		var syncModelProperty = function syncModelProperty(fabricValue, model, propertyName, diff){
 				var modelProperty = model.getProperty(propertyName);
 
 				if (fabricValue !== modelProperty){
-					diff.push({
-						oldValue : modelProperty,
-						newValue : fabricValue,
-						propertyName : propertyName
-					});
-
-					model.setProperty(propertyName, fabricValue);
+					diff[propertyName] = fabricValue;
 				}
 			},
 			syncFabricProperty = function syncProperty(modelValue, fabricObject, propertyName){
 				var fabricProperty = fabricObject.get(propertyName);
 
 				if (modelValue !== fabricProperty){
-					//TODO review if model to fabric changes need to be added to the diff collection
 					fabricObject.set(propertyName, modelValue);
 				}
 			},
 			syncVisualMediaObject = function syncVisualMediaObject(fabricObject, canvasPosition, fromFabric){
 				var model = fabricObject.model,
-					diff = [];
+					diff = {};
 
 					// Fabric Object: angle, borderColor, fill,height, width, opacity, top, left
 					// http://fabricjs.com/docs/fabric.Object.html
@@ -60,8 +63,6 @@ angular.module('animatesApp')
 					diff = syncVisualMediaObject(fabricRect, canvasPosition, fromFabric);
 
 				if (fromFabric){
-					// TODO: update model properties from fabricRect;
-					//Model properties: height, width
 					var mediaTimeline = timelineService.getMediaTimeline(model.getMediaObjectGuid());
 
 					if (timelineService.startsAtCurrentTick(mediaTimeline)){
@@ -93,7 +94,7 @@ angular.module('animatesApp')
 						break;
 				}
 
-				return diff;
+				return (isEmpty(diff)) ? undefined : diff;
 			},
 			syncFromFabric = function syncFromFabric(fabricObject, canvasPosition){
 				return sync(fabricObject, canvasPosition, true);
@@ -103,8 +104,6 @@ angular.module('animatesApp')
 			};
 		
 		return {
-			syncRectangle : syncRectangle,
-			sync : sync,
 			syncFromFabric : syncFromFabric,
 			syncFromModel : syncFromModel
 		};

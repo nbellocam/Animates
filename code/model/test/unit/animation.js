@@ -64,7 +64,7 @@ describe('Animation', function() {
 
 			timeline.countMediaTimelines().should.be.equal(0);
 
-			var mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
 			should.not.exist(mediaTimeline);
 		});
 
@@ -80,7 +80,7 @@ describe('Animation', function() {
 			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec });
 
 			timeline.countMediaTimelines().should.be.equal(1);
-			var mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
 			should.exist(mediaTimeline);
 
 			animation.addObserver('test', function (target, operation, params, context) {
