@@ -1,24 +1,20 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('TimelinePanelCtrl', function($scope, $rootScope, canvasService, timelineService) {
+	.controller('TimelinePanelCtrl', function($scope, timelineService, animationService) {
 		$scope.timelines = [];
-		var watches = [];
 
-		$scope.$watchCollection(function () {
-				return timelineService.getMediaTimelines();
-			},
-			function (newVal) { //, oldVal
-				angular.forEach(watches, function (watch) { watch(); });
-				$scope.adaptMediaTimelines(newVal);
-				angular.forEach(newVal, function (mediaTimeline){
-					$scope.$watchCollection(function () {
-						return mediaTimeline.getEffects();
-					}, function () {
-						$scope.adaptMediaTimelines(timelineService.getMediaTimelines());
-					});
-				});
-			});
+		var modelEventHandler = function modelEventHandler (target, operation) {
+			if (target === 'Effect') {
+				$scope.adaptMediaTimelines(timelineService.getMediaTimelines());
+			} else if (target === 'Shape') {
+				if ( operation === 'Create' || operation === 'Remove'){
+					$scope.adaptMediaTimelines(timelineService.getMediaTimelines());
+				}
+			}
+		};
+
+		animationService.getInstance().addObserver('TimelinePanelCtrl', modelEventHandler);
 
 		$scope.$on('currentTickChanged', function(event, newVal) {
 			timelineService.setCurrentTick(newVal);
@@ -34,14 +30,13 @@ angular.module('animatesApp')
 				};
 
 				angular.forEach(mediaTimeline.getEffects(), function (effect){
-					timeline.events.push(
-						{
-							name : effect.getGuid(),
-							start : effect.getOption('startTick'),
-							duration : effect.getOption('endTick') - effect.getOption('startTick')
-						}
-					);
+					timeline.events.push({
+						name : effect.getGuid(),
+						start : effect.getOption('startTick'),
+						duration : effect.getOption('endTick') - effect.getOption('startTick')
+					});
 				});
+
 				$scope.timelines.push(timeline);
 			});
 		};

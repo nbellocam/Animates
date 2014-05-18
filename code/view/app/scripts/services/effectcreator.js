@@ -1,9 +1,17 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('effectCreator', function effectCreator(timelineService, $window) {
-		var Model = $window.model;
-		
+	.factory('effectCreator', function effectCreator(timelineService, $window, animationService) {
+		var Model = $window.model,
+			applyEffectCreationOperation = function applyEffectCreationOperation (mediaObjectId, effect){
+				animationService.getInstance().applyOperation('Effect', 'Create', {
+					mediaObjectId: mediaObjectId,
+					effect: effect
+				}, {
+					sender: 'effectCreator'
+				});
+			};
+
 		return {
 			addMoveEffectIfRequired : function addMoveEffectIfRequired(model, fabricObject, canvasPosition, mediaTimeline){
 				var posXStart = model.getProperty('position.x'),
@@ -49,8 +57,9 @@ angular.module('animatesApp')
 					}
 					
 					moveEffect.setOption('startTick', mediaTimeline.getStartTickFor(moveEffect, moveEffect.getOption('endTick')));
-					
-					mediaTimeline.addEffect(moveEffect);
+
+
+					applyEffectCreationOperation(mediaTimeline.getMediaObjectId(), moveEffect);
 				}
 			},
 		};
