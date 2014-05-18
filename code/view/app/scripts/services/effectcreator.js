@@ -31,7 +31,7 @@ angular.module('animatesApp')
 
 					moveEffect = new Model.MoveEffect({
 						path : path,
-						startTick : timelineService.getDefaultStartTick(),
+						startTick : mediaTimeline.getStartTick(),
 						endTick : timelineService.getCurrentTick()
 					});
 

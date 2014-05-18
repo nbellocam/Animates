@@ -32,10 +32,6 @@ angular.module('animatesApp')
 			getCurrentTick : function getCurrentTick(){
 				return currentTick;
 			},
-			getDefaultStartTick : function getDefaultStartTick(){
-				var defaultStartTick = currentTick - 20;
-				return (defaultStartTick < 0) ? 0 : defaultStartTick;
-			},
 			startsAtCurrentTick : function startsAtCurrentTick(mediaTimeline){
 				return mediaTimeline.getStartTick() === currentTick;
 			}
