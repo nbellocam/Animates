@@ -10,6 +10,15 @@ angular.module('animatesApp')
 				}, {
 					sender: 'effectCreator'
 				});
+			},
+			applyEffectUpdateOperation = function applyEffectUpdateOperation (mediaObjectId, effectId, options){
+				animationService.getInstance().applyOperation('Effect', 'Update', {
+					mediaObjectId: mediaObjectId,
+					effectId: effectId,
+					options: options
+				}, {
+					sender: 'effectCreator'
+				});
 			};
 
 		return {
@@ -47,19 +56,27 @@ angular.module('animatesApp')
 							}
 						}
 					}
-					
+
+					var mediaObjectId = mediaTimeline.getMediaObjectId();
+
 					// "Split" : Modify the found effect and insert the new one
 					if (effectToSplit) {
-						moveEffect.getOptions('path').startPosition = effectToSplit.getOption('path').startPosition;
+						var effectToSplitPath = effectToSplit.getOption('path');
+						moveEffect.getOptions('path').startPosition = effectToSplitPath.startPosition;
+
+						effectToSplitPath.startPosition = { x: posXEnd, y : posYEnd };
+						var effectToSplitOptions = {
+							startTick : timelineService.getCurrentTick(),
+							path: effectToSplitPath
+						};
 						
-						effectToSplit.setOption('startTick', timelineService.getCurrentTick());
-						effectToSplit.getOptions().path.startPosition = { x: posXEnd, y : posYEnd};
+						applyEffectUpdateOperation(mediaObjectId, effectToSplit.getGuid(), effectToSplitOptions);
 					}
 					
 					moveEffect.setOption('startTick', mediaTimeline.getStartTickFor(moveEffect, moveEffect.getOption('endTick')));
 
 
-					applyEffectCreationOperation(mediaTimeline.getMediaObjectId(), moveEffect);
+					applyEffectCreationOperation(mediaObjectId, moveEffect);
 				}
 			},
 		};
