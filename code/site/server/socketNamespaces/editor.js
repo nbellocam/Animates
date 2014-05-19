@@ -31,7 +31,6 @@ module.exports = function(io) {
 
 	io.of('/editor')
 	.on('connection', function (socket) {
-		//socket.emit('news', { hello: 'world' });
 		
 		socket.on('subscribe', function(data) {
 			operateWithProject(data, socket, 'see', function (project, data, socket){
@@ -45,8 +44,8 @@ module.exports = function(io) {
 		
 		socket.on('update', function (data) {
 			operateWithProject(data, socket, 'update', function (project, data, socket){
-				project.applyDiff(data.diff, data.user);
-				socket.broadcast.to(data.projectId).emit('update', data.diff); //emit to 'room' except this socket
+				project.applyDiff(data.target, data.operation, data.opParams, data.user);
+				socket.broadcast.to(data.projectId).emit('update', data); //emit to 'room' except this socket
 			});
 		});
 	});

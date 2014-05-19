@@ -112,17 +112,22 @@ ProjectSchema.methods = {
      * @return {Boolean}
      * @api public
      */
-	applyDiff : function(diff, user){
+	applyDiff : function(target, operation, opParams, user){
 		if (!this.canOpBeAppliedBy('update', user.id)) {
 			return null;
 		}
 
 		this.history.push({
 			user: user,
-			change: diff
+			target: target,
+			operation: operation,
+			opParams: opParams
 		});
 
 		//TODO update animation with diff
+		//var animation = project.deserialize();
+		//animation.applyOperation(target,operation, opParams);
+		//project.serialize(animation);
 
 		return this;
 	}
