@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.service('animationService', function animationService($window, canvasConfig) {
+	.service('animationService', function animationService($window, canvasConfig, $http, connectionService) {
 		var animationInstance,
 			_self = this;
 
@@ -21,6 +21,17 @@ angular.module('animatesApp')
 		}
 
 		createAnimation();
+
+		this.loadAnimation = function loadAnimation(id) {
+			console.log('loading project:' + id);
+			connectionService.loadProject(id, function success(data) {
+					//TODO deserialize data.Animation and loadIt
+					console.log(data);
+				}, function error(data) {
+					console.log('Error: ' + data);
+				});
+
+		};
 		
 		this.getInstance = function getInstance(){
 			return animationInstance;

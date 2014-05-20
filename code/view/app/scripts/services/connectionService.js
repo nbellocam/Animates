@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('connectionService', function connectionService($window, $rootScope) {
+	.factory('connectionService', function connectionService($window, $rootScope, $http) {
 		var io = $window.io,
 			sockets = {},
 			isAvailable = function isAvailable () { return !!io; };
@@ -34,6 +34,13 @@ angular.module('animatesApp')
 							}
 						});
 					});
+				}
+			},
+			loadProject: function (id, success, error) {
+				if (isAvailable()) {
+					$http.get('/api/projects/' + encodeURIComponent(id))
+						.success(success)
+						.error(error);
 				}
 			}
 		};

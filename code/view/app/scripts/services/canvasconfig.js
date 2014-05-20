@@ -18,7 +18,7 @@ angular.module('animatesApp')
 			minLeft: 100
 		},
 		canvasDefaultSize: {
-			height: 100,
-			width: 100
+			height: 400,
+			width: 600
 		}
 	});

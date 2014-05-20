@@ -28,10 +28,6 @@ module.exports = function(app) {
     app.route('/editor/:projectId')
         .get(authorization.requiresLogin, hasAuthorization, editor.editor);
 
-    //temporal route
-    app.route('/editor')
-        .get(editor.editor);
-
     // Finish with setting up the projectId param
     app.param('projectId', projects.project);
 };

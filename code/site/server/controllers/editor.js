@@ -4,5 +4,7 @@
  * Send our single page app
  */
 exports.editor = function(req, res) {
-  res.render('editor');
+  res.render('editor', { 
+    project : req.project,
+  });
 };

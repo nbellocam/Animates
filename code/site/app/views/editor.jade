@@ -3,7 +3,7 @@ extends layouts/editor-layout
 block content
   include includes/editor-navbar
   
-  .outer-layout-center(ng-controller='LayoutCtrl')
+  .outer-layout-center(ng-controller='EditorCtrl', ng-init='initializeAnimation(#{project.id});')
     .ui-layout-center
       canvas#mainCanvas(ng-controller='CanvasCtrl', ng-init='initialize("mainCanvas");')
     .ui-layout-west

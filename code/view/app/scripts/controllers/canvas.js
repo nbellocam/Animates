@@ -1,14 +1,9 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('CanvasCtrl', function CanvasCtrl($scope, canvasService, timelineService, shapeCreator, animationService) {
+	.controller('CanvasCtrl', function CanvasCtrl($scope, canvasService, timelineService, shapeCreator) {
 
 		$scope.initialize = function initialize(id) {
-			//animationService.createAnimation(480, 640);
-			var canvas = animationService.getInstance().canvas;
-			canvas.height = 480;
-			canvas.width = 640;
-
 			canvasService.createCanvas(id);
 		};
 

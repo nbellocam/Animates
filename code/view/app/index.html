@@ -79,7 +79,7 @@
     This is my Fixed Header 
 </div>  -->
 
-    <div class="outer-layout-center" ng-controller="LayoutCtrl">
+    <div class="outer-layout-center" ng-controller="EditorCtrl" ng-init="initializeAnimation('projectId');">
       <!-- Add your site or application content here -->
       <div class="ui-layout-center">
         <canvas id="mainCanvas" ng-controller="CanvasCtrl" ng-init="initialize('mainCanvas');"></canvas>
@@ -131,7 +131,7 @@
     <script src="scripts/controllers/toolbar.js"></script>
     <script src="scripts/controllers/propertiesPanel.js"></script>
     <script src="scripts/controllers/timelinePanel.js"></script>
-    <script src="scripts/controllers/layout.js"></script>
+    <script src="scripts/controllers/editorCtrl.js"></script>
     <script src="scripts/services/connectionService.js"></script>
     <script src="scripts/services/serverService.js"></script>
     <script src="scripts/services/animationService.js"></script>
