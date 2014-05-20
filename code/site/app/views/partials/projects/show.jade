@@ -3,15 +3,15 @@ include ../navbar
 .container
   .row
     .col-sm-12
-      section(data-ng-init='findOne()')
+      section(data-ng-init='findOne()', data-ng-show='project')
         span {{project.created | date:'medium'}}
         | /
         span {{project.user.name}}
         h2 {{project.title}}
         div(data-ng-show='currentUser._id == project.user._id')
-          a.btn(href='/projects/{{project.id}}/edit')
+          a.btn(href='/projects/{{project._id}}/edit')
             i.glyphicon.glyphicon-edit
-          a.btn(href='/editor/{{project.id}}', target="_self")
+          a.btn(href='/editor/{{project._id}}', target="_self")
             i.glyphicon.glyphicon-edit Editor
           a.btn(data-ng-click='remove();')
             i.glyphicon.glyphicon-trash
