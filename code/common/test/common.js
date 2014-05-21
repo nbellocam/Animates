@@ -29,6 +29,13 @@ describe('Common', function(){
 			Common.realTypeOf(true).should.equal('Boolean');
 			Common.realTypeOf(false).should.equal('Boolean');
 		});
+
+		it('Should return Custom types', function(){
+			var obj;
+			function Custom() {}
+			obj = new Custom();
+			Common.realTypeOf(obj).should.equal('Custom');
+		});
 	});
 
 	describe('#typeOf', function(){
