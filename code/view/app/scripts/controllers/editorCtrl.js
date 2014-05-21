@@ -17,6 +17,9 @@ angular.module('animatesApp')
 						size: 60,
 						resizable:false
 					},
+					south:{
+						size: 150
+					},
 					center: {
 						onresize : function (panelName, element, state){
 							canvasService.updateSize(state.innerHeight, state.innerWidth);
