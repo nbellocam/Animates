@@ -12,6 +12,24 @@ describe('Common', function(){
 			guid.should.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/);
 		});
 	});
+	describe('realTypeOf', function(){
+		it('Should return String strings', function(){
+			Common.realTypeOf('text').should.equal('String');
+		});
+
+		it('Should return Object for {}', function(){
+			Common.realTypeOf({}).should.equal('Object');
+		});
+
+		it('Should return Number for numbers', function(){
+			Common.realTypeOf(1).should.equal('Number');
+		});
+
+		it('Should return Boolean for true or false', function(){
+			Common.realTypeOf(true).should.equal('Boolean');
+			Common.realTypeOf(false).should.equal('Boolean');
+		});
+	});
 
 	describe('#typeOf', function(){
 		it('should only return null with null or undefined objects', function(){

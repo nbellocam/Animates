@@ -39,6 +39,17 @@ function typeOf (o) {
 }
 
 /**
+ * returns the real type for function constructors
+ * @param  {Object} obj		The current function to get the type
+ * @return {string}			The name of the constructor
+ */
+function realTypeOf(obj) {
+   var funcNameRegex = /function (.{1,})\(/;
+   var results = (funcNameRegex).exec((obj).constructor.toString());
+   return (results && results.length > 1) ? results[1] : "";
+}
+
+/**
  * Deep extends missing properties from source properties with default values
  * @param  {Object} source		The current object to be extended
  * @param  {Object} defaults	The default values
@@ -164,3 +175,4 @@ exports.inherits = inherits;
 exports.createGuid = createGuid;
 exports.extend = extend;
 exports.clone = clone;
+exports.realTypeOf = realTypeOf;
