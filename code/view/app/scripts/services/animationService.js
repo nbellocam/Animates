@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('animatesApp')
-	.service('animationService', function animationService($window, canvasConfig, $http, connectionService) {
+	.service('animationService', function animationService($window, $timeout, canvasConfig, $http, connectionService) {
 		var animationInstance,
 			_self = this;
 
 		this.Model = $window.model;
+		this.errorMessage = undefined;
+		this.isLoading = true;
 			
 		function createAnimation() {
 			var canvas = new _self.Model.Canvas({
@@ -23,13 +25,22 @@ angular.module('animatesApp')
 		createAnimation();
 
 		this.loadAnimation = function loadAnimation(id) {
+			this.isLoading = true;
 			console.log('loading project:' + id);
-			connectionService.loadProject(id, function success(data) {
-					//TODO deserialize data.Animation and loadIt
-					console.log(data);
-				}, function error(data) {
-					console.log('Error: ' + data);
-				});
+			if (connectionService.isAvailable()){
+				connectionService.loadProject(id, function success(data) {
+						//TODO deserialize data.Animation and loadIt
+						console.log(data);
+						_self.isLoading = false;
+					}, function error(data) {
+						console.log('Error: ' + data);
+						_self.errorMessage = data || 'An error occurs.';
+					});
+			} else {
+				$timeout(function() {
+					_self.isLoading = false;
+				}, 600);
+			}
 
 		};
 		

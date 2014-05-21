@@ -30,6 +30,10 @@ angular.module('animatesApp')
 
 		initializeLayout();
 
+		$scope.loading = function(){
+			return animationService.isLoading;
+		};
+
 		$scope.initializeAnimation = function initializeAnimation(id) {
 			animationService.loadAnimation(id);
 		};
