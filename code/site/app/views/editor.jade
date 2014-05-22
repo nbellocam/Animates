@@ -12,3 +12,9 @@ block content
       div(ng-include='\'partials/editor/timelinePanel.html\'')
     .ui-layout-east
       div(ng-include='\'partials/editor/propertiesPanel.html\'')
+
+    .loading(ng-show='loading()')
+        .loading-message
+          .progress.progress-striped.active
+            .progress-bar(role='progressbar', aria-valuenow='100', aria-valuemin='0', aria-valuemax='100')
+              span loading ...
