@@ -96,4 +96,27 @@ describe('Rectangle', function(){
 			properties.should.have.property('width', 100);
 		});
 	});
+
+	describe('Serialization', function() {
+		it('toJSON should return json', function() { 
+			var rec = new Rectangle({'prop' : 'value'}),
+				json = rec.toJSON();
+
+			json.should.have.property('properties');
+			json.properties.should.have.property('position');
+			json.properties.should.have.property('border');
+			json.properties.should.have.property('fill');
+			json.properties.should.have.property('prop','value');
+		});
+
+		it('fromJSON should load the object', function() { 
+			var rec = new Rectangle({'prop' : 'value'}),
+				json = rec.toJSON(),
+				rec2 = new Rectangle();
+
+			rec2.fromJSON(json);
+			rec2.getGuid().should.equal(rec.getGuid());
+			rec2.getProperties().should.have.property('prop', 'value');
+		});
+	});	
 });

@@ -19,6 +19,11 @@ function Photo (options) {
 
 	this.VisualMediaObject(properties); // Call base constructor
 
+	this.base_toJSON = this.toJSON;
+	this.toJSON = function () {
+		var ser = _self.base_toJSON();
+		return ser;
+	};
 	/**
 	 *  Constructor
 	 */ 

@@ -30,6 +30,11 @@ function VisualMediaObject (options) {
 
 	this.MediaObject(properties); // Call base constructor
 
+	this.mediaObject_fromJSON = this.fromJSON;
+	this.fromJSON = function (json) {
+		_self.mediaObject_fromJSON(json);
+	};
+
 	/**
 	 *  Constructor
 	 */ 

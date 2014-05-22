@@ -81,4 +81,28 @@ describe('Shape', function(){
 			properties.border.should.have.property('color', specifiedBorderColor);
 		});
 	});
+
+	describe('Serialization', function() {
+		it('toJSON should return json', function() { 
+			var shape = new Shape(),
+				json = shape.toJSON();
+
+			json.should.have.property('properties');
+			json.properties.should.have.property('opacity');
+			json.properties.should.have.property('position');
+			json.properties.should.have.property('fill');
+			json.properties.should.have.property('border');
+			json.properties.should.have.property('angle');
+		});
+
+		it('fromJSON should load the object', function() { 
+			var shape = new Shape({'prop' : 'value'}),
+				json = shape.toJSON(),
+				shape2 = new Shape();
+
+			shape2.fromJSON(json);
+			shape2.getGuid().should.equal(shape.getGuid());
+			shape2.getProperties().should.have.property('prop', 'value');
+		});
+	});	
 });

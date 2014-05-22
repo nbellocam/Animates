@@ -168,4 +168,24 @@ describe('MoveEffect', function(){
 		it('Should retrive a copy of the original tick with no changes if the tick is before the startTick (with endTick -1)');
 		it('Should use always the current tick when the end tick is -1');
 	});
+
+	describe('Serialization', function() {
+		it('toJSON should return json', function() { 
+			var effect = new MoveEffect(),
+				json = effect.toJSON();
+
+			json.should.have.keys('options', 'guid');
+			json.options.should.have.keys('startTick', 'endTick');
+		});
+
+		it('fromJSON should load the object', function() { 
+			var effect = new MoveEffect({ 'prop' : 'value' }),
+				json = effect.toJSON(),
+				effect2 = new MoveEffect();
+
+			effect2.fromJSON(json);
+			effect2.getGuid().should.equal(effect.getGuid());
+			effect2.getOptions().should.have.property('prop', 'value');
+		});
+	});
 });

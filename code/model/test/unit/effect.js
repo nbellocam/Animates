@@ -260,4 +260,24 @@ describe('Effect', function(){
 			should.strictEqual(mediaFrameProperties, mediaFrame);
 		});
 	});
+
+	describe('Serialization', function() {
+		it('toJSON should return json', function() { 
+			var effect = new Effect(),
+				json = effect.toJSON();
+
+			json.should.have.keys('options', 'guid');
+			json.options.should.have.keys('startTick', 'endTick');
+		});
+
+		it('fromJSON should load the object', function() { 
+			var effect = new Effect({ 'prop' : 'value' }),
+				json = effect.toJSON(),
+				effect2 = new Effect();
+
+			effect2.fromJSON(json);
+			effect2.getGuid().should.equal(effect.getGuid());
+			effect2.getOptions().should.have.property('prop', 'value');
+		});
+	});
 });

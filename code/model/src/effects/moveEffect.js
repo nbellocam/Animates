@@ -3,6 +3,7 @@
 'use strict';
 
 var Common = require('animates-common'),
+	JsonSerializer = require('../serialization/jsonSerializer'),
 	Effect = require('../effect.js');
 
 
@@ -56,11 +57,18 @@ function MoveEffect(options) {
 		return ['position'];
 	};
 
+	this.effect_toJSON = this.toJSON;
+	this.toJSON = function () {
+		return _self.effect_toJSON();
+	};
+
 	(function init() { 
 		
 	}());
 }
 
 Common.inherits(MoveEffect, Effect);
+
+JsonSerializer.registerType(MoveEffect);
 
 module.exports = MoveEffect;

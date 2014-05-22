@@ -1,6 +1,7 @@
 'use strict';
 
-var Common = require('animates-common');
+var Common = require('animates-common'),
+	JsonSerializer = require('./serialization/jsonSerializer');
 
 /**
  *  Creates a new Effect.
@@ -107,6 +108,20 @@ function Effect (options) {
 		}
 	};
 
+	this.toJSON = function () {
+		var ser =	{
+						'options' : JsonSerializer.serializeDictionary(currentOptions),
+						'guid' : _self.getGuid()
+					};
+
+		return ser;
+	};
+
+	this.fromJSON = function (json) {
+		guid = json.guid;
+		currentOptions = json.options;
+	};
+
 	/**
 	 *  Constructor
 	 */
@@ -115,5 +130,7 @@ function Effect (options) {
 		guid = Common.createGuid();
 	}());
 }
+
+JsonSerializer.registerType(Effect);
 
 module.exports = Effect;

@@ -4,6 +4,7 @@
 
 var Animation = require('../../src/animation'),
 	Rectangle = require('../../src/shapes/rectangle'),
+	Effect = require('../../src/effect'),
 	MoveEffect = require('../../src/effects/moveEffect'),
 	Timeline = require('../../src/timeline'),
 	Canvas = require('../../src/canvas'),
@@ -207,4 +208,15 @@ describe('Animation', function() {
 		});
 	});
 
+	describe('Serialization', function() {
+		it('toJson should return json', function() { 
+			var animation = new Animation(),
+				json = animation.toJSON();
+
+			json.should.have.property('canvas');
+			json.canvas.type.should.equal('Canvas');
+			json.should.have.property('timeline');
+			json.timeline.type.should.equal('Timeline');
+		});
+	});
 });

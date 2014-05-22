@@ -1,6 +1,7 @@
 'use strict';
 
-var MediaTimeline = require('./mediaTimeline');
+var MediaTimeline = require('./mediaTimeline'),
+	JsonSerializer = require('./serialization/jsonSerializer');
 
 /**
  *  Creates a new Timeline
@@ -105,6 +106,19 @@ function Timeline (options) {
 	this.getMediaTimelines = function getMediaTimelines() {
 		return mediaTimelineCollection;
 	};
+
+	this.toJSON = function () {
+		var ser =	{
+						'mediaTimelines' : JsonSerializer.serializeArray(mediaTimelineCollection)
+					};
+
+		return ser;
+	};
+
+	this.fromJSON = function (json) {
+		mediaTimelineCollection = JsonSerializer.deserializeArray(json.mediaTimelines);
+	};
+
 	/**
 	 *  Constructor
 	 */
@@ -112,5 +126,7 @@ function Timeline (options) {
 	}());
 
 }
+
+JsonSerializer.registerType(Timeline);
 
 module.exports = Timeline;

@@ -36,6 +36,14 @@ describe('Common', function(){
 			obj = new Custom();
 			Common.realTypeOf(obj).should.equal('Custom');
 		});
+
+		it('Should return Custom types', function(){
+			var obj;
+			function Custom() {}
+			var b = Custom;
+			obj = new b();
+			Common.realTypeOf(obj).should.equal('Custom');
+		});
 	});
 
 	describe('#typeOf', function(){

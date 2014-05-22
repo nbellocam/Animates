@@ -1,7 +1,9 @@
 'use strict';
 
 var Canvas = require('./canvas'),
-	Timeline = require('./timeline');
+	Timeline = require('./timeline'),
+	JsonSerializer = require('./serialization/jsonSerializer'),
+	Common = require('animates-common');
 
 /**
  *  Creates a new Animation.
@@ -143,12 +145,33 @@ function Animation (options) {
 		}
 	};
 
-	
+	this.toJSON = function () {
+		var ser =	{
+						'canvas' : JsonSerializer.serializeObject(_self.canvas),
+						'timeline' : JsonSerializer.serializeObject(_self.timeline)
+					};
+
+		return ser;
+	};
+
+	this.fromJSON = function (json) {
+		var canvas = new Canvas(),
+			timeline = new Timeline();
+
+		JsonSerializer.deserializeObject(json.canvas);
+		JsonSerializer.deserializeObject(json.timeline);
+
+		_self.timeline = timeline;
+		_self.canvas = canvas;
+	};
+
 	/**
 	 *  Constructor
 	 */
 	(function init() {
 	}());
 }
+
+JsonSerializer.registerType(Animation);
 
 module.exports = Animation;

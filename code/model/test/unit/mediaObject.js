@@ -177,4 +177,23 @@ describe('MediaObject', function(){
 			properties.parentPropertyName.should.have.property('innerPropertyName', newPropertyValue);
 		});
 	});
+
+	describe('Serialization', function() {
+		it('toJSON should return json', function() { 
+			var mediaObject = new MediaObject(),
+				json = mediaObject.toJSON();
+
+			json.should.have.property('properties');
+		});
+
+		it('fromJSON should load the object', function() { 
+			var mediaObject = new MediaObject({'prop' : 'value'}),
+				json = mediaObject.toJSON(),
+				mediaObject2 = new MediaObject();
+
+			mediaObject2.fromJSON(json);
+			mediaObject2.getGuid().should.equal(mediaObject.getGuid());
+			mediaObject2.getProperties().should.have.property('prop', 'value');
+		});
+	});	
 });

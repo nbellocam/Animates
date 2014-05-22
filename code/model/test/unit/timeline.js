@@ -410,4 +410,21 @@ describe('Timeline', function(){
 			result.should.have.lengthOf(1);
 		});
 	});
+
+	describe('Serialization', function() {
+		it('toJSON should return json', function() { 
+			var timeline = new Timeline(),
+				json = null,
+				dummyMediaObject = { 
+					getGuid : function () { return 'ID'; }, 
+					toJSON : function () { return ''; }
+				};
+			timeline.addMediaObject(dummyMediaObject);
+
+			json = timeline.toJSON();
+
+			json.should.have.property('mediaTimelines');
+			json.mediaTimelines.should.have.lengthOf(1);
+		});
+	});	
 });

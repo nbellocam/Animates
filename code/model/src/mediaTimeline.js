@@ -1,6 +1,7 @@
 'use strict';
 
-var MediaFrame = require('./mediaFrame');
+var MediaFrame = require('./mediaFrame'),
+	JsonSerializer = require('./serialization/jsonSerializer');
 
 /**
  *  Creates a new media timeline.
@@ -208,11 +209,31 @@ function MediaTimeline (options) {
 		return effects;
 	};
 
+	this.toJSON = function () {
+		var ser =	{
+						'startTick' : startTick,
+						'endTick' : endTick,
+						'mediaObject' : JsonSerializer.serializeObject(mediaObject),
+						'effects' : JsonSerializer.serializeDictionary(effects)
+					};
+
+		return ser;
+	};
+
+	this.fromJSON = function (json) {
+		this.startTick = json.startTick;
+		this.endTick = json.endTick;
+		mediaObject = JsonSerializer.deserializeObject(json.mediaObject);
+		effects = JsonSerializer.deserializeDictionary(json.effects);
+	};
+
 	/**
 	 *  Constructor
 	 */ 
 	(function init() {
 	}());
 }
+
+JsonSerializer.registerType(MediaTimeline);
 
 module.exports = MediaTimeline;

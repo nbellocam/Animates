@@ -1,6 +1,8 @@
 'use strict';
 
-var Common = require('animates-common');
+var Common = require('animates-common'),
+	JsonSerializer = require('./serialization/jsonSerializer');
+
 
 /**
  *  Creates a new MediaObject
@@ -83,6 +85,20 @@ function MediaObject (options) {
 		return guid;
 	};
 
+	this.toJSON = function () {
+		var ser =	{
+						'properties' : JsonSerializer.serializeDictionary(properties),
+						'guid' : _self.getGuid()
+					};
+
+		return ser;
+	};
+
+	this.fromJSON = function (json) {
+		properties = json.properties;
+		guid = json.guid;
+	};
+
 	/**
 	 *  Constructor
 	 */ 
@@ -90,5 +106,7 @@ function MediaObject (options) {
 		guid = Common.createGuid();
 	}());
 }
+
+JsonSerializer.registerType(MediaObject);
 
 module.exports = MediaObject;

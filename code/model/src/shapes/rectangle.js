@@ -4,6 +4,7 @@
 'use strict';
 
 var Shape = require('../shape'),
+	JsonSerializer = require('../serialization/jsonSerializer'),
 	Common = require('animates-common');
 
 /**
@@ -17,7 +18,18 @@ function Rectangle (options) {
 			width : 100
 		},
 		properties = Common.extend(options || {}, defaultProperties);
+
 	this.Shape(properties); // Call base constructor
+
+	this.shape_toJSON = this.toJSON;
+	this.toJSON = function () {
+		return _self.shape_toJSON();
+	};
+
+	this.shape_fromJSON = this.fromJSON;
+	this.fromJSON = function (json) {
+		_self.shape_fromJSON(json);
+	};
 
 	/**
 	 *  Constructor
@@ -27,5 +39,7 @@ function Rectangle (options) {
 }
 
 Common.inherits(Rectangle, Shape, 'Shape');
+
+JsonSerializer.registerType(Rectangle);
 
 module.exports = Rectangle;
