@@ -17,7 +17,7 @@ module.exports = function(httpServer, app, passport, db, appModules) {
 	if ('production' === env) {
 		io.enable('browser client minification');  // send minified client
 		io.enable('browser client etag');          // apply etag caching logic based on version number
-		io.enable('browser client gzip');          // gzip the file
+		//io.enable('browser client gzip');          // gzip the file
 	}
 
 	function onAuthorizeSuccess(data, accept){
