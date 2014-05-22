@@ -85,7 +85,7 @@ angular.module('animatesApp')
 					}
 				}
 			},
-			canvasModelEventHandler = function canvasModelEventHandler(target, operation, params, context) {
+			animationUpdateEventHandler = function animationUpdateEventHandler(target, operation, params, context) {
 				var allObjects, object, i;
 
 				if (context.sender !== 'canvasService') {
@@ -134,6 +134,21 @@ angular.module('animatesApp')
 					}
 					renderAll();
 				}
+			},
+			animationLoadEventHandler = function animationLoadEventHandler() {
+				var shape, i,
+					animation = animationService.getInstance(),
+					mediaFrames = animation.timeline.getElements(timelineService.getCurrentTick());
+
+				_self.clear();
+				for (i = mediaFrames.length - 1; i >= 0; i--) {
+					shape = shapeCreator.createShapeFromFrame(mediaFrames[i], _self.getCanvasPosition());
+					if (shape){
+						_self.add(shape);
+					}
+				}
+
+				renderAll();
 			};
 
 		this.createCanvas = function createCanvas(id) {
@@ -142,7 +157,9 @@ angular.module('animatesApp')
 			
 			// TODO: Update Properties
 			
-			animationService.getInstance().addObserver('CanvasService', canvasModelEventHandler);
+			animationService.getInstance().addObserver('CanvasService', animationUpdateEventHandler);
+			//animationService.getInstance().addUpdateObserver('CanvasService', animationUpdateEventHandler);
+			//animationService.getInstance().addLoadCompleteObserver('CanvasService', animationLoadEventHandler);
 
 			canvas.on('object:modified', function(event) {
 				var target = event.target;

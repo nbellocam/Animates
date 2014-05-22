@@ -8,7 +8,7 @@ angular.module('animatesApp')
 					sender: 'serverService'
 				});
 			},
-			animationEventHandler = function serverEventHandler(target, operation, params, context) {
+			animationUpdateEventHandler = function animationUpdateEventHandler(target, operation, params, context) {
 				if (connectedTo && context.sender !== 'serverService') {
 					connectionService.emit('editor', 'update', {
 						target: target,
@@ -31,7 +31,8 @@ angular.module('animatesApp')
 				applyOperation(data.target, data.operation, data.opParams);
 			});
 
-			animationService.getInstance().addObserver('serverService', animationEventHandler);
+			animationService.getInstance().addObserver('serverService', animationUpdateEventHandler);
+			//animationService.getInstance().addUpdateObserver('serverService', animationUpdateEventHandler);
 		}
 
 		return {

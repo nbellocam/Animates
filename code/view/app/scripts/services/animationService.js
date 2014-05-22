@@ -31,6 +31,8 @@ angular.module('animatesApp')
 				connectionService.loadProject(id, function success(data) {
 						//TODO deserialize data.Animation and loadIt
 						console.log(data);
+						//animationInstance.fromJson(data);
+						//animationInstance.callObservers();
 						_self.isLoading = false;
 					}, function error(data) {
 						console.log('Error: ' + data);

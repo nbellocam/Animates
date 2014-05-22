@@ -4,7 +4,7 @@ angular.module('animatesApp')
 	.controller('PropertiesPanelCtrl', function PropertiesPanelCtrl($scope, $rootScope, canvasService, animationService) {
 		$scope.properties = null;
 
-		var modelEventHandler = function modelEventHandler (target, operation, params) {
+		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation, params) {
 			var selectedShapes = canvasService.getSelectedShape(),
 				mediaObjectId = params.mediaObjectId || params.mediaObject.getGuid();
 
@@ -16,7 +16,13 @@ angular.module('animatesApp')
 			}
 		};
 
-		animationService.getInstance().addObserver('PropertiesPanelCtrl', modelEventHandler);
+		var animationLoadEventHandler = function animationLoadEventHandler (){
+			$scope.properties = null;
+		};
+
+		animationService.getInstance().addObserver('PropertiesPanelCtrl', animationUpdateEventHandler);
+		//animationService.getInstance().addUpdateObserver('PropertiesPanelCtrl', animationUpdateEventHandler);
+		//animationService.getInstance().addLoadCompleteObserver('PropertiesPanelCtrl', animationLoadEventHandler);
 
 		$scope.empty = function () {
 			var isEmpty = ($scope.properties === null);

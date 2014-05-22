@@ -4,7 +4,7 @@ angular.module('animatesApp')
 	.controller('TimelinePanelCtrl', function($scope, timelineService, animationService) {
 		$scope.timelines = [];
 
-		var modelEventHandler = function modelEventHandler (target, operation) {
+		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation) {
 			if (target === 'Effect') {
 				$scope.adaptMediaTimelines(timelineService.getMediaTimelines());
 			} else if (target === 'Shape') {
@@ -14,7 +14,13 @@ angular.module('animatesApp')
 			}
 		};
 
-		animationService.getInstance().addObserver('TimelinePanelCtrl', modelEventHandler);
+		var animationLoadEventHandler = function animationLoadEventHandler () {
+			$scope.adaptMediaTimelines(timelineService.getMediaTimelines());
+		};
+
+		animationService.getInstance().addObserver('TimelinePanelCtrl', animationUpdateEventHandler);
+		//animationService.getInstance().addUpdateObserver('TimelinePanelCtrl', animationUpdateEventHandler);
+		//animationService.getInstance().addLoadCompleteObserver('TimelinePanelCtrl', animationLoadEventHandler);
 
 		$scope.$on('currentTickChanged', function(event, newVal) {
 			timelineService.setCurrentTick(newVal);
