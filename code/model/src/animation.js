@@ -13,7 +13,8 @@ function Animation (options) {
 	options = options || {};
 	
 	var _self = this, // Save the this reference for later use
-		observers = {};
+		updateObservers = {},
+		loadCompleteObservers = {};
 
 	_self.canvas = options.canvas || new Canvas();
 	_self.timeline = options.timeline || new Timeline();
@@ -126,22 +127,44 @@ function Animation (options) {
 			}
 
 			if (result){
-				for(var observerId in observers) { 
-					if (observers.hasOwnProperty(observerId)) {
-						observers[observerId](target, operation, opParams, context);
+				for(var observerId in updateObservers) { 
+					if (updateObservers.hasOwnProperty(observerId)) {
+						updateObservers[observerId](target, operation, opParams, context);
 					}
 				}
 			}
 		}
 	};
 
-	this.addObserver = function addObserver(observerId, observerFunction) {
-		observers[observerId] = observerFunction;
+	this.addUpdateObserver = function addUpdateObserver(observerId, observerFunction) {
+		updateObservers[observerId] = observerFunction;
 	};
 
-	this.removeObserver = function removeObserver(observerId) {
-		if (observers.hasOwnProperty(observerId)){
-			delete observers[observerId];
+	this.removeUpdateObserver = function removeUpdateObserver(observerId) {
+		if (updateObservers.hasOwnProperty(observerId)){
+			delete updateObservers[observerId];
+		}
+	};
+
+	this.addLoadCompleteObserver = function addLoadCompleteObserver(observerId, observerFunction) {
+		loadCompleteObservers[observerId] = observerFunction;
+	};
+
+	this.removeLoadCompleteObserver = function removeLoadCompleteObserver(observerId) {
+		if (loadCompleteObservers.hasOwnProperty(observerId)){
+			delete loadCompleteObservers[observerId];
+		}
+	};
+
+	this.loadProject = function loadProject(json) {
+		if (loadProject){
+			_self.fromJSON(json);
+
+			for(var observerId in loadCompleteObservers) { 
+				if (loadCompleteObservers.hasOwnProperty(observerId)) {
+					loadCompleteObservers[observerId]();
+				}
+			}
 		}
 	};
 
@@ -155,14 +178,8 @@ function Animation (options) {
 	};
 
 	this.fromJSON = function (json) {
-		var canvas = new Canvas(),
-			timeline = new Timeline();
-
-		JsonSerializer.deserializeObject(json.canvas);
-		JsonSerializer.deserializeObject(json.timeline);
-
-		_self.timeline = timeline;
-		_self.canvas = canvas;
+		_self.timeline = JsonSerializer.deserializeObject(json.timeline);
+		_self.canvas = JsonSerializer.deserializeObject(json.canvas);
 	};
 
 	/**

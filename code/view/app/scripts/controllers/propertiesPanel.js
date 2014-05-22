@@ -20,9 +20,8 @@ angular.module('animatesApp')
 			$scope.properties = null;
 		};
 
-		animationService.getInstance().addObserver('PropertiesPanelCtrl', animationUpdateEventHandler);
-		//animationService.getInstance().addUpdateObserver('PropertiesPanelCtrl', animationUpdateEventHandler);
-		//animationService.getInstance().addLoadCompleteObserver('PropertiesPanelCtrl', animationLoadEventHandler);
+		animationService.getInstance().addUpdateObserver('PropertiesPanelCtrl', animationUpdateEventHandler);
+		animationService.getInstance().addLoadCompleteObserver('PropertiesPanelCtrl', animationLoadEventHandler);
 
 		$scope.empty = function () {
 			var isEmpty = ($scope.properties === null);

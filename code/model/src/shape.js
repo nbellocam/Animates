@@ -16,7 +16,7 @@ function Shape (options) {
 
 	this.mediaObject_toJSON = this.toJSON;
 	this.toJSON = function () {
-		return _self.mediaObject_toJSON();;
+		return _self.mediaObject_toJSON();
 	};
 
 	this.visualMediaObject_fromJSON = this.fromJSON;

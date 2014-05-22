@@ -31,8 +31,7 @@ angular.module('animatesApp')
 				applyOperation(data.target, data.operation, data.opParams);
 			});
 
-			animationService.getInstance().addObserver('serverService', animationUpdateEventHandler);
-			//animationService.getInstance().addUpdateObserver('serverService', animationUpdateEventHandler);
+			animationService.getInstance().addUpdateObserver('serverService', animationUpdateEventHandler);
 		}
 
 		return {

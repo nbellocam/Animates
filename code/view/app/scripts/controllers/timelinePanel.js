@@ -18,9 +18,8 @@ angular.module('animatesApp')
 			$scope.adaptMediaTimelines(timelineService.getMediaTimelines());
 		};
 
-		animationService.getInstance().addObserver('TimelinePanelCtrl', animationUpdateEventHandler);
-		//animationService.getInstance().addUpdateObserver('TimelinePanelCtrl', animationUpdateEventHandler);
-		//animationService.getInstance().addLoadCompleteObserver('TimelinePanelCtrl', animationLoadEventHandler);
+		animationService.getInstance().addUpdateObserver('TimelinePanelCtrl', animationUpdateEventHandler);
+		animationService.getInstance().addLoadCompleteObserver('TimelinePanelCtrl', animationLoadEventHandler);
 
 		$scope.$on('currentTickChanged', function(event, newVal) {
 			timelineService.setCurrentTick(newVal);

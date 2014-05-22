@@ -157,9 +157,8 @@ angular.module('animatesApp')
 			
 			// TODO: Update Properties
 			
-			animationService.getInstance().addObserver('CanvasService', animationUpdateEventHandler);
-			//animationService.getInstance().addUpdateObserver('CanvasService', animationUpdateEventHandler);
-			//animationService.getInstance().addLoadCompleteObserver('CanvasService', animationLoadEventHandler);
+			animationService.getInstance().addUpdateObserver('CanvasService', animationUpdateEventHandler);
+			animationService.getInstance().addLoadCompleteObserver('CanvasService', animationLoadEventHandler);
 
 			canvas.on('object:modified', function(event) {
 				var target = event.target;

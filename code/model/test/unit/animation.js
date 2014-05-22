@@ -20,7 +20,7 @@ describe('Animation', function() {
 				rec = new Rectangle(),
 				called = false;
 
-			animation.addObserver('test', function (target, operation, params, context) {
+			animation.addUpdateObserver('test', function (target, operation, params, context) {
 				target.should.equal('Shape');
 				operation.should.equal('Create');
 				params.mediaObject.should.equal(rec);
@@ -52,7 +52,7 @@ describe('Animation', function() {
 			var mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
 			should.exist(mediaTimeline);
 
-			animation.addObserver('test', function (target, operation, params, context) {
+			animation.addUpdateObserver('test', function (target, operation, params, context) {
 				target.should.equal('Shape');
 				operation.should.equal('Remove');
 				params.mediaObjectId.should.equal(rec.getGuid());
@@ -84,7 +84,7 @@ describe('Animation', function() {
 			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
 			should.exist(mediaTimeline);
 
-			animation.addObserver('test', function (target, operation, params, context) {
+			animation.addUpdateObserver('test', function (target, operation, params, context) {
 				target.should.equal('Shape');
 				operation.should.equal('Update');
 				params.properties.should.have.property('height',200);
@@ -119,7 +119,7 @@ describe('Animation', function() {
 
 			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec });
 
-			animation.addObserver('test', function (target, operation, params, context) {
+			animation.addUpdateObserver('test', function (target, operation, params, context) {
 				target.should.equal('Effect');
 				operation.should.equal('Create');
 				params.mediaObjectId.should.equal(rec.getGuid());
@@ -155,7 +155,7 @@ describe('Animation', function() {
 			should.exist(mediaTimeline);
 			should.exist(mediaTimeline.getEffect(eff.getGuid()));
 
-			animation.addObserver('test', function (target, operation, params, context) {
+			animation.addUpdateObserver('test', function (target, operation, params, context) {
 				target.should.equal('Effect');
 				operation.should.equal('Remove');
 				params.mediaObjectId.should.equal(rec.getGuid());
@@ -186,7 +186,7 @@ describe('Animation', function() {
 			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec });
 			animation.applyOperation('Effect', 'Create', { 'mediaObjectId' : rec.getGuid() , 'effect' : eff });
 
-			animation.addObserver('test', function (target, operation, params, context) {
+			animation.addUpdateObserver('test', function (target, operation, params, context) {
 				target.should.equal('Effect');
 				operation.should.equal('Update');
 				params.mediaObjectId.should.equal(rec.getGuid());
