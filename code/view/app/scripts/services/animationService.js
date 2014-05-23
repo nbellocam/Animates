@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.service('animationService', function animationService($window, $timeout, canvasConfig, $http, connectionService) {
+	.service('animationService', function animationService($window, $timeout, canvasConfig, serverService) {
 		var animationInstance,
 			_self = this;
 
@@ -27,9 +27,10 @@ angular.module('animatesApp')
 		this.loadAnimation = function loadAnimation(id) {
 			this.isLoading = true;
 			console.log('loading project:' + id);
-			if (connectionService.isAvailable()){
-				connectionService.loadProject(id, function success(data) {
+			if (serverService.isAvailable()){
+				serverService.loadProject(id, function success(data) {
 						animationInstance.loadProject(data.animation);
+						serverService.joinProject(id, animationInstance);
 						_self.isLoading = false;
 					}, function error(data) {
 						console.log('Error: ' + data);
