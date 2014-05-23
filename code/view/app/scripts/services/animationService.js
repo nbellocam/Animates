@@ -29,14 +29,12 @@ angular.module('animatesApp')
 			console.log('loading project:' + id);
 			if (connectionService.isAvailable()){
 				connectionService.loadProject(id, function success(data) {
-						//TODO deserialize data.Animation and loadIt
-						console.log(data);
-						//animationInstance.fromJson(data);
-						//animationInstance.callObservers();
+						animationInstance.loadProject(data.animation);
 						_self.isLoading = false;
 					}, function error(data) {
 						console.log('Error: ' + data);
 						_self.errorMessage = data || 'An error occurs.';
+						_self.isLoading = false;
 					});
 			} else {
 				$timeout(function() {
