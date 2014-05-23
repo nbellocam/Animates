@@ -157,7 +157,7 @@ function Animation (options) {
 	};
 
 	this.loadProject = function loadProject(json) {
-		if (loadProject){
+		if (json){
 			_self.fromJSON(json);
 
 			for(var observerId in loadCompleteObservers) { 
