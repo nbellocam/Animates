@@ -42,7 +42,6 @@ angular.module('animatesApp')
 					_self.isLoading = false;
 				}, 600);
 			}
-
 		};
 		
 		this.getInstance = function getInstance(){

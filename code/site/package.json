@@ -2,6 +2,7 @@
   "name": "animates",
   "version": "0.0.0",
   "dependencies": {
+    "animates-model": "0.0.1",
     "body-parser": "^1.0.2",
     "compression": "^1.0.2",
     "connect-mongo": "^0.4.1",

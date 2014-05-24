@@ -17,7 +17,7 @@ var operateWithProject = function (data, socket, operation, callback) {
 			return;
 		}
 
-		if(project.canOpBeAppliedBy(operation, data.user.id)){
+		if(project.canOpBeAppliedBy(operation, socket.handshake.user.id)){
 			callback(project, data, socket);
 		} else {
 			socket.emit('error-response', { 
@@ -31,10 +31,10 @@ module.exports = function(io) {
 
 	io.of('/editor')
 	.on('connection', function (socket) {
-		
 		socket.on('subscribe', function(data) {
 			operateWithProject(data, socket, 'see', function (project, data, socket){
 				socket.join(data.projectId);
+				socket.emit('subscribe:ok', { projectId: data.projectId });
 			});
 		});
 
@@ -44,7 +44,7 @@ module.exports = function(io) {
 		
 		socket.on('update', function (data) {
 			operateWithProject(data, socket, 'update', function (project, data, socket){
-				project.applyDiff(data.target, data.operation, data.opParams, data.user);
+				project.applyDiff(data.target, data.operation, data.opParams, socket.handshake.user);
 				socket.broadcast.to(data.projectId).emit('update', data); //emit to 'room' except this socket
 			});
 		});

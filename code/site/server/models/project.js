@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
+	Model = require('animates-model'),
 	Schema = mongoose.Schema;
 
 
@@ -47,7 +48,10 @@ var ProjectSchema = new Schema({
 			trim: true
 		}
 	}],
-	animation : Schema.Types.Mixed,
+	animation : {
+		type: Schema.Types.Mixed,
+		default: (new Model.Animation()).toJSON()
+	},
 	history: [{
 		user: {
 			type: Schema.Types.ObjectId,
@@ -87,7 +91,8 @@ ProjectSchema.methods = {
      * @api public
      */
 	canOpBeAppliedBy : function(op, userId){
-		if (this.user.id === userId) {
+		if (this.user.id === userId || this.user._id === userId || 
+			this.user._id.equals && this.user._id.equals(userId)) {
 			return true;
 		}
 
@@ -119,15 +124,18 @@ ProjectSchema.methods = {
 
 		this.history.push({
 			user: user,
-			target: target,
-			operation: operation,
-			opParams: opParams
+			change: { 
+				target: target,
+				operation: operation,
+				opParams: opParams
+			}
 		});
 
+		var animation = new Model.Animation();
+		animation.fromJSON(this.animation);
 		//TODO update animation with diff
-		//var animation = project.deserialize();
-		//animation.applyOperation(target,operation, opParams);
-		//project.serialize(animation);
+		//animation.applyOperation(target, operation, opParams);
+		this.animation = animation.toJSON();
 
 		return this;
 	}

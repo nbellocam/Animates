@@ -26,12 +26,17 @@ angular.module('animatesApp')
 		if (connectionService.isAvailable()){
 			connectionService.addConection('editor', '/editor');
 
-			connectionService.on('editor','error-response', function (){
+			connectionService.on('editor','error-response', function (data){
 				//TODO review errors
+				console.log(data);
 			});
 
 			connectionService.on('editor','update', function (data){
 				applyOperation(data.target, data.operation, data.opParams);
+			});
+
+			connectionService.on('editor','subscribe:ok', function (data){
+				connectedTo = data.projectId;
 			});
 		}
 
@@ -39,8 +44,6 @@ angular.module('animatesApp')
 			joinProject : function joinProject(projectId, animation){
 				connectionService.emit('editor', 'subscribe', {
 						projectId: projectId
-					}, function (){
-						connectedTo = projectId;
 					});
 
 				currentAnimation = animation;

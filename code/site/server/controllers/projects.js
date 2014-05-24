@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
     Project = mongoose.model('Project'),
+    Model = require('animates-model'),
     _ = require('lodash');
 
 
@@ -26,6 +27,8 @@ exports.project = function(req, res, next, id) {
 exports.create = function(req, res) {
     var project = new Project(req.body);
     project.user = req.user._id;
+    //var animation = new Model.Animation();
+    //project.animation = animation.toJson();
     project.save(function(err) {
         if (err) {
             return res.send('users/signup', {

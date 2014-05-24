@@ -36,6 +36,7 @@ echo "Installing model..."
 cd model
 npm link animates-common
 npm install
+npm link
 $GRUNT_CMD package
 cd ..
 echo "Completed installing model..."
@@ -61,6 +62,7 @@ echo "Completed installing view..."
 # site project
 echo "Installing site..."
 cd site
+npm link animates-model
 npm install
 bower install
 $GRUNT_CMD install-dep
