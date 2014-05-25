@@ -16,6 +16,9 @@ module.exports = function (grunt) {
 			packageEntryName : 'model',
 			packageOutputFileName : 'model.js',
 			packageEntryPoint : 'src/model.js',
+			srcDir: 'src',
+			nodeModulesDir: 'node_modules',
+			modelNpmDir: 'modelNpm',
 			src	: 'src/**/*.js',
 			tests : 'test/**/*.js',
 			gruntFile : 'Gruntfile.js',
@@ -241,11 +244,69 @@ module.exports = function (grunt) {
 		}
 	);
 
+	grunt.registerTask('package-npm-module', 
+		function () {
+			grunt.config.requires('meta.output');
+			grunt.config.requires('meta.srcDir');
+			grunt.config.requires('meta.nodeModulesDir');
+			grunt.config.requires('meta.modelNpmDir');
+			grunt.config.requires('pkg');
+
+			var output = grunt.config.get('meta.output');
+			var srcDir = grunt.config.get('meta.srcDir');
+			var nodeModulesDir = grunt.config.get('meta.nodeModulesDir');
+			var modelNpmDir = grunt.config.get('meta.modelNpmDir');
+			var pkg = grunt.config.get('pkg');
+			
+			var modelNpmPath = path.join(output, modelNpmDir);
+			grunt.file.mkdir(modelNpmPath);
+
+
+			var dependenciesPaths = [];
+			var dependencies = pkg.dependencies;
+
+			for (var prop in dependencies) {
+				if(dependencies.hasOwnProperty(prop)){
+					dependenciesPaths.push(prop + '/**/*');
+				}
+			}
+
+			var copyConfig = {
+				dependencies : {
+					expand: true,
+					dot: true,
+					cwd: nodeModulesDir,
+					dest: path.join(modelNpmPath, nodeModulesDir),
+					src: dependenciesPaths
+				},
+				src: {
+					expand: true,
+					dot: true,
+					cwd: srcDir,
+					dest: path.join(modelNpmPath, srcDir),
+					src: ['**/*']
+				},
+				packageJson: {
+					expand: true,
+					dot: true,
+					dest: modelNpmPath,
+					src: ['package.json']
+				},
+			}
+
+			grunt.config.set('copy', copyConfig);
+
+			grunt.loadNpmTasks('grunt-contrib-copy');
+
+			grunt.task.run(['copy:dependencies', 'copy:src', 'copy:packageJson']);
+		}
+	);
+
 	grunt.registerTask('dev', ['lint:all', 'resetOutput', 'tests']);
 
 	grunt.registerTask('package', ['resetOutput', 'package-model']);
 
-	grunt.registerTask('ci-build', ['resetOutput', 'lint:build', 'tests:build', 'doc', 'package-model']);
+	grunt.registerTask('ci-build', ['resetOutput', 'lint:build', 'tests:build', 'doc', 'package-model', 'package-npm-module']);
 
 	grunt.registerTask('default', ['resetOutput', 'lint:all', 'tests', 'package-model']);
 };

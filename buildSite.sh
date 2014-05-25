@@ -10,6 +10,9 @@ mv build/view/site/styles/editor-* src/public/styles/
 mv build/view/site/scripts/editor-* src/public/scripts/
 mv build/view/site/images/* src/public/images/
 
+mkdir -p src/node_modules/animates-model
+mv build/model/modelNpm/* src/node_modules/animates-model/
+
 rm -rf build/
 
 git add . --all
