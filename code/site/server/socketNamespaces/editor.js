@@ -45,7 +45,13 @@ module.exports = function(io) {
 		socket.on('update', function (data) {
 			operateWithProject(data, socket, 'update', function (project, data, socket){
 				project.applyDiff(data.target, data.operation, data.opParams, socket.handshake.user);
-				socket.broadcast.to(data.projectId).emit('update', data); //emit to 'room' except this socket
+				project.save(function(err) {
+					if (err) {
+						socket.emit('update:error', data);
+					} else {
+						socket.broadcast.to(data.projectId).emit('update', data); //emit to 'room' except this socket
+					}
+				});				
 			});
 		});
 	});

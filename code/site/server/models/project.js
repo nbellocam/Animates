@@ -77,6 +77,25 @@ ProjectSchema.statics.load = function(id, cb) {
 	}).populate('user', 'name username').exec(cb);
 };
 
+
+
+
+var deserializeParams = function deserializeParams(params){
+	var result = {};
+
+	for (var prop in params) {
+		if(params.hasOwnProperty(prop)){
+			var paramsItem = params[prop];
+			if (paramsItem.type && paramsItem.data){
+				result[prop] = Model.deserializeObject(paramsItem);
+			} else{
+				result[prop] = paramsItem;
+			}
+		}
+	}
+
+	return result;
+};
 /**
  * Methods
  */
@@ -133,8 +152,9 @@ ProjectSchema.methods = {
 
 		var animation = new Model.Animation();
 		animation.fromJSON(this.animation);
-		//TODO update animation with diff
-		//animation.applyOperation(target, operation, opParams);
+
+		animation.applyOperation(target, operation, deserializeParams(opParams));
+
 		this.animation = animation.toJSON();
 
 		return this;

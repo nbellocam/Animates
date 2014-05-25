@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('serverService', function serverService(connectionService) {
-		var connectedTo,
+	.factory('serverService', function serverService($window, connectionService) {
+		var Model = $window.model;
+			connectedTo,
 			currentAnimation, // TODO review as we can't use animation service because of cycle references
 			applyOperation = function applyOperation (target, operation, opParams){
 				if(currentAnimation) {
@@ -17,7 +18,7 @@ angular.module('animatesApp')
 				for (var prop in params) {
 					if(params.hasOwnProperty(prop)){
 						var paramsItem = params[prop];
-						result[prop] = (paramsItem.toJSON) ? paramsItem.toJSON() : paramsItem
+						result[prop] = (paramsItem.toJSON) ? Model.JsonSerializer.serializeObject(paramsItem) : paramsItem
 					}
 				}
 
