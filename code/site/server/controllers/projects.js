@@ -5,7 +5,7 @@
  */
 var mongoose = require('mongoose'),
     Project = mongoose.model('Project'),
-    Model = require('animates-model'),
+    //Model = require('animates-model'),
     _ = require('lodash');
 
 
