@@ -11,14 +11,25 @@ angular.module('animatesApp')
 					});
 				}
 			},
+			serializeParams = function serializeParams(params){
+				var result = {};
+
+				for (var prop in params) {
+					if(params.hasOwnProperty(prop)){
+						var paramsItem = params[prop];
+						result[prop] = (paramsItem.toJSON) ? paramsItem.toJSON() : paramsItem
+					}
+				}
+
+				return result;
+			},
 			animationUpdateEventHandler = function animationUpdateEventHandler(target, operation, params, context) {
 				if (connectedTo && context.sender !== 'serverService') {
 					connectionService.emit('editor', 'update', {
 						target: target,
 						operation: operation,
-						opParams: params
-					}, function (){
-						//TODO review response.
+						opParams: serializeParams(params),
+						projectId: connectedTo
 					});
 				}
 			};

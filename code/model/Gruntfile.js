@@ -291,8 +291,8 @@ module.exports = function (grunt) {
 					dot: true,
 					dest: modelNpmPath,
 					src: ['package.json']
-				},
-			}
+				}
+			};
 
 			grunt.config.set('copy', copyConfig);
 
