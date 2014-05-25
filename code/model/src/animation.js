@@ -158,7 +158,13 @@ function Animation (options) {
 
 	this.loadProject = function loadProject(json) {
 		if (json){
-			_self.fromJSON(json);
+			if (json.timeline.type && json.timeline.data){
+				_self.timeline.fromJSON(json.timeline.data);
+			}
+			
+			if (json.canvas.type && json.canvas.data){
+				_self.canvas.fromJSON(json.canvas.data);
+			}
 
 			for(var observerId in loadCompleteObservers) { 
 				if (loadCompleteObservers.hasOwnProperty(observerId)) {

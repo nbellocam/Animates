@@ -26,7 +26,6 @@ angular.module('animatesApp')
 
 		this.loadAnimation = function loadAnimation(id) {
 			this.isLoading = true;
-			console.log('loading project:' + id);
 			if (serverService.isAvailable()){
 				serverService.loadProject(id, function success(data) {
 						animationInstance.loadProject(data.animation);
