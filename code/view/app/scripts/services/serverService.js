@@ -1,35 +1,22 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('serverService', function serverService($window, connectionService) {
-		var Model = $window.model,
-			connectedTo,
+	.factory('serverService', function serverService(connectionService) {
+		var connectedTo,
 			currentAnimation, // TODO review as we can't use animation service because of cycle references
 			applyOperation = function applyOperation (target, operation, opParams){
 				if(currentAnimation) {
-					currentAnimation.applyOperation(target, operation, opParams, {
+					currentAnimation.applyOperation(target, operation, currentAnimation.deserializeParams(opParams), {
 						sender: 'serverService'
 					});
 				}
-			},
-			serializeParams = function serializeParams(params){
-				var result = {};
-
-				for (var prop in params) {
-					if(params.hasOwnProperty(prop)){
-						var paramsItem = params[prop];
-						result[prop] = (paramsItem.toJSON) ? Model.JsonSerializer.serializeObject(paramsItem) : paramsItem
-					}
-				}
-
-				return result;
 			},
 			animationUpdateEventHandler = function animationUpdateEventHandler(target, operation, params, context) {
 				if (connectedTo && context.sender !== 'serverService') {
 					connectionService.emit('editor', 'update', {
 						target: target,
 						operation: operation,
-						opParams: serializeParams(params),
+						opParams: currentAnimation.serializeParams(params),
 						projectId: connectedTo
 					});
 				}

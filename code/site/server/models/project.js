@@ -78,24 +78,6 @@ ProjectSchema.statics.load = function(id, cb) {
 };
 
 
-
-
-var deserializeParams = function deserializeParams(params){
-	var result = {};
-
-	for (var prop in params) {
-		if(params.hasOwnProperty(prop)){
-			var paramsItem = params[prop];
-			if (paramsItem.type && paramsItem.data){
-				result[prop] = Model.JsonSerializer.deserializeObject(paramsItem);
-			} else{
-				result[prop] = paramsItem;
-			}
-		}
-	}
-
-	return result;
-};
 /**
  * Methods
  */
@@ -153,7 +135,7 @@ ProjectSchema.methods = {
 		var animation = new Model.Animation();
 		animation.fromJSON(this.animation);
 
-		animation.applyOperation(target, operation, deserializeParams(opParams));
+		animation.applyOperation(target, operation, animation.deserializeParams(opParams));
 
 		this.animation = animation.toJSON();
 

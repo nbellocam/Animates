@@ -136,6 +136,32 @@ function Animation (options) {
 		}
 	};
 
+	this.deserializeParams = function deserializeParams(params){
+		var result = {};
+
+		for (var prop in params) {
+			if(params.hasOwnProperty(prop)){
+				var paramsItem = params[prop];
+				result[prop] = (paramsItem.type && paramsItem.data) ? JsonSerializer.deserializeObject(paramsItem) : paramsItem;
+			}
+		}
+
+		return result;
+	};
+
+	this.serializeParams = function serializeParams(params){
+		var result = {};
+
+		for (var prop in params) {
+			if(params.hasOwnProperty(prop)){
+				var paramsItem = params[prop];
+				result[prop] = (paramsItem.toJSON) ? JsonSerializer.serializeObject(paramsItem) : paramsItem
+			}
+		}
+
+		return result;
+	};
+
 	this.addUpdateObserver = function addUpdateObserver(observerId, observerFunction) {
 		updateObservers[observerId] = observerFunction;
 	};
@@ -161,7 +187,7 @@ function Animation (options) {
 			if (json.timeline.type && json.timeline.data){
 				_self.timeline.fromJSON(json.timeline.data);
 			}
-			
+
 			if (json.canvas.type && json.canvas.data){
 				_self.canvas.fromJSON(json.canvas.data);
 			}
