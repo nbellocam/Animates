@@ -5,7 +5,7 @@ block content
   
   .outer-layout-center(ng-controller='EditorCtrl', ng-init='initializeAnimation("#{project.id}");')
     .ui-layout-center
-      canvas#mainCanvas(ng-controller='CanvasCtrl', ng-init='initialize("mainCanvas");')
+      canvas#mainCanvas(ng-controller='CanvasCtrl')
     .ui-layout-west
       div(ng-include='\'partials/editor/toolbar.html\'')
     .ui-layout-south

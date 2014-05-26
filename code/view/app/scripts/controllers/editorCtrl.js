@@ -18,7 +18,7 @@ angular.module('animatesApp')
 						resizable:false
 					},
 					south:{
-						size: 150
+						size: 130
 					},
 					center: {
 						onresize : function (panelName, element, state){
@@ -31,8 +31,6 @@ angular.module('animatesApp')
 			});
 		}
 
-		initializeLayout();
-
 		$scope.loading = true;
 		$scope.errorMessage = undefined;
 
@@ -42,6 +40,8 @@ angular.module('animatesApp')
 				serverService.loadProject(id, function success(data) {
 						animationService.getInstance().loadProject(data.animation);
 						serverService.joinProject(id);
+						canvasService.createCanvas();
+						initializeLayout();
 						$scope.loading = false;
 					}, function error(data) {
 						console.log('Error: ' + data);
@@ -53,6 +53,8 @@ angular.module('animatesApp')
 					var newAnimation = animationService.getInstance(),
 						json = animationService.Model.JsonSerializer.serializeObject(newAnimation);
 					animationService.getInstance().loadProject(json);
+					canvasService.createCanvas();
+					initializeLayout();
 					$scope.loading = false;
 				}, 600);
 			}

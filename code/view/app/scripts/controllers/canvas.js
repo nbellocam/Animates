@@ -1,13 +1,10 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('CanvasCtrl', function CanvasCtrl($scope, canvasService, timelineService, shapeCreator) {
+	.controller('CanvasCtrl', function CanvasCtrl($scope, canvasService, timelineService, shapeCreator, animationService) {
 
-		$scope.initialize = function initialize(id) {
-			canvasService.createCanvas(id);
-		};
-
-		$scope.$watch(function () {
+		function onAnimationLoad() {
+			$scope.$watch(function () {
 				return timelineService.getCurrentTick();
 			},
 			function () {
@@ -17,6 +14,10 @@ angular.module('animatesApp')
 					canvasService.add(shapeCreator.createShapeFromFrame(frame, canvasService.getCanvasPosition()));
 				});
 			});
+		}
+
+		animationService.getInstance().addLoadCompleteObserver('CanvasCtrl', onAnimationLoad);
+		
 		//TODO review: http://stackoverflow.com/questions/14703517/angular-js-set-element-height-on-page-load
 		//
 		//TODO http://stackoverflow.com/questions/18291838/integrating-fabricjs-and-angularjs

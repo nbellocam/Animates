@@ -81,12 +81,12 @@
 
     <div class="outer-layout-center" ng-controller="EditorCtrl" ng-init="initializeAnimation('projectId');">
       <!-- Add your site or application content here -->
-      <div class="ui-layout-center">
-        <canvas id="mainCanvas" ng-controller="CanvasCtrl" ng-init="initialize('mainCanvas');" ></canvas>
+      <div class="ui-layout-center" ng-hide="loading">
+        <canvas id="mainCanvas" ng-controller="CanvasCtrl"></canvas>
       </div>
-      <div class="ui-layout-west"><div ng-include="'views/toolbar.html'"></div></div>
-      <div class="ui-layout-south"><div ng-include="'views/timelinePanel.html'"></div></div>
-      <div class="ui-layout-east"><div ng-include="'views/propertiesPanel.html'"></div></div>
+      <div class="ui-layout-west" ng-hide="loading"><div ng-include="'views/toolbar.html'"></div></div>
+      <div class="ui-layout-south" ng-hide="loading"><div ng-include="'views/timelinePanel.html'"></div></div>
+      <div class="ui-layout-east" ng-hide="loading"><div ng-include="'views/propertiesPanel.html'"></div></div>
 
       <div class="loading" ng-show="loading">
         <div class="loading-message">

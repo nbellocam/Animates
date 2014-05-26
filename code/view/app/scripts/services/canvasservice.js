@@ -151,8 +151,8 @@ angular.module('animatesApp')
 				renderAll();
 			};
 
-		this.createCanvas = function createCanvas(id) {
-			var canvas = new fabric.Canvas(id, canvasConfig.canvasInitialConfig);
+		this.createCanvas = function createCanvas() {
+			var canvas = new fabric.Canvas('mainCanvas', canvasConfig.canvasInitialConfig);
 			canvas.model = animationService.getInstance().canvas;
 			
 			// TODO: Update Properties

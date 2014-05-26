@@ -14,8 +14,8 @@ angular.module('animatesApp')
 			stroke: '#BBB'
 		},
 		canvasMinPosition: {
-			minTop: 100,
-			minLeft: 100
+			top: 100,
+			left: 100
 		},
 		canvasDefaultSize: {
 			height: 400,
