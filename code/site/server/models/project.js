@@ -87,7 +87,7 @@ var deserializeParams = function deserializeParams(params){
 		if(params.hasOwnProperty(prop)){
 			var paramsItem = params[prop];
 			if (paramsItem.type && paramsItem.data){
-				result[prop] = Model.deserializeObject(paramsItem);
+				result[prop] = Model.JsonSerializer.deserializeObject(paramsItem);
 			} else{
 				result[prop] = paramsItem;
 			}
