@@ -4,7 +4,7 @@ angular.module('animatesApp')
 	.factory('serverService', function serverService(connectionService, animationService) {
 		var connectedTo,
 			applyOperation = function applyOperation (target, operation, opParams){
-				animationService.getInstance().applyOperation(target, operation, animationService.getInstance().deserializeParams(opParams), {
+				animationService.getInstance().applyOperation(target, operation, animationService.Model.JsonSerializer.deserializeDictionary(opParams), {
 					sender: 'serverService'
 				});
 			},
@@ -13,7 +13,7 @@ angular.module('animatesApp')
 					connectionService.emit('editor', 'update', {
 						target: target,
 						operation: operation,
-						opParams: animationService.getInstance().serializeParams(params),
+						opParams: animationService.Model.JsonSerializer.serializeDictionary(params),
 						projectId: connectedTo
 					});
 				}

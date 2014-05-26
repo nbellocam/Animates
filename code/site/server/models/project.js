@@ -50,7 +50,7 @@ var ProjectSchema = new Schema({
 	}],
 	animation : {
 		type: Schema.Types.Mixed,
-		default: (new Model.Animation()).toJSON()
+		default: Model.JsonSerializer.serializeObject(new Model.Animation())
 	},
 	history: [{
 		user: {
@@ -111,6 +111,26 @@ ProjectSchema.methods = {
 	},
 
 	/**
+     * getAnimation - return the deserialized Animation model object
+     *
+     * @return {Animation}
+     * @api public
+     */
+	getAnimation : function(){
+		return Model.JsonSerializer.deserializeObject(this.animation);
+	},
+
+	/**
+     * setAnimation - serialize Animation model object and set it to animation member
+     *
+     * @param {Animation} Animation model object
+     * @api public
+     */
+	setAnimation : function(animation){
+		this.animation = Model.JsonSerializer.serializeObject(animation);
+	},
+
+	/**
      * CanOpBeAppliedBy - check if the user can perform the operation in this project
      *
      * @param {String} plainText
@@ -128,16 +148,15 @@ ProjectSchema.methods = {
 			change: { 
 				target: target,
 				operation: operation,
-				opParams: opParams
+				opParams: Model.JsonSerializer.serializeDictionary(opParams)
 			}
 		});
 
-		var animation = new Model.Animation();
-		animation.fromJSON(this.animation);
+		var animation = this.getAnimation();
 
-		animation.applyOperation(target, operation, animation.deserializeParams(opParams));
+		animation.applyOperation(target, operation, opParams);
 
-		this.animation = animation.toJSON();
+		this.setAnimation(animation);
 
 		return this;
 	}

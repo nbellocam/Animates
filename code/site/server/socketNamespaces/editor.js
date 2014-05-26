@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
+	Model = require('animates-model'),
     Project = mongoose.model('Project');
 
 var operateWithProject = function (data, socket, operation, callback) {
@@ -44,7 +45,7 @@ module.exports = function(io) {
 		
 		socket.on('update', function (data) {
 			operateWithProject(data, socket, 'update', function (project, data, socket){
-				project.applyDiff(data.target, data.operation, data.opParams, socket.handshake.user);
+				project.applyDiff(data.target, data.operation, Model.JsonSerializer.deserializeDictionary(data.opParams), socket.handshake.user);
 				project.save(function(err) {
 					if (err) {
 						socket.emit('update:error', data);

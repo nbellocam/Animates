@@ -136,30 +136,6 @@ function Animation (options) {
 		}
 	};
 
-	this.deserializeParams = function deserializeParams(params){
-		var result = {};
-
-		for (var prop in params) {
-			if(params.hasOwnProperty(prop)){
-				result[prop] =  JsonSerializer.deserializeObject(params[prop]);
-			}
-		}
-
-		return result;
-	};
-
-	this.serializeParams = function serializeParams(params){
-		var result = {};
-
-		for (var prop in params) {
-			if(params.hasOwnProperty(prop)){
-				result[prop] = JsonSerializer.serializeObject(params[prop]);
-			}
-		}
-
-		return result;
-	};
-
 	this.addUpdateObserver = function addUpdateObserver(observerId, observerFunction) {
 		updateObservers[observerId] = observerFunction;
 	};

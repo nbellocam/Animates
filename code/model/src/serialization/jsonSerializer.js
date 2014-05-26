@@ -35,7 +35,6 @@ function JsonSerializer() {
 	};
 
 	this.deserializeObject = function (jsonObject) {
-		/*jshint evil:true */
 		var obj = null;
 		if (jsonObject.type) {
 			obj = new types[jsonObject.type]();
