@@ -50,6 +50,9 @@ angular.module('animatesApp')
 					});
 			} else {
 				$timeout(function() {
+					var newAnimation = animationService.getInstance(),
+						json = animationService.Model.JsonSerializer.serializeObject(newAnimation);
+					animationService.getInstance().loadProject(json);
 					$scope.loading = false;
 				}, 600);
 			}
