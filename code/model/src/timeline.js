@@ -94,7 +94,10 @@ function Timeline (options) {
 		var elements = [], i;
 		
 		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
-			elements.push(mediaTimelineCollection[i].getMediaFrameFor(currentTick));
+			var mediaFrame = mediaTimelineCollection[i].getMediaFrameFor(currentTick);
+			if (mediaFrame){
+				elements.push(mediaFrame);
+			}
 		}
 
 		return elements;

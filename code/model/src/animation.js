@@ -155,7 +155,7 @@ function Animation (options) {
 		for (var prop in params) {
 			if(params.hasOwnProperty(prop)){
 				var paramsItem = params[prop];
-				result[prop] = (paramsItem.toJSON) ? JsonSerializer.serializeObject(paramsItem) : paramsItem
+				result[prop] = (paramsItem.toJSON) ? JsonSerializer.serializeObject(paramsItem) : paramsItem;
 			}
 		}
 
