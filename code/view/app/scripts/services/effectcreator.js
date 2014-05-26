@@ -78,6 +78,6 @@ angular.module('animatesApp')
 
 					applyEffectCreationOperation(mediaObjectId, moveEffect);
 				}
-			},
+			}
 		};
 	});

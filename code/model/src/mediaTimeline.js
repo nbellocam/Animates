@@ -118,7 +118,7 @@ function MediaTimeline (options) {
 	 * @return {integer} the start tick
 	 */
 	this.getStartTickFor = function getStartTickFor (effect, upperTickLimit) {
-		var endTick = 0;
+		var endTick = startTick;
 
 		// up to now for us there is no effect that conflicts with the requested properties
 
