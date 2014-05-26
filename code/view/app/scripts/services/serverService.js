@@ -2,7 +2,7 @@
 
 angular.module('animatesApp')
 	.factory('serverService', function serverService($window, connectionService) {
-		var Model = $window.model;
+		var Model = $window.model,
 			connectedTo,
 			currentAnimation, // TODO review as we can't use animation service because of cycle references
 			applyOperation = function applyOperation (target, operation, opParams){

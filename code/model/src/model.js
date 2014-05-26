@@ -20,6 +20,8 @@ var model = {
 	// effects
 	MoveEffect : require('./effects/moveEffect'),
 	Path : require('./utils/path'),
+
+	JsonSerializer: require('./serialization/jsonSerializer'),
 };
 
  module.exports = model;
