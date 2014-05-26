@@ -141,8 +141,7 @@ function Animation (options) {
 
 		for (var prop in params) {
 			if(params.hasOwnProperty(prop)){
-				var paramsItem = params[prop];
-				result[prop] = (paramsItem.type && paramsItem.data) ? JsonSerializer.deserializeObject(paramsItem) : paramsItem;
+				result[prop] =  JsonSerializer.deserializeObject(params[prop]);
 			}
 		}
 
@@ -154,8 +153,7 @@ function Animation (options) {
 
 		for (var prop in params) {
 			if(params.hasOwnProperty(prop)){
-				var paramsItem = params[prop];
-				result[prop] = (paramsItem.toJSON) ? JsonSerializer.serializeObject(paramsItem) : paramsItem;
+				result[prop] = JsonSerializer.serializeObject(params[prop]);
 			}
 		}
 

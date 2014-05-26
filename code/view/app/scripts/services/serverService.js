@@ -1,22 +1,19 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('serverService', function serverService(connectionService) {
+	.factory('serverService', function serverService(connectionService, animationService) {
 		var connectedTo,
-			currentAnimation, // TODO review as we can't use animation service because of cycle references
 			applyOperation = function applyOperation (target, operation, opParams){
-				if(currentAnimation) {
-					currentAnimation.applyOperation(target, operation, currentAnimation.deserializeParams(opParams), {
-						sender: 'serverService'
-					});
-				}
+				animationService.getInstance().applyOperation(target, operation, animationService.getInstance().deserializeParams(opParams), {
+					sender: 'serverService'
+				});
 			},
 			animationUpdateEventHandler = function animationUpdateEventHandler(target, operation, params, context) {
 				if (connectedTo && context.sender !== 'serverService') {
 					connectionService.emit('editor', 'update', {
 						target: target,
 						operation: operation,
-						opParams: currentAnimation.serializeParams(params),
+						opParams: animationService.getInstance().serializeParams(params),
 						projectId: connectedTo
 					});
 				}
@@ -40,13 +37,12 @@ angular.module('animatesApp')
 		}
 
 		return {
-			joinProject : function joinProject(projectId, animation){
+			joinProject : function joinProject(projectId){
 				connectionService.emit('editor', 'subscribe', {
 						projectId: projectId
 					});
 
-				currentAnimation = animation;
-				animation.addUpdateObserver('serverService', animationUpdateEventHandler);
+				animationService.getInstance().addUpdateObserver('serverService', animationUpdateEventHandler);
 			},
 			isAvailable: function isAvailable(){
 				return connectionService.isAvailable();

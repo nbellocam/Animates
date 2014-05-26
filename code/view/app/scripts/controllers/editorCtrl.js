@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('EditorCtrl', function EditorCtrl($scope, canvasService, animationService) {
+	.controller('EditorCtrl', function EditorCtrl($scope, $timeout, canvasService, animationService, serverService) {
 
 		function initializeLayout(){
 			angular.element(document).ready(function () {
@@ -33,11 +33,25 @@ angular.module('animatesApp')
 
 		initializeLayout();
 
-		$scope.loading = function(){
-			return animationService.isLoading;
-		};
+		$scope.loading = true;
+		$scope.errorMessage = undefined;
 
 		$scope.initializeAnimation = function initializeAnimation(id) {
-			animationService.loadAnimation(id);
+			$scope.loading = true;
+			if (serverService.isAvailable()){
+				serverService.loadProject(id, function success(data) {
+						animationService.getInstance().loadProject(data.animation);
+						serverService.joinProject(id);
+						$scope.loading = false;
+					}, function error(data) {
+						console.log('Error: ' + data);
+						$scope.errorMessage = data || 'An error occurs.';
+						$scope.loading = false;
+					});
+			} else {
+				$timeout(function() {
+					$scope.loading = false;
+				}, 600);
+			}
 		};
 	});
