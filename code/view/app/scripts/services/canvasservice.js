@@ -175,7 +175,7 @@ angular.module('animatesApp')
 			});
 
 			canvas.on('selection:cleared', function (){
-				if (event.target && selectedShape) {
+				if (selectedShape) {
 					if (selectedShape.isType('group')){
 						var allObjects = canvas.getObjects(),
 							object;
