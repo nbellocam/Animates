@@ -157,13 +157,14 @@ function Animation (options) {
 	};
 
 	this.loadProject = function loadProject(json) {
-		if (json){
-			if (json.timeline.type && json.timeline.data){
-				_self.timeline.fromJSON(json.timeline.data);
+		if (json && json.type && json.data){
+			var animationData = json.data;
+			if (animationData.timeline.type && animationData.timeline.data){
+				_self.timeline.fromJSON(animationData.timeline.data);
 			}
 
-			if (json.canvas.type && json.canvas.data){
-				_self.canvas.fromJSON(json.canvas.data);
+			if (animationData.canvas.type && animationData.canvas.data){
+				_self.canvas.fromJSON(animationData.canvas.data);
 			}
 
 			for(var observerId in loadCompleteObservers) { 
