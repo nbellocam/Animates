@@ -338,7 +338,7 @@ describe('Timeline', function(){
 		});
 	});
 
-	describe('getElements()', function(){
+	describe('getMediaFrames()', function(){
 		it('Should return an empty array if no elements are present in the timeline.', function(){
 			var specifiedFrameNumber = 42,
 				timeline = new Timeline(),
@@ -347,11 +347,11 @@ describe('Timeline', function(){
 
 			timelineElementsCount.should.be.exactly(0);
 
-			result = timeline.getElements(specifiedFrameNumber);
+			result = timeline.getMediaFrames(specifiedFrameNumber);
 			result.should.be.empty;
 		});
 
-		it('Should return two elements if timeline contains two media objects.', function(){
+		it('Should return two media frames if timeline contains two media objects.', function(){
 			var specifiedFrameNumber = 42,
 				specifiedMediaObjectId1 = '42',
 				specifiedMediaObjectId2 = '82',
@@ -374,11 +374,11 @@ describe('Timeline', function(){
 			timelineElementsCount = timeline.countMediaTimelines();
 			timelineElementsCount.should.be.exactly(2);
 
-			result = timeline.getElements(specifiedFrameNumber);
+			result = timeline.getMediaFrames(specifiedFrameNumber);
 			result.should.have.lengthOf(2);
 		});
 
-		it('Should return one elements if timeline contains one media objects after removing another.', function(){
+		it('Should return one media frame if timeline contains one media objects after removing another.', function(){
 			var specifiedFrameNumber = 42,
 				specifiedMediaObjectId1 = '42',
 				specifiedMediaObjectId2 = '82',
@@ -406,7 +406,7 @@ describe('Timeline', function(){
 			timelineElementsCount = timeline.countMediaTimelines();
 			timelineElementsCount.should.be.exactly(1);
 
-			result = timeline.getElements(specifiedFrameNumber);
+			result = timeline.getMediaFrames(specifiedFrameNumber);
 			result.should.have.lengthOf(1);
 		});
 	});

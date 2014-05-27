@@ -54,6 +54,13 @@ function Timeline (options) {
 	};
 
 	/**
+	 * Returns the media timelines collection.
+	 */
+	this.getMediaTimelines = function getMediaTimelines() {
+		return mediaTimelineCollection;
+	};
+
+	/**
 	 * Return the media timeline element related to the media object id passed by parameter
 	 * @param  {string} mediaObjectId the if of the media object 
 	 * @returns {MediaTimeline} the media timeline related to the media object id passed by parameter
@@ -87,10 +94,11 @@ function Timeline (options) {
 	};
 
 	/**
-	 * Calculates all the elements for the current tick number.
+	 * Calculates all the media frames for the current tick number.
 	 * @param {integer} currentTick The current tick number.
+	 * @return {MediaFrameArray} The media frames for the current tick number.
 	 */
-	this.getElements = function getElements(currentTick) {
+	this.getMediaFrames = function getMediaFrames(currentTick) {
 		var elements = [], i;
 		
 		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
@@ -104,21 +112,25 @@ function Timeline (options) {
 	};
 
 	/**
-	 * Returns the media timelines collection.
+	 * Calculates the media frame for the current tick number.
+	 * @param {integer} currentTick The current tick number.
+	 * @param {string} mediaObjectId the id of the media object element that will be removed.
+	 * @return {MediaFrameArray} The media frames for the current tick number.
 	 */
-	this.getMediaTimelines = function getMediaTimelines() {
-		return mediaTimelineCollection;
+	this.getMediaFrameFor = function getMediaFrame(mediaObjectId, currentTick) {
+		var mediaTimeline = _self.getMediaTimeline(mediaObjectId);
+		return mediaTimeline ? mediaTimeline.getMediaFrameFor(currentTick) : undefined;
 	};
 
-	this.toJSON = function () {
+	this.toJSON = function toJSON() {
 		var ser =	{
-						'mediaTimelines' : JsonSerializer.serializeArray(mediaTimelineCollection)
-					};
+				'mediaTimelines' : JsonSerializer.serializeArray(mediaTimelineCollection)
+			};
 
 		return ser;
 	};
 
-	this.fromJSON = function (json) {
+	this.fromJSON = function fromJSON(json) {
 		mediaTimelineCollection = JsonSerializer.deserializeArray(json.mediaTimelines);
 	};
 

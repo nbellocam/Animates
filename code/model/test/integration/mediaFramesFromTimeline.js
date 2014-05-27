@@ -41,7 +41,7 @@ var utils = {
 		properties.should.have.property('width', specifiedProperties.width);
 	},
 	testMediaFrameCollection : function (timeline, specificTick){
-		var mediaFramesCollection = timeline.getElements(specificTick);
+		var mediaFramesCollection = timeline.getMediaFrames(specificTick);
 		should.exists(mediaFramesCollection);
 		mediaFramesCollection.should.have.lengthOf(1);
 
@@ -217,7 +217,7 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			mediaTimeline.should.be.instanceOf(MediaTimeline);
 
 			//MediaFrames tests
-			mediaFramesCollection = timeline.getElements(specificTick);
+			mediaFramesCollection = timeline.getMediaFrames(specificTick);
 			should.exists(mediaFramesCollection);
 			mediaFramesCollection.should.have.lengthOf(2);
 
@@ -279,8 +279,8 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			mediaTimeline.getEffects().should.have.property(moveEffect.getGuid());
 
 
-			//First time that getElements
-			mediaFramesCollection = timeline.getElements(specificTick);
+			//First time that getMediaFrames
+			mediaFramesCollection = timeline.getMediaFrames(specificTick);
 			should.exists(mediaFramesCollection);
 			mediaFramesCollection.should.have.lengthOf(2);
 
@@ -303,8 +303,8 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			utils.testMediaFrameProperties(properties, specifiedProperties, specificTick, specificTick);
 
 
-			//Second time that getElements
-			mediaFramesCollection = timeline.getElements(specificTick2);
+			//Second time that getMediaFrames
+			mediaFramesCollection = timeline.getMediaFrames(specificTick2);
 			should.exists(mediaFramesCollection);
 			mediaFramesCollection.should.have.lengthOf(2);
 
