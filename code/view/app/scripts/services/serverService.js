@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('serverService', function serverService(connectionService, animationService) {
+	.service('serverService', function serverService(connectionService, animationService) {
 		var connectedTo,
 			applyOperation = function applyOperation (target, operation, opParams){
 				animationService.getInstance().applyOperation(target, operation, animationService.Model.JsonSerializer.deserializeDictionary(opParams), {
@@ -36,19 +36,19 @@ angular.module('animatesApp')
 			});
 		}
 
-		return {
-			joinProject : function joinProject(projectId){
-				connectionService.emit('editor', 'subscribe', {
-						projectId: projectId
-					});
+		this.joinProject = function (projectId) {
+			connectionService.emit('editor', 'subscribe', {
+					projectId: projectId
+				});
 
-				animationService.getInstance().addUpdateObserver('serverService', animationUpdateEventHandler);
-			},
-			isAvailable: function isAvailable(){
-				return connectionService.isAvailable();
-			},
-			loadProject: function loadProject(id, success, error){
-				return connectionService.loadProject(id, success, error);
-			}
+			animationService.getInstance().addUpdateObserver('serverService', animationUpdateEventHandler);
+		};
+
+		this.isAvailable = function () {
+			return connectionService.isAvailable();
+		};
+		
+		this.loadProject = function (id, success, error) {
+			return connectionService.loadProject(id, success, error);
 		};
 	});
