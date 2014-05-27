@@ -128,6 +128,7 @@ ProjectSchema.methods = {
      */
 	setAnimation : function(animation){
 		this.animation = Model.JsonSerializer.serializeObject(animation);
+		this.markModified('animation');
 	},
 
 	/**
