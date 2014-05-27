@@ -16,6 +16,15 @@ describe('MoveEffect', function(){
 		});
 	});
 
+	describe('getType', function(){
+		it('Should retrieve MoveEffect as type.', function(){
+			var instance = new MoveEffect();
+
+			instance.getType().should.be.equal('MoveEffect');
+		});
+	});
+			
+
 	describe('getAffectedProperties', function(){
 		it('Should return "position"', function(){
 			var effect = new MoveEffect();

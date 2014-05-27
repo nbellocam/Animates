@@ -99,6 +99,10 @@ function MediaObject (options) {
 		guid = json.guid;
 	};
 
+	this.getType = function (){
+		return Common.realTypeOf(this);
+	};
+
 	/**
 	 *  Constructor
 	 */ 

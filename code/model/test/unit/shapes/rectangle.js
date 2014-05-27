@@ -14,6 +14,12 @@ describe('Rectangle', function(){
 			instance.getGuid().should.have.type('string');
 			instance.getGuid().should.not.be.equal(instance2.getGuid());
 		});
+
+		it('Should retrieve Rectangle as type.', function(){
+			var instance = new Rectangle();
+
+			instance.getType().should.be.equal('Rectangle');
+		});
 		
 		it('Should set default properties.', function(){
 			var instance = new Rectangle(),
