@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('TimelinePanelCtrl', function($scope, timelineService, animationService) {
+	.controller('TimelinePanelCtrl', function($scope, localAnimationStateService, animationService) {
 		$scope.timelines = [];
 
 		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation) {
@@ -20,7 +20,7 @@ angular.module('animatesApp')
 		});
 
 		$scope.$on('currentTickChanged', function(event, newVal) {
-			timelineService.setCurrentTick(newVal);
+			localAnimationStateService.setCurrentTick(newVal);
 		});
 
 		$scope.adaptMediaTimelines = function adaptMediaTimelines (){

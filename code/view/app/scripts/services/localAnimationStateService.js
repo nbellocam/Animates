@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('animatesApp')
-	.service('timelineService', function timelineService($window, animationService) {
+	.service('localAnimationStateService', function localAnimationStateService($window, animationService) {
 		var currentTick = 0;
 
-		animationService.getInstance().addLoadCompleteObserver('TimelineService', function onAnimationLoad() {
+		animationService.getInstance().addLoadCompleteObserver('localAnimationStateService', function onAnimationLoad() {
 			currentTick = 0;
 		});
 		

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.service('canvasService', function canvasService(shapeSync, $window, $rootScope, canvasConfig, animationService, shapeCreator, timelineService) {
+	.service('canvasService', function canvasService(shapeSync, $window, $rootScope, canvasConfig, animationService, shapeCreator, localAnimationStateService) {
 		var fabric = $window.fabric,
 			_self = this,
 			canvasPosition = {
@@ -61,7 +61,7 @@ angular.module('animatesApp')
 			updateMediaObjectInCanvas = function updateMediaObjectInCanvas(mediaObjectId){
 				var allObjects = canvasInstance.getObjects(),
 					founded = false,
-					newMediaFrame = animationService.getInstance().timeline.getMediaFrameFor(mediaObjectId, timelineService.getCurrentTick()),
+					newMediaFrame = animationService.getInstance().timeline.getMediaFrameFor(mediaObjectId, localAnimationStateService.getCurrentTick()),
 					object;
 
 				for (var i = 0; i < allObjects.length; i++) {
@@ -129,7 +129,7 @@ angular.module('animatesApp')
 					for (i = 0; i < allObjects.length; i++) {
 						object = allObjects[i];
 						if (object.model && object.model.getMediaObjectGuid() === params.mediaObjectId) {
-							object.model = animationService.getInstance().timeline.getMediaFrameFor(params.mediaObjectId, timelineService.getCurrentTick());
+							object.model = animationService.getInstance().timeline.getMediaFrameFor(params.mediaObjectId, localAnimationStateService.getCurrentTick());
 						}
 					}
 
@@ -139,7 +139,7 @@ angular.module('animatesApp')
 			animationLoadEventHandler = function animationLoadEventHandler() {
 				var shape, i,
 					animation = animationService.getInstance(),
-					mediaFrames = animation.timeline.getMediaFrames(timelineService.getCurrentTick());
+					mediaFrames = animation.timeline.getMediaFrames(localAnimationStateService.getCurrentTick());
 
 				_self.clear();
 				for (i = mediaFrames.length - 1; i >= 0; i--) {

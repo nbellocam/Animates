@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('shapeCreator', function shapeCreator(animationService, timelineService, shapeSync, $window) {
+	.factory('shapeCreator', function shapeCreator(animationService, localAnimationStateService, shapeSync, $window) {
 		var Fabric = $window.fabric,
 			createShapeFromFrame = function createShapeFromFrame(mediaFrame, canvasPosition) {
 				if (mediaFrame) {
@@ -16,7 +16,7 @@ angular.module('animatesApp')
 			},
 			createShapeFromMediaObject = function createShapeFromMediaObject(mediaObject, canvasPosition) {
 				return createShapeFromFrame(
-					animationService.getInstance().timeline.getMediaFrameFor(mediaObject.getGuid(), timelineService.getCurrentTick()),
+					animationService.getInstance().timeline.getMediaFrameFor(mediaObject.getGuid(), localAnimationStateService.getCurrentTick()),
 					canvasPosition);
 			};
 

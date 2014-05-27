@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('shapeSync', function shapeSync(timelineService, effectCreator, animationService) {
+	.factory('shapeSync', function shapeSync(localAnimationStateService, effectCreator, animationService) {
 		function isEmpty(obj) {
 			for(var prop in obj) {
 				if(obj.hasOwnProperty(prop)) {
@@ -35,7 +35,7 @@ angular.module('animatesApp')
 				if (fromFabric){
 					var mediaTimeline = animationService.getInstance().timeline.getMediaTimeline(model.getMediaObjectGuid());
 
-					if (timelineService.startsAtCurrentTick(mediaTimeline)){
+					if (localAnimationStateService.startsAtCurrentTick(mediaTimeline)){
 						var mediaObject = mediaTimeline.getMediaObject();
 
 						syncModelProperty(fabricObject.angle, mediaObject, 'angle', diff);
@@ -65,7 +65,7 @@ angular.module('animatesApp')
 				if (fromFabric){
 					var mediaTimeline = animationService.getInstance().timeline.getMediaTimeline(model.getMediaObjectGuid());
 
-					if (timelineService.startsAtCurrentTick(mediaTimeline)){
+					if (localAnimationStateService.startsAtCurrentTick(mediaTimeline)){
 						var mediaObject = mediaTimeline.getMediaObject();
 
 						syncModelProperty(fabricRect.currentHeight || fabricRect.height, mediaObject, 'height', diff);
@@ -74,7 +74,7 @@ angular.module('animatesApp')
 						// TODO: scale effect if properties changed
 					}
 
-					fabricRect.model = mediaTimeline.getMediaFrameFor(timelineService.getCurrentTick());
+					fabricRect.model = mediaTimeline.getMediaFrameFor(localAnimationStateService.getCurrentTick());
 				} else {
 					syncFabricProperty(model.getProperty('height'), fabricRect, 'height');
 					syncFabricProperty(model.getProperty('width'), fabricRect, 'width');

@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('CanvasCtrl', function CanvasCtrl($scope, canvasService, timelineService, shapeCreator, animationService) {
+	.controller('CanvasCtrl', function CanvasCtrl($scope, canvasService, localAnimationStateService, shapeCreator, animationService) {
 		function onAnimationLoad() {
 			$scope.$watch(function () {
-					return timelineService.getCurrentTick();
+					return localAnimationStateService.getCurrentTick();
 				},
 				function currentTickChanged(currentTick) {
 					var frames = animationService.getInstance().timeline.getMediaFrames(currentTick);

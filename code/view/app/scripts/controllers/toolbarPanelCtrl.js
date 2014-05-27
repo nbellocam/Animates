@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, timelineService, animationService) {
+	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService) {
 		function applyOperation(target, operation, params){
 			animationService.getInstance().applyOperation(target, operation, params, { sender: 'toolbar' });
 		}
@@ -9,7 +9,7 @@ angular.module('animatesApp')
 		$scope.addRectangle = function() {
 			applyOperation('Shape', 'Create', {
 				mediaObject: new animationService.Model.Rectangle(),
-				tick : timelineService.getCurrentTick()
+				tick : localAnimationStateService.getCurrentTick()
 			});
 		};
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('effectCreator', function effectCreator(timelineService, $window, animationService) {
+	.factory('effectCreator', function effectCreator(localAnimationStateService, $window, animationService) {
 		var Model = $window.model,
 			applyEffectCreationOperation = function applyEffectCreationOperation (mediaObjectId, effect){
 				animationService.getInstance().applyOperation('Effect', 'Create', {
@@ -41,11 +41,11 @@ angular.module('animatesApp')
 					moveEffect = new Model.MoveEffect({
 						path : path,
 						startTick : mediaTimeline.getStartTick(),
-						endTick : timelineService.getCurrentTick()
+						endTick : localAnimationStateService.getCurrentTick()
 					});
 
 					// Check if an existant effect must be splitted
-					currentEffects = mediaTimeline.getEffectsForTick(timelineService.getCurrentTick());
+					currentEffects = mediaTimeline.getEffectsForTick(localAnimationStateService.getCurrentTick());
 					if (currentEffects.length > 0) {
 						for (var i = 0; i < currentEffects.length; i++) {
 							if (moveEffect.HasConflictWithProperties(currentEffects[i])) {
@@ -66,7 +66,7 @@ angular.module('animatesApp')
 
 						effectToSplitPath.startPosition = { x: posXEnd, y : posYEnd };
 						var effectToSplitOptions = {
-							startTick : timelineService.getCurrentTick(),
+							startTick : localAnimationStateService.getCurrentTick(),
 							path: effectToSplitPath
 						};
 						
