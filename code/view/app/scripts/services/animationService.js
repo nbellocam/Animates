@@ -18,11 +18,11 @@ angular.module('animatesApp')
 				canvas : canvas,
 				timeline : timeline
 			});
-		}
 
-		createAnimation();
+			return animationInstance;
+		}
 		
 		this.getInstance = function getInstance(){
-			return animationInstance;
+			return animationInstance || createAnimation();
 		};
 	});
