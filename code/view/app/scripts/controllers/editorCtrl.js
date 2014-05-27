@@ -2,7 +2,6 @@
 
 angular.module('animatesApp')
 	.controller('EditorCtrl', function EditorCtrl($scope, $timeout, canvasService, animationService, serverService) {
-
 		function initializeLayout(){
 			angular.element(document).ready(function () {
 				angular.element('body').layout({

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('ToolbarCtrl', function ToolbarCtrl($scope, canvasService, timelineService, animationService) {
+	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, timelineService, animationService) {
 		function applyOperation(target, operation, params){
 			animationService.getInstance().applyOperation(target, operation, params, { sender: 'toolbar' });
 		}
