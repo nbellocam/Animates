@@ -6,26 +6,26 @@ angular.module('animatesApp')
 
 		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation) {
 			if (target === 'Effect') {
-				$scope.adaptMediaTimelines(timelineService.getMediaTimelines());
+				$scope.adaptMediaTimelines();
 			} else if (target === 'Shape') {
 				if ( operation === 'Create' || operation === 'Remove'){
-					$scope.adaptMediaTimelines(timelineService.getMediaTimelines());
+					$scope.adaptMediaTimelines();
 				}
 			}
 		};
 
-		var animationLoadEventHandler = function animationLoadEventHandler () {
-			$scope.adaptMediaTimelines(timelineService.getMediaTimelines());
-		};
-
 		animationService.getInstance().addUpdateObserver('TimelinePanelCtrl', animationUpdateEventHandler);
-		animationService.getInstance().addLoadCompleteObserver('TimelinePanelCtrl', animationLoadEventHandler);
+		animationService.getInstance().addLoadCompleteObserver('TimelinePanelCtrl', function animationLoadEventHandler () {
+			$scope.adaptMediaTimelines();
+		});
 
 		$scope.$on('currentTickChanged', function(event, newVal) {
 			timelineService.setCurrentTick(newVal);
 		});
 
-		$scope.adaptMediaTimelines = function adaptMediaTimelines (mediaTimelines){
+		$scope.adaptMediaTimelines = function adaptMediaTimelines (){
+			var mediaTimelines = animationService.getInstance().timeline.getMediaTimelines();
+
 			$scope.timelines = [];
 			angular.forEach(mediaTimelines, function (mediaTimeline){
 				var timeline = {

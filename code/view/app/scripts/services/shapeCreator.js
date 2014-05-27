@@ -1,21 +1,25 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('shapeCreator', function shapeCreator(timelineService, shapeSync, $window) {
+	.factory('shapeCreator', function shapeCreator(animationService, timelineService, shapeSync, $window) {
 		var Fabric = $window.fabric,
-			createShapeFromFrame = function createShapeFromFrame(mediaFrame, canvasPosition){
-				//var rectModel = new Model.Rectangle(mediaFrame.properties()),
-					//mediaFrame = timelineService.addMediaObject(rectModel),
-				var rect = new Fabric.Rect();
+			createShapeFromFrame = function createShapeFromFrame(mediaFrame, canvasPosition) {
+				if (mediaFrame) {
+					var rect = new Fabric.Rect();
 
-				rect.model = mediaFrame;
-				shapeSync.syncFromModel(rect, canvasPosition);
-				return rect;
+					rect.model = mediaFrame;
+					shapeSync.syncFromModel(rect, canvasPosition);
+					return rect;
+				}
+
+				return undefined;
 			},
-			createShapeFromMediaObject = function createShapeFromMediaObject(mediaObject, canvasPosition){
-				var mediaFrame = timelineService.getMediaFrame(mediaObject.getGuid());
-				return mediaFrame ? createShapeFromFrame(mediaFrame, canvasPosition) : undefined;
+			createShapeFromMediaObject = function createShapeFromMediaObject(mediaObject, canvasPosition) {
+				return createShapeFromFrame(
+					animationService.getInstance().timeline.getMediaFrameFor(mediaObject.getGuid(), timelineService.getCurrentTick()),
+					canvasPosition);
 			};
+
 		return {
 			createShapeFromMediaObject : createShapeFromMediaObject,
 			createShapeFromFrame : createShapeFromFrame

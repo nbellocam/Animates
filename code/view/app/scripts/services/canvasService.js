@@ -61,7 +61,7 @@ angular.module('animatesApp')
 			updateMediaObjectInCanvas = function updateMediaObjectInCanvas(mediaObjectId){
 				var allObjects = canvasInstance.getObjects(),
 					founded = false,
-					newMediaFrame = timelineService.getMediaFrame(mediaObjectId),
+					newMediaFrame = animationService.getInstance().timeline.getMediaFrameFor(mediaObjectId, timelineService.getCurrentTick()),
 					object;
 
 				for (var i = 0; i < allObjects.length; i++) {
@@ -129,16 +129,17 @@ angular.module('animatesApp')
 					for (i = 0; i < allObjects.length; i++) {
 						object = allObjects[i];
 						if (object.model && object.model.getMediaObjectGuid() === params.mediaObjectId) {
-							object.model = timelineService.getMediaFrame(params.mediaObjectId);
+							object.model = animationService.getInstance().timeline.getMediaFrameFor(params.mediaObjectId, timelineService.getCurrentTick());
 						}
 					}
+
 					renderAll();
 				}
 			},
 			animationLoadEventHandler = function animationLoadEventHandler() {
 				var shape, i,
 					animation = animationService.getInstance(),
-					mediaFrames = animation.timeline.getElements(timelineService.getCurrentTick());
+					mediaFrames = animation.timeline.getMediaFrames(timelineService.getCurrentTick());
 
 				_self.clear();
 				for (i = mediaFrames.length - 1; i >= 0; i--) {

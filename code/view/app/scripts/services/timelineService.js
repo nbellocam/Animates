@@ -2,38 +2,21 @@
 
 angular.module('animatesApp')
 	.service('timelineService', function timelineService($window, animationService) {
-		var currentTick = 0,
-			timeline = null;
-		
-		function onAnimationLoad() {
-			currentTick = 0;
-			timeline = animationService.getInstance().timeline;
-		}
+		var currentTick = 0;
 
-		animationService.getInstance().addLoadCompleteObserver('TimelineService', onAnimationLoad);
+		animationService.getInstance().addLoadCompleteObserver('TimelineService', function onAnimationLoad() {
+			currentTick = 0;
+		});
 		
-		return {
-			getMediaFrame : function getMediaFrame(mediaObjectId){
-				var mediaTimeline = timeline ? timeline.getMediaTimeline(mediaObjectId) : undefined;
-				return mediaTimeline ? mediaTimeline.getMediaFrameFor(currentTick) : undefined;
-			},
-			getMediaFrames : function getMediaFrames(){
-				return timeline ? timeline.getElements(currentTick) : [];
-			},
-			getMediaTimeline : function getMediaTimeline(mediaObjectId){
-				return timeline.getMediaTimeline(mediaObjectId);
-			},
-			getMediaTimelines : function getMediaTimelines() {
-				return timeline.getMediaTimelines();
-			},
-			setCurrentTick : function setCurrentTick(tick){
-				currentTick = tick;
-			},
-			getCurrentTick : function getCurrentTick(){
-				return currentTick;
-			},
-			startsAtCurrentTick : function startsAtCurrentTick(mediaTimeline){
-				return mediaTimeline.getStartTick() === currentTick;
-			}
+		this.setCurrentTick = function (tick) {
+			currentTick = tick;
+		};
+		
+		this.getCurrentTick = function () {
+			return currentTick;
+		};
+		
+		this.startsAtCurrentTick = function (mediaTimeline) {
+			return mediaTimeline.getStartTick() === currentTick;
 		};
 	});

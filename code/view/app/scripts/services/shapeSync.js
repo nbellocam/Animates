@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('shapeSync', function shapeSync(timelineService, effectCreator) {
+	.factory('shapeSync', function shapeSync(timelineService, effectCreator, animationService) {
 		function isEmpty(obj) {
 			for(var prop in obj) {
 				if(obj.hasOwnProperty(prop)) {
@@ -33,7 +33,7 @@ angular.module('animatesApp')
 					// Fabric Object: angle, borderColor, fill,height, width, opacity, top, left
 					// http://fabricjs.com/docs/fabric.Object.html
 				if (fromFabric){
-					var mediaTimeline = timelineService.getMediaTimeline(model.getMediaObjectGuid());
+					var mediaTimeline = animationService.getInstance().timeline.getMediaTimeline(model.getMediaObjectGuid());
 
 					if (timelineService.startsAtCurrentTick(mediaTimeline)){
 						var mediaObject = mediaTimeline.getMediaObject();
@@ -63,7 +63,7 @@ angular.module('animatesApp')
 					diff = syncVisualMediaObject(fabricRect, canvasPosition, fromFabric);
 
 				if (fromFabric){
-					var mediaTimeline = timelineService.getMediaTimeline(model.getMediaObjectGuid());
+					var mediaTimeline = animationService.getInstance().timeline.getMediaTimeline(model.getMediaObjectGuid());
 
 					if (timelineService.startsAtCurrentTick(mediaTimeline)){
 						var mediaObject = mediaTimeline.getMediaObject();
