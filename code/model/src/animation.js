@@ -115,7 +115,7 @@ function Animation (options) {
 	this.applyOperation = function applyOperation(target, operation, opParams, context){
 		if (target && operation && opParams) {
 			var result = false;
-			switch (target){
+			switch (target) {
 				case 'Shape':
 					result = applyShapeOperation(operation, opParams, context);
 					break;
@@ -126,8 +126,8 @@ function Animation (options) {
 					return;
 			}
 
-			if (result){
-				for(var observerId in updateObservers) { 
+			if (result) {
+				for (var observerId in updateObservers) { 
 					if (updateObservers.hasOwnProperty(observerId)) {
 						updateObservers[observerId](target, operation, opParams, context);
 					}

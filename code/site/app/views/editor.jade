@@ -4,13 +4,13 @@ block content
   include includes/editor-navbar
   
   .outer-layout-center(ng-controller='EditorCtrl', ng-init='initializeAnimation("#{project.id}");')
-    .ui-layout-center
+    .ui-layout-center(ng-hide='loading')
       canvas#mainCanvas(ng-controller='CanvasCtrl')
-    .ui-layout-west
+    .ui-layout-west(ng-hide='loading')
       div(ng-include='\'partials/editor/toolbar.html\'')
-    .ui-layout-south
+    .ui-layout-south(ng-hide='loading')
       div(ng-include='\'partials/editor/timelinePanel.html\'')
-    .ui-layout-east
+    .ui-layout-east(ng-hide='loading')
       div(ng-include='\'partials/editor/propertiesPanel.html\'')
 
     .loading(ng-show='loading')
