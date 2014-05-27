@@ -12,8 +12,8 @@ function Canvas (options) {
 	
 	var _self = this; // Save the this reference for later use
 
-	this.height = options.height || 100;
-	this.width = options.width || 100;
+	this.height = options.height || 600;
+	this.width = options.width || 600;
 	this.backgroundColor = options.backgroundColor || 'white';
 	this.backgroundImage = options.backgroundImage || '';
 

@@ -147,14 +147,14 @@ describe('Serialization', function () {
 
 			json.should.have.property('type', 'Canvas');
 			json.should.have.property('data');
-			json.data.should.have.property('height', 100);
-			json.data.should.have.property('width', 100);
+			json.data.should.have.property('height', 600);
+			json.data.should.have.property('width', 600);
 			json.data.should.have.property('backgroundColor', 'white');
 			json.data.should.have.property('backgroundImage', '');
 		});
 
 		it('Should deserialize from json object', function() { 
-			var canvas = new Canvas({'height':500, 'width': 500, 'backgroundColor':'red'}),
+			var canvas = new Canvas({'height': 500, 'width': 500, 'backgroundColor':'red'}),
 				json = JsonSerializer.serializeObject(canvas),
 				canvas2 = JsonSerializer.deserializeObject(json);
 

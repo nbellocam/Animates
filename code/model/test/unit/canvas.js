@@ -12,8 +12,8 @@ describe('Canvas', function () {
 			var canvas = new Canvas(),
 				json = canvas.toJSON();
 
-			json.should.have.property('height', 100);
-			json.should.have.property('width', 100);
+			json.should.have.property('height', 600);
+			json.should.have.property('width', 600);
 			json.should.have.property('backgroundColor', 'white');
 			json.should.have.property('backgroundImage', '');
 		});
