@@ -8,10 +8,21 @@ var Property = require('../../../src/properties/property'),
 	should = require("should");
 
 describe('PropertyBuilder', function() {
+	function constraintStringA (val) {
+		return val.indexOf('A') >= 0;
+	}
+
+	function constraintStringB (val) {
+		return val.indexOf('B') >= 0;
+	}
+
+	function constraintStringC (val) {
+		return val.indexOf('C') === 0;
+	}
 
 	TypesManager.registerType('custom', []);
-	TypesManager.registerType('myString', [ function (val) { return val !== ''; } ]);
-	TypesManager.registerType('myStringLimited', [ function (val) { return val.length < 7; } ], 'myString');
+	TypesManager.registerType('stringA', [ constraintStringA ]);
+	TypesManager.registerType('stringB', [ constraintStringB ], 'stringA');
 
 	it('Should throw error due to missing type', function () {
 		var propBuilder = new PropertyBuilder(),
@@ -83,21 +94,59 @@ describe('PropertyBuilder', function() {
 
 	it('Should create the property according to its types', function () {
 		var propBuilder = new PropertyBuilder(),
-			prop;
 			prop = propBuilder
 						.name('name')
-						.type('myStringLimited')
-						.value('test')
-						.constraint(function(val) { return val.indexOf('test') === 0; })
+						.type('stringB')
+						.value('CAB')
+						.constraint(constraintStringC)
 						.create();
 
-			prop.value().should.equal('test');
+			// Invalid values
+			prop.value('A');
+			prop.isValid().should.not.be.ok;
+
+			prop.value('B');
+			prop.isValid().should.not.be.ok;
+
+			prop.value('C');
+			prop.isValid().should.not.be.ok;
+
+			prop.value('AB');
+			prop.isValid().should.not.be.ok;
+
+			prop.value('AC');
+			prop.isValid().should.not.be.ok;
+
+			prop.value('BA');
+			prop.isValid().should.not.be.ok;
+
+			prop.value('BC');
+			prop.isValid().should.not.be.ok;
+
+			prop.value('CA');
+			prop.isValid().should.not.be.ok;
+
+			prop.value('CB');
+			prop.isValid().should.not.be.ok;
+
+			prop.value('ABC');
+			prop.isValid().should.not.be.ok;
+
+			prop.value('ACB');
+			prop.isValid().should.not.be.ok;
+
+			prop.value('BCA');
+			prop.isValid().should.not.be.ok;
+
+			prop.value('BAC');
+			prop.isValid().should.not.be.ok;
+
+			// Valid values
+			prop.value('CAB');
 			prop.isValid().should.be.ok;
 
-			prop.value('testverylong');
-			prop.isValid().should.not.be.ok;
+			prop.value('CBA');
+			prop.isValid().should.be.ok;
 
-			prop.value('');
-			prop.isValid().should.not.be.ok;
 	});
 });
