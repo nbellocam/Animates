@@ -5,7 +5,7 @@ var MediaFrame = require('./mediaFrame'),
 
 /**
  *  Creates a new media timeline.
- *  @class Represents a timeline for a media object. 
+ *  @class Represents a timeline for a media object.
  */
 function MediaTimeline (options) {
 	options = options || {};
@@ -35,7 +35,7 @@ function MediaTimeline (options) {
 			effectsArray.sort(function(a,b){
 				return b.getOption('endTick') - a.getOption('endTick');
 			});
-			
+
 			for (var i = effectsArray.length - 1; i >= 0; i--) {
 				currentEffect = effectsArray[i];
 				if (currentTick >= currentEffect.getOption('startTick')) {
@@ -110,10 +110,10 @@ function MediaTimeline (options) {
 	};
 
 	/**
-	 * Finds the most suitable start tick for the requested effect considering all 
+	 * Finds the most suitable start tick for the requested effect considering all
 	 * effects thay may change the same requested properties before it.
 	 * @param {Array} affectedProperties The properties to be considered during the search of effects
-	 * @param {integer} upperTickLimit Upper limit tick to look for effects. Effects that starts 
+	 * @param {integer} upperTickLimit Upper limit tick to look for effects. Effects that starts
 	 * after this tick may not be considered
 	 * @return {integer} the start tick
 	 */
@@ -156,7 +156,7 @@ function MediaTimeline (options) {
 				var currentEffect = effects[id];
 
 				// If the effect contains the tick
-				if ((currentEffect.getOption('startTick') < tick) && (currentEffect.getOption('endTick') > tick)) {
+				if ((currentEffect.getOption('startTick') <= tick) && (currentEffect.getOption('endTick') >= tick)) {
 					resultEffects.push(currentEffect);
 				}
 			}
@@ -229,7 +229,7 @@ function MediaTimeline (options) {
 
 	/**
 	 *  Constructor
-	 */ 
+	 */
 	(function init() {
 	}());
 }

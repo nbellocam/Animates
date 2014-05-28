@@ -135,12 +135,12 @@ describe('MediaTimeline', function(){
 			var mediaTimeline = new MediaTimeline(),
 				effectId = 'myId',
 				effectEndTick = -1,
-				effect = { 
+				effect = {
 							'getOption' : function (name) {
 								var op = { 'endTick' : effectEndTick };
 								return op[name];
-							}, 
-							'getGuid' : function () { return effectId; } 
+							},
+							'getGuid' : function () { return effectId; }
 						};
 
 			mediaTimeline.addEffect(effect);
@@ -153,12 +153,12 @@ describe('MediaTimeline', function(){
 				mediaTimeline = new MediaTimeline({ 'endTick' : endTick }),
 				effectId = 'myId',
 				effectEndTick = -1,
-				effect = { 
+				effect = {
 							'getOption' : function (name) {
 								var op = { 'endTick' : effectEndTick };
 								return op[name];
-							}, 
-							'getGuid' : function () { return effectId; } 
+							},
+							'getGuid' : function () { return effectId; }
 						};
 
 			mediaTimeline.addEffect(effect);
@@ -171,12 +171,12 @@ describe('MediaTimeline', function(){
 				mediaTimeline = new MediaTimeline(),
 				effectId = 'myId',
 				effectEndTick = -1,
-				effect = { 
+				effect = {
 							'getOption' : function (name) {
 								var op = { 'endTick' : effectEndTick };
 								return op[name];
-							}, 
-							'getGuid' : function () { return effectId; } 
+							},
+							'getGuid' : function () { return effectId; }
 						};
 
 
@@ -191,12 +191,12 @@ describe('MediaTimeline', function(){
 				mediaTimeline = new MediaTimeline({ 'endTick' : endTick }),
 				effectId = 'myId',
 				effectEndTick = 30,
-				effect = { 
+				effect = {
 							'getOption' : function (name) {
 								var op = { 'endTick' : effectEndTick };
 								return op[name];
-							}, 
-							'getGuid' : function () { return effectId; } 
+							},
+							'getGuid' : function () { return effectId; }
 						};
 
 
@@ -210,12 +210,12 @@ describe('MediaTimeline', function(){
 				effectEndTick = 84,
 				mediaTimeline = new MediaTimeline({ 'endTick' : endTick }),
 				effectId = 'myId',
-				effect = { 
+				effect = {
 							'getOption' : function (name) {
 								var op = { 'endTick' : effectEndTick };
 								return op[name];
-							}, 
-							'getGuid' : function () { return effectId; } 
+							},
+							'getGuid' : function () { return effectId; }
 						};
 
 
@@ -230,7 +230,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 42,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -245,7 +245,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 42,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -254,8 +254,8 @@ describe('MediaTimeline', function(){
 							'getOption' : function (name) {
 								var op = { 'startTick': 20,'endTick' : 100 };
 								return op[name];
-							}, 
-							'getGuid' : function () { return 'id'; } 
+							},
+							'getGuid' : function () { return 'id'; }
 						},
 				foundEffect = null;
 
@@ -271,23 +271,83 @@ describe('MediaTimeline', function(){
 			foundEffect.should.have.lengthOf(0);
 		});
 
-		it('Should return only return multiple effects', function () {
+		it('Should return only one effect with end tick equals to tick.', function () {
 			var currentTick = 42,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
-				effect = { 
+				effect = {
+							'getOption' : function (name) {
+								var op = { 'startTick': 20,'endTick' : currentTick };
+								return op[name];
+							},
+							'getGuid' : function () { return 'id'; }
+						},
+				foundEffect = null;
+
+			foundEffect = mediaTimeline.getEffectsForTick(10);
+			foundEffect.should.have.lengthOf(0);
+
+			mediaTimeline.addEffect(effect);
+
+			foundEffect = mediaTimeline.getEffectsForTick(currentTick);
+			foundEffect.should.have.lengthOf(1);
+
+			foundEffect = mediaTimeline.getEffectsForTick(110);
+			foundEffect.should.have.lengthOf(0);
+		});
+
+		it('Should return only one effect with start tick equals to tick.', function () {
+			var currentTick = 42,
+				specifiedMediaObjectId = '42',
+				defaultProperties = { x : 0 },
+				specifiedMediaObject = {
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
+				},
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				effect = {
+							'getOption' : function (name) {
+								var op = { 'startTick': currentTick,'endTick' : 100 };
+								return op[name];
+							},
+							'getGuid' : function () { return 'id'; }
+						},
+				foundEffect = null;
+
+			foundEffect = mediaTimeline.getEffectsForTick(10);
+			foundEffect.should.have.lengthOf(0);
+
+			mediaTimeline.addEffect(effect);
+
+			foundEffect = mediaTimeline.getEffectsForTick(currentTick);
+			foundEffect.should.have.lengthOf(1);
+
+			foundEffect = mediaTimeline.getEffectsForTick(110);
+			foundEffect.should.have.lengthOf(0);
+		});
+
+		it('Should return only return multiple effects', function () {
+			var currentTick = 42,
+				specifiedMediaObjectId = '42',
+				defaultProperties = { x : 0 },
+				specifiedMediaObject = {
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
+				},
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				effect = {
 							'getOption' : function (name) {
 								var op = { 'startTick': 20,'endTick' : 100 };
 								return op[name];
 							},
 							'getGuid' : function () { return 'id'; }
 						},
-				effect2 = { 
+				effect2 = {
 							'getOption' : function (name) {
 								var op = { 'startTick': 10,'endTick' : 70 };
 								return op[name];
@@ -309,10 +369,10 @@ describe('MediaTimeline', function(){
 
 			foundEffect = mediaTimeline.getEffectsForTick(25);
 			foundEffect.should.have.lengthOf(2);
-			
+
 			foundEffect = mediaTimeline.getEffectsForTick(75);
 			foundEffect.should.have.lengthOf(1);
-			should(foundEffect[0].getGuid()).be.equal('id');			
+			should(foundEffect[0].getGuid()).be.equal('id');
 		});
 	});
 
@@ -321,7 +381,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 42,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -339,7 +399,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 42,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -365,7 +425,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 42,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -400,7 +460,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 42,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -437,7 +497,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 42,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -453,7 +513,7 @@ describe('MediaTimeline', function(){
 				startTick = 100,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -467,7 +527,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 1,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -502,7 +562,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 3,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -537,7 +597,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 42,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -572,7 +632,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 3,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -619,7 +679,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 3,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -666,7 +726,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 8,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -713,7 +773,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 8,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -760,7 +820,7 @@ describe('MediaTimeline', function(){
 			var currentTick = 3,
 				specifiedMediaObjectId = '42',
 				defaultProperties = { x : 0, y : 0 },
-				specifiedMediaObject = { 
+				specifiedMediaObject = {
 					'getGuid' : function () { return specifiedMediaObjectId; },
 					'getProperties' : function () { return defaultProperties; }
 				},
@@ -806,7 +866,7 @@ describe('MediaTimeline', function(){
 			properties.should.have.property('x', 2);
 			properties.should.have.property('y', 2);
 		});
-		
+
 		it('Should update the properties of a MediaFrame when endFrame is -1.');
 	});
 });
