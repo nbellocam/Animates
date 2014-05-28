@@ -1,6 +1,7 @@
 'use strict';
 
-var PropertyBuilder = require('./propertyBuilder');
+var PropertyBuilder = require('./propertyBuilder'),
+	PropertiesArray = require('./propertiesArray');
 
 /**
  *  Builds custom properties with specified types and constraints
@@ -8,7 +9,12 @@ var PropertyBuilder = require('./propertyBuilder');
  */
 function PropertiesArrayBuilder () {
 	var _self = this,
-		properties = [];
+		name = '',
+		properties = new PropertiesArray();
+
+	this.name = function (arrayName) {
+		name = arrayName;
+	};
 
 	this.property = function (name) {
 		var currentPropertyBuilder = new PropertyBuilder();
@@ -16,7 +22,7 @@ function PropertiesArrayBuilder () {
 		currentPropertyBuilder.name(name);
 
 		currentPropertyBuilder.add = function () {
-			properties.push(currentPropertyBuilder.create());
+			properties.add(name, currentPropertyBuilder.create());
 			return _self;
 		};
 
@@ -24,7 +30,14 @@ function PropertiesArrayBuilder () {
 	};
 
 	this.propertyArray = function (name) {
-		return new PropertiesArrayBuilder ();
+		var currentPropertyArrayBuilder = new PropertiesArrayBuilder();
+
+		currentPropertyArrayBuilder.add = function () {
+			properties.add(name, currentPropertyArrayBuilder.create());
+			return _self;
+		};
+
+		return currentPropertyArrayBuilder;
 	};
 
 	this.create = function () {
