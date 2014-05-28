@@ -1,21 +1,11 @@
 <div class="btn-toolbar" role="toolbar" ng-controller="ToolbarPanelCtrl">
   <div class="btn-group-vertical">
-    <button type="button" class="btn btn-default" ng-click="addImage();"><span class="glyphicon glyphicon-picture"></span></button>
-    <button type="button" class="btn btn-default" ng-click="addText();"><span class="glyphicon glyphicon-font"></span></button>
-    <button type="button" class="btn btn-default" ng-click="addSound();"><span class="glyphicon glyphicon-music"></span></button>
+    <button type="button" class="btn btn-default" ng-repeat="type in registeredTypes" ng-click="addType(type);" ><i ng-class="getClassForType(type);"></i></button>
   </div>
   <br/>
-  <div class="btn-group-vertical">
-    <button type="button" class="btn btn-default" ng-click="addRectangle();"><i class="fa fa-square-o"></i></button>
-    <button type="button" class="btn btn-default" ng-click="addCircle();"><i class="fa fa-circle-o"></i></button>
-    <button type="button" class="btn btn-default" ng-click="addTriangle();"><i class="fa fa-play fa-rotate-270"></i></button>
-    <button type="button" class="btn btn-default" ng-click="addStar();"><span class="glyphicon glyphicon-star"></span></button>
-  </div>
   <br/>
   <div class="btn-group-vertical">
-    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-home"></span></button>
     <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span></button>
-    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-star right"></span></button>
     <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button>
     <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share-alt"></span></button>
     <button type="button" class="btn btn-default" ng-click="removeElements();"><span class="glyphicon glyphicon-trash"></span></button>

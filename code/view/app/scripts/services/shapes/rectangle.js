@@ -1,16 +1,18 @@
 'use strict';
 
 angular.module('animatesApp')
-	.run(function rectangle(shapeCreator, shapeSync, shapeSyncHelper, shapeHelper) {
+	.run(function rectangle(shapeCreator, shapeSync, toolbarService, shapeSyncHelper, shapeHelper) {
+		var typeId = 'Rectangle';
+
 		function createShape() {
 			return new shapeSyncHelper.Fabric.Rect();
 		}
-		
-		shapeCreator.registerShape('Rectangle', createShape);
+
+		shapeCreator.registerShape(typeId, createShape);
 
 		function syncFromModel(viewObject, canvasPosition){
 			var model = shapeHelper.getMediaFrameFromView(viewObject);
-			
+
 			shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject, canvasPosition);
 
 			shapeSyncHelper.syncViewProperty(model.getProperty('height'), viewObject, 'height');
@@ -33,7 +35,15 @@ angular.module('animatesApp')
 			return diff;
 		};
 
-		shapeSync.registerShape('Rectangle', syncFromModel, syncFromView);
+		shapeSync.registerShape(typeId, syncFromModel, syncFromView);
 
-		return undefined;
+		function getButtonClass(){
+			return 'fa fa-square-o';
+		};
+
+		function createMediaObject(){
+			return new shapeSyncHelper.Model.Rectangle();
+		};
+
+		toolbarService.registerItem(typeId, getButtonClass, createMediaObject)
 	});

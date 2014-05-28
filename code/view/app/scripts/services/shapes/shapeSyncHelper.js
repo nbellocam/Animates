@@ -48,9 +48,10 @@ angular.module('animatesApp')
 				syncViewProperty(model.getProperty('position.x') + canvasPosition.left, viewObject, 'left');
 				syncViewProperty(model.getProperty('position.y') + canvasPosition.top, viewObject, 'top');
 			};
-		
+
 		return {
 			Fabric: $window.fabric,
+			Model: $window.model,
 
 			syncModelProperty: syncModelProperty,
 			syncViewProperty: syncViewProperty,
@@ -61,4 +62,3 @@ angular.module('animatesApp')
 			startsAtCurrentTick: startsAtCurrentTick
 		};
 	});
-

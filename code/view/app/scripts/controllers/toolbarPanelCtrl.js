@@ -1,41 +1,27 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService, shapeHelper) {
+	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService, shapeHelper, toolbarService) {
 		function applyOperation(target, operation, params){
 			animationService.getInstance().applyOperation(target, operation, params, { sender: 'toolbar' });
 		}
 
-		$scope.addRectangle = function() {
-			applyOperation('Shape', 'Create', {
-				mediaObject: new animationService.Model.Rectangle(),
-				tick : localAnimationStateService.getCurrentTick()
-			});
+		$scope.addType = function(type) {
+			var mediaObject = toolbarService.createMediaObject(type);
+
+			if (mediaObject) {
+				applyOperation('Shape', 'Create', {
+					mediaObject: toolbarService.createMediaObject(type),
+					tick : localAnimationStateService.getCurrentTick()
+				});
+			}
 		};
 
-		$scope.addCircle = function() {
-			//alert('Circle still not available!');
+		$scope.getClassForType = function(type) {
+			return toolbarService.getButtonClass(type);
 		};
 
-		$scope.addTriangle = function() {
-			//alert('Triangle still not available!');
-		};
-
-		$scope.addStar = function() {
-			//alert('Star still not available!');
-		};
-
-		$scope.addImage = function() {
-			//alert('Image still not available!');
-		};
-
-		$scope.addText = function() {
-			//alert('Text still not available!');
-		};
-
-		$scope.addSound = function() {
-			//alert('Sound still not available!');
-		};
+		$scope.registeredTypes = toolbarService.getRegisteredTypes();
 
 		$scope.removeElements = function() {
 			var selectedElement = canvasService.getSelectedShape();
