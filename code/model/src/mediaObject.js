@@ -85,6 +85,10 @@ function MediaObject (options) {
 		return guid;
 	};
 
+	this.getType = function getType(){
+		return Common.realTypeOf(this);
+	};
+
 	this.toJSON = function () {
 		var ser =	{
 						'properties' : JsonSerializer.serializeDictionary(properties),
@@ -97,10 +101,6 @@ function MediaObject (options) {
 	this.fromJSON = function (json) {
 		properties = json.properties;
 		guid = json.guid;
-	};
-
-	this.getType = function (){
-		return Common.realTypeOf(this);
 	};
 
 	/**

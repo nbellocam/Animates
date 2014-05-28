@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.service('canvasService', function canvasService(shapeSync, $window, $rootScope, canvasConfig, animationService, shapeCreator, localAnimationStateService) {
+	.service('canvasService', function canvasService(shapeSync, $window, $rootScope, canvasConfig, animationService, shapeCreator, localAnimationStateService, shapeHelper) {
 		var fabric = $window.fabric,
 			_self = this,
 			canvasPosition = {
@@ -66,11 +66,10 @@ angular.module('animatesApp')
 
 				for (var i = 0; i < allObjects.length; i++) {
 					object = allObjects[i];
-					if (object.model && object.model.getMediaObjectGuid() === mediaObjectId) {
+					if (shapeHelper.getGuidFromView(object) === mediaObjectId) {
 						founded = true;
 
 						if (newMediaFrame) {
-							object.model = newMediaFrame;
 							shapeSync.syncFromModel(object, _self.getCanvasPosition());
 						} else {
 							_self.remove(object);
@@ -109,7 +108,7 @@ angular.module('animatesApp')
 
 								for (i = 0; i < allObjects.length; i++) {
 									object = allObjects[i];
-									if (object.model && object.model.getMediaObjectGuid() === params.mediaObjectId) {
+									if ( shapeHelper.getGuidFromView(object) === params.mediaObjectId) {
 										_self.remove(object);
 									}
 								}
@@ -123,17 +122,6 @@ angular.module('animatesApp')
 						updateMediaObjectInCanvas(params.mediaObjectId);
 						renderAll();
 					}
-				} else if (params.mediaObjectId){
-					allObjects = canvasInstance.getObjects();
-
-					for (i = 0; i < allObjects.length; i++) {
-						object = allObjects[i];
-						if (object.model && object.model.getMediaObjectGuid() === params.mediaObjectId) {
-							object.model = animationService.getInstance().timeline.getMediaFrameFor(params.mediaObjectId, localAnimationStateService.getCurrentTick());
-						}
-					}
-
-					renderAll();
 				}
 			},
 			animationLoadEventHandler = function animationLoadEventHandler() {
@@ -167,9 +155,9 @@ angular.module('animatesApp')
 					if (target.isType('group')){
 						$rootScope.$broadcast('shapeChange', target);
 					} else {
-						var updatedProperties = shapeSync.syncFromFabric(target, _self.getCanvasPosition());
+						var updatedProperties = shapeSync.syncFromView(target, _self.getCanvasPosition());
 						if (updatedProperties){
-							applyShapeUpdateOperation(target.model.getMediaObjectGuid(), updatedProperties);
+							applyShapeUpdateOperation(shapeHelper.getGuidFromView(target), updatedProperties);
 						}
 					}
 				}
@@ -184,7 +172,7 @@ angular.module('animatesApp')
 						for (var i = 0; i < allObjects.length; i++) {
 							object = allObjects[i];
 							if (object !== viewportInstance) {
-								var updatedProperties = shapeSync.syncFromFabric(object, _self.getCanvasPosition());
+								var updatedProperties = shapeSync.syncFromView(object, _self.getCanvasPosition());
 								if (updatedProperties){
 									applyShapeUpdateOperation(object.getMediaObjectGuid(), updatedProperties);
 								}

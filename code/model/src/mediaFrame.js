@@ -64,6 +64,14 @@ function MediaFrame (options) {
 	};
 
 	/**
+	 * Gets the type of the original MediaObject
+	 * @return {string} the type
+	 */
+	this.getMediaObjectType = function getMediaObjectType (values) {
+		return currentOptions.mediaObject.getType();
+	};
+
+	/**
 	 *  Constructor
 	 */
 	(function init() {

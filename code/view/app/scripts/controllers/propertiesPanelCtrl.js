@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('PropertiesPanelCtrl', function PropertiesPanelCtrl($scope, $rootScope, canvasService, animationService) {
+	.controller('PropertiesPanelCtrl', function PropertiesPanelCtrl($scope, $rootScope, canvasService, animationService, shapeHelper) {
 		$scope.properties = null;
 
 		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation, params) {
@@ -9,8 +9,10 @@ angular.module('animatesApp')
 				mediaObjectId = params.mediaObjectId || params.mediaObject.getGuid();
 
 			if (selectedShapes !== null) {
-				if (selectedShapes.model.getMediaObjectGuid() === mediaObjectId) {
-					$scope.properties = selectedShapes.model.properties();
+				if (shapeHelper.getGuidFromView(selectedShapes) === mediaObjectId) {
+					var mediaFrame = shapeHelper.getMediaFrameFromView(selectedShapes);
+
+					$scope.properties = mediaFrame ? mediaFrame.properties() : null;
 					$scope.$apply();
 				}
 			}
@@ -42,8 +44,11 @@ angular.module('animatesApp')
 			if (canvasShape === null) {
 				$scope.properties = null;
 			} else if (!canvasShape.isType('group')){
-				$scope.properties = canvasShape.model.properties();
+				var mediaFrame = shapeHelper.getMediaFrameFromView(canvasShape);
+
+				$scope.properties = mediaFrame ? mediaFrame.properties() : null;
 			} else {
+
 				$scope.properties = createGroupProperties(canvasShape);
 			}
 			

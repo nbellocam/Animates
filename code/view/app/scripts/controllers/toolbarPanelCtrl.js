@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService) {
+	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService, shapeHelper) {
 		function applyOperation(target, operation, params){
 			animationService.getInstance().applyOperation(target, operation, params, { sender: 'toolbar' });
 		}
@@ -44,13 +44,13 @@ angular.module('animatesApp')
 				if (selectedElement.isType('group')){
 					selectedElement.forEachObject(function (obj){
 						applyOperation('Shape', 'Remove', {
-							mediaObjectId: obj.model.getMediaObjectGuid()
+							mediaObjectId: shapeHelper.getGuidFromView(obj)
 						});
 					});
 					canvasService.getInstance().discardActiveGroup().renderAll();
 				} else {
 					applyOperation('Shape', 'Remove', {
-						mediaObjectId: selectedElement.model.getMediaObjectGuid()
+						mediaObjectId: shapeHelper.getGuidFromView(selectedElement)
 					});
 				}
 			}

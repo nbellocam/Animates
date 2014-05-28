@@ -1,27 +1,38 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('shapeCreator', function shapeCreator(animationService, localAnimationStateService, shapeSync, $window) {
-		var Fabric = $window.fabric,
-			createShapeFromFrame = function createShapeFromFrame(mediaFrame, canvasPosition) {
-				if (mediaFrame) {
-					var rect = new Fabric.Rect();
+	.service('shapeCreator', function shapeCreator(animationService, localAnimationStateService, shapeSync, shapeHelper) {
+		var registeredShapes = {},
+			_self = this;
 
-					rect.model = mediaFrame;
-					shapeSync.syncFromModel(rect, canvasPosition);
-					return rect;
+		function isTypeRegistered(type) {
+			return type && registeredShapes[type] && (typeof(registeredShapes[type]) === 'function');
+		}
+
+		this.registerShape = function registerShape(type, creationFunction) {
+			if (type && !isTypeRegistered(type) && (typeof(creationFunction) === 'function')) {
+				registeredShapes[type] = creationFunction;
+			}
+		};
+
+		this.createShapeFromFrame = function createShapeFromFrame(mediaFrame, canvasPosition) {
+			if (mediaFrame) {
+				var type = mediaFrame.getMediaObjectType();
+
+				if (isTypeRegistered(type)) {
+					var shape = registeredShapes[type]();
+					shapeHelper.setModelInView(mediaFrame, shape);
+					shapeSync.syncFromModel(shape, canvasPosition);
+					return shape;
 				}
+			}
 
-				return undefined;
-			},
-			createShapeFromMediaObject = function createShapeFromMediaObject(mediaObject, canvasPosition) {
-				return createShapeFromFrame(
-					animationService.getInstance().timeline.getMediaFrameFor(mediaObject.getGuid(), localAnimationStateService.getCurrentTick()),
-					canvasPosition);
-			};
+			return undefined;
+		};
 
-		return {
-			createShapeFromMediaObject : createShapeFromMediaObject,
-			createShapeFromFrame : createShapeFromFrame
+		this.createShapeFromMediaObject = function createShapeFromMediaObject(mediaObject, canvasPosition) {
+			return _self.createShapeFromFrame(
+				animationService.getInstance().timeline.getMediaFrameFor(mediaObject.getGuid(), localAnimationStateService.getCurrentTick()),
+				canvasPosition);
 		};
 	});
