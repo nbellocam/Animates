@@ -29,8 +29,7 @@ angular.module('animatesApp')
 					posYEnd = fabricObject.top - canvasPosition.top,
 					currentEffects = null,
 					path = null,
-					moveEffect = null,
-					effectToSplit = null;
+					moveEffect = null;
 
 				if (posXStart !== posXEnd || posYStart !== posYEnd) {
 					path = new Model.Path({
@@ -44,39 +43,68 @@ angular.module('animatesApp')
 						endTick : localAnimationStateService.getCurrentTick()
 					});
 
+					var effectsToSplit = [];
 					// Check if an existant effect must be splitted
 					currentEffects = mediaTimeline.getEffectsForTick(localAnimationStateService.getCurrentTick());
 					if (currentEffects.length > 0) {
 						for (var i = 0; i < currentEffects.length; i++) {
 							if (moveEffect.HasConflictWithProperties(currentEffects[i])) {
-								effectToSplit = currentEffects[i];
-
-								// TODO: for now im suposing that only one effect must have conflicts
-								break;
+								effectsToSplit.push(currentEffects[i]);
 							}
 						}
 					}
 
 					var mediaObjectId = mediaTimeline.getMediaObjectId();
 
-					// "Split" : Modify the found effect and insert the new one
-					if (effectToSplit) {
-						var effectToSplitPath = effectToSplit.getOption('path');
-						moveEffect.getOptions('path').startPosition = effectToSplitPath.startPosition;
+					var addNewEffect = true;
 
-						effectToSplitPath.startPosition = { x: posXEnd, y : posYEnd };
-						var effectToSplitOptions = {
-							startTick : localAnimationStateService.getCurrentTick(),
-							path: effectToSplitPath
-						};
-						
+					var effectToSplit, effectToSplitOptions, effectPath, newEffectPath, effectToSplitPath;
+
+					// "Split" : Modify the found effect and insert the new one
+					for (var j = 0; j < effectsToSplit.length; j++) {
+						effectToSplit = effectsToSplit[j];
+
+						effectToSplitOptions = null;
+
+						if(effectToSplit.getOption('endTick') === moveEffect.getOption('endTick')) {
+							effectPath = effectToSplit.getOption('path');
+							newEffectPath = moveEffect.getOption('path');
+
+							effectPath.endPosition = newEffectPath.endPosition;
+							effectToSplitOptions = {
+								path: effectPath
+							};
+
+							addNewEffect = false;
+						} else if (effectToSplit.getOption('startTick') === moveEffect.getOption('endTick')) {
+							effectPath = effectToSplit.getOption('path');
+							newEffectPath = moveEffect.getOption('path');
+
+							effectPath.startPosition = newEffectPath.endPosition;
+							effectToSplitOptions = {
+								path: effectPath
+							};
+
+							addNewEffect = false;
+						} else {
+							effectToSplitPath = effectToSplit.getOption('path');
+							moveEffect.getOption('path').startPosition = effectToSplitPath.startPosition;
+
+							effectToSplitPath.startPosition = { x: posXEnd, y : posYEnd };
+
+							effectToSplitOptions = {
+								startTick : localAnimationStateService.getCurrentTick(),
+								path: effectToSplitPath
+							};
+						}
+
 						applyEffectUpdateOperation(mediaObjectId, effectToSplit.getGuid(), effectToSplitOptions);
 					}
-					
-					moveEffect.setOption('startTick', mediaTimeline.getStartTickFor(moveEffect, moveEffect.getOption('endTick')));
 
-
-					applyEffectCreationOperation(mediaObjectId, moveEffect);
+					if (addNewEffect){
+						moveEffect.setOption('startTick', mediaTimeline.getStartTickFor(moveEffect, moveEffect.getOption('endTick')));
+						applyEffectCreationOperation(mediaObjectId, moveEffect);
+					}
 				}
 			}
 		};
