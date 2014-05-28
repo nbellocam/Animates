@@ -10,8 +10,8 @@ var Property = require('../../../src/properties/property'),
 describe('PropertyBuilder', function() {
 
 	TypesManager.registerType('custom', []);
-	TypesManager.registerType('myString', [ function (val) { console.log('str'); return val !== ''; } ]);
-	TypesManager.registerType('myStringLimited', [ function (val) { console.log('strl'); return val.length < 7; } ], 'myString');
+	TypesManager.registerType('myString', [ function (val) { return val !== ''; } ]);
+	TypesManager.registerType('myStringLimited', [ function (val) { return val.length < 7; } ], 'myString');
 
 	it('Should throw error due to missing type', function () {
 		var propBuilder = new PropertyBuilder(),
@@ -88,7 +88,7 @@ describe('PropertyBuilder', function() {
 						.name('name')
 						.type('myStringLimited')
 						.value('test')
-						.constraint(function(val) { console.log('own'); return val.indexOf('test') === 0; })
+						.constraint(function(val) { return val.indexOf('test') === 0; })
 						.create();
 
 			prop.value().should.equal('test');
