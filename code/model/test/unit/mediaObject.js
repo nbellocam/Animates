@@ -3,6 +3,7 @@
 'use strict';
 
 var MediaObject = require('../../src/mediaObject'),
+	PropertiesArrayBuilder = require('../../src/properties/propertiesArrayBuilder'),
 	should = require("should");
 
 describe('MediaObject', function(){
@@ -16,7 +17,7 @@ describe('MediaObject', function(){
 		});
 	});
 
-	describe('getProperties()', function(){
+	describe('getProperties', function(){
 		it('Should return an empty object is no option is passed as parameter.', function(){
 			var instance = new MediaObject(),
 				properties = instance.getProperties();
@@ -24,174 +25,193 @@ describe('MediaObject', function(){
 			properties.should.be.empty;
 		});
 
-		it('Should return the same property that is passed by parameter.', function(){
-			var specifiedPropertyValue = 'value1',
-				instance = new MediaObject({propertyName: specifiedPropertyValue}),
+		it('Should return empty even if an option is passed by parameter.', function(){
+			var	instance = new MediaObject({propertyName: 'specifiedPropertyValue'}),
 				properties = instance.getProperties();
 
-			properties.should.have.property('propertyName', specifiedPropertyValue);
+			properties.should.be.empty;
 		});
 	});
 
-	describe('getProperty()', function(){
-		it('Should return undefined if property does not exits.', function(){
-			var instance = new MediaObject(),
-				propertyValue = instance.getProperty('invalidProperty');
+	describe('getProperty', function(){
+		it('Should throw an error if the property does not exits.', function(){
+			var instance = new MediaObject();
 
-			should.equal(propertyValue, undefined);
+			(function () {
+				instance.getProperty('invalidProperty');
+			}).should.throw(/^Property 'invalidProperty' could not be found/);
 		});
 
-		it('Should return undefined if property is empty.', function(){
-			var instance = new MediaObject(),
-				propertyValue = instance.getProperty('');
+		it('Should throw an error if parent property is empty.', function(){
+			var instance = new MediaObject();
 
-			should.equal(propertyValue, undefined);
+			(function () {
+				instance.getProperty('parentPropertyName.innerPropertyName');
+			}).should.throw(/^Property 'parentPropertyName' could not be found/);
 		});
 
-		it('Should return undefined if parent property is empty.', function(){
-			var instance = new MediaObject(),
-				propertyValue = instance.getProperty('parentPropertyName.innerPropertyName');
+		it('Should throw an error if inner property is empty.', function(){
+			var propertyBuilder = new PropertiesArrayBuilder(),
+				instance;
 
-			should.equal(propertyValue, undefined);
-		});
+			propertyBuilder
+				.propertyArray('parentPropertyName')
+					.property('inner')
+						.type('string')
+						.value('text')
+					.add()
+				.add();
 
-		it('Should return undefined if inner property is empty.', function(){
-			var instance = new MediaObject({
-					parentPropertyName: { }
-				}),
-				propertyValue = instance.getProperty('parentPropertyName.innerPropertyName');
+			instance = new MediaObject({}, propertyBuilder);
 
-			should.equal(propertyValue, undefined);
-		});
-
-		it('Should return undefined if property is not passed by argument.', function(){
-			var instance = new MediaObject(),
-				propertyValue = instance.getProperty();
-
-			should.equal(propertyValue, undefined);
+			(function () {
+				instance.getProperty('parentPropertyName.innerPropertyName');
+			}).should.throw(/^Property 'innerPropertyName' could not be found/);
 		});
 
 		it('Should return the property if it exits.', function(){
-			var specifiedPropertyValue = 'value1',
-				instance = new MediaObject({propertyName: specifiedPropertyValue}),
-				propertyValue = instance.getProperty('propertyName');
+			var propertyBuilder = new PropertiesArrayBuilder(),
+				instance;
 
-			propertyValue.should.eql(specifiedPropertyValue);
+			propertyBuilder
+				.property('prop')
+					.type('string')
+					.value('text')
+				.add();
+
+			instance = new MediaObject({}, propertyBuilder);
+
+			instance.getProperty('prop').should.equal('text');
 		});
 
 		it('Should return the inner property if it exits.', function(){
-			var specifiedPropertyValue = 'value',
-				instance = new MediaObject({
-					parentPropertyName: {
-						innerPropertyName : specifiedPropertyValue
-					}
-				}),
-				propertyValue = instance.getProperty('parentPropertyName.innerPropertyName');
+			var propertyBuilder = new PropertiesArrayBuilder(),
+				instance;
 
-			propertyValue.should.eql(specifiedPropertyValue);
+			propertyBuilder
+				.propertyArray('parentPropertyName')
+					.property('inner')
+						.type('string')
+						.value('text')
+					.add()
+				.add();
+
+			instance = new MediaObject({}, propertyBuilder);
+
+			instance.getProperty('parentPropertyName.inner').should.equal('text');
 		});
 	});
 
-	describe('setProperty()', function(){
-		it('Should create a new property if the property does not exits.', function(){
-			var specifiedPropertyValue = 'value1',
-				instance = new MediaObject(),
-				properties = instance.getProperties();
+	describe('setProperty', function(){
+		it('Should throw an error if the property does not exits.', function(){
+			var instance = new MediaObject();
 
-			properties.should.not.have.property('propertyName');
-
-			instance.setProperty('propertyName', specifiedPropertyValue);
-
-			properties = instance.getProperties();
-
-			properties.should.have.property('propertyName', specifiedPropertyValue);
+			(function () {
+				instance.setProperty('parentPropertyName', 'text');
+			}).should.throw(/^Property 'parentPropertyName' could not be found/);
 		});
 
 		it('Should update a property if it already exits.', function(){
-			var originalPropertyValue = 'oldValue',
-				newPropertyValue = 'newValue',
-				instance = new MediaObject({propertyName: originalPropertyValue}),
-				properties = instance.getProperties();
+			var propertyBuilder = new PropertiesArrayBuilder(),
+				instance;
 
-			properties.should.have.property('propertyName', originalPropertyValue);
+			propertyBuilder
+				.property('prop')
+					.type('string')
+					.value('text')
+				.add();
 
-			instance.setProperty('propertyName', newPropertyValue);
+			instance = new MediaObject({}, propertyBuilder);
 
-			properties = instance.getProperties();
+			instance.setProperty('prop', 'newText');
 
-			properties.should.have.property('propertyName', newPropertyValue);
+			instance.getProperty('prop').should.equal('newText');
 		});
 
-		it('Should create a new full property path if the property does not exits at all.', function(){
-			var specifiedPropertyValue = 'value1',
-				instance = new MediaObject(),
-				properties = instance.getProperties();
+		it('Should throw an exception if the property does not exits.', function(){
+			var propertyBuilder = new PropertiesArrayBuilder(),
+				instance;
 
-			properties.should.not.have.property('parentPropertyName');
+			propertyBuilder
+				.property('prop')
+					.type('string')
+					.value('text')
+				.add();
 
-			instance.setProperty('parentPropertyName.innerPropertyName', specifiedPropertyValue);
+			instance = new MediaObject({}, propertyBuilder);
 
-			properties = instance.getProperties();
-
-			properties.should.have.property('parentPropertyName');
-
-			properties.parentPropertyName.should.have.property('innerPropertyName', specifiedPropertyValue);
-		});
-
-		it('Should create a new full property path if the inner property does not exits.', function(){
-			var specifiedPropertyValue = 'value1',
-				instance = new MediaObject({
-					parentPropertyName: {}
-				}),
-				properties = instance.getProperties();
-
-
-			properties.should.have.property('parentPropertyName');
-			properties.parentPropertyName.should.not.have.property('innerPropertyName');
-
-			instance.setProperty('parentPropertyName.innerPropertyName', specifiedPropertyValue);
-
-			properties = instance.getProperties();
-
-			properties.parentPropertyName.should.have.property('innerPropertyName', specifiedPropertyValue);
+			(function () {
+				instance.setProperty('parentPropertyName', 'text');
+			}).should.throw(/^Property 'parentPropertyName' could not be found/);
 		});
 
 		it('Should update a inner property if it already exits.', function(){
-			var originalPropertyValue = 'oldValue',
-				newPropertyValue = 'newValue',
-				instance = new MediaObject({
-					parentPropertyName: {
-						innerPropertyName : originalPropertyValue
-					}
-				}),
-				properties = instance.getProperties();
+			var propertyBuilder = new PropertiesArrayBuilder(),
+				instance;
 
+			propertyBuilder
+				.propertyArray('parentPropertyName')
+					.property('inner')
+						.type('string')
+						.value('text')
+					.add()
+				.add();
 
-			properties.should.have.property('parentPropertyName');
-			properties.parentPropertyName.should.have.property('innerPropertyName');
+			instance = new MediaObject({}, propertyBuilder);
 
-			instance.setProperty('parentPropertyName.innerPropertyName', newPropertyValue);
+			instance.getProperty('parentPropertyName.inner').should.equal('text');		
 
-			properties = instance.getProperties();
+			instance.setProperty('parentPropertyName.inner', 'newText');
 
-			properties.parentPropertyName.should.have.property('innerPropertyName', newPropertyValue);
+			instance.getProperty('parentPropertyName.inner').should.equal('newText');
 		});
 	});
 
 	describe('Serialization', function() {
 		it('toJSON should return json', function() { 
-			var mediaObject = new MediaObject(),
-				json = mediaObject.toJSON();
+			var propertyBuilder = new PropertiesArrayBuilder(),
+				mediaObject,
+				json;
+
+
+			propertyBuilder
+				.property('prop')
+					.type('string')
+					.value('text')
+				.add();
+
+			mediaObject = new MediaObject({}, propertyBuilder);
+			
+			json = mediaObject.toJSON();
 
 			json.should.have.property('properties');
 		});
 
 		it('fromJSON should load the object', function() { 
-			var mediaObject = new MediaObject({'prop' : 'value'}),
-				json = mediaObject.toJSON(),
-				mediaObject2 = new MediaObject();
+			var propertyBuilder = new PropertiesArrayBuilder(),
+				propertyBuilder2 = new PropertiesArrayBuilder(),
+				mediaObject,
+				json,
+				mediaObject2;
 
+			propertyBuilder
+				.property('prop')
+					.type('string')
+					.value('value')
+				.add();
+
+			propertyBuilder2
+				.property('prop')
+					.type('string')
+					.value('no-value')
+				.add();
+
+			mediaObject = new MediaObject({}, propertyBuilder);
+			json = mediaObject.toJSON();
+			
+			mediaObject2 = new MediaObject({}, propertyBuilder2);
 			mediaObject2.fromJSON(json);
+			
 			mediaObject2.getGuid().should.equal(mediaObject.getGuid());
 			mediaObject2.getProperties().should.have.property('prop', 'value');
 		});

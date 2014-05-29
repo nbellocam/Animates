@@ -8,46 +8,43 @@ var Rectangle = require('../../../src/shapes/rectangle'),
 describe('Rectangle', function(){
 	describe('constructor', function(){
 		it('Should generate a random guid.', function(){
-			var instance = new Rectangle(),
-				instance2 = new Rectangle();
+			var rectangle = new Rectangle(),
+				rectangle2 = new Rectangle();
 
-			instance.getGuid().should.have.type('string');
-			instance.getGuid().should.not.be.equal(instance2.getGuid());
+			rectangle.getGuid().should.have.type('string');
+			rectangle.getGuid().should.not.be.equal(rectangle2.getGuid());
 		});
 
 		it('Should retrieve Rectangle as type.', function(){
-			var instance = new Rectangle();
+			var rectangle = new Rectangle();
 
-			instance.getType().should.be.equal('Rectangle');
+			rectangle.getType().should.be.equal('Rectangle');
 		});
 		
 		it('Should set default properties.', function(){
-			var instance = new Rectangle(),
-				properties = instance.getProperties();
+			var rectangle = new Rectangle();
 
-			properties.should.have.property('position');
-			properties.position.should.have.property('x',0);
-			properties.position.should.have.property('y',0);
-			properties.position.should.have.property('z',0);
-			properties.should.have.property('opacity',1);
-			properties.should.have.property('border');
-			properties.border.should.have.property('type','none');
-			properties.border.should.have.property('color','black');
+			rectangle.getProperty('position.x').should.equal(0);
+			rectangle.getProperty('position.y').should.equal(0);
+			rectangle.getProperty('position.z').should.equal(0);
+			rectangle.getProperty('opacity').should.equal(1);
+			rectangle.getProperty('border.type').should.equal('none');
+			rectangle.getProperty('border.color').should.equal('black');
 
-			properties.should.have.property('height', 100);
-			properties.should.have.property('width', 100);
+			rectangle.getProperty('height').should.equal(100);
+			rectangle.getProperty('width').should.equal(100);
 		});
 
 		it('Should set the properties passed in the constructor.', function(){
 			var specifiedX = 1,
 				specifiedY = 2,
 				specifiedZ = 3,
-				specifiedOpacity = 42,
+				specifiedOpacity = 0.8,
 				specifiedBorderType = 'border',
 				specifiedBorderColor = 'blue',
 				specifiedHeight = 32,
 				specifiedWidth = 84,
-				instance = new Rectangle({
+				rectangle = new Rectangle({
 					position : {
 						x : specifiedX,
 						y : specifiedY,
@@ -60,69 +57,64 @@ describe('Rectangle', function(){
 					},
 					height: specifiedHeight,
 					width: specifiedWidth
-				}),
-				properties = instance.getProperties();
+				});
 
-			properties.should.have.property('position');
-			properties.position.should.have.property('x', specifiedX);
-			properties.position.should.have.property('y', specifiedY);
-			properties.position.should.have.property('z', specifiedZ);
-			properties.should.have.property('opacity', specifiedOpacity);
-			properties.should.have.property('border');
-			properties.border.should.have.property('type', specifiedBorderType);
-			properties.border.should.have.property('color', specifiedBorderColor);
+			rectangle.getProperty('position.x').should.equal(specifiedX);
+			rectangle.getProperty('position.y').should.equal(specifiedY);
+			rectangle.getProperty('position.z').should.equal(specifiedZ);
+			rectangle.getProperty('opacity').should.equal(specifiedOpacity);
+			rectangle.getProperty('border.type').should.equal(specifiedBorderType);
+			rectangle.getProperty('border.color').should.equal(specifiedBorderColor);
 
-			properties.should.have.property('height', specifiedHeight);
-			properties.should.have.property('width', specifiedWidth);
+			rectangle.getProperty('height').should.equal(specifiedHeight);
+			rectangle.getProperty('width').should.equal(specifiedWidth);
 		});
 
 		it('Should set only the properties passed in the constructor and use the default for the rest.', function(){
 			var specifiedBorderType = 'border',
 				specifiedBorderColor = 'blue',
 				specifiedHeight = 32,
-				instance = new Rectangle({
+				rectangle = new Rectangle({
 					border : {
 						type : specifiedBorderType,
 						color : specifiedBorderColor
 					},
 					height: specifiedHeight,
-				}),
-				properties = instance.getProperties();
+				});
 
-			properties.should.have.property('position');
-			properties.position.should.have.property('x', 0);
-			properties.position.should.have.property('y', 0);
-			properties.position.should.have.property('z', 0);
-			properties.should.have.property('opacity', 1);
-			properties.should.have.property('border');
-			properties.border.should.have.property('type', specifiedBorderType);
-			properties.border.should.have.property('color', specifiedBorderColor);
+			rectangle.getProperty('position.x').should.equal(0);
+			rectangle.getProperty('position.y').should.equal(0);
+			rectangle.getProperty('position.z').should.equal(0);
+			rectangle.getProperty('opacity').should.equal(1);
+			rectangle.getProperty('border.type').should.equal(specifiedBorderType);
+			rectangle.getProperty('border.color').should.equal(specifiedBorderColor);
 
-			properties.should.have.property('height', specifiedHeight);
-			properties.should.have.property('width', 100);
+			rectangle.getProperty('height').should.equal(specifiedHeight);
+			rectangle.getProperty('width').should.equal(100);
 		});
 	});
 
 	describe('Serialization', function() {
 		it('toJSON should return json', function() { 
-			var rec = new Rectangle({'prop' : 'value'}),
+			var rec = new Rectangle({'height' : 200}),
 				json = rec.toJSON();
 
 			json.should.have.property('properties');
 			json.properties.should.have.property('position');
 			json.properties.should.have.property('border');
 			json.properties.should.have.property('fill');
-			json.properties.should.have.property('prop','value');
+			json.properties.should.have.property('height', 200);
+			json.properties.should.have.property('width', 100);
 		});
 
 		it('fromJSON should load the object', function() { 
-			var rec = new Rectangle({'prop' : 'value'}),
+			var rec = new Rectangle({'height' : 200}),
 				json = rec.toJSON(),
 				rec2 = new Rectangle();
 
 			rec2.fromJSON(json);
 			rec2.getGuid().should.equal(rec.getGuid());
-			rec2.getProperties().should.have.property('prop', 'value');
+			rec2.getProperties().should.have.property('height', 200);
 		});
 	});	
 });

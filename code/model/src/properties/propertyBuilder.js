@@ -52,7 +52,7 @@ function PropertyBuilder() {
 		}
 		
 		if (options.type === null) {
-			throw new Error('The property could not be built because the type was not defined.');
+			throw new Error("The property '" + options.name + "' could not be built because the type was not defined.");
 		}
 
 		property = new Property(options);
@@ -60,7 +60,7 @@ function PropertyBuilder() {
 		if (property.isValid()) {
 			return property;
 		} else {
-			throw new Error('The property could not be built due to invalid value.');
+			throw new Error("The property '" + options.name + "' could not be built due to invalid value.");
 		}
 	};
 }

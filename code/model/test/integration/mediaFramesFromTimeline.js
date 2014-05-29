@@ -18,7 +18,7 @@ var utils = {
 				y : 0,
 				z : 3
 			},
-			opacity: 42,
+			opacity: 0.9,
 			border : {
 				type : 'border',
 				color : 'blue'

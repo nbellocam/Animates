@@ -4,20 +4,19 @@
 'use strict';
 
 var VisualMediaObject = require('./visualMediaObject'),
+	PropertiesArrayBuilder = require('./properties/propertiesArrayBuilder'),
 	Common = require('animates-common');
 
 /**
  *  Creates a new Photo
  *  @class Represents a Photo. 
  */
-function Photo (options) {
-	var _self = this,
-		defaultProperties = {
+function Photo (options, builder) {
+	var _self = this,propBuilder,
+		properties,
+		defaultOptions = {
 			source : ''
-		},
-		properties = Common.extend(options || {}, defaultProperties);
-
-	this.VisualMediaObject(properties); // Call base constructor
+		};	
 
 	this.base_toJSON = this.toJSON;
 	this.toJSON = function () {
@@ -28,6 +27,14 @@ function Photo (options) {
 	 *  Constructor
 	 */ 
 	(function init() {
+		propBuilder = builder || new PropertiesArrayBuilder();
+		options = Common.extend(options || {}, defaultOptions);
+
+		propBuilder.property('source')
+						.value(options.source)
+						.type('string')
+					.add();
+		_self.VisualMediaObject(options, propBuilder); // Call base constructor
 	}());
 }
 

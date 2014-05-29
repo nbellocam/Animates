@@ -3,16 +3,19 @@
 'use strict';
 
 var MediaObject = require('./mediaObject'),
+	PropertiesArrayBuilder = require('./properties/propertiesArrayBuilder'),
 	Common = require('animates-common');
 
 /**
  *  Creates a new VisualMediaObject
  *  @class Represents a Shape. 
  */
-function VisualMediaObject (options) {
+function VisualMediaObject (options, builder) {
 
 	var _self = this,
-		defaultProperties = {
+		propBuilder,
+		properties,
+		defaultOptions = {
 			position : {
 				x : 0,
 				y : 0,
@@ -25,21 +28,62 @@ function VisualMediaObject (options) {
 			},
 			fill : 'black',
 			angle : 0,
-		},
-		properties = Common.extend(options || {}, defaultProperties);
+		};
 
-	this.MediaObject(properties); // Call base constructor
+	/**
+	 *  Constructor
+	 */ 
+	(function init() {
+		propBuilder = builder || new PropertiesArrayBuilder();
+		options = Common.extend(options || {}, defaultOptions);
+
+		propBuilder.property('opacity')
+						.value(options.opacity)
+						.type('integer')
+						.constraint(function (val) { return (val >= 0 && val <= 1); })
+					.add()
+					.property('angle')
+						.value(options.angle)
+						.type('integer')
+						.constraint(function (val) { return (val >= 0 && val <= 360); })
+					.add()
+					.property('fill')
+						.value(options.fill)
+						.type('color')
+					.add()
+					.propertyArray('position')
+						.property('x')
+							.type('integer')
+							.value(options.position.x)
+						.add()
+						.property('y')
+							.type('integer')
+							.value(options.position.y)
+						.add()
+						.property('z')
+							.type('integer')
+							.value(options.position.z)
+						.add()
+					.add()
+					.propertyArray('border')
+						.property('type')
+							.type('string')
+							.value(options.border.type)
+						.add()
+						.property('color')
+							.type('string')
+							.value(options.border.color)
+						.add()
+					.add();
+
+		_self.MediaObject(options, propBuilder); // Call base constructor
+	}());
 
 	this.mediaObject_fromJSON = this.fromJSON;
 	this.fromJSON = function (json) {
 		_self.mediaObject_fromJSON(json);
 	};
 
-	/**
-	 *  Constructor
-	 */ 
-	(function init() {
-	}());
 }
 
 Common.inherits(VisualMediaObject, MediaObject, 'MediaObject');
