@@ -41,5 +41,6 @@ manager = new TypesManager();
 // TODO add constraints, separate to a different file
 manager.registerType('integer', []);
 manager.registerType('string', []);
+manager.registerType('color', []);
 
 module.exports = manager;
