@@ -22,7 +22,7 @@ describe('PropertiesArrayBuilder', function() {
 									.value('value')
 								.add()
 							.create();
-		}).should.throw(/^The property could not be built due to invalid value/);
+		}).should.throw(/^The property 'name' could not be built due to invalid value/);
 	});
 
 	it('Should return an array with only one property', function () {

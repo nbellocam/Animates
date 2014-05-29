@@ -61,7 +61,7 @@ describe('PropertyBuilder', function() {
 				.constraint(function(val) { return false; })
 				.create();
 
-		}).should.throw(/^The property could not be built due to invalid value/);
+		}).should.throw(/^The property 'name' could not be built due to invalid value/);
 	});
 
 	it('Should throw error due to missing type', function () {
@@ -74,7 +74,7 @@ describe('PropertyBuilder', function() {
 						.value('test')
 						.create();
 
-		}).should.throw(/^The property could not be built because the type was not defined./);
+		}).should.throw(/^The property 'name' could not be built because the type was not defined./);
 	});
 
 	it('Should create the property according to its options', function () {
