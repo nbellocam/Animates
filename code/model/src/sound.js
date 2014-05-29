@@ -1,26 +1,39 @@
 'use strict';
 
 var MediaObject = require('./mediaObject'),
+	PropertiesArrayBuilder = require('./properties/propertiesArrayBuilder'),
 	Common = require('animates-common');
 
 /**
  *  Creates a new Sound
  *  @class Represents a Sound. 
  */
-function Sound (options) {
+function Sound (options, builder) {
 	var _self = this,
-		defaultProperties = {
-			volumen : 100,
+		propBuilder,
+		defaultOptions = {
+			volume : 100,
 			source : ''
 		},
-		properties = Common.extend(options || {}, defaultProperties);
-
-	this.MediaObject(properties); // Call base constructor
+		properties;
 
 	/**
 	 *  Constructor
 	 */ 
 	(function init() {
+		propBuilder = builder || new PropertiesArrayBuilder();
+		options = Common.extend(options || {}, defaultOptions);
+
+		propBuilder.property('volume')
+						.value(options.volume)
+						.type('integer')
+					.add()
+					.property('source')
+						.value(options.source)
+						.type('integer')
+					.add();
+
+		_self.MediaObject(options, propBuilder); // Call base constructor
 	}());
 }
 
