@@ -1,25 +1,24 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('effectCreator', function effectCreator(localAnimationStateService, $window, animationService) {
-		var Model = $window.model,
-			applyEffectCreationOperation = function applyEffectCreationOperation (mediaObjectId, effect){
-				animationService.getInstance().applyOperation('Effect', 'Create', {
-					mediaObjectId: mediaObjectId,
-					effect: effect
-				}, {
-					sender: 'effectCreator'
-				});
-			},
-			applyEffectUpdateOperation = function applyEffectUpdateOperation (mediaObjectId, effectId, options){
-				animationService.getInstance().applyOperation('Effect', 'Update', {
-					mediaObjectId: mediaObjectId,
-					effectId: effectId,
-					options: options
-				}, {
-					sender: 'effectCreator'
-				});
-			};
+	.factory('effectCreator', function effectCreator(localAnimationStateService, animationService) {
+		var applyEffectCreationOperation = function applyEffectCreationOperation (mediaObjectId, effect){
+					animationService.getInstance().applyOperation('Effect', 'Create', {
+						mediaObjectId: mediaObjectId,
+						effect: effect
+					}, {
+						sender: 'effectCreator'
+					});
+				},
+				applyEffectUpdateOperation = function applyEffectUpdateOperation (mediaObjectId, effectId, options){
+					animationService.getInstance().applyOperation('Effect', 'Update', {
+						mediaObjectId: mediaObjectId,
+						effectId: effectId,
+						options: options
+					}, {
+						sender: 'effectCreator'
+					});
+				};
 
 		return {
 			addMoveEffectIfRequired : function addMoveEffectIfRequired(model, fabricObject, canvasPosition, mediaTimeline){
@@ -32,12 +31,12 @@ angular.module('animatesApp')
 					moveEffect = null;
 
 				if (posXStart !== posXEnd || posYStart !== posYEnd) {
-					path = new Model.Path({
+					path = new animationService.Model.Path({
 						startPosition: { x: posXStart, y: posYStart },
 						endPosition: { x: posXEnd, y: posYEnd }
 					});
 
-					moveEffect = new Model.MoveEffect({
+					moveEffect = new animationService.Model.MoveEffect({
 						path : path,
 						startTick : mediaTimeline.getStartTick(),
 						endTick : localAnimationStateService.getCurrentTick()
