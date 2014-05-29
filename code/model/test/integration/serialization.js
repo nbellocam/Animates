@@ -16,36 +16,33 @@ var JsonSerializer = require('../../src/serialization/jsonSerializer'),
 describe('Serialization', function () {
 	describe('MediaObject', function() {
 		it('Should serialize the json object', function() { 
-			var mediaObject = new MediaObject({'prop' : 'value'}),
+			var mediaObject = new MediaObject(),
 				json = JsonSerializer.serializeObject(mediaObject);
 
 			json.should.have.property('type', 'MediaObject');
 			json.should.have.property('data');
 			json.data.should.have.property('properties');
-			json.data.properties.should.have.property('prop', 'value');
 		});
 
 		it('Should deserialize from json object', function() { 
-			var mediaObject = new MediaObject({'prop' : 'value'}),
+			var mediaObject = new MediaObject(),
 				json = JsonSerializer.serializeObject(mediaObject),
 				mediaObject2 = JsonSerializer.deserializeObject(json),
 				properties;
 				
 
 			mediaObject2.getGuid().should.equal(mediaObject.getGuid());
-			mediaObject2.getProperties().should.have.property('prop', 'value');
 		});
 	});
 
 	describe('Shape', function() {
 		it('Should serialize the json object', function() { 
-			var shape = new Shape({'prop' : 'value'}),
+			var shape = new Shape(),
 				json = JsonSerializer.serializeObject(shape);
 
 			json.should.have.property('type', 'Shape');
 			json.should.have.property('data');
 			json.data.should.have.property('properties');
-			json.data.properties.should.have.property('prop', 'value');
 			json.data.properties.should.have.property('opacity');
 			json.data.properties.should.have.property('position');
 			json.data.properties.should.have.property('fill');
@@ -54,24 +51,27 @@ describe('Serialization', function () {
 		});
 
 		it('Should deserialize from json object', function() { 
-			var shape = new Shape({'prop' : 'value'}),
-				json = JsonSerializer.serializeObject(shape),
-				shape2 = JsonSerializer.deserializeObject(json);
+			var shape = new Shape(),
+				json,
+				shape2;
+
+			shape.setProperty('position.x', 777);
+			json = JsonSerializer.serializeObject(shape);
+			shape2 = JsonSerializer.deserializeObject(json);
 
 			shape2.getGuid().should.equal(shape.getGuid());
-			shape2.getProperties().should.have.property('prop', 'value');
+			shape2.getProperty('position.x').should.equal(777);
 		});
 	});
 
 	describe('Rectangle', function() {
 		it('Should serialize the json object', function() { 
-			var rec = new Rectangle({'prop' : 'value'}),
+			var rec = new Rectangle(),
 				json = JsonSerializer.serializeObject(rec);
 
 			json.should.have.property('type', 'Rectangle');
 			json.should.have.property('data');
 			json.data.should.have.property('properties');
-			json.data.properties.should.have.property('prop', 'value');
 			json.data.properties.should.have.property('opacity');
 			json.data.properties.should.have.property('position');
 			json.data.properties.should.have.property('fill');
@@ -80,34 +80,38 @@ describe('Serialization', function () {
 		});
 
 		it('Should deserialize from json object', function() { 
-			var rec = new Rectangle({'prop' : 'value'}),
-				json = JsonSerializer.serializeObject(rec),
-				rec2 = JsonSerializer.deserializeObject(json);
+			var rectangle = new Rectangle(),
+				json,
+				rectangle2;
 
-			rec2.getGuid().should.equal(rec.getGuid());
-			rec2.getProperties().should.have.property('prop', 'value');
+			rectangle.setProperty('position.x', 777);
+			rectangle.setProperty('height', 333);
+			json = JsonSerializer.serializeObject(rectangle);
+			rectangle2 = JsonSerializer.deserializeObject(json);
+
+			rectangle2.getGuid().should.equal(rectangle.getGuid());
+			rectangle2.getProperty('position.x').should.equal(777);
+			rectangle2.getProperty('height').should.equal(333);
 		});
 	});
 
 	describe('Effect', function() {
 		it('Should serialize the json object', function() { 
-			var effect = new Effect({'prop' : 'value'}),
+			var effect = new Effect(),
 				json = JsonSerializer.serializeObject(effect);
 
 			json.should.have.property('type', 'Effect');
 			json.should.have.property('data');
 			json.data.should.have.keys('options', 'guid');
-			json.data.options.should.have.keys('startTick', 'endTick', 'prop');
-			json.data.options.should.have.property('prop', 'value');
+			json.data.options.should.have.keys('startTick', 'endTick');
 		});
 
 		it('Should deserialize from json object', function() { 
-			var effect = new Effect({'prop' : 'value'}),
+			var effect = new Effect(),
 				json = JsonSerializer.serializeObject(effect),
 				effect2 = JsonSerializer.deserializeObject(json);
 
 			effect2.getGuid().should.equal(effect.getGuid());
-			effect2.getOptions().should.have.property('prop', 'value');
 		});
 	});
 
@@ -124,7 +128,7 @@ describe('Serialization', function () {
 
 		it('Should deserialize from json object', function() { 
 			var mediaObject = new MediaObject(),
-				effect = new Effect({'prop' : 'value'}),
+				effect = new Effect(),
 				mediaTimeline = new MediaTimeline({'mediaObject' : mediaObject}),
 				json,
 				mediaTimeline2;
@@ -136,7 +140,6 @@ describe('Serialization', function () {
 			mediaTimeline2.getMediaObject().getGuid()
 				.should.equal(mediaObject.getGuid());
 			mediaTimeline2.getEffects().should.have.property(effect.getGuid());
-			mediaTimeline2.getEffect(effect.getGuid()).getOptions().should.have.property('prop', 'value');
 		});
 	});
 
