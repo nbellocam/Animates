@@ -28,9 +28,9 @@ function MediaObject (options, builder) {
 	 * Set the properties
 	 * @params {array} properties An array with properties: values pairs to be updated
 	 */
-	this.setProperties = function setProperties(properties) {
-		for (var propertyName in properties) {
-			properties.setValue(propertyName, properties[propertyName]);
+	this.setProperties = function setProperties(prop) {
+		for (var propertyName in prop) {
+			properties.setValue(propertyName, prop[propertyName]);
 		}
 	};
 
