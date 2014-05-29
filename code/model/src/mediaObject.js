@@ -1,6 +1,7 @@
 'use strict';
 
 var Common = require('animates-common'),
+	PropertiesArrayBuilder = require('./properties/propertiesArrayBuilder'),
 	JsonSerializer = require('./serialization/jsonSerializer');
 
 
@@ -8,17 +9,19 @@ var Common = require('animates-common'),
  *  Creates a new MediaObject
  *  @class Represents a MediaObject. 
  */
-function MediaObject (options) {
+function MediaObject (options, builder) {
 	var _self = this,
 		guid = '',
-		properties = options || {};
+		propBuilder,
+		properties;
 
 	/**
 	 * Get the properties
 	 * @return {Object} The current properties
 	 */
 	this.getProperties = function getProperties() {
-		return Common.clone(properties);
+		return properties.valuesToJSON();
+		// TODO esto no va mas
 	};
 
 	/**
@@ -27,7 +30,7 @@ function MediaObject (options) {
 	 */
 	this.setProperties = function setProperties(properties) {
 		for (var propertyName in properties) {
-			_self.setProperty(propertyName, properties[propertyName]);
+			properties.setValue(propertyName, properties[propertyName]);
 		}
 	};
 
@@ -36,21 +39,7 @@ function MediaObject (options) {
 	 * @return {Object} The property value
 	 */
 	this.getProperty = function getProperty(name) {
-		if (name){
-			var parts = name.split('.'),
-			parent = properties,
-			currentPart = '',
-			length = parts.length;
-
-			for(var i = 0; i < length && parent; i++) {
-				currentPart = parts[i];
-				parent = parent[currentPart];
-			}
-
-			return parent;
-		}
-
-		return undefined;
+		return properties.getValue(name);
 	};
 
 	/**
@@ -59,22 +48,7 @@ function MediaObject (options) {
 	 * @params {Object} value The property value
 	 */
 	this.setProperty = function setProperty(name, value) {
-		if (name){
-			var parts = name.split('.'),
-			parent = properties,
-			oldParent,
-			currentPart = '',
-			length = parts.length;
-
-			for(var i = 0; i < length; i++) {
-				currentPart = parts[i];
-				oldParent = parent;
-				oldParent[currentPart] = parent[currentPart] || {};
-				parent = oldParent[currentPart];
-			}
-
-			oldParent[currentPart] = value;
-		}
+		properties.setValue(name, value);
 	};
 
 	/**
@@ -91,7 +65,7 @@ function MediaObject (options) {
 
 	this.toJSON = function () {
 		var ser =	{
-						'properties' : JsonSerializer.serializeDictionary(properties),
+						'properties' : properties.valuesToJSON(),
 						'guid' : _self.getGuid()
 					};
 
@@ -99,7 +73,7 @@ function MediaObject (options) {
 	};
 
 	this.fromJSON = function (json) {
-		properties = json.properties;
+		properties.valuesFromJSON(json.properties);
 		guid = json.guid;
 	};
 
@@ -108,6 +82,8 @@ function MediaObject (options) {
 	 */ 
 	(function init() {
 		guid = Common.createGuid();
+		propBuilder = builder || new PropertiesArrayBuilder();
+		properties = propBuilder.create();
 	}());
 }
 

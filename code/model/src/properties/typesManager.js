@@ -1,6 +1,9 @@
 'use strict';
 
-var Type = require('./type');
+var Type = require('./type'),
+	manager;
+
+	
 
 /**
  *  Indicates vistualization options for MediaObjects properties.
@@ -32,4 +35,11 @@ function TypesManager (options) {
 	};
 }
 
-module.exports = new TypesManager();
+manager = new TypesManager();
+
+// Add default types
+// TODO add constraints, separate to a different file
+manager.registerType('integer', []);
+manager.registerType('string', []);
+
+module.exports = manager;
