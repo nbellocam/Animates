@@ -5,21 +5,21 @@
 
 var Shape = require('../shape'),
 	JsonSerializer = require('../serialization/jsonSerializer'),
+	PropertiesArrayBuilder = require('../properties/propertiesArrayBuilder'),
 	Common = require('animates-common');
 
 /**
  *  Creates a new Rectangle
  *  @class Represents a Rectangle. 
  */
-function Rectangle (options) {
+function Rectangle (options, builder) {
 	var _self = this,
-		defaultProperties = {
+		propBuilder,
+		properties,
+		defaultOptions = {
 			height : 100,
 			width : 100
-		},
-		properties = Common.extend(options || {}, defaultProperties);
-
-	this.Shape(properties); // Call base constructor
+		};
 
 	this.shape_toJSON = this.toJSON;
 	this.toJSON = function () {
@@ -35,6 +35,19 @@ function Rectangle (options) {
 	 *  Constructor
 	 */ 
 	(function init() {
+		propBuilder = builder || new PropertiesArrayBuilder();
+		options = Common.extend(options || {}, defaultOptions);
+
+		propBuilder.property('height')
+						.value(options.height)
+						.type('integer')
+					.add()
+					.property('width')
+						.value(options.width)
+						.type('integer')
+					.add();
+
+		_self.Shape(options, propBuilder); // Call base constructor
 	}());
 }
 
