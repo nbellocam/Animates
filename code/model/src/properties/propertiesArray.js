@@ -37,7 +37,7 @@ function PropertiesArray () {
 				throw new Error("Property '" + name + "' could not be found.");
 			}
 		} else {
-			throw new Error("Property '" + name + "' could not be found.");
+			throw new Error("Property '" + parts[0] + "' could not be found.");
 		}	
 	};
 
