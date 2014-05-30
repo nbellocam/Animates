@@ -1,4 +1,4 @@
-﻿.pane, .ui-layout-pane 
+﻿.pane, .ui-layout-pane
 {
 	border: 1px solid #BBB;
 	overflow:hidden;
@@ -12,6 +12,10 @@
 .ui-layout-south {
 	padding:20px;
 	overflow: auto;
+}
+
+.ui-layout-east {
+  overflow-y: auto;
 }
 
 .ui-layout-resizer

@@ -1,11 +1,11 @@
-/*global Animates */
-/*jslint node: true, todo: true, white: true, plusplus:true */
-
 'use strict';
+
+var JsonSerializer = require('../serialization/jsonSerializer');
+
 
 /**
  *  Creates a new Path.
- *  @class Represents an Path . 
+ *  @class Represents an Path .
  */
 function Path (options) {
 	options = options || {};
@@ -64,7 +64,7 @@ function Path (options) {
 		}
 
 		if (endTick <= currentTick){
-			return { 'x' : endX, 'y' : endY };		
+			return { 'x' : endX, 'y' : endY };
 		}
 
 		var ticksAmount = endTick - startTick,
@@ -74,6 +74,15 @@ function Path (options) {
 
 		return { 'x' : startX + xDelta, 'y' : startY + yDelta};
 	};
+
+  this.toJSON = function () {
+    var ser =	{
+            'startPosition' : JsonSerializer.serializeDictionary(_self.startPosition),
+            'endPosition' : JsonSerializer.serializeDictionary(_self.endPosition)
+          };
+
+    return ser;
+  };
 
 	(function init() {
 	}());

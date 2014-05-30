@@ -1,5 +1,3 @@
-/*global Animates */
-/*jslint node: true, todo: true, white: true, plusplus:true */
 'use strict';
 
 var Common = require('animates-common'),
@@ -7,16 +5,15 @@ var Common = require('animates-common'),
 	Effect = require('../effect.js');
 
 
-
 /**
  *  Creates a new MoveEffect.
- *  @class Represents an MoveEffect . 
+ *  @class Represents an MoveEffect .
  */
 function MoveEffect(options) {
 	options = options || {};
 
 	this.base(options);
-	
+
 	var _self = this;
 
 	/**
@@ -52,7 +49,7 @@ function MoveEffect(options) {
 		return mediaFrameProperties;
 	};
 
-	this.getAffectedProperties = function () 
+	this.getAffectedProperties = function ()
 	{
 		return ['position'];
 	};
@@ -62,8 +59,8 @@ function MoveEffect(options) {
 		return _self.effect_toJSON();
 	};
 
-	(function init() { 
-		
+	(function init() {
+
 	}());
 }
 
