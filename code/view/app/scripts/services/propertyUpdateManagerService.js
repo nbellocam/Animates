@@ -34,23 +34,12 @@ angular.module('animatesApp')
         }
 
         return updatedPropertiesDiff;
-      },
-      createPlainUpdatedProperties = function createPlainUpdatedProperties (updatedProperties){
-        var plainUpdatedProperties = {};
-
-        for(var propName in updatedProperties) {
-          if(updatedProperties.hasOwnProperty(propName)) {
-            plainUpdatedProperties[propName] = updatedProperties[propName].newValue;
-          }
-        }
-
-        return plainUpdatedProperties;
       };
 
     this.syncProperties = function syncProperties(mediaObjectId, updatedProperties, sender) {
       if (!isEmpty(updatedProperties)) {
         var mediaTimeline = animationService.getInstance().timeline.getMediaTimeline(mediaObjectId);
-        var newUpdatedProperties = {};
+        var newUpdatedProperties = updatedProperties;
 
         if(!localAnimationStateService.startsAtCurrentTick(mediaTimeline)) {
           var updatedPropertiesDiff = createUpdatedPropertiesDiff (updatedProperties, mediaTimeline);
@@ -58,8 +47,7 @@ angular.module('animatesApp')
         }
 
         if (!isEmpty(newUpdatedProperties)) {
-          var remainingUpdatedProperties = createPlainUpdatedProperties(newUpdatedProperties);
-          applyShapeUpdateOperation(mediaObjectId, remainingUpdatedProperties, sender);
+          applyShapeUpdateOperation(mediaObjectId, newUpdatedProperties, sender);
         }
       }
     };
