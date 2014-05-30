@@ -3,6 +3,7 @@
 angular.module('animatesApp')
 	.controller('PropertiesPanelCtrl', function PropertiesPanelCtrl($scope, $rootScope, canvasService, animationService, shapeHelper) {
 		$scope.properties = null;
+		$scope.groupProperties = null;
 
 		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation, params) {
 			var selectedShapes = canvasService.getSelectedShape(),
@@ -20,6 +21,8 @@ angular.module('animatesApp')
 
 		var animationLoadEventHandler = function animationLoadEventHandler (){
 			$scope.properties = null;
+			$scope.properiesName = null;
+			$scope.groupProperties = null;
 		};
 
 		animationService.getInstance().addUpdateObserver('PropertiesPanelCtrl', animationUpdateEventHandler);
@@ -28,6 +31,11 @@ angular.module('animatesApp')
 		$scope.empty = function () {
 			var isEmpty = ($scope.properties === null);
 			return isEmpty;
+		};
+
+		$scope.isGroup = function () {
+			var isGroup = !($scope.groupProperties === null);
+			return isGroup;
 		};
 
 		var createGroupProperties = function createGroupProperties(fabricGroup){
@@ -43,13 +51,19 @@ angular.module('animatesApp')
 		$rootScope.$on('selectedShapeChange', function (event, canvasShape){
 			if (canvasShape === null) {
 				$scope.properties = null;
+				$scope.groupProperties = null;
 			} else if (!canvasShape.isType('group')){
 				var mediaFrame = shapeHelper.getMediaFrameFromView(canvasShape);
 
-				$scope.properties = mediaFrame ? mediaFrame.properties() : null;
+				if (mediaFrame) {
+					$scope.properties = mediaFrame.getPropertiesSchema();			
+				}
+
+				$scope.groupProperties = null;
 			} else {
 
-				$scope.properties = createGroupProperties(canvasShape);
+				$scope.groupProperties = createGroupProperties(canvasShape);
+				$scope.properties = null;
 			}
 			
 			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
@@ -62,7 +76,8 @@ angular.module('animatesApp')
 
 			if (selectedShapes !== null) {
 				if (selectedShapes.isType('group') && canvasShape.isType('group')) {
-					$scope.properties = createGroupProperties(canvasShape);
+					$scope.groupProperties = createGroupProperties(canvasShape);
+					$scope.properties = null;
 					$scope.$apply();
 				}
 			}

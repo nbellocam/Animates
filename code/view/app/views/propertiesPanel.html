@@ -1,10 +1,26 @@
   <div ng-controller="PropertiesPanelCtrl" class="panel propertiesPanel">
-    <h4>Properties</h4>
-    <table class="table table-striped" ng-show="!empty()">
-      <tr ng-repeat="(key, value) in properties">
-      	<td>{{ key }}</td>
-      	<td>{{ value }}</td>
-      </tr>
-    </table>
-    <span ng-show="empty()"> No properties to display</span>
+    <div ng-show="!isGroup()">
+      <h4>Properties</h4>
+      <table class="table table-striped" ng-show="!empty()">
+        <tr ng-repeat="key in properties.names();">
+          <td>{{ key }}</td>
+          <td>
+            <animates-Property propkey="key" prop="properties.get(key)"></animates-Property>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div ng-show="isGroup()">
+      <h4>Group properties</h4>
+      <table class="table table-striped" ng-show="!empty()">
+        <tr ng-repeat="(key, value) in groupProperties">
+          <td>{{ key }}</td>
+          <td>{{ value }}</td>
+        </tr>
+      </table>
+    </div>
+    <div>
+      <span ng-show="empty()"> No properties to display</span>
+    </div>
+
   </div>

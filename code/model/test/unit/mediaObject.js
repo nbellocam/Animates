@@ -165,6 +165,29 @@ describe('MediaObject', function(){
 
 			instance.getProperty('parentPropertyName.inner').should.equal('newText');
 		});
+
+		describe('getPropertiesSchema', function () {
+			it('Should return clone of its properties', function () {
+				var propertyBuilder = new PropertiesArrayBuilder(),
+					instance,
+					schema;
+
+				propertyBuilder
+					.propertyArray('parentPropertyName')
+						.property('inner')
+							.type('string')
+							.value('text')
+						.add()
+					.add();
+
+				instance = new MediaObject({}, propertyBuilder);
+
+				schema = instance.getPropertiesSchema();		
+
+				schema.names().should.have.lengthOf(1);
+				schema.names().should.containEql('parentPropertyName.inner');
+			});
+		});
 	});
 
 	describe('Serialization', function() {

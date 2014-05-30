@@ -26,15 +26,20 @@ function Property (options) {
 		}
 	};
 
-	this.isValid = function isValid() {
-		var valid = true;
+	/**
+	 * Indicates wheter the current property or the value param is valid.
+	 * @param {object} [value=undefined] - The value to validate.
+	 */
+	this.isValid = function isValid(value) {
+		var valid = true,
+			valueToValidate = arguments.length > 0 ? value : currentOptions.value;
 		
-		if (!currentOptions.type.isValid(currentOptions.value)) {
+		if (!currentOptions.type.isValid(valueToValidate)) {
 			return false;
 		}
 
 		for (var i=0; i < currentOptions.constraints.length; i++) {
-			if (!currentOptions.constraints[i](currentOptions.value)) {
+			if (!currentOptions.constraints[i](valueToValidate)) {
 				return false;
 			}
 		}

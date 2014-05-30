@@ -16,7 +16,15 @@ function MediaObject (options, builder) {
 		properties;
 
 	/**
-	 * Get the properties
+	 * Get the properties schema with types and values
+	 * @return {Object} The current properties
+	 */
+	this.getPropertiesSchema = function getPropertiesSchema () {
+		return Common.clone(properties);
+	};
+
+	/**
+	 * Get the properties values
 	 * @return {Object} The current properties
 	 */
 	this.getProperties = function getProperties() {
@@ -25,7 +33,7 @@ function MediaObject (options, builder) {
 	};
 
 	/**
-	 * Set the properties
+	 * Set the properties values
 	 * @params {array} properties An array with properties: values pairs to be updated
 	 */
 	this.setProperties = function setProperties(prop) {

@@ -55,6 +55,12 @@ function MediaFrame (options) {
 		return undefined;
 	};
 
+	this.getPropertiesSchema = function getPropertiesSchema () {
+		var schema = currentOptions.mediaObject.getPropertiesSchema();
+		schema.valuesFromJSON(currentOptions.properties);
+		return schema;
+	};
+
 	/**
 	 * Gets the guid of the original MediaObject
 	 * @return {string} the guid
