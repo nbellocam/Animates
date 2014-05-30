@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.service('canvasService', function canvasService(shapeSync, $window, $rootScope, canvasConfig, animationService, shapeCreator, localAnimationStateService, shapeHelper) {
+	.service('canvasService', function canvasService(shapeSync, $window, $rootScope, canvasConfig, animationService, shapeCreator, localAnimationStateService, shapeHelper, propertyUpdateManagerService) {
 		var fabric = $window.fabric,
 			_self = this,
 			canvasPosition = {
@@ -11,15 +11,7 @@ angular.module('animatesApp')
 			selectedShape = null,
 			canvasInstance,
 			viewportInstance,
-			applyShapeUpdateOperation = function (mediaObjectId, updatedProperties){
-				animationService.getInstance().applyOperation('Shape', 'Update', {
-					mediaObjectId :  mediaObjectId,
-					properties: updatedProperties
-				}, {
-					sender: 'canvasService'
-				});
-			},
-			updateCanvasPosition = function updateCanvasPosition(height, width){
+			updateCanvasPosition = function updateCanvasPosition(height, width) {
 				var top = (height - canvasInstance.model.height) / 2,
 					left = (width - canvasInstance.model.width) / 2;
 
@@ -143,9 +135,9 @@ angular.module('animatesApp')
 		this.createCanvas = function createCanvas() {
 			var canvas = new fabric.Canvas('mainCanvas', canvasConfig.canvasInitialConfig);
 			canvas.model = animationService.getInstance().canvas;
-			
+
 			// TODO: Update Properties
-			
+
 			animationService.getInstance().addUpdateObserver('CanvasService', animationUpdateEventHandler);
 			animationService.getInstance().addLoadCompleteObserver('CanvasService', animationLoadEventHandler);
 
@@ -156,9 +148,7 @@ angular.module('animatesApp')
 						$rootScope.$broadcast('shapeChange', target);
 					} else {
 						var updatedProperties = shapeSync.syncFromView(target, _self.getCanvasPosition());
-						if (updatedProperties){
-							applyShapeUpdateOperation(shapeHelper.getGuidFromView(target), updatedProperties);
-						}
+						propertyUpdateManagerService.syncProperties(shapeHelper.getGuidFromView(target), updatedProperties, 'CanvasService');
 					}
 				}
 			});
@@ -173,9 +163,7 @@ angular.module('animatesApp')
 							object = allObjects[i];
 							if (object !== viewportInstance) {
 								var updatedProperties = shapeSync.syncFromView(object, _self.getCanvasPosition());
-								if (updatedProperties){
-									applyShapeUpdateOperation(object.getMediaObjectGuid(), updatedProperties);
-								}
+								propertyUpdateManagerService.syncProperties(shapeHelper.getGuidFromView(object), updatedProperties, 'CanvasService');
 							}
 						}
 					}
@@ -205,7 +193,7 @@ angular.module('animatesApp')
 
 			canvasInstance = canvas;
 		};
-		
+
 		this.getInstance = function getInstance(){
 			return canvasInstance;
 		};
@@ -223,7 +211,7 @@ angular.module('animatesApp')
 				left : canvasPosition.left,
 				top : canvasPosition.top
 			};
-			
+
 			updateCanvasPosition(height, width);
 			updateAllObjects(canvasPosition, oldCanvasPosition);
 
@@ -236,7 +224,7 @@ angular.module('animatesApp')
 		this.add = function add(element){
 			canvasInstance.add(element);
 		};
-		
+
 		this.remove = function remove(element){
 			canvasInstance.remove(element);
 		};

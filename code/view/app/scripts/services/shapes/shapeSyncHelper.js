@@ -22,21 +22,12 @@ angular.module('animatesApp')
 			},
 
 			syncVisualMediaObjectFromView = function syncVisualMediaObjectFromView(viewObject, canvasPosition) {
-				var diff = {};
+				var diff = {},
+					mediaObject = shapeHelper.getMediaObjectFromView(viewObject);
 
-				var mediaTimeline = shapeHelper.getMediaTimelineFromView(viewObject);
-				if (mediaTimeline) {
-					if (startsAtCurrentTick(mediaTimeline)) {
-						var mediaObject = mediaTimeline.getMediaObject();
-
-						syncModelProperty(viewObject.angle, mediaObject, 'angle', diff);
-						syncModelProperty(viewObject.left - canvasPosition.left, mediaObject, 'position.x', diff);
-						syncModelProperty(viewObject.top - canvasPosition.top, mediaObject, 'position.y', diff);
-					} else {
-						effectCreator.addMoveEffectIfRequired(shapeHelper.getMediaFrameFromView(viewObject), viewObject, canvasPosition, mediaTimeline);
-						// TODO: rotate effect if angle's property changed
-					}
-				}
+				syncModelProperty(viewObject.angle, mediaObject, 'angle', diff);
+				syncModelProperty(viewObject.left - canvasPosition.left, mediaObject, 'position.x', diff);
+				syncModelProperty(viewObject.top - canvasPosition.top, mediaObject, 'position.y', diff);
 
 				return diff;
 			},

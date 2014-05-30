@@ -21,16 +21,10 @@ angular.module('animatesApp')
 
 		function syncFromView(viewObject, canvasPosition){
 			var diff = shapeSyncHelper.syncVisualMediaObjectFromView(viewObject, canvasPosition),
-				mediaTimeline = shapeHelper.getMediaTimelineFromView(viewObject);
+				mediaObject = shapeHelper.getMediaObjectFromView(viewObject);
 
-			if (shapeSyncHelper.startsAtCurrentTick(mediaTimeline)) {
-				var mediaObject = mediaTimeline.getMediaObject();
-
-				shapeSyncHelper.syncModelProperty(viewObject.currentHeight || viewObject.height, mediaObject, 'height', diff);
-				shapeSyncHelper.syncModelProperty(viewObject.currentWidth || viewObject.width, mediaObject, 'width', diff);
-			} else {
-				// TODO: scale effect if properties changed
-			}
+			shapeSyncHelper.syncModelProperty(viewObject.currentHeight || viewObject.height, mediaObject, 'height', diff);
+			shapeSyncHelper.syncModelProperty(viewObject.currentWidth || viewObject.width, mediaObject, 'width', diff);
 
 			return diff;
 		};
