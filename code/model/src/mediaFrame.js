@@ -57,7 +57,7 @@ function MediaFrame (options) {
 
 	this.getPropertiesSchema = function getPropertiesSchema () {
 		var schema = currentOptions.mediaObject.getPropertiesSchema();
-		schema.valuesFromJSON(currentOptions.properties);
+		schema.valuesFromJSON(currentProperties);
 		return schema;
 	};
 
