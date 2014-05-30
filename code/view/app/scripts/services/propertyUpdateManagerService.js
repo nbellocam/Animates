@@ -34,6 +34,17 @@ angular.module('animatesApp')
         }
 
         return updatedPropertiesDiff;
+      },
+      createPlainUpdatedProperties = function createPlainUpdatedProperties (updatedProperties){
+        var plainUpdatedProperties = {};
+
+        for(var propName in updatedProperties) {
+          if(updatedProperties.hasOwnProperty(propName)) {
+            plainUpdatedProperties[propName] = updatedProperties[propName].newValue;
+          }
+        }
+
+        return plainUpdatedProperties;
       };
 
     this.syncProperties = function syncProperties(mediaObjectId, updatedProperties, sender) {
@@ -47,7 +58,8 @@ angular.module('animatesApp')
         }
 
         if (!isEmpty(newUpdatedProperties)) {
-          applyShapeUpdateOperation(mediaObjectId, updatedProperties, sender);
+          var remainingUpdatedProperties = createPlainUpdatedProperties(newUpdatedProperties);
+          applyShapeUpdateOperation(mediaObjectId, remainingUpdatedProperties, sender);
         }
       }
     };
