@@ -30,7 +30,7 @@ function Sound (options, builder) {
 					.add()
 					.property('source')
 						.value(options.source)
-						.type('integer')
+						.type('string')
 					.add();
 
 		_self.MediaObject(options, propBuilder); // Call base constructor

@@ -37,9 +37,19 @@ function TypesManager (options) {
 
 manager = new TypesManager();
 
+function isInteger(value) {
+    var n = ~~Number(value);
+    return String(n) === value.toString();
+}
+
+function isFloat(value) {
+	return !isNaN(value);
+}
+
 // Add default types
 // TODO add constraints, separate to a different file
-manager.registerType('integer', []);
+manager.registerType('integer', [ isInteger ]);
+manager.registerType('float', [ isFloat ]);
 manager.registerType('string', []);
 manager.registerType('color', []);
 

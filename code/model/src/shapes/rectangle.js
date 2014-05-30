@@ -40,11 +40,13 @@ function Rectangle (options, builder) {
 
 		propBuilder.property('height')
 						.value(options.height)
-						.type('integer')
+						.type('float')
+						.constraint(function (val) { return (val >= 0); })
 					.add()
 					.property('width')
 						.value(options.width)
-						.type('integer')
+						.type('float')
+						.constraint(function (val) { return (val >= 0); })
 					.add();
 
 		_self.Shape(options, propBuilder); // Call base constructor
