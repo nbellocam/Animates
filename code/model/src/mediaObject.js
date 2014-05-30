@@ -1,7 +1,7 @@
 'use strict';
 
 var Common = require('animates-common'),
-	PropertiesArrayBuilder = require('./properties/propertiesArrayBuilder'),
+	CompositePropertyBuilder = require('./properties/compositePropertyBuilder'),
 	JsonSerializer = require('./serialization/jsonSerializer');
 
 
@@ -90,7 +90,7 @@ function MediaObject (options, builder) {
 	 */ 
 	(function init() {
 		guid = Common.createGuid();
-		propBuilder = builder || new PropertiesArrayBuilder();
+		propBuilder = builder || new CompositePropertyBuilder();
 		properties = propBuilder.create();
 	}());
 }

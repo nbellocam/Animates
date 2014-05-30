@@ -1,7 +1,7 @@
 'use strict';
 
 
-function PropertiesArray () {
+function CompositeProperty () {
 	var properties = {},
 		_self = this;
 
@@ -97,4 +97,4 @@ function PropertiesArray () {
 	};
 }
 
-module.exports = PropertiesArray;
+module.exports = CompositeProperty;

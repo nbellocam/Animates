@@ -1,16 +1,16 @@
 'use strict';
 
 var PropertyBuilder = require('./propertyBuilder'),
-	PropertiesArray = require('./propertiesArray');
+	CompositeProperty = require('./compositeProperty');
 
 /**
  *  Builds custom properties with specified types and constraints
- *  @class Represents an PropertiesArrayBuilder. 
+ *  @class Represents an CompositePropertyBuilder. 
  */
-function PropertiesArrayBuilder () {
+function CompositePropertyBuilder () {
 	var _self = this,
 		name = '',
-		properties = new PropertiesArray();
+		properties = new CompositeProperty();
 
 	this.name = function (arrayName) {
 		name = arrayName;
@@ -30,7 +30,7 @@ function PropertiesArrayBuilder () {
 	};
 
 	this.propertyArray = function (name) {
-		var currentPropertyArrayBuilder = new PropertiesArrayBuilder();
+		var currentPropertyArrayBuilder = new CompositePropertyBuilder();
 
 		currentPropertyArrayBuilder.add = function () {
 			properties.add(name, currentPropertyArrayBuilder.create());
@@ -45,4 +45,4 @@ function PropertiesArrayBuilder () {
 	};
 }
 
-module.exports = PropertiesArrayBuilder;
+module.exports = CompositePropertyBuilder;

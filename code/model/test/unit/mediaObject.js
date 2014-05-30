@@ -3,7 +3,7 @@
 'use strict';
 
 var MediaObject = require('../../src/mediaObject'),
-	PropertiesArrayBuilder = require('../../src/properties/propertiesArrayBuilder'),
+	CompositePropertyBuilder = require('../../src/properties/compositePropertyBuilder'),
 	should = require("should");
 
 describe('MediaObject', function(){
@@ -51,7 +51,7 @@ describe('MediaObject', function(){
 		});
 
 		it('Should throw an error if inner property is empty.', function(){
-			var propertyBuilder = new PropertiesArrayBuilder(),
+			var propertyBuilder = new CompositePropertyBuilder(),
 				instance;
 
 			propertyBuilder
@@ -70,7 +70,7 @@ describe('MediaObject', function(){
 		});
 
 		it('Should return the property if it exits.', function(){
-			var propertyBuilder = new PropertiesArrayBuilder(),
+			var propertyBuilder = new CompositePropertyBuilder(),
 				instance;
 
 			propertyBuilder
@@ -85,7 +85,7 @@ describe('MediaObject', function(){
 		});
 
 		it('Should return the inner property if it exits.', function(){
-			var propertyBuilder = new PropertiesArrayBuilder(),
+			var propertyBuilder = new CompositePropertyBuilder(),
 				instance;
 
 			propertyBuilder
@@ -112,7 +112,7 @@ describe('MediaObject', function(){
 		});
 
 		it('Should update a property if it already exits.', function(){
-			var propertyBuilder = new PropertiesArrayBuilder(),
+			var propertyBuilder = new CompositePropertyBuilder(),
 				instance;
 
 			propertyBuilder
@@ -129,7 +129,7 @@ describe('MediaObject', function(){
 		});
 
 		it('Should throw an exception if the property does not exits.', function(){
-			var propertyBuilder = new PropertiesArrayBuilder(),
+			var propertyBuilder = new CompositePropertyBuilder(),
 				instance;
 
 			propertyBuilder
@@ -146,7 +146,7 @@ describe('MediaObject', function(){
 		});
 
 		it('Should update a inner property if it already exits.', function(){
-			var propertyBuilder = new PropertiesArrayBuilder(),
+			var propertyBuilder = new CompositePropertyBuilder(),
 				instance;
 
 			propertyBuilder
@@ -168,7 +168,7 @@ describe('MediaObject', function(){
 
 		describe('getPropertiesSchema', function () {
 			it('Should return clone of its properties', function () {
-				var propertyBuilder = new PropertiesArrayBuilder(),
+				var propertyBuilder = new CompositePropertyBuilder(),
 					instance,
 					schema;
 
@@ -192,7 +192,7 @@ describe('MediaObject', function(){
 
 	describe('Serialization', function() {
 		it('toJSON should return json', function() { 
-			var propertyBuilder = new PropertiesArrayBuilder(),
+			var propertyBuilder = new CompositePropertyBuilder(),
 				mediaObject,
 				json;
 
@@ -211,8 +211,8 @@ describe('MediaObject', function(){
 		});
 
 		it('fromJSON should load the object', function() { 
-			var propertyBuilder = new PropertiesArrayBuilder(),
-				propertyBuilder2 = new PropertiesArrayBuilder(),
+			var propertyBuilder = new CompositePropertyBuilder(),
+				propertyBuilder2 = new CompositePropertyBuilder(),
 				mediaObject,
 				json,
 				mediaObject2;

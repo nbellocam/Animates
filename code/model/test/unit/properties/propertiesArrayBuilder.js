@@ -3,16 +3,16 @@
 'use strict';
 
 var Property = require('../../../src/properties/property'),
-	PropertiesArrayBuilder = require('../../../src/properties/propertiesArrayBuilder'),
+	CompositePropertyBuilder = require('../../../src/properties/compositePropertyBuilder'),
 	TypesManager = require('../../../src/properties/typesManager'),
 	should = require("should");
 
-describe('PropertiesArrayBuilder', function() {
+describe('CompositePropertyBuilder', function() {
 
 	TypesManager.registerType('custom', []);
 
 	it('Should throw error due to an invalid value', function () {
-		var propBuilder = new PropertiesArrayBuilder();
+		var propBuilder = new CompositePropertyBuilder();
 
 		(function () {
 			var properties = propBuilder
@@ -26,7 +26,7 @@ describe('PropertiesArrayBuilder', function() {
 	});
 
 	it('Should return an array with only one property', function () {
-		var propBuilder = new PropertiesArrayBuilder(),
+		var propBuilder = new CompositePropertyBuilder(),
 			properties =	propBuilder
 								.property('name')
 									.type('custom')
@@ -39,7 +39,7 @@ describe('PropertiesArrayBuilder', function() {
 	});
 
 	it('Should accept building sub-properties', function () {
-		var propBuilder = new PropertiesArrayBuilder(),
+		var propBuilder = new CompositePropertyBuilder(),
 			properties =	propBuilder
 								.property('name')
 									.type('custom')
@@ -65,7 +65,7 @@ describe('PropertiesArrayBuilder', function() {
 	});
 
 	it('Should throw an error with inexistent properties', function () {
-		var propBuilder = new PropertiesArrayBuilder(),
+		var propBuilder = new CompositePropertyBuilder(),
 			properties =	propBuilder
 								.property('name')
 									.type('custom')
@@ -97,7 +97,7 @@ describe('PropertiesArrayBuilder', function() {
 	});
 
 	it('Should set properties and sub-properties values', function () {
-		var propBuilder = new PropertiesArrayBuilder(),
+		var propBuilder = new CompositePropertyBuilder(),
 			properties =	propBuilder
 								.property('name')
 									.type('custom')

@@ -1,7 +1,7 @@
 'use strict';
 
 var MediaObject = require('./mediaObject'),
-	PropertiesArrayBuilder = require('./properties/propertiesArrayBuilder'),
+	CompositePropertyBuilder = require('./properties/compositePropertyBuilder'),
 	Common = require('animates-common');
 
 /**
@@ -21,7 +21,7 @@ function Sound (options, builder) {
 	 *  Constructor
 	 */ 
 	(function init() {
-		propBuilder = builder || new PropertiesArrayBuilder();
+		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
 
 		propBuilder.property('volume')

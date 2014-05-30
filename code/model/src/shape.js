@@ -2,7 +2,7 @@
 
 var VisualMediaObject = require('./visualMediaObject'),
 	JsonSerializer = require('./serialization/jsonSerializer'),
-	PropertiesArrayBuilder = require('./properties/propertiesArrayBuilder'),
+	CompositePropertyBuilder = require('./properties/compositePropertyBuilder'),
 	Common = require('animates-common');
 
 /**
@@ -29,7 +29,7 @@ function Shape (options, builder) {
 	 *  Constructor
 	 */ 
 	(function init() {
-		propBuilder = builder || new PropertiesArrayBuilder();
+		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
 
 		_self.VisualMediaObject(options, propBuilder); // Call base constructor

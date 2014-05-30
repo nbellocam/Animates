@@ -50,6 +50,10 @@ function Property (options) {
 	this.parse = function parse (value) {
 		currentOptions.value = currentOptions.type.parse(value);
 	};
+
+	this.type = function type () {
+		Common.clone(currentOptions.type);
+	};
 }
 
 JsonSerializer.registerType(Property);

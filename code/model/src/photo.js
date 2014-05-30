@@ -4,7 +4,7 @@
 'use strict';
 
 var VisualMediaObject = require('./visualMediaObject'),
-	PropertiesArrayBuilder = require('./properties/propertiesArrayBuilder'),
+	CompositePropertyBuilder = require('./properties/compositePropertyBuilder'),
 	Common = require('animates-common');
 
 /**
@@ -27,7 +27,7 @@ function Photo (options, builder) {
 	 *  Constructor
 	 */ 
 	(function init() {
-		propBuilder = builder || new PropertiesArrayBuilder();
+		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
 
 		propBuilder.property('source')

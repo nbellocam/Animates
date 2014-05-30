@@ -3,12 +3,12 @@
 'use strict';
 
 var Property = require('../../../src/properties/property'),
-	PropertiesArray = require('../../../src/properties/propertiesArray'),
-	PropertiesArrayBuilder = require('../../../src/properties/propertiesArrayBuilder'),
+	CompositeProperty = require('../../../src/properties/compositeProperty'),
+	CompositePropertyBuilder = require('../../../src/properties/compositePropertyBuilder'),
 	TypesManager = require('../../../src/properties/typesManager'),
 	should = require("should");
 
-describe('PropertiesArrayBuilder', function() {
+describe('CompositePropertyBuilder', function() {
 	var propertyOptions = 
 				{
 					'type' : 'custom',
@@ -26,8 +26,8 @@ describe('PropertiesArrayBuilder', function() {
 
 
 	it('Should get properties and sub-properties values', function () {
-		var properties = new PropertiesArray(),
-			compositeProperty = new PropertiesArray();
+		var properties = new CompositeProperty(),
+			compositeProperty = new CompositeProperty();
 
 
 		compositeProperty.add('sub-prop1', new Property(subPropertyOptions));
@@ -39,8 +39,8 @@ describe('PropertiesArrayBuilder', function() {
 	});
 
 	it('Should set properties and sub-properties values', function () {
-		var properties = new PropertiesArray(),
-			compositeProperty = new PropertiesArray();
+		var properties = new CompositeProperty(),
+			compositeProperty = new CompositeProperty();
 
 
 		compositeProperty.add('sub-prop1', new Property(subPropertyOptions));
@@ -58,8 +58,8 @@ describe('PropertiesArrayBuilder', function() {
 	});
 
 	it('Should build json object from values', function () {
-		var properties = new PropertiesArray(),
-			compositeProperty = new PropertiesArray(),
+		var properties = new CompositeProperty(),
+			compositeProperty = new CompositeProperty(),
 			json;
 
 
@@ -74,8 +74,8 @@ describe('PropertiesArrayBuilder', function() {
 	});
 
 	it('Should build values from json object', function () {
-		var properties = new PropertiesArray(),
-			compositeProperty = new PropertiesArray(),
+		var properties = new CompositeProperty(),
+			compositeProperty = new CompositeProperty(),
 			json = { property1: 'jsonVal', property2: { 'sub-prop1': 'jsonSubVal' } };
 
 

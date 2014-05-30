@@ -22,7 +22,7 @@ angular.module('animatesApp')
 					if (oldValue !== newValue) {
 						if ($scope.prop.isValid(newValue)) {
 							$scope.prop.parse(newValue);
-							$scope.updatehandler( { 'key' : $scope.propkey, 'value':  $scope.prop.value()});
+							$scope.updatehandler( { 'key' : $scope.propkey, 'value':  $scope.prop.value() });
 						} else {
 							event.target.style.color = 'red';
 						}
