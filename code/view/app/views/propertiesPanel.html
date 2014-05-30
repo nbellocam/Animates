@@ -5,7 +5,7 @@
         <tr ng-repeat="key in properties.names();">
           <td>{{ key }}</td>
           <td>
-            <animates-Property propkey="key" prop="properties.get(key)"></animates-Property>
+            <animates-Property propkey="key" prop="properties.get(key)" updatehandler="onUpdate(key, value)"></animates-Property>
           </td>
         </tr>
       </table>

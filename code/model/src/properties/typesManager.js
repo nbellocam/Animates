@@ -14,13 +14,14 @@ function TypesManager (options) {
 	var _self = this,
 		types = {};
 
-	this.registerType = function registerType (name, constraints, parent) {
+	this.registerType = function registerType (name, constraints, parse, parent) {
 		var options,
 			type;
 
 		options = {
 			'name' : name,
-			'constraints' : constraints
+			'constraints' : constraints,
+			'parse': parse
 		};
 
 		if (parent && types[parent]) {
@@ -38,7 +39,7 @@ function TypesManager (options) {
 manager = new TypesManager();
 
 function isInteger(value) {
-    var n = ~~Number(value);
+    var n = parseNumber(value);
     return String(n) === value.toString();
 }
 
@@ -46,10 +47,14 @@ function isFloat(value) {
 	return !isNaN(value);
 }
 
+function parseNumber(value) {
+	return ~~Number(value);
+}
+
 // Add default types
 // TODO add constraints, separate to a different file
-manager.registerType('integer', [ isInteger ]);
-manager.registerType('float', [ isFloat ]);
+manager.registerType('integer', [ isInteger ], parseNumber);
+manager.registerType('float', [ isFloat ], parseNumber);
 manager.registerType('string', []);
 manager.registerType('color', []);
 

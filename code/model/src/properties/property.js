@@ -46,6 +46,10 @@ function Property (options) {
 
 		return valid;
 	};
+
+	this.parse = function parse (value) {
+		currentOptions.value = currentOptions.type.parse(value);
+	};
 }
 
 JsonSerializer.registerType(Property);

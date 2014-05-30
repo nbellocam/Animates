@@ -22,7 +22,7 @@ describe('PropertyBuilder', function() {
 
 	TypesManager.registerType('custom', []);
 	TypesManager.registerType('stringA', [ constraintStringA ]);
-	TypesManager.registerType('stringB', [ constraintStringB ], 'stringA');
+	TypesManager.registerType('stringB', [ constraintStringB ], function (val) { return val; }, 'stringA');
 
 	it('Should throw error due to missing type', function () {
 		var propBuilder = new PropertyBuilder(),

@@ -6,7 +6,8 @@ angular.module('animatesApp')
 			restrict: 'E',
 			scope: {
 				propkey: '=',
-				prop: '='
+				prop: '=',
+				updatehandler: '&'
 			},
 			template: '<input type="" value="{{ prop.value() }}" id="property.{{ propkey }}" ng-blur="propertyBlur($event)"></input>',
 			controller: function($scope) {
@@ -20,6 +21,8 @@ angular.module('animatesApp')
 
 					if (oldValue !== newValue) {
 						if ($scope.prop.isValid(newValue)) {
+							$scope.prop.parse(newValue);
+							$scope.updatehandler( { 'key' : $scope.propkey, 'value':  $scope.prop.value()});
 						} else {
 							event.target.style.color = 'red';
 						}

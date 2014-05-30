@@ -10,7 +10,8 @@ function Type (options) {
 	var defaultOptions = {
 		'name' : '',
 		'constraints' : [],
-		'parentType' : null
+		'parentType' : null,
+		'parse': function (value) { return value; }
 	}, 
 	currentOptions;
 
@@ -34,6 +35,10 @@ function Type (options) {
 		}
 
 		return valid;
+	};
+
+	this.parse = function parse (value) {
+		return currentOptions.parse(value);
 	};
 
 	/**

@@ -15,7 +15,7 @@ angular.module('animatesApp')
 					var mediaFrame = shapeHelper.getMediaFrameFromView(selectedShapes);
 
 					$scope.properties = mediaFrame ? mediaFrame.getPropertiesSchema() : null;
-					$scope.$apply();
+					//$scope.$apply();
 				}
 			}
 		};
