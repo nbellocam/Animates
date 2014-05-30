@@ -20,11 +20,13 @@ angular.module('animatesApp')
 					});
 				};
 
-		var addMoveEffectIfRequired = function addMoveEffectIfRequired(updatedPropertiesDiff, mediaTimeline){
-			var posXStart = updatedPropertiesDiff['position.x'].oldValue,
-				posYStart = updatedPropertiesDiff['position.y'].oldValue,
-				posXEnd = updatedPropertiesDiff['position.x'].newValue,
-				posYEnd = updatedPropertiesDiff['position.y'].newValue,
+		var addMoveEffectIfRequired = function addMoveEffectIfRequired(updatedPropertiesDiff, originalProperties, mediaTimeline){
+			var positionX = updatedPropertiesDiff['position.x'],
+				positionY = updatedPropertiesDiff['position.y'],
+				posXStart = (positionX) ? positionX.oldValue : originalProperties['position.x'],
+				posYStart = (positionY) ? positionY.oldValue : originalProperties['position.y'],
+				posXEnd = (positionX) ? positionX.newValue : originalProperties['position.x'],
+				posYEnd = (positionY) ? positionY.newValue : originalProperties['position.y'],
 				currentEffects = null,
 				path = null,
 				moveEffect = null;
@@ -107,8 +109,8 @@ angular.module('animatesApp')
 		};
 
 		return {
-			addAndUpdateEffects : function addAndUpdateEffects(updatedPropertiesDiff, mediaTimeline) {
-				addMoveEffectIfRequired(updatedPropertiesDiff, mediaTimeline);
+			addAndUpdateEffects : function addAndUpdateEffects(updatedPropertiesDiff, originalProperties, mediaTimeline) {
+				addMoveEffectIfRequired(updatedPropertiesDiff, originalProperties, mediaTimeline);
 				return {};
 			}
 		};
