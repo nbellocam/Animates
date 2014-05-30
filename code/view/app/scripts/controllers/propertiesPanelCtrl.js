@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('PropertiesPanelCtrl', function PropertiesPanelCtrl($scope, $rootScope, canvasService, animationService, shapeHelper) {
+	.controller('PropertiesPanelCtrl', function PropertiesPanelCtrl($scope, $rootScope, canvasService, animationService, propertyUpdateManagerService, shapeHelper) {
 		$scope.properties = null;
 		$scope.groupProperties = null;
+		$scope.mediaObjectId = null;
 
 		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation, params) {
 			var selectedShapes = canvasService.getSelectedShape(),
@@ -13,7 +14,7 @@ angular.module('animatesApp')
 				if (shapeHelper.getGuidFromView(selectedShapes) === mediaObjectId) {
 					var mediaFrame = shapeHelper.getMediaFrameFromView(selectedShapes);
 
-					$scope.properties = mediaFrame ? mediaFrame.properties() : null;
+					$scope.properties = mediaFrame ? mediaFrame.getPropertiesSchema() : null;
 					$scope.$apply();
 				}
 			}
@@ -23,6 +24,7 @@ angular.module('animatesApp')
 			$scope.properties = null;
 			$scope.properiesName = null;
 			$scope.groupProperties = null;
+			$scope.mediaObjectId = null;
 		};
 
 		animationService.getInstance().addUpdateObserver('PropertiesPanelCtrl', animationUpdateEventHandler);
@@ -34,8 +36,15 @@ angular.module('animatesApp')
 		};
 
 		$scope.isGroup = function () {
-			var isGroup = !($scope.groupProperties === null);
+			var isGroup = ($scope.groupProperties !== null);
 			return isGroup;
+		};
+
+		$scope.onUpdate = function (key, newValue) {
+			var values = {};
+			
+			values[key] = newValue;
+			propertyUpdateManagerService.syncProperties($scope.mediaObjectId, values, 'PropertiesPanelCtrl');
 		};
 
 		var createGroupProperties = function createGroupProperties(fabricGroup){
@@ -52,11 +61,13 @@ angular.module('animatesApp')
 			if (canvasShape === null) {
 				$scope.properties = null;
 				$scope.groupProperties = null;
+				$scope.mediaObjectId = null;
 			} else if (!canvasShape.isType('group')){
 				var mediaFrame = shapeHelper.getMediaFrameFromView(canvasShape);
 
 				if (mediaFrame) {
-					$scope.properties = mediaFrame.getPropertiesSchema();			
+					$scope.properties = mediaFrame.getPropertiesSchema();
+					$scope.mediaObjectId = shapeHelper.getGuidFromView(canvasShape);
 				}
 
 				$scope.groupProperties = null;
@@ -64,6 +75,7 @@ angular.module('animatesApp')
 
 				$scope.groupProperties = createGroupProperties(canvasShape);
 				$scope.properties = null;
+				$scope.mediaObjectId = null;
 			}
 			
 			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
