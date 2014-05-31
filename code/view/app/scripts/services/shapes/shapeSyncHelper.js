@@ -2,11 +2,13 @@
 
 angular.module('animatesApp')
 	.factory('shapeSyncHelper', function shapeSyncHelper($window, effectCreator, animationService, localAnimationStateService, shapeHelper) {
-		var syncModelProperty = function syncModelProperty(fabricValue, model, propertyName, diff) {
-				var modelProperty = model.getProperty(propertyName);
+		var syncModelProperty = function syncModelProperty(fabricValue, model, propertyName, diff, round) {
+				var modelProperty = model.getProperty(propertyName),
+					value = (round) ? $window.Math.round(fabricValue) : fabricValue;
 
-				if (fabricValue !== modelProperty){
-					diff[propertyName] = fabricValue;
+				modelProperty = (round) ? $window.Math.round(modelProperty) : modelProperty;
+				if (value !== modelProperty){
+					diff[propertyName] = value;
 				}
 			},
 			syncViewProperty = function syncViewProperty(modelValue, viewObject, propertyName) {
@@ -25,9 +27,9 @@ angular.module('animatesApp')
 				var diff = {},
 					mediaObject = shapeHelper.getMediaObjectFromView(viewObject);
 
-				syncModelProperty(viewObject.angle, mediaObject, 'angle', diff);
-				syncModelProperty(viewObject.left - canvasPosition.left, mediaObject, 'position.x', diff);
-				syncModelProperty(viewObject.top - canvasPosition.top, mediaObject, 'position.y', diff);
+				syncModelProperty(viewObject.angle, mediaObject, 'angle', diff, true);
+				syncModelProperty(viewObject.left - canvasPosition.left, mediaObject, 'position.x', diff, true);
+				syncModelProperty(viewObject.top - canvasPosition.top, mediaObject, 'position.y', diff, true);
 
 				return diff;
 			},
