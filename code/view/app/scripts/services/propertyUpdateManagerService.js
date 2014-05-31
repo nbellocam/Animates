@@ -43,9 +43,9 @@ angular.module('animatesApp')
 
         if(!localAnimationStateService.startsAtCurrentTick(mediaTimeline)) {
           var updatedPropertiesDiff = createUpdatedPropertiesDiff (updatedProperties, mediaTimeline),
-            mediaFrame = mediaTimeline.getMediaFrameFor(localAnimationStateService.getCurrentTick()),
+            mediaFrame = mediaTimeline.getMediaFrameFor(localAnimationStateService.getCurrentTick());
 
-          newUpdatedProperties = effectCreator.addAndUpdateEffects(updatedPropertiesDiff, mediaFrame.properties(), mediaTimeline);
+          newUpdatedProperties = effectCreator.addAndUpdateEffects(updatedPropertiesDiff, mediaFrame.properties(), mediaTimeline, sender);
         }
 
         if (!isEmpty(newUpdatedProperties)) {

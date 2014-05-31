@@ -79,7 +79,7 @@ angular.module('animatesApp')
 			animationUpdateEventHandler = function animationUpdateEventHandler(target, operation, params, context) {
 				var allObjects, object, i;
 
-				if (context.sender !== 'canvasService') {
+				if (context.sender !== 'CanvasService') {
 					if (target === 'Shape') {
 						switch (operation){
 							case 'Create':

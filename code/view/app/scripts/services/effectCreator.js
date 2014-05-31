@@ -2,31 +2,31 @@
 
 angular.module('animatesApp')
 	.factory('effectCreator', function effectCreator(localAnimationStateService, animationService) {
-		var applyEffectCreationOperation = function applyEffectCreationOperation (mediaObjectId, effect){
+		var applyEffectCreationOperation = function applyEffectCreationOperation (mediaObjectId, effect, sender){
 					animationService.getInstance().applyOperation('Effect', 'Create', {
 						mediaObjectId: mediaObjectId,
 						effect: effect
 					}, {
-						sender: 'effectCreator'
+						sender: sender
 					});
 				},
-				applyEffectUpdateOperation = function applyEffectUpdateOperation (mediaObjectId, effectId, options){
+				applyEffectUpdateOperation = function applyEffectUpdateOperation (mediaObjectId, effectId, options, sender){
 					animationService.getInstance().applyOperation('Effect', 'Update', {
 						mediaObjectId: mediaObjectId,
 						effectId: effectId,
 						options: options
 					}, {
-						sender: 'effectCreator'
+						sender: sender
 					});
 				};
 
-		var addMoveEffectIfRequired = function addMoveEffectIfRequired(updatedPropertiesDiff, originalProperties, mediaTimeline){
+		var addMoveEffectIfRequired = function addMoveEffectIfRequired(updatedPropertiesDiff, originalProperties, mediaTimeline, sender){
 			var positionX = updatedPropertiesDiff['position.x'],
 				positionY = updatedPropertiesDiff['position.y'],
-				posXStart = (positionX) ? positionX.oldValue : originalProperties['position.x'],
-				posYStart = (positionY) ? positionY.oldValue : originalProperties['position.y'],
-				posXEnd = (positionX) ? positionX.newValue : originalProperties['position.x'],
-				posYEnd = (positionY) ? positionY.newValue : originalProperties['position.y'],
+				posXStart = (positionX) ? positionX.oldValue : originalProperties.position.x,
+				posYStart = (positionY) ? positionY.oldValue : originalProperties.position.y,
+				posXEnd = (positionX) ? positionX.newValue : originalProperties.position.x,
+				posYEnd = (positionY) ? positionY.newValue : originalProperties.position.y,
 				currentEffects = null,
 				path = null,
 				moveEffect = null;
@@ -98,20 +98,37 @@ angular.module('animatesApp')
 						};
 					}
 
-					applyEffectUpdateOperation(mediaObjectId, effectToSplit.getGuid(), effectToSplitOptions);
+					applyEffectUpdateOperation(mediaObjectId, effectToSplit.getGuid(), effectToSplitOptions, sender);
 				}
 
 				if (addNewEffect){
 					moveEffect.setOption('startTick', mediaTimeline.getStartTickFor(moveEffect, moveEffect.getOption('endTick')));
-					applyEffectCreationOperation(mediaObjectId, moveEffect);
+					applyEffectCreationOperation(mediaObjectId, moveEffect, sender);
 				}
+			}
+
+			if (updatedPropertiesDiff['position.x']) {
+				delete updatedPropertiesDiff['position.x'];
+			}
+
+			if (updatedPropertiesDiff['position.y']) {
+				delete updatedPropertiesDiff['position.y'];
 			}
 		};
 
 		return {
-			addAndUpdateEffects : function addAndUpdateEffects(updatedPropertiesDiff, originalProperties, mediaTimeline) {
-				addMoveEffectIfRequired(updatedPropertiesDiff, originalProperties, mediaTimeline);
-				return {};
+			addAndUpdateEffects : function addAndUpdateEffects(updatedPropertiesDiff, originalProperties, mediaTimeline, sender) {
+				addMoveEffectIfRequired(updatedPropertiesDiff, originalProperties, mediaTimeline, sender);
+
+				var newUpdatedProperties = {};
+
+				for(var propName in updatedPropertiesDiff) {
+					if(updatedPropertiesDiff.hasOwnProperty(propName)) {
+						newUpdatedProperties[propName] = updatedPropertiesDiff[propName].newValue;
+					}
+				}
+
+				return newUpdatedProperties;
 			}
 		};
 	});
