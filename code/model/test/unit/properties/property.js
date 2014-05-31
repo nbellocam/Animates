@@ -54,4 +54,29 @@ describe('Property', function() {
 
 		prop.isValid().should.be.ok;
 	});
+
+	it('Should create a clone', function () {
+		var trueConstraint = function (val) { return true; },
+			prop = new Property({ type: mockType, constraints : [trueConstraint, trueConstraint] }),
+			propClone;
+
+		prop.value('originalValue');
+
+		propClone = prop.clone();
+
+		prop.value().should.equal('originalValue');
+		propClone.value().should.equal('originalValue');
+
+		prop.value('newValue');
+
+		prop.value().should.equal('newValue');
+		propClone.value().should.equal('originalValue');
+
+		propClone.value('newClonedValue');
+
+		prop.value().should.equal('newValue');
+		propClone.value().should.equal('newClonedValue');
+
+		prop.isValid().should.be.ok;
+	});
 });

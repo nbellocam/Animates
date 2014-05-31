@@ -20,7 +20,7 @@ function MediaObject (options, builder) {
 	 * @return {Object} The current properties
 	 */
 	this.getPropertiesSchema = function getPropertiesSchema () {
-		return Common.clone(properties);
+		return properties.clone();
 	};
 
 	/**

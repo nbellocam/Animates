@@ -54,6 +54,13 @@ function Property (options) {
 	this.type = function type () {
 		Common.clone(currentOptions.type);
 	};
+
+	this.clone = function clone() {
+		var newPropOp = Common.clone(currentOptions),
+			newProp = new Property(newPropOp);
+
+		return newProp;
+	};
 }
 
 JsonSerializer.registerType(Property);
