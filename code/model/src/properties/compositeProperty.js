@@ -95,6 +95,16 @@ function CompositeProperty () {
 
 		return json;
 	};
+
+	this.clone = function clone() {
+		var newProp = new CompositeProperty();
+
+		for (var prop in properties) {
+			newProp.add(prop, properties[prop].clone());
+		}
+
+		return newProp;
+	};
 }
 
 module.exports = CompositeProperty;
