@@ -88,4 +88,7 @@ function Path (options) {
 	}());
 }
 
+
+JsonSerializer.registerType(Path);
+
 module.exports = Path;
