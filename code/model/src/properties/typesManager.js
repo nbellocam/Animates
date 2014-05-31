@@ -39,7 +39,7 @@ function TypesManager (options) {
 manager = new TypesManager();
 
 function isInteger(value) {
-    var n = parseNumber(value);
+    var n = ~~parseNumber(value);
     return String(n) === value.toString();
 }
 
@@ -48,7 +48,7 @@ function isFloat(value) {
 }
 
 function parseNumber(value) {
-	return ~~Number(value);
+	return Number(value);
 }
 
 // Add default types
