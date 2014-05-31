@@ -376,6 +376,262 @@ describe('MediaTimeline', function(){
 		});
 	});
 
+	describe('getEffectsForTickThatMatch', function () {
+		it('Should not return any effect', function () {
+			var currentTick = 42,
+				specifiedMediaObjectId = '42',
+				defaultProperties = { x : 0 },
+				specifiedMediaObject = {
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
+				},
+				effectAffectedProperties = ['position','angle'],
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				startTick = null;
+
+			startTick = mediaTimeline.getEffectsForTickThatMatch(50, effectAffectedProperties);
+			startTick.should.be.empty;
+		});
+
+
+
+		it('Should not return any effect (because non match)', function () {
+			var currentTick = 42,
+				specifiedMediaObjectId = '42',
+				defaultProperties = { x : 0 },
+				specifiedMediaObject = {
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
+				},
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				effect = {
+							'getOption' : function (name) {
+								var op = { 'startTick': 20,'endTick' : 100 };
+								return op[name];
+							},
+							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict){
+								return false;
+							},
+							'getGuid' : function () { return 'id'; }
+						},
+				effectAffectedProperties = ['position','angle'],
+				foundEffect = null;
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(10, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(0);
+
+			mediaTimeline.addEffect(effect);
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(50, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(0);
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(110, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(0);
+		});
+
+		it('Should return only one effect', function () {
+			var currentTick = 42,
+				specifiedMediaObjectId = '42',
+				defaultProperties = { x : 0 },
+				specifiedMediaObject = {
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
+				},
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				effect = {
+							'getOption' : function (name) {
+								var op = { 'startTick': 20,'endTick' : 100 };
+								return op[name];
+							},
+							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict){
+								return true;
+							},
+							'getGuid' : function () { return 'id'; }
+						},
+				effectAffectedProperties = ['position','angle'],
+				foundEffect = null;
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(10, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(0);
+
+			mediaTimeline.addEffect(effect);
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(50, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(1);
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(110, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(0);
+		});
+
+		it('Should return only one effect with end tick equals to tick.', function () {
+			var currentTick = 42,
+				specifiedMediaObjectId = '42',
+				defaultProperties = { x : 0 },
+				specifiedMediaObject = {
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
+				},
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				effect = {
+							'getOption' : function (name) {
+								var op = { 'startTick': 20,'endTick' : currentTick };
+								return op[name];
+							},
+							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict){
+								return true;
+							},
+							'getGuid' : function () { return 'id'; }
+						},
+				effectAffectedProperties = ['position','angle'],
+				foundEffect = null;
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(10, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(0);
+
+			mediaTimeline.addEffect(effect);
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(currentTick, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(1);
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(110, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(0);
+		});
+
+		it('Should return only one effect with start tick equals to tick.', function () {
+			var currentTick = 42,
+				specifiedMediaObjectId = '42',
+				defaultProperties = { x : 0 },
+				specifiedMediaObject = {
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
+				},
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				effect = {
+							'getOption' : function (name) {
+								var op = { 'startTick': currentTick,'endTick' : 100 };
+								return op[name];
+							},
+							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict){
+								return true;
+							},
+							'getGuid' : function () { return 'id'; }
+						},
+				effectAffectedProperties = ['position','angle'],
+				foundEffect = null;
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(10, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(0);
+
+			mediaTimeline.addEffect(effect);
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(currentTick, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(1);
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(110, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(0);
+		});
+
+		it('Should return multiple effects', function () {
+			var currentTick = 42,
+				specifiedMediaObjectId = '42',
+				defaultProperties = { x : 0 },
+				specifiedMediaObject = {
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
+				},
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				effect = {
+							'getOption' : function (name) {
+								var op = { 'startTick': 20,'endTick' : 100 };
+								return op[name];
+							},
+							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict){
+								return true;
+							},
+							'getGuid' : function () { return 'id'; }
+						},
+				effect2 = {
+							'getOption' : function (name) {
+								var op = { 'startTick': 10,'endTick' : 70 };
+								return op[name];
+							},
+							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict){
+								return true;
+							},
+							'getGuid' : function () { return 'id2'; }
+						},
+				effectAffectedProperties = ['position','angle'],
+				foundEffect = null;
+
+
+			mediaTimeline.addEffect(effect);
+			mediaTimeline.addEffect(effect2);
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(5, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(0);
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(15, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(1);
+			should(foundEffect[0].getGuid()).be.equal('id2');
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(25, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(2);
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(75, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(1);
+			should(foundEffect[0].getGuid()).be.equal('id');
+		});
+
+		it('Should return only one effects (when there are more than one in the same tick)', function () {
+			var currentTick = 42,
+				specifiedMediaObjectId = '42',
+				defaultProperties = { x : 0 },
+				specifiedMediaObject = {
+					'getGuid' : function () { return specifiedMediaObjectId; },
+					'getProperties' : function () { return defaultProperties; }
+				},
+				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
+				effect = {
+							'getOption' : function (name) {
+								var op = { 'startTick': 20,'endTick' : 100 };
+								return op[name];
+							},
+							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict){
+								return false;
+							},
+							'getGuid' : function () { return 'id'; }
+						},
+				effect2 = {
+							'getOption' : function (name) {
+								var op = { 'startTick': 10,'endTick' : 70 };
+								return op[name];
+							},
+							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict){
+								return true;
+							},
+							'getGuid' : function () { return 'id2'; }
+						},
+				effectAffectedProperties = ['position','angle'],
+				foundEffect = null;
+
+
+			mediaTimeline.addEffect(effect);
+			mediaTimeline.addEffect(effect2);
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(5, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(0);
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(15, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(1);
+			should(foundEffect[0].getGuid()).be.equal('id2');
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(25, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(1);
+			should(foundEffect[0].getGuid()).be.equal('id2');
+
+			foundEffect = mediaTimeline.getEffectsForTickThatMatch(75, effectAffectedProperties);
+			foundEffect.should.have.lengthOf(0);
+		});
+	});
+
 	describe('getStartTickFor', function() {
 		it('Should return start tick 0 when there are no other effects in the timeline', function () {
 			var currentTick = 42,

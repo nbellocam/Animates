@@ -166,6 +166,25 @@ function MediaTimeline (options) {
 	};
 
 	/**
+	* Gets the effects that contains the requested tick filtered by the ones that match any of the propertiesList
+	* @param {integer} tick The tick that must be contained by the effects
+	* @param {Array} tick propertiesList Array of effects that use to filter effects in current tick
+	* @return {Array} The array of effects that contains the tick
+	*/
+	this.getEffectsForTickThatMatch = function (tick, propertiesList) {
+		var effects = this.getEffectsForTick(tick),
+			resultEffects = [];
+
+		for (var i = 0; i < effects.length; i++) {
+			if (effects[i].HasConflictWithListOfProperties(propertiesList)){
+				resultEffects.push(effects[i]);
+			}
+		}
+
+		return resultEffects;
+	};
+
+	/**
 	 * Set the end tick for this media object
 	 * @param {integer} tick The end tick for this media object.
 	 */

@@ -8,7 +8,7 @@ var Common = require('animates-common'),
  *  @class Represents an Effect .
  */
 function Effect (options) {
-	
+
 	options = options || {};
 
 	var _self = this,
@@ -40,9 +40,21 @@ function Effect (options) {
 	 * Gets the array of properties names that the effect modifies
 	 * @return The array of properties names
 	 */
-	this.getAffectedProperties = function () 
+	this.getAffectedProperties = function ()
 	{
 		return [];
+	};
+
+	/**
+	* Gets the array of properties names that the effect modifies
+	* @return The array of properties names
+	*/
+	this.getCommonAffectedPropertiesFromList = function (effectAffectedProperties) {
+		var currentAffectedProperties = this.getAffectedProperties();
+
+		return currentAffectedProperties.filter(function(n) {
+			return effectAffectedProperties.indexOf(n) != -1;
+		});
 	};
 
 	/**
@@ -50,32 +62,26 @@ function Effect (options) {
 	 * @return The array of properties names
 	 */
 	this.getCommonAffectedProperties = function (effect) {
-		var currentAffectedProperties = this.getAffectedProperties(),
-			otherAffectedProperties = effect.getAffectedProperties();
-
-		return currentAffectedProperties.filter(function(n) {
-			return otherAffectedProperties.indexOf(n) != -1;
-		});
+		return this.getCommonAffectedPropertiesFromList(effect.getAffectedProperties());
 	};
 
 	/**
-	 * Detects if the current effect change some of the properties of the requested 
-	 * effects also changes
-	 * If the strict parameter is passed as true then all the properties must match
-	 * 
-	 * @param {Effect} effect The effect on which conflicts must be checked
-	 * @param {boolean} strict means that all properties must match to indicate a conflict
-	 * @return true if a match was found (according to the strict paramter)
-	 */
-	this.HasConflictWithProperties = function (effect, strict) {
+	* Detects if the current effect change some of the properties of the requested
+	* effects also changes
+	* If the strict parameter is passed as true then all the properties must match
+	*
+	* @param {Array} effectAffectedProperties The list of effect properties on which conflicts must be checked
+	* @param {boolean} strict means that all properties must match to indicate a conflict
+	* @return true if a match was found (according to the strict paramter)
+	*/
+	this.HasConflictWithListOfProperties = function (effectAffectedProperties, strict) {
 		// Check for all properties to indicate a conflict
-		var currentAffectedProperties = this.getAffectedProperties(),
-			otherAffectedProperties = effect.getAffectedProperties();
+		var currentAffectedProperties = this.getAffectedProperties();
 
 		if (strict) {
-			if (currentAffectedProperties.length == otherAffectedProperties.length) {
+			if (currentAffectedProperties.length == effectAffectedProperties.length) {
 				for (var i = 0; i < currentAffectedProperties.length; i++) {
-					if ((otherAffectedProperties.indexOf(currentAffectedProperties[i])) == -1)
+					if ((effectAffectedProperties.indexOf(currentAffectedProperties[i])) == -1)
 					{
 						return false;
 					}
@@ -86,8 +92,21 @@ function Effect (options) {
 				return false;
 			}
 		} else {
-			return this.getCommonAffectedProperties(effect).length > 0;
+			return this.getCommonAffectedPropertiesFromList(effectAffectedProperties).length > 0;
 		}
+	};
+
+	/**
+	 * Detects if the current effect change some of the properties of the requested
+	 * effects also changes
+	 * If the strict parameter is passed as true then all the properties must match
+	 *
+	 * @param {Effect} effect The effect on which conflicts must be checked
+	 * @param {boolean} strict means that all properties must match to indicate a conflict
+	 * @return true if a match was found (according to the strict paramter)
+	 */
+	this.HasConflictWithProperties = function (effect, strict) {
+		return this.HasConflictWithListOfProperties(effect.getAffectedProperties(), strict);
 	};
 
 	this.getOption = function (name) {
