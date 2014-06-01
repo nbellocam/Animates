@@ -404,9 +404,23 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.registerTask('run-model-grunt', function () {
+    var done = this.async();
+    grunt.util.spawn({
+        grunt: true,
+        args: ['package'],
+        opts: {
+            cwd: '../model'
+        }
+    }, function (err, result, code) {
+        done();
+    });
+  });
+
   grunt.registerTask('install-dep', function () {
     grunt.task.run('bower-install');
     grunt.task.run('copy:timeline');
+    grunt.task.run('run-model-grunt');
     grunt.task.run('copy:model');
   });
 
