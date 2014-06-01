@@ -1150,9 +1150,12 @@ describe('MediaTimeline', function(){
 							},
 					'getGuid' : function () { return effectId1; },
 					'HasConflictWithListOfProperties' : function (propertyList) {
+						propertyList.should.be.an.Array.and.have.length(0);
 						return true;
 					},
 					'updateProperties' : function (tick, propertyList) {
+						propertyList.should.be.an.Object.and.be.empty;
+						tick.should.be.equal(currentTick);
 						return ['propOther', 'propOther2'];
 					}
 				},
@@ -1197,10 +1200,92 @@ describe('MediaTimeline', function(){
 							},
 					'getGuid' : function () { return effectId1; },
 					'HasConflictWithListOfProperties' : function (propertyList) {
+						propertyList.should.be.an.Array.and.have.length(4);
 						return true;
 					},
 					'updateProperties' : function (tick, propertyList) {
+						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
+						tick.should.be.equal(currentTick);
 						return ['propOther', 'propOther2'];
+					}
+				},
+				propertyList = {
+					prop1 : 1,
+					prop2 : 2,
+					prop3 : 3,
+					prop4 : 4
+				},
+				pendingProperties;
+
+			mediaTimeline.addEffect(effect1);
+
+			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties.should.be.an.Array.and.have.length(4);
+			pendingProperties.should.containEql('prop1');
+			pendingProperties.should.containEql('prop2');
+			pendingProperties.should.containEql('prop3');
+			pendingProperties.should.containEql('prop4');
+		});
+
+		it('Should return the list of keys of the updatedProperties if mediaTimeline does have effects but the tick is not contained.', function() {
+			var currentTick = 42,
+				mediaTimeline = new MediaTimeline(),
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
+				effectId1 = 'myId1',
+				effect1 = {
+					'getOption' : function (name) {
+								var op = { 'startTick' : effectStartTick1, 'endTick' : effectEndTick1 };
+								return op[name];
+							},
+					'getGuid' : function () { return effectId1; },
+					'HasConflictWithListOfProperties' : function (propertyList) {
+						propertyList.should.be.an.Array.and.have.length(4);
+						return true;
+					},
+					'updateProperties' : function (tick, propertyList) {
+						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
+						tick.should.be.equal(currentTick);
+						return ['prop1', 'prop4'];
+					}
+				},
+				propertyList = {
+					prop1 : 1,
+					prop2 : 2,
+					prop3 : 3,
+					prop4 : 4
+				},
+				pendingProperties;
+
+			mediaTimeline.addEffect(effect1);
+
+			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties.should.be.an.Array.and.have.length(4);
+			pendingProperties.should.containEql('prop1');
+			pendingProperties.should.containEql('prop2');
+			pendingProperties.should.containEql('prop3');
+			pendingProperties.should.containEql('prop4');
+		});
+
+		it('Should not execute updateProperties if HasConflictWithListOfProperties return false', function() {
+			var currentTick = 3,
+				mediaTimeline = new MediaTimeline(),
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
+				effectId1 = 'myId1',
+				effect1 = {
+					'getOption' : function (name) {
+								var op = { 'startTick' : effectStartTick1, 'endTick' : effectEndTick1 };
+								return op[name];
+							},
+					'getGuid' : function () { return effectId1; },
+					'HasConflictWithListOfProperties' : function (propertyList) {
+						propertyList.should.be.an.Array.and.have.length(4);
+						return false;
+					},
+					'updateProperties' : function (tick, propertyList) {
+						should.fail('UpdateProperties should not be called');
+						return ['prop1', 'prop4'];
 					}
 				},
 				propertyList = {
@@ -1234,9 +1319,12 @@ describe('MediaTimeline', function(){
 							},
 					'getGuid' : function () { return effectId1; },
 					'HasConflictWithListOfProperties' : function (propertyList) {
+						propertyList.should.be.an.Array.and.have.length(4);
 						return true;
 					},
 					'updateProperties' : function (tick, propertyList) {
+						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
+						tick.should.be.equal(currentTick);
 						return ['prop1', 'prop4'];
 					}
 				},
@@ -1269,9 +1357,12 @@ describe('MediaTimeline', function(){
 							},
 					'getGuid' : function () { return effectId1; },
 					'HasConflictWithListOfProperties' : function (propertyList) {
+						propertyList.should.be.an.Array.and.have.length(4);
 						return true;
 					},
 					'updateProperties' : function (tick, propertyList) {
+						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
+						tick.should.be.equal(currentTick);
 						return ['prop3'];
 					}
 				},
@@ -1285,9 +1376,12 @@ describe('MediaTimeline', function(){
 							},
 					'getGuid' : function () { return effectId2; },
 					'HasConflictWithListOfProperties' : function (propertyList) {
+						propertyList.should.be.an.Array.and.have.length(4);
 						return true;
 					},
 					'updateProperties' : function (tick, propertyList) {
+						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
+						tick.should.be.equal(currentTick);
 						return ['prop2'];
 					}
 				},
@@ -1321,9 +1415,12 @@ describe('MediaTimeline', function(){
 							},
 					'getGuid' : function () { return effectId1; },
 					'HasConflictWithListOfProperties' : function (propertyList) {
+						propertyList.should.be.an.Array.and.have.length(4);
 						return true;
 					},
 					'updateProperties' : function (tick, propertyList) {
+						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
+						tick.should.be.equal(currentTick);
 						return ['prop1'];
 					}
 				},
@@ -1337,9 +1434,12 @@ describe('MediaTimeline', function(){
 							},
 					'getGuid' : function () { return effectId2; },
 					'HasConflictWithListOfProperties' : function (propertyList) {
+						propertyList.should.be.an.Array.and.have.length(4);
 						return true;
 					},
 					'updateProperties' : function (tick, propertyList) {
+						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
+						tick.should.be.equal(currentTick);
 						return ['prop1'];
 					}
 				},
@@ -1374,9 +1474,12 @@ describe('MediaTimeline', function(){
 							},
 					'getGuid' : function () { return effectId1; },
 					'HasConflictWithListOfProperties' : function (propertyList) {
+						propertyList.should.be.an.Array.and.have.length(4);
 						return true;
 					},
 					'updateProperties' : function (tick, propertyList) {
+						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
+						tick.should.be.equal(currentTick);
 						return ['prop1', 'prop4'];
 					}
 				},
@@ -1390,9 +1493,12 @@ describe('MediaTimeline', function(){
 							},
 					'getGuid' : function () { return effectId2; },
 					'HasConflictWithListOfProperties' : function (propertyList) {
+						propertyList.should.be.an.Array.and.have.length(4);
 						return true;
 					},
 					'updateProperties' : function (tick, propertyList) {
+						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
+						tick.should.be.equal(currentTick);
 						return ['prop1', 'prop3'];
 					}
 				},
@@ -1425,9 +1531,12 @@ describe('MediaTimeline', function(){
 							},
 					'getGuid' : function () { return effectId1; },
 					'HasConflictWithListOfProperties' : function (propertyList) {
+						propertyList.should.be.an.Array.and.have.length(4);
 						return true;
 					},
 					'updateProperties' : function (tick, propertyList) {
+						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
+						tick.should.be.equal(currentTick);
 						return ['prop1', 'prop2', 'prop4'];
 					}
 				},
@@ -1441,9 +1550,12 @@ describe('MediaTimeline', function(){
 							},
 					'getGuid' : function () { return effectId2; },
 					'HasConflictWithListOfProperties' : function (propertyList) {
+						propertyList.should.be.an.Array.and.have.length(4);
 						return true;
 					},
 					'updateProperties' : function (tick, propertyList) {
+						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
+						tick.should.be.equal(currentTick);
 						return ['prop1', 'prop3'];
 					}
 				},
