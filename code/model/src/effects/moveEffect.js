@@ -49,9 +49,51 @@ function MoveEffect(options) {
 		return mediaFrameProperties;
 	};
 
-	this.getAffectedProperties = function ()
-	{
+	this.getAffectedProperties = function () {
 		return ['position'];
+	};
+
+	this.updateProperties = function (tick, updatedPropertiesDiff) {
+		var startTick = _self.getOption('startTick'),
+			endTick = _self.getOption('endTick'),
+			updatedProperties = [];
+
+		if (tick >= startTick && tick <= endTick) {
+			var positionX = updatedPropertiesDiff['position.x'],
+				positionY = updatedPropertiesDiff['position.y'];
+
+			if (positionX || positionY) {
+				var path = _self.getOption('path');
+
+				if (tick === _self.getOption('startTick')) {
+					if (positionX) {
+						path.startPosition.x = positionX.newValue;
+						updatedProperties.push('position.x');
+					}
+
+					if (positionY) {
+						path.startPosition.y = positionY.newValue;
+						updatedProperties.push('position.y');
+					}
+
+					_self.setOption('path', path);
+				} else if (tick === _self.getOption('endTick')) {
+					if (positionX) {
+						path.endPosition.x = positionX.newValue;
+						updatedProperties.push('position.x');
+					}
+
+					if (positionY) {
+						path.endPosition.y = positionY.newValue;
+						updatedProperties.push('position.y');
+					}
+
+					_self.setOption('path', path);
+				}
+			}
+		}
+
+		return updatedProperties;
 	};
 
 	this.effect_toJSON = this.toJSON;
