@@ -63,6 +63,7 @@ angular.module('animatesApp')
 
 						if (newMediaFrame) {
 							shapeSync.syncFromModel(object, _self.getCanvasPosition());
+							object.setCoords();
 						} else {
 							_self.remove(object);
 						}
@@ -73,6 +74,7 @@ angular.module('animatesApp')
 					var shape = shapeCreator.createShapeFromFrame(newMediaFrame, _self.getCanvasPosition());
 					if (shape) {
 						_self.add(shape);
+						shape.setCoords();
 					}
 				}
 			},
@@ -86,6 +88,7 @@ angular.module('animatesApp')
 								var shape = shapeCreator.createShapeFromMediaObject(params.mediaObject, _self.getCanvasPosition());
 								if (shape) {
 									_self.add(shape);
+									shape.setCoords();
 								}
 								renderAll();
 
