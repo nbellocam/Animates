@@ -1125,4 +1125,342 @@ describe('MediaTimeline', function(){
 
 		it('Should update the properties of a MediaFrame when endFrame is -1.');
 	});
+
+	describe('updateEffectsThatMatch', function() {
+		it('Should return an empty list if updatedProperties is an empty object (without effects).', function() {
+			var currentTick = 3,
+				mediaTimeline = new MediaTimeline(),
+				propertyList = { },
+				pendingProperties;
+
+			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties.should.be.an.Array.and.have.length(0);
+		});
+
+		it('Should return an empty list if updatedProperties is an empty object (with effects).', function() {
+			var currentTick = 3,
+				mediaTimeline = new MediaTimeline(),
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
+				effectId1 = 'myId1',
+				effect1 = {
+					'getOption' : function (name) {
+								var op = { 'startTick' : effectStartTick1, 'endTick' : effectEndTick1 };
+								return op[name];
+							},
+					'getGuid' : function () { return effectId1; },
+					'HasConflictWithListOfProperties' : function (propertyList) {
+						return true;
+					},
+					'updateProperties' : function (tick, propertyList) {
+						return ['propOther', 'propOther2'];
+					}
+				},
+				propertyList = { },
+				pendingProperties;
+
+			mediaTimeline.addEffect(effect1);
+
+			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties.should.be.an.Array.and.have.length(0);
+		});
+
+		it('Should return the list of keys of the updatedProperties if mediaTimeline does not have effects and updatedProperties is not an empty object.', function() {
+			var currentTick = 3,
+				mediaTimeline = new MediaTimeline(),
+				propertyList = {
+					prop1 : 1,
+					prop2 : 2,
+					prop3 : 3,
+					prop4 : 4
+				},
+				pendingProperties;
+
+			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties.should.be.an.Array.and.have.length(4);
+			pendingProperties.should.containEql('prop1');
+			pendingProperties.should.containEql('prop2');
+			pendingProperties.should.containEql('prop3');
+			pendingProperties.should.containEql('prop4');
+		});
+
+		it('Should return the list of keys of the updatedProperties if mediaTimeline does have effects that doenst match the updatedProperties.', function() {
+			var currentTick = 3,
+				mediaTimeline = new MediaTimeline(),
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
+				effectId1 = 'myId1',
+				effect1 = {
+					'getOption' : function (name) {
+								var op = { 'startTick' : effectStartTick1, 'endTick' : effectEndTick1 };
+								return op[name];
+							},
+					'getGuid' : function () { return effectId1; },
+					'HasConflictWithListOfProperties' : function (propertyList) {
+						return true;
+					},
+					'updateProperties' : function (tick, propertyList) {
+						return ['propOther', 'propOther2'];
+					}
+				},
+				propertyList = {
+					prop1 : 1,
+					prop2 : 2,
+					prop3 : 3,
+					prop4 : 4
+				},
+				pendingProperties;
+
+			mediaTimeline.addEffect(effect1);
+
+			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties.should.be.an.Array.and.have.length(4);
+			pendingProperties.should.containEql('prop1');
+			pendingProperties.should.containEql('prop2');
+			pendingProperties.should.containEql('prop3');
+			pendingProperties.should.containEql('prop4');
+		});
+
+		it('Should return only some of the properties as an effect is updated.', function() {
+			var currentTick = 3,
+				mediaTimeline = new MediaTimeline(),
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
+				effectId1 = 'myId1',
+				effect1 = {
+					'getOption' : function (name) {
+								var op = { 'startTick' : effectStartTick1, 'endTick' : effectEndTick1 };
+								return op[name];
+							},
+					'getGuid' : function () { return effectId1; },
+					'HasConflictWithListOfProperties' : function (propertyList) {
+						return true;
+					},
+					'updateProperties' : function (tick, propertyList) {
+						return ['prop1', 'prop4'];
+					}
+				},
+				propertyList = {
+					prop1 : 1,
+					prop2 : 2,
+					prop3 : 3,
+					prop4 : 4
+				},
+				pendingProperties;
+
+			mediaTimeline.addEffect(effect1);
+
+			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties.should.be.an.Array.and.have.length(2);
+			pendingProperties.should.containEql('prop2');
+			pendingProperties.should.containEql('prop3');
+		});
+
+		it('Should return only some of the properties as the two effect updates different properties.', function() {
+			var currentTick = 3,
+				mediaTimeline = new MediaTimeline(),
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
+				effectId1 = 'myId1',
+				effect1 = {
+					'getOption' : function (name) {
+								var op = { 'startTick' : effectStartTick1, 'endTick' : effectEndTick1 };
+								return op[name];
+							},
+					'getGuid' : function () { return effectId1; },
+					'HasConflictWithListOfProperties' : function (propertyList) {
+						return true;
+					},
+					'updateProperties' : function (tick, propertyList) {
+						return ['prop3'];
+					}
+				},
+				effectStartTick2 = 2,
+				effectEndTick2 = 5,
+				effectId2 = 'myId2',
+				effect2 = {
+					'getOption' : function (name) {
+								var op = { 'startTick' : effectStartTick2, 'endTick' : effectEndTick2};
+								return op[name];
+							},
+					'getGuid' : function () { return effectId2; },
+					'HasConflictWithListOfProperties' : function (propertyList) {
+						return true;
+					},
+					'updateProperties' : function (tick, propertyList) {
+						return ['prop2'];
+					}
+				},
+				propertyList = {
+					prop1 : 1,
+					prop2 : 2,
+					prop3 : 3,
+					prop4 : 4
+				},
+				pendingProperties;
+
+			mediaTimeline.addEffect(effect1);
+			mediaTimeline.addEffect(effect2);
+
+			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties.should.be.an.Array.and.have.length(2);
+			pendingProperties.should.containEql('prop1');
+			pendingProperties.should.containEql('prop4');
+		});
+
+		it('Should return only some of the properties as the two effect updates same properties.', function() {
+			var currentTick = 3,
+				mediaTimeline = new MediaTimeline(),
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
+				effectId1 = 'myId1',
+				effect1 = {
+					'getOption' : function (name) {
+								var op = { 'startTick' : effectStartTick1, 'endTick' : effectEndTick1 };
+								return op[name];
+							},
+					'getGuid' : function () { return effectId1; },
+					'HasConflictWithListOfProperties' : function (propertyList) {
+						return true;
+					},
+					'updateProperties' : function (tick, propertyList) {
+						return ['prop1'];
+					}
+				},
+				effectStartTick2 = 2,
+				effectEndTick2 = 5,
+				effectId2 = 'myId2',
+				effect2 = {
+					'getOption' : function (name) {
+								var op = { 'startTick' : effectStartTick2, 'endTick' : effectEndTick2};
+								return op[name];
+							},
+					'getGuid' : function () { return effectId2; },
+					'HasConflictWithListOfProperties' : function (propertyList) {
+						return true;
+					},
+					'updateProperties' : function (tick, propertyList) {
+						return ['prop1'];
+					}
+				},
+				propertyList = {
+					prop1 : 1,
+					prop2 : 2,
+					prop3 : 3,
+					prop4 : 4
+				},
+				pendingProperties;
+
+			mediaTimeline.addEffect(effect1);
+			mediaTimeline.addEffect(effect2);
+
+			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties.should.be.an.Array.and.have.length(3);
+			pendingProperties.should.containEql('prop2');
+			pendingProperties.should.containEql('prop3');
+			pendingProperties.should.containEql('prop4');
+		});
+
+		it('Should return only some of the properties as the two effect updates mixed properties.', function() {
+			var currentTick = 3,
+				mediaTimeline = new MediaTimeline(),
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
+				effectId1 = 'myId1',
+				effect1 = {
+					'getOption' : function (name) {
+								var op = { 'startTick' : effectStartTick1, 'endTick' : effectEndTick1 };
+								return op[name];
+							},
+					'getGuid' : function () { return effectId1; },
+					'HasConflictWithListOfProperties' : function (propertyList) {
+						return true;
+					},
+					'updateProperties' : function (tick, propertyList) {
+						return ['prop1', 'prop4'];
+					}
+				},
+				effectStartTick2 = 2,
+				effectEndTick2 = 5,
+				effectId2 = 'myId2',
+				effect2 = {
+					'getOption' : function (name) {
+								var op = { 'startTick' : effectStartTick2, 'endTick' : effectEndTick2};
+								return op[name];
+							},
+					'getGuid' : function () { return effectId2; },
+					'HasConflictWithListOfProperties' : function (propertyList) {
+						return true;
+					},
+					'updateProperties' : function (tick, propertyList) {
+						return ['prop1', 'prop3'];
+					}
+				},
+				propertyList = {
+					prop1 : 1,
+					prop2 : 2,
+					prop3 : 3,
+					prop4 : 4
+				},
+				pendingProperties;
+
+			mediaTimeline.addEffect(effect1);
+			mediaTimeline.addEffect(effect2);
+
+			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties.should.be.an.Array.and.have.length(1);
+			pendingProperties.should.containEql('prop2');
+		});
+
+		it('Should return an empty array of properties as the two effect updates all the properties.', function() {
+			var currentTick = 3,
+				mediaTimeline = new MediaTimeline(),
+				effectStartTick1 = 2,
+				effectEndTick1 = 5,
+				effectId1 = 'myId1',
+				effect1 = {
+					'getOption' : function (name) {
+								var op = { 'startTick' : effectStartTick1, 'endTick' : effectEndTick1 };
+								return op[name];
+							},
+					'getGuid' : function () { return effectId1; },
+					'HasConflictWithListOfProperties' : function (propertyList) {
+						return true;
+					},
+					'updateProperties' : function (tick, propertyList) {
+						return ['prop1', 'prop2', 'prop4'];
+					}
+				},
+				effectStartTick2 = 2,
+				effectEndTick2 = 5,
+				effectId2 = 'myId2',
+				effect2 = {
+					'getOption' : function (name) {
+								var op = { 'startTick' : effectStartTick2, 'endTick' : effectEndTick2};
+								return op[name];
+							},
+					'getGuid' : function () { return effectId2; },
+					'HasConflictWithListOfProperties' : function (propertyList) {
+						return true;
+					},
+					'updateProperties' : function (tick, propertyList) {
+						return ['prop1', 'prop3'];
+					}
+				},
+				propertyList = {
+					prop1 : 1,
+					prop2 : 2,
+					prop3 : 3,
+					prop4 : 4
+				},
+				pendingProperties;
+
+			mediaTimeline.addEffect(effect1);
+			mediaTimeline.addEffect(effect2);
+
+			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties.should.be.an.Array.and.have.length(0);
+		});
+	});
+
 });

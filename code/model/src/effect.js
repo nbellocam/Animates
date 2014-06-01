@@ -48,7 +48,7 @@ function Effect (options) {
 	/**
 	* Updates the effect if it is required based on the updatedPropertiesDiff passed by parameter
 	* @param {integer} tick the tick that is being updated
-	* @param {Array} updatedPropertiesDiff the list of updated properties with the newValue and the oldValue as data for each property.
+	* @param {Array} updatedPropertiesDiff the list of updated properties with the newValue as data for each property.
 	* @return The array of properties names that the effect update
 	*/
 	this.updateProperties = function (tick, updatedPropertiesDiff)

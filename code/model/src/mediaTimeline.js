@@ -1,7 +1,8 @@
 'use strict';
 
 var MediaFrame = require('./mediaFrame'),
-	JsonSerializer = require('./serialization/jsonSerializer');
+	JsonSerializer = require('./serialization/jsonSerializer'),
+	Common = require('animates-common');
 
 /**
  *  Creates a new media timeline.
@@ -178,6 +179,36 @@ function MediaTimeline (options) {
 		for (var i = 0; i < effects.length; i++) {
 			if (effects[i].HasConflictWithListOfProperties(propertiesList)){
 				resultEffects.push(effects[i]);
+			}
+		}
+
+		return resultEffects;
+	};
+
+
+
+	/**
+
+	* Updates all effects that match the updated properties in the tick passed by parameter.
+	* @param {integer} tick The tick that must be contained by the effects
+	* @param {Map} updatedProperties Map of new properties updates that will be used to update all the effects
+	* @return {Array} The not updated properties
+	*/
+	this.updateEffectsThatMatch = function (tick, updatedProperties) {
+		var propertiesList = Common.getKeysFromObject(updatedProperties),
+			effects = this.getEffectsForTickThatMatch(tick, propertiesList),
+			resultEffects = propertiesList,
+			affectedProperties;
+
+		for (var i = 0; i < effects.length; i++) {
+			affectedProperties = effects[i].updateProperties(tick, updatedProperties);
+
+			for (var j = 0; j < affectedProperties.length; j++) {
+				for(var k = 0; k < resultEffects.length; k++) {
+					if (resultEffects[k] === affectedProperties[j]) {
+						resultEffects.splice(k, 1);
+					}
+				}
 			}
 		}
 

@@ -374,4 +374,32 @@ describe('Common', function(){
 		it('should create a hierarquical namespace if not exists');
 		it('should not overwrite existant namespaces');
 	});
+
+	describe('#getKeysFromObject', function(){
+		it('should return empty list if object is empty', function(){
+			var object = {},
+				result = Common.getKeysFromObject(object);
+			result.should.be.an.Array.and.an.length(0);
+		});
+
+		it('should return a list with one element if object has one property', function(){
+			var keyName = 'key',
+				object = { 'key' : 'value'},
+				result = Common.getKeysFromObject(object);
+
+			result.should.be.an.Array.and.an.length(1);
+			result.should.containEql(keyName);
+		});
+
+		it('should return a list with two element if object has two property', function(){
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				object = { 'keyName1' : 'value',  'keyName2' : 'value2' },
+				result = Common.getKeysFromObject(object);
+
+			result.should.be.an.Array.and.an.length(2);
+			result.should.containEql(keyName1);
+			result.should.containEql(keyName2);
+		});
+	});
 });

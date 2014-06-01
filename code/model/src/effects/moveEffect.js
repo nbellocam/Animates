@@ -53,39 +53,39 @@ function MoveEffect(options) {
 		return ['position'];
 	};
 
-	this.updateProperties = function (tick, updatedPropertiesDiff) {
+	this.updateProperties = function (tick, updatedProperties) {
 		var startTick = _self.getOption('startTick'),
 			endTick = _self.getOption('endTick'),
-			updatedProperties = [];
+			changedProperties = [];
 
 		if (tick >= startTick && tick <= endTick) {
-			var positionX = updatedPropertiesDiff['position.x'],
-				positionY = updatedPropertiesDiff['position.y'];
+			var positionX = updatedProperties['position.x'],
+				positionY = updatedProperties['position.y'];
 
-			if (positionX || positionY) {
+			if (positionX !== undefined || positionY !== undefined) {
 				var path = _self.getOption('path');
 
 				if (tick === _self.getOption('startTick')) {
-					if (positionX) {
-						path.startPosition.x = positionX.newValue;
-						updatedProperties.push('position.x');
+					if (positionX !== undefined) {
+						path.startPosition.x = positionX;
+						changedProperties.push('position.x');
 					}
 
-					if (positionY) {
-						path.startPosition.y = positionY.newValue;
-						updatedProperties.push('position.y');
+					if (positionY !== undefined) {
+						path.startPosition.y = positionY;
+						changedProperties.push('position.y');
 					}
 
 					_self.setOption('path', path);
 				} else if (tick === _self.getOption('endTick')) {
-					if (positionX) {
-						path.endPosition.x = positionX.newValue;
-						updatedProperties.push('position.x');
+					if (positionX !== undefined) {
+						path.endPosition.x = positionX;
+						changedProperties.push('position.x');
 					}
 
-					if (positionY) {
-						path.endPosition.y = positionY.newValue;
-						updatedProperties.push('position.y');
+					if (positionY !== undefined) {
+						path.endPosition.y = positionY;
+						changedProperties.push('position.y');
 					}
 
 					_self.setOption('path', path);
@@ -93,7 +93,7 @@ function MoveEffect(options) {
 			}
 		}
 
-		return updatedProperties;
+		return changedProperties;
 	};
 
 	this.effect_toJSON = this.toJSON;

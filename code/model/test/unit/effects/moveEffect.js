@@ -221,7 +221,7 @@ describe('MoveEffect', function(){
 				newValue = 24,
 				oldValueX = 32,
 				oldValueY = 35,
-				updatedPropertiesDiff = { 'other' : { 'newValue' : newValue, 'oldValue' : oldValueX } },
+				updatedPropertiesDiff = { 'other' : newValue },
 				path = { startPosition : { x: oldValueX, y: oldValueY } },
 				effect = new MoveEffect({ 'endTick' : endTick, 'path' : path }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
@@ -237,7 +237,7 @@ describe('MoveEffect', function(){
 				newValue = 24,
 				oldValueX = 32,
 				oldValueY = 35,
-				updatedPropertiesDiff = { 'position.x' : { 'newValue' : newValue, 'oldValue' : oldValueX } },
+				updatedPropertiesDiff = { 'position.x' : newValue },
 				path = { startPosition : { x: oldValueX, y: oldValueY } },
 				effect = new MoveEffect({ 'endTick' : endTick, 'path' : path }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
@@ -253,7 +253,7 @@ describe('MoveEffect', function(){
 				newValue = 24,
 				oldValueX = 32,
 				oldValueY = 35,
-				updatedPropertiesDiff = { 'position.x' : { 'newValue' : newValue, 'oldValue' : oldValueX } },
+				updatedPropertiesDiff = { 'position.x' : newValue },
 				path = { startPosition : { x: oldValueX, y: oldValueY } },
 				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : path }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
@@ -270,7 +270,7 @@ describe('MoveEffect', function(){
 				newValue = 24,
 				oldValueX = 32,
 				oldValueY = 35,
-				updatedPropertiesDiff = { 'position.y' : { 'newValue' : newValue, 'oldValue' : oldValueX } },
+				updatedPropertiesDiff = { 'position.y' : newValue },
 				path = { startPosition : { x: oldValueX, y: oldValueY } },
 				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : path }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
@@ -289,8 +289,8 @@ describe('MoveEffect', function(){
 				oldValueX = 32,
 				oldValueY = 35,
 				updatedPropertiesDiff = {
-					'position.x' : { 'newValue' : newValueX, 'oldValue' : oldValueX },
-					'position.y' : { 'newValue' : newValueY, 'oldValue' : oldValueY }
+					'position.x' : newValueX,
+					'position.y' : newValueY
 				},
 				path = { startPosition : { x: oldValueX, y: oldValueY } },
 				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : path }),
@@ -311,8 +311,8 @@ describe('MoveEffect', function(){
 				oldValueX = 32,
 				oldValueY = 35,
 				updatedPropertiesDiff = {
-					'position.x' : { 'newValue' : newValueX, 'oldValue' : oldValueX },
-					'position.y' : { 'newValue' : newValueY, 'oldValue' : oldValueY },
+					'position.x' : newValueX,
+					'position.y' : newValueY,
 					'other' : { 'newValue' : newValueY, 'oldValue' : oldValueY }
 				},
 				path = { startPosition : { x: oldValueX, y: oldValueY } },
@@ -332,7 +332,7 @@ describe('MoveEffect', function(){
 				newValue = 24,
 				oldValueX = 32,
 				oldValueY = 35,
-				updatedPropertiesDiff = { 'position.x' : { 'newValue' : newValue, 'oldValue' : oldValueX } },
+				updatedPropertiesDiff = { 'position.x' : newValue },
 				path = { endPosition : { x: oldValueX, y: oldValueY } },
 				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : path }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
@@ -349,7 +349,7 @@ describe('MoveEffect', function(){
 				newValue = 24,
 				oldValueX = 32,
 				oldValueY = 35,
-				updatedPropertiesDiff = { 'position.y' : { 'newValue' : newValue, 'oldValue' : oldValueX } },
+				updatedPropertiesDiff = { 'position.y' : newValue },
 				path = { endPosition : { x: oldValueX, y: oldValueY } },
 				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : path }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
@@ -368,8 +368,8 @@ describe('MoveEffect', function(){
 				oldValueX = 32,
 				oldValueY = 35,
 				updatedPropertiesDiff = {
-					'position.x' : { 'newValue' : newValueX, 'oldValue' : oldValueX },
-					'position.y' : { 'newValue' : newValueY, 'oldValue' : oldValueY }
+					'position.x' : newValueX,
+					'position.y' : newValueY
 				},
 				path = { endPosition : { x: oldValueX, y: oldValueY } },
 				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : path }),
@@ -390,8 +390,8 @@ describe('MoveEffect', function(){
 				oldValueX = 32,
 				oldValueY = 35,
 				updatedPropertiesDiff = {
-					'position.x' : { 'newValue' : newValueX, 'oldValue' : oldValueX },
-					'position.y' : { 'newValue' : newValueY, 'oldValue' : oldValueY },
+					'position.x' : newValueX,
+					'position.y' : newValueY,
 					'other' : { 'newValue' : newValueY, 'oldValue' : oldValueY }
 				},
 				path = { endPosition : { x: oldValueX, y: oldValueY } },
@@ -416,8 +416,8 @@ describe('MoveEffect', function(){
 				oldEndValueX = 42,
 				oldEndValueY = 45,
 				updatedPropertiesDiff = {
-					'position.x' : { 'newValue' : newValueX, 'oldValue' : 34 },
-					'position.y' : { 'newValue' : newValueY, 'oldValue' : 36 },
+					'position.x' : newValueX,
+					'position.y' : newValueY,
 					'other' : { 'newValue' : newValueY, 'oldValue' : 53 }
 				},
 				path = {

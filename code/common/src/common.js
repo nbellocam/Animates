@@ -1,6 +1,6 @@
 /**
  * Creates an object that represents the structure of a js namespace
- * 
+ *
  * @memberof animates.common
  * @param {string} namespaceString The namespace hierarchy separated by dots i.e 'App.model'.
  */
@@ -74,17 +74,17 @@ function extend (source, defaults) {
  *  Creates an inherited class of a given parent
  *
  *	@memberof animates.common
- *  @param {Object} descendant The child to make inherit 
- *  @param {Object} parent The parent where to inherit from 
+ *  @param {Object} descendant The child to make inherit
+ *  @param {Object} parent The parent where to inherit from
  */
-function inherits (descendant, parent, parentName) 
+function inherits (descendant, parent, parentName)
 {
 	var sConstructor = parent.constructor.toString().toLowerCase(),
-		aMatch = sConstructor.match( /\s*function (.*)\(/ ); 
-	
-	if ( aMatch !== null ) 
+		aMatch = sConstructor.match( /\s*function (.*)\(/ );
+
+	if ( aMatch !== null )
 	{
-		if ( aMatch[1] === '' || aMatch[1] === 'function' ) 
+		if ( aMatch[1] === '' || aMatch[1] === 'function' )
 		{
 			if ( typeof(parentName) === 'undefined' )
 			{
@@ -96,14 +96,14 @@ function inherits (descendant, parent, parentName)
 			}
 		}
 		else
-		{	
+		{
 			descendant.prototype[aMatch[1].replace(/^\s*|\s*$/g,"")] = parent;
-		} 
-	} 
+		}
+	}
 
-	for (var m in parent.prototype) 
+	for (var m in parent.prototype)
 	{
-		if ( m !== 'base' ) descendant.prototype[m] = parent.prototype[m]; 
+		if ( m !== 'base' ) descendant.prototype[m] = parent.prototype[m];
 	}
 }
 
@@ -150,7 +150,7 @@ function clone(obj) {
 
 /**
  * Private method: Gets a new GUID string. More information at: https://gist.github.com/jed/982883
- * 
+ *
  * @memberof animates.common
  * @return The new short GUID
  */
@@ -169,6 +169,25 @@ function createGuid ()
 	return b();
 }
 
+/**
+ * Gets a new GUID string
+ *
+ * @memberof animates.common
+ * @return The new GUID (without braces)
+ */
+function getKeysFromObject(object)
+{
+  var list = [];
+
+  for (var key in object) {
+    if (object.hasOwnProperty(key)) {
+      list.push(key);
+    }
+  }
+
+  return list;
+}
+
 exports.namespace = namespace;
 exports.typeOf = typeOf;
 exports.inherits = inherits;
@@ -176,3 +195,4 @@ exports.createGuid = createGuid;
 exports.extend = extend;
 exports.clone = clone;
 exports.realTypeOf = realTypeOf;
+exports.getKeysFromObject = getKeysFromObject;
