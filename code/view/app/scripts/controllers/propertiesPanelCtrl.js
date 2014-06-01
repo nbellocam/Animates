@@ -22,7 +22,7 @@ angular.module('animatesApp')
 			}
 		};
 
-		var animationLoadEventHandler = function animationLoadEventHandler (){
+		var animationLoadEventHandler = function animationLoadEventHandler () {
 			$scope.properties = null;
 			$scope.properiesName = null;
 			$scope.groupProperties = null;
@@ -49,7 +49,7 @@ angular.module('animatesApp')
 			propertyUpdateManagerService.syncProperties($scope.mediaObjectId, values, 'PropertiesPanelCtrl');
 		};
 
-		var createGroupProperties = function createGroupProperties(fabricGroup){
+		var createGroupProperties = function createGroupProperties(fabricGroup) {
 			var canvasPosition = canvasService.getCanvasPosition();
 			return {
 				'# of items in group': fabricGroup.size(),
@@ -59,12 +59,12 @@ angular.module('animatesApp')
 			};
 		};
 
-		$rootScope.$on('selectedShapeChange', function (event, canvasShape){
+		$rootScope.$on('selectedShapeChange', function (event, canvasShape) {
 			if (canvasShape === null) {
 				$scope.properties = null;
 				$scope.groupProperties = null;
 				$scope.mediaObjectId = null;
-			} else if (!canvasShape.isType('group')){
+			} else if (!canvasShape.isType('group')) {
 				var mediaFrame = shapeHelper.getMediaFrameFromView(canvasShape);
 
 				if (mediaFrame) {
@@ -85,7 +85,7 @@ angular.module('animatesApp')
 			}
 		});
 
-		$rootScope.$on('shapeChange', function (event, canvasShape){
+		$rootScope.$on('shapeChange', function (event, canvasShape) {
 			var selectedShapes = canvasService.getSelectedShape();
 
 			if (selectedShapes !== null) {

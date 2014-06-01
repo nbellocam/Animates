@@ -62,7 +62,7 @@ function extend (source, defaults) {
 			source[property] = source[property] || {};
 			arguments.callee(source[property], defaults[property]);
 		} else {
-			if (typeof source[property] === 'undefined'){
+			if (typeof source[property] === 'undefined') {
 				source[property] = defaults[property];
 			}
 		}
@@ -154,7 +154,7 @@ function clone(obj) {
  * @memberof animates.common
  * @return The new short GUID
  */
-function b(a){
+function b(a) {
 	return a ? (a^Math.random()*16>>a/4).toString(16) : ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,b);
 }
 

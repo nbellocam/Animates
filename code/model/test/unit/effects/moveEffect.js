@@ -5,9 +5,9 @@
 var MoveEffect = require('../../../src/effects/moveEffect'),
 	should = require("should");
 
-describe('MoveEffect', function(){
-	describe('constructor', function(){
-		it('Should generate a random guid', function(){
+describe('MoveEffect', function() {
+	describe('constructor', function() {
+		it('Should generate a random guid', function() {
 			var effect1 = new MoveEffect(),
 				effect2 = new MoveEffect();
 
@@ -16,8 +16,8 @@ describe('MoveEffect', function(){
 		});
 	});
 
-	describe('getType', function(){
-		it('Should retrieve MoveEffect as type.', function(){
+	describe('getType', function() {
+		it('Should retrieve MoveEffect as type.', function() {
 			var instance = new MoveEffect();
 
 			instance.getType().should.be.equal('MoveEffect');
@@ -25,8 +25,8 @@ describe('MoveEffect', function(){
 	});
 
 
-	describe('getAffectedProperties', function(){
-		it('Should return "position"', function(){
+	describe('getAffectedProperties', function() {
+		it('Should return "position"', function() {
 			var effect = new MoveEffect();
 			var effectAffectedProperties = effect.getAffectedProperties();
 
@@ -38,14 +38,14 @@ describe('MoveEffect', function(){
 		});
 	});
 
-	describe('startTick', function(){
-		it('Should start at 0 if it not specified otherwise', function(){
+	describe('startTick', function() {
+		it('Should start at 0 if it not specified otherwise', function() {
 			var effect = new MoveEffect();
 
 			effect.getOption('startTick').should.be.exactly(0);
 		});
 
-		it('Should start at the value specified using the constructor', function(){
+		it('Should start at the value specified using the constructor', function() {
 			var startTick = 42,
 				effect = new MoveEffect({ 'startTick' : startTick });
 
@@ -53,14 +53,14 @@ describe('MoveEffect', function(){
 		});
 	});
 
-	describe('endTick', function(){
-		it('Should end at -1 if it not specified otherwise', function(){
+	describe('endTick', function() {
+		it('Should end at -1 if it not specified otherwise', function() {
 			var effect = new MoveEffect();
 
 			effect.getOption('endTick').should.be.exactly(-1);
 		});
 
-		it('Should end at the value specified using the constructor', function(){
+		it('Should end at the value specified using the constructor', function() {
 			var endTick = 42,
 				effect = new MoveEffect({ 'endTick' : endTick });
 
@@ -68,8 +68,8 @@ describe('MoveEffect', function(){
 		});
 	});
 
-	describe('getProperties()', function(){
-		it('Should return the original tick not adding the x and y properties if path was not passed.', function(){
+	describe('getProperties()', function() {
+		it('Should return the original tick not adding the x and y properties if path was not passed.', function() {
 			var tick = 42,
 				mediaFrameProperties = {},
 				effect = new MoveEffect(),
@@ -79,7 +79,7 @@ describe('MoveEffect', function(){
 			resultMediaFrameProperties.should.not.have.property('position');
 		});
 
-		it('Should return the original tick not updating the x and y properties if path was not passed.', function(){
+		it('Should return the original tick not updating the x and y properties if path was not passed.', function() {
 			var tick = 42,
 				x = 24,
 				y = 32,
@@ -93,7 +93,7 @@ describe('MoveEffect', function(){
 			resultMediaFrameProperties.position.should.have.property('y', y);
 		});
 
-		it('Should return the original tick not adding the x and y properties if path was passed without the getPositionFor function.', function(){
+		it('Should return the original tick not adding the x and y properties if path was passed without the getPositionFor function.', function() {
 			var tick = 42,
 				mediaFrameProperties = {},
 				path = {},
@@ -105,7 +105,7 @@ describe('MoveEffect', function(){
 			resultMediaFrameProperties.should.not.have.properties('x', 'y');
 		});
 
-		it('Should return the original tick not updating the x and y properties if path was passed without the getPositionFor function.', function(){
+		it('Should return the original tick not updating the x and y properties if path was passed without the getPositionFor function.', function() {
 			var tick = 42,
 				x = 24,
 				y = 32,
@@ -119,7 +119,7 @@ describe('MoveEffect', function(){
 			resultMediaFrameProperties.position.should.have.property('y', y);
 		});
 
-		it('Should return the original tick with the new values.', function(){
+		it('Should return the original tick with the new values.', function() {
 			var tick = 42,
 				x = 24,
 				y = 32,
@@ -137,7 +137,7 @@ describe('MoveEffect', function(){
 			resultMediaFrameProperties.position.should.have.property('y', resultY);
 		});
 
-		it('Should retrive a copy of the original tick with no changes if the tick is before the startTick', function(){
+		it('Should retrive a copy of the original tick with no changes if the tick is before the startTick', function() {
 			var tick = 42,
 				startTick = 100,
 				x = 24,
@@ -156,7 +156,7 @@ describe('MoveEffect', function(){
 			resultMediaFrameProperties.position.should.have.property('y', y);
 		});
 
-		it('Should retrive a copy of the end tick with no extra changes if the tick is after the endTick', function(){
+		it('Should retrive a copy of the end tick with no extra changes if the tick is after the endTick', function() {
 			var tick = 42,
 				endTick = 40,
 				x = 24,

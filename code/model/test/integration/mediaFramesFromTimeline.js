@@ -27,7 +27,7 @@ var utils = {
 			width: 84
 		};
 	},
-	testMediaFrameProperties : function (properties, specifiedProperties, expectedX, expectedY){
+	testMediaFrameProperties : function (properties, specifiedProperties, expectedX, expectedY) {
 		properties.should.have.property('position');
 		properties.position.should.have.property('x', expectedX);
 		properties.position.should.have.property('y', expectedY);
@@ -40,7 +40,7 @@ var utils = {
 		properties.should.have.property('height', specifiedProperties.height);
 		properties.should.have.property('width', specifiedProperties.width);
 	},
-	testMediaFrameCollection : function (timeline, specificTick){
+	testMediaFrameCollection : function (timeline, specificTick) {
 		var mediaFramesCollection = timeline.getMediaFrames(specificTick);
 		should.exists(mediaFramesCollection);
 		mediaFramesCollection.should.have.lengthOf(1);
@@ -54,9 +54,9 @@ var utils = {
 	}
 };
 
-describe('Retrive all MediaFrames for a specific frame number from the Timeline', function(){
-	describe('One rectangle', function(){
-		it('Should retrive the MediaFrame object related to the rectangle', function(){
+describe('Retrive all MediaFrames for a specific frame number from the Timeline', function() {
+	describe('One rectangle', function() {
+		it('Should retrive the MediaFrame object related to the rectangle', function() {
 			var specifiedProperties = utils.createSpecifiedProperties(),
 				rectangle = new Rectangle(specifiedProperties),
 				timeline = new Timeline(),
@@ -77,7 +77,7 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			utils.testMediaFrameProperties(properties, specifiedProperties, specifiedProperties.position.x, specifiedProperties.position.y);
 		});
 
-		it('Should retrive the MediaFrame object related to the rectangle updated with the move effect', function(){
+		it('Should retrive the MediaFrame object related to the rectangle updated with the move effect', function() {
 			var specifiedProperties = utils.createSpecifiedProperties(),
 				rectangle = new Rectangle(specifiedProperties),
 				timeline = new Timeline(),
@@ -126,7 +126,7 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			utils.testMediaFrameProperties(properties, specifiedProperties, specificEndTick, specificEndTick);
 		});
 
-		it('Should retrive the MediaFrame object related to the rectangle updated with two continuous move effects', function(){
+		it('Should retrive the MediaFrame object related to the rectangle updated with two continuous move effects', function() {
 			var specifiedProperties = utils.createSpecifiedProperties(),
 				rectangle = new Rectangle(specifiedProperties),
 				timeline = new Timeline(),
@@ -193,7 +193,7 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			utils.testMediaFrameProperties(properties, specifiedProperties, 0, 0);
 		});
 
-		it('Should retrive the MediaFrame objects related to the two rectangles', function(){
+		it('Should retrive the MediaFrame objects related to the two rectangles', function() {
 			var specifiedProperties = utils.createSpecifiedProperties(),
 				rectangle1 = new Rectangle(specifiedProperties),
 				rectangle2 = new Rectangle(specifiedProperties),
@@ -238,7 +238,7 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			utils.testMediaFrameProperties(properties, specifiedProperties, specifiedProperties.position.x, specifiedProperties.position.y);
 		});
 
-		it('Should retrive the MediaFrame objects related to the two rectangles, one of them updated with the move effect', function(){
+		it('Should retrive the MediaFrame objects related to the two rectangles, one of them updated with the move effect', function() {
 			var specifiedProperties = utils.createSpecifiedProperties(),
 				rectangle1 = new Rectangle(specifiedProperties),
 				rectangle2 = new Rectangle(specifiedProperties),

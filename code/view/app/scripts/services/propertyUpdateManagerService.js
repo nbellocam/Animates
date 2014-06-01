@@ -20,7 +20,7 @@ angular.module('animatesApp')
 
         return true;
       },
-      createUpdatedPropertiesDiff = function createUpdatedPropertiesDiff (updatedProperties, mediaTimeline){
+      createUpdatedPropertiesDiff = function createUpdatedPropertiesDiff (updatedProperties, mediaTimeline) {
         var mediaFrame = mediaTimeline.getMediaFrameFor(localAnimationStateService.getCurrentTick()),
           updatedPropertiesDiff = {};
 

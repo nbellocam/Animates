@@ -5,8 +5,8 @@
 var JsonSerializer = require('../../../src/serialization/jsonSerializer'),
 	should = require("should");
 
-describe('JsonSerializer', function(){
-	describe('serializeArray should call toJSON of every object in the array', function(){
+describe('JsonSerializer', function() {
+	describe('serializeArray should call toJSON of every object in the array', function() {
 		var array = [
 						{
 							'toJSON' : function () { return 'prop1'; }
@@ -28,7 +28,7 @@ describe('JsonSerializer', function(){
 		json.should.containEql({'type' : 'Object', 'data' : 'prop3'});
 	});
 
-	describe('serializeDictionary should call toJSON of each key-value	', function(){
+	describe('serializeDictionary should call toJSON of each key-value	', function() {
 		var dic = {
 						'key1' : 
 							{

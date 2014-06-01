@@ -22,7 +22,7 @@ angular.module('animatesApp')
 			return animationInstance;
 		}
 		
-		this.getInstance = function getInstance(){
+		this.getInstance = function getInstance() {
 			return animationInstance || createAnimation();
 		};
 	});

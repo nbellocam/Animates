@@ -67,7 +67,7 @@ function MediaObject (options, builder) {
 		return guid;
 	};
 
-	this.getType = function getType(){
+	this.getType = function getType() {
 		return Common.realTypeOf(this);
 	};
 

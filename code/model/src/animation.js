@@ -19,7 +19,7 @@ function Animation (options) {
 	_self.canvas = options.canvas || new Canvas();
 	_self.timeline = options.timeline || new Timeline();
 
-	function applyShapeCreateOperation(opParams, context){
+	function applyShapeCreateOperation(opParams, context) {
 		var mediaTimeline = _self.timeline.addMediaObject(opParams.mediaObject);
 		if (mediaTimeline) {
 			mediaTimeline.setStartTick(opParams.tick);
@@ -29,7 +29,7 @@ function Animation (options) {
 		return false;
 	}
 
-	function applyShapeUpdateOperation(opParams, context){
+	function applyShapeUpdateOperation(opParams, context) {
 		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
 		if (mediaTimeline) {
 			var mediaObject = mediaTimeline.getMediaObject();
@@ -40,7 +40,7 @@ function Animation (options) {
 		return false;
 	}
 
-	function applyShapeRemoveOperation(opParams, context){
+	function applyShapeRemoveOperation(opParams, context) {
 		if (_self.timeline.getMediaTimeline(opParams.mediaObjectId)) {
 			_self.timeline.removeMediaObject(opParams.mediaObjectId);
 			return true;
@@ -49,7 +49,7 @@ function Animation (options) {
 		return false;
 	}
 
-	function applyEffectCreateOperation(opParams, context){
+	function applyEffectCreateOperation(opParams, context) {
 		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
 		if (mediaTimeline) {
 			mediaTimeline.addEffect(opParams.effect);
@@ -59,12 +59,12 @@ function Animation (options) {
 		return false;
 	}
 
-	function applyEffectUpdateOperation(opParams, context){
+	function applyEffectUpdateOperation(opParams, context) {
 		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
 		if (mediaTimeline) {
 			var effect = mediaTimeline.getEffect(opParams.effectId);
 
-			if (effect){
+			if (effect) {
 				effect.setOptions(opParams.options);
 				return true;
 			}
@@ -75,7 +75,7 @@ function Animation (options) {
 		return false;
 	}
 
-	function applyEffectRemoveOperation(opParams, context){
+	function applyEffectRemoveOperation(opParams, context) {
 		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
 		if (mediaTimeline && mediaTimeline.getEffect(opParams.effectId)) {
 			mediaTimeline.removeEffect(opParams.effectId);
@@ -86,8 +86,8 @@ function Animation (options) {
 		return false;
 	}
 
-	function applyShapeOperation(operation, opParams, context){
-		switch (operation){
+	function applyShapeOperation(operation, opParams, context) {
+		switch (operation) {
 			case 'Create':
 				return applyShapeCreateOperation(opParams, context);
 			case 'Update':
@@ -99,8 +99,8 @@ function Animation (options) {
 		}
 	}
 
-	function applyEffectOperation(operation, opParams, context){
-		switch (operation){
+	function applyEffectOperation(operation, opParams, context) {
+		switch (operation) {
 			case 'Create':
 				return applyEffectCreateOperation(opParams, context);
 			case 'Update':
@@ -112,7 +112,7 @@ function Animation (options) {
 		}
 	}
 
-	this.applyOperation = function applyOperation(target, operation, opParams, context){
+	this.applyOperation = function applyOperation(target, operation, opParams, context) {
 		if (target && operation && opParams) {
 			var result = false;
 			switch (target) {
@@ -141,7 +141,7 @@ function Animation (options) {
 	};
 
 	this.removeUpdateObserver = function removeUpdateObserver(observerId) {
-		if (updateObservers.hasOwnProperty(observerId)){
+		if (updateObservers.hasOwnProperty(observerId)) {
 			delete updateObservers[observerId];
 		}
 	};
@@ -151,19 +151,19 @@ function Animation (options) {
 	};
 
 	this.removeLoadCompleteObserver = function removeLoadCompleteObserver(observerId) {
-		if (loadCompleteObservers.hasOwnProperty(observerId)){
+		if (loadCompleteObservers.hasOwnProperty(observerId)) {
 			delete loadCompleteObservers[observerId];
 		}
 	};
 
 	this.loadProject = function loadProject(json) {
-		if (json && json.type && json.data){
+		if (json && json.type && json.data) {
 			var animationData = json.data;
-			if (animationData.timeline.type && animationData.timeline.data){
+			if (animationData.timeline.type && animationData.timeline.data) {
 				_self.timeline.fromJSON(animationData.timeline.data);
 			}
 
-			if (animationData.canvas.type && animationData.canvas.data){
+			if (animationData.canvas.type && animationData.canvas.data) {
 				_self.canvas.fromJSON(animationData.canvas.data);
 			}
 

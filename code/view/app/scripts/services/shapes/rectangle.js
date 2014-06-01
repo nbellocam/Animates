@@ -10,7 +10,7 @@ angular.module('animatesApp')
 
 		shapeCreator.registerShape(typeId, createShape);
 
-		function syncFromModel(viewObject, canvasPosition){
+		function syncFromModel(viewObject, canvasPosition) {
 			var model = shapeHelper.getMediaFrameFromView(viewObject);
 
 			shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject, canvasPosition);
@@ -19,7 +19,7 @@ angular.module('animatesApp')
 			shapeSyncHelper.syncViewProperty(model.getProperty('width'), viewObject, 'width');
 		};
 
-		function syncFromView(viewObject, canvasPosition){
+		function syncFromView(viewObject, canvasPosition) {
 			var diff = shapeSyncHelper.syncVisualMediaObjectFromView(viewObject, canvasPosition),
 				mediaObject = shapeHelper.getMediaObjectFromView(viewObject);
 
@@ -31,11 +31,11 @@ angular.module('animatesApp')
 
 		shapeSync.registerShape(typeId, syncFromModel, syncFromView);
 
-		function getButtonClass(){
+		function getButtonClass() {
 			return 'fa fa-square-o';
 		};
 
-		function createMediaObject(){
+		function createMediaObject() {
 			return new shapeSyncHelper.Model.Rectangle();
 		};
 

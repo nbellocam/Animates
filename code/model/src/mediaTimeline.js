@@ -22,7 +22,7 @@ function MediaTimeline (options) {
 	 * @param {integer} currentTick The current tick.
 	 */
 	this.getMediaFrameFor = function getMediaFrameFor(currentTick) {
-		if (startTick <= currentTick){
+		if (startTick <= currentTick) {
 			var mediaObjectFrame = new MediaFrame({ 'mediaObject' : mediaObject, 'currentTick' : currentTick }),
 				effectsArray = [],
 				currentEffect;
@@ -33,14 +33,14 @@ function MediaTimeline (options) {
 				}
 			}
 
-			effectsArray.sort(function(a,b){
+			effectsArray.sort(function(a,b) {
 				return b.getOption('endTick') - a.getOption('endTick');
 			});
 
 			for (var i = effectsArray.length - 1; i >= 0; i--) {
 				currentEffect = effectsArray[i];
 				if (currentTick >= currentEffect.getOption('startTick')) {
-					if (currentEffect.getOption('endTick') === -1 ){
+					if (currentEffect.getOption('endTick') === -1 ) {
 						mediaObjectFrame.properties(currentEffect.getProperties(currentTick, mediaObjectFrame.properties()));
 					} else {
 						mediaObjectFrame.properties(
@@ -101,7 +101,7 @@ function MediaTimeline (options) {
 		for (var id in effects) {
 			if (effects.hasOwnProperty(id)) {
 				effectEndTick = effects[id].getOption('endTick');
-				if (effectEndTick > currentEndTick){
+				if (effectEndTick > currentEndTick) {
 					currentEndTick = effectEndTick;
 				}
 			}
@@ -130,7 +130,7 @@ function MediaTimeline (options) {
 				var currentEffect = effects[id];
 
 				// Only consider effects that start before the upperLimitTick
-				if (currentEffect.getOption('startTick') < upperTickLimit){
+				if (currentEffect.getOption('startTick') < upperTickLimit) {
 					if (currentEffect.HasConflictWithProperties(effect)) {
 						if (endTick < currentEffect.getOption('endTick')) {
 							endTick = currentEffect.getOption('endTick');
@@ -177,7 +177,7 @@ function MediaTimeline (options) {
 			resultEffects = [];
 
 		for (var i = 0; i < effects.length; i++) {
-			if (effects[i].HasConflictWithListOfProperties(propertiesList)){
+			if (effects[i].HasConflictWithListOfProperties(propertiesList)) {
 				resultEffects.push(effects[i]);
 			}
 		}
@@ -227,7 +227,7 @@ function MediaTimeline (options) {
 	 * Add a new effect to the media object timeline.
 	 * @param {Effect} effect the effect that will be added.
 	 */
-	this.addEffect = function addEffect(effect){
+	this.addEffect = function addEffect(effect) {
 		if (effect) {
 			effects[effect.getGuid()] = effect;
 		}
@@ -237,7 +237,7 @@ function MediaTimeline (options) {
 	 * Remove the effect from the media object timeline that correspond to the effectId
 	 * @param  {string} effectId The id that was used when the effect was added.
 	 */
-	this.removeEffect = function removeEffect(effectId){
+	this.removeEffect = function removeEffect(effectId) {
 		if (effectId) {
 			delete effects[effectId];
 		}
@@ -247,7 +247,7 @@ function MediaTimeline (options) {
 	 * Return the effect.
 	 * @return {Object} A dictionary with all the effects.
 	 */
-	this.getEffect = function getEffect(effectId){
+	this.getEffect = function getEffect(effectId) {
 		return effects[effectId];
 	};
 
@@ -255,7 +255,7 @@ function MediaTimeline (options) {
 	 * Return the collection of effect.
 	 * @return {Object} A dictionary with all the effects.
 	 */
-	this.getEffects = function getEffects(){
+	this.getEffects = function getEffects() {
 		return effects;
 	};
 

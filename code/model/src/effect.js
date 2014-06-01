@@ -152,7 +152,7 @@ function Effect (options) {
 		currentOptions = json.options;
 	};
 
-	this.getType = function (){
+	this.getType = function () {
 		return Common.realTypeOf(this);
 	};
 

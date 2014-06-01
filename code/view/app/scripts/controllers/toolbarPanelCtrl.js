@@ -2,7 +2,7 @@
 
 angular.module('animatesApp')
 	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService, shapeHelper, toolbarService) {
-		function applyOperation(target, operation, params){
+		function applyOperation(target, operation, params) {
 			animationService.getInstance().applyOperation(target, operation, params, { sender: 'toolbar' });
 		}
 
@@ -26,9 +26,9 @@ angular.module('animatesApp')
 		$scope.removeElements = function() {
 			var selectedElement = canvasService.getSelectedShape();
 
-			if (selectedElement){
-				if (selectedElement.isType('group')){
-					selectedElement.forEachObject(function (obj){
+			if (selectedElement) {
+				if (selectedElement.isType('group')) {
+					selectedElement.forEachObject(function (obj) {
 						applyOperation('Shape', 'Remove', {
 							mediaObjectId: shapeHelper.getGuidFromView(obj)
 						});

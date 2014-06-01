@@ -2,7 +2,7 @@
 
 angular.module('animatesApp')
 	.controller('EditorCtrl', function EditorCtrl($scope, $timeout, canvasService, animationService, serverService) {
-		function initializeLayout(){
+		function initializeLayout() {
 			angular.element(document).ready(function () {
 				angular.element('body').layout({
 					spacing: 0,
@@ -20,7 +20,7 @@ angular.module('animatesApp')
 						size: 130
 					},
 					center: {
-						onresize : function (panelName, element, state){
+						onresize : function (panelName, element, state) {
 							canvasService.updateSize(state.innerHeight, state.innerWidth);
 						}
 					}
@@ -35,7 +35,7 @@ angular.module('animatesApp')
 
 		$scope.initializeAnimation = function initializeAnimation(id) {
 			$scope.loading = true;
-			if (serverService.isAvailable()){
+			if (serverService.isAvailable()) {
 				serverService.loadProject(id, function success(data) {
 						animationService.getInstance().loadProject(data.animation);
 						serverService.joinProject(id);

@@ -7,14 +7,14 @@ angular.module('animatesApp')
 					value = (round) ? $window.Math.round(fabricValue) : fabricValue;
 
 				modelProperty = (round) ? $window.Math.round(modelProperty) : modelProperty;
-				if (value !== modelProperty){
+				if (value !== modelProperty) {
 					diff[propertyName] = value;
 				}
 			},
 			syncViewProperty = function syncViewProperty(modelValue, viewObject, propertyName) {
 				var fabricProperty = viewObject.get(propertyName);
 
-				if (modelValue !== fabricProperty){
+				if (modelValue !== fabricProperty) {
 					viewObject.set(propertyName, modelValue);
 				}
 			},

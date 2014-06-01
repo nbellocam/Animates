@@ -24,7 +24,7 @@ function Path (options) {
 	 * @returns {object} The postion {x, y} for the current tick
 	 */
 	this.getPositionFor = function (startTick, endTick, currentTick) {
-		if (startTick > currentTick){
+		if (startTick > currentTick) {
 			return {}; // The position can't be determined
 		}
 
@@ -33,16 +33,16 @@ function Path (options) {
 			endX = _self.endPosition.x,
 			endY = _self.endPosition.y;
 
-		if (endTick === -1){
+		if (endTick === -1) {
 			var tickDelta = currentTick - startTick,
 				currentXPosition,
 				currentYPosition,
 				finalXPosition,
 				finalYPosition;
 
-			if (startX === endX){
+			if (startX === endX) {
 				finalXPosition = startX;
-			} else if (startX < endX){
+			} else if (startX < endX) {
 				currentXPosition = startX + tickDelta;
 				finalXPosition = currentXPosition >= endX ? endX : currentXPosition;
 			} else {
@@ -50,9 +50,9 @@ function Path (options) {
 				finalXPosition = currentXPosition <= endX ? endX : currentXPosition;
 			}
 
-			if (startY === endY){
+			if (startY === endY) {
 				finalYPosition = startY;
-			} else if (startY < endY){
+			} else if (startY < endY) {
 				currentYPosition = startY + tickDelta;
 				finalYPosition = currentYPosition >= endY ? endY : currentYPosition;
 			} else {
@@ -63,7 +63,7 @@ function Path (options) {
 			return { x: finalXPosition, y: finalYPosition };
 		}
 
-		if (endTick <= currentTick){
+		if (endTick <= currentTick) {
 			return { 'x' : endX, 'y' : endY };
 		}
 

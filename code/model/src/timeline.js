@@ -18,18 +18,18 @@ function Timeline (options) {
 	 */
 	this.addMediaObject = function addMediaObject(mediaObject) {
 		// Generate a new MediaTimeline using the mediaObject data.
-		if (mediaObject !== undefined){
+		if (mediaObject !== undefined) {
 			var mediaTimeline,
 				i,
 				mediaObjectId = mediaObject.getGuid();
 
 			for (i = mediaTimelineCollection.length - 1; i >= 0 && !mediaTimeline; i--) {
-				if (mediaTimelineCollection[i].getMediaObjectId() === mediaObjectId){
+				if (mediaTimelineCollection[i].getMediaObjectId() === mediaObjectId) {
 					mediaTimeline = mediaTimelineCollection[i];
 				}
 			}
 
-			if (!mediaTimeline){
+			if (!mediaTimeline) {
 				mediaTimeline = new MediaTimeline({ mediaObject : mediaObject });
 				mediaTimelineCollection.push(mediaTimeline);
 			}
@@ -47,7 +47,7 @@ function Timeline (options) {
 	this.removeMediaObject = function removeMediaObject(mediaObjectId) {
 		var i;
 		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
-			if (mediaTimelineCollection[i].getMediaObjectId() === mediaObjectId){
+			if (mediaTimelineCollection[i].getMediaObjectId() === mediaObjectId) {
 				mediaTimelineCollection.splice(i, 1);
 			}
 		}
@@ -70,7 +70,7 @@ function Timeline (options) {
 
 		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
 			current = mediaTimelineCollection[i];
-			if (current.getMediaObjectId() === mediaObjectId){
+			if (current.getMediaObjectId() === mediaObjectId) {
 				return current;
 			}
 		}
@@ -103,7 +103,7 @@ function Timeline (options) {
 		
 		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
 			var mediaFrame = mediaTimelineCollection[i].getMediaFrameFor(currentTick);
-			if (mediaFrame){
+			if (mediaFrame) {
 				elements.push(mediaFrame);
 			}
 		}

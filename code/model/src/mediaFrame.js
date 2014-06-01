@@ -38,7 +38,7 @@ function MediaFrame (options) {
 	 */
 	this.getProperty = function getProperty(name)
 	{
-		if (name){
+		if (name) {
 			var parts = name.split('.'),
 			parent = currentProperties,
 			currentPart = '',

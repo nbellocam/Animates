@@ -4,40 +4,40 @@ var Common = require('../src/common'),
 	assert = require("assert"),
 	should = require("should");
 
-describe('Common', function(){
-	describe('#createShortGuid', function(){
-		it('should match the guid regex', function(){
+describe('Common', function() {
+	describe('#createShortGuid', function() {
+		it('should match the guid regex', function() {
 			var guid = Common.createGuid();
 
 			guid.should.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/);
 		});
 	});
-	describe('realTypeOf', function(){
-		it('Should return String strings', function(){
+	describe('realTypeOf', function() {
+		it('Should return String strings', function() {
 			Common.realTypeOf('text').should.equal('String');
 		});
 
-		it('Should return Object for {}', function(){
+		it('Should return Object for {}', function() {
 			Common.realTypeOf({}).should.equal('Object');
 		});
 
-		it('Should return Number for numbers', function(){
+		it('Should return Number for numbers', function() {
 			Common.realTypeOf(1).should.equal('Number');
 		});
 
-		it('Should return Boolean for true or false', function(){
+		it('Should return Boolean for true or false', function() {
 			Common.realTypeOf(true).should.equal('Boolean');
 			Common.realTypeOf(false).should.equal('Boolean');
 		});
 
-		it('Should return Custom types', function(){
+		it('Should return Custom types', function() {
 			var obj;
 			function Custom() {}
 			obj = new Custom();
 			Common.realTypeOf(obj).should.equal('Custom');
 		});
 
-		it('Should return Custom types', function(){
+		it('Should return Custom types', function() {
 			var obj;
 			function Custom() {}
 			var b = Custom;
@@ -46,8 +46,8 @@ describe('Common', function(){
 		});
 	});
 
-	describe('#typeOf', function(){
-		it('should only return null with null or undefined objects', function(){
+	describe('#typeOf', function() {
+		it('should only return null with null or undefined objects', function() {
 			should.equal(Common.typeOf(null), null);
 			should.equal(Common.typeOf(undefined), null);
 
@@ -66,7 +66,7 @@ describe('Common', function(){
 			should.notEqual(Common.typeOf(new Date()), null);
 		});
 
-		it("should only return 'string' with string literals", function(){
+		it("should only return 'string' with string literals", function() {
 			should.equal(Common.typeOf("text"), 'string');
 
 			should.notEqual(Common.typeOf(null), 'string');
@@ -85,7 +85,7 @@ describe('Common', function(){
 			should.notEqual(Common.typeOf(new Date()), 'string');
 		});
 
-		it("should only return 'boolean' with boolean literals", function(){
+		it("should only return 'boolean' with boolean literals", function() {
 			should.equal(Common.typeOf(true), 'boolean');
 			should.equal(Common.typeOf(false), 'boolean');
 
@@ -104,7 +104,7 @@ describe('Common', function(){
 			should.notEqual(Common.typeOf(new Date()), 'boolean');
 		});
 
-		it("should only return 'date' with date objects", function(){
+		it("should only return 'date' with date objects", function() {
 			should.equal(Common.typeOf(new Date()), 'date');
 
 			should.notEqual(Common.typeOf(null), 'date');
@@ -123,7 +123,7 @@ describe('Common', function(){
 			should.notEqual(Common.typeOf({}), 'date');
 		});
 
-		it("should only return 'array' with array objects", function(){
+		it("should only return 'array' with array objects", function() {
 			should.equal(Common.typeOf([]), 'array');
 
 			should.notEqual(Common.typeOf(null), 'array');
@@ -142,7 +142,7 @@ describe('Common', function(){
 			should.notEqual(Common.typeOf(new Date()), 'array');
 		});
 
-		it("should only return 'number' with number and NaN objects", function(){
+		it("should only return 'number' with number and NaN objects", function() {
 			should.equal(Common.typeOf(1), 'number');
 			should.equal(Common.typeOf(-1), 'number');
 			should.equal(Common.typeOf(NaN), 'number');
@@ -162,7 +162,7 @@ describe('Common', function(){
 			should.notEqual(Common.typeOf(new Date()), 'number');
 		});
 
-		it("should only return 'function' with functions", function(){
+		it("should only return 'function' with functions", function() {
 			should.equal(Common.typeOf(function () {}), 'function');
 			should.equal(Common.typeOf(function fun () {}), 'function');
 
@@ -181,7 +181,7 @@ describe('Common', function(){
 			should.notEqual(Common.typeOf(new Date()), 'function');
 		});
 
-		it("should only return 'object' with literal adn custom objects", function(){
+		it("should only return 'object' with literal adn custom objects", function() {
 			function CustomObject() {}
 
 			var customObj = new CustomObject();
@@ -208,7 +208,7 @@ describe('Common', function(){
 		it("should only return 'dom' for dom objects");
 	});
 
-	describe('#inherits', function(){
+	describe('#inherits', function() {
 		function BaseClass () {
 			var privateProp = 'private';
 
@@ -231,11 +231,11 @@ describe('Common', function(){
 
 		var inhertied = new InheritedClass();
 
-		it('should copy public properties', function(){
+		it('should copy public properties', function() {
 			should.equal(Common.typeOf(inhertied.getPrivateProp), 'function');
 		});
 
-		it('should keep private properties state', function(){
+		it('should keep private properties state', function() {
 			should.equal(inhertied.getPrivateProp(), 'private');
 
 			inhertied.setPrivateProp('new value');
@@ -244,7 +244,7 @@ describe('Common', function(){
 		});
 	});
 
-	describe('#inheritsWithOverride', function(){
+	describe('#inheritsWithOverride', function() {
 		function BaseClass () {
 			var privateProp = 'private';
 
@@ -278,11 +278,11 @@ describe('Common', function(){
 		var base = new BaseClass();
 		var inhertied = new InheritedClass();
 
-		it('should copy public properties', function(){
+		it('should copy public properties', function() {
 			should.equal(Common.typeOf(inhertied.getPrivateProp), 'function');
 		});
 
-		it('should keep private properties state', function(){
+		it('should keep private properties state', function() {
 			should.equal(inhertied.getPrivateProp(), 'private');
 
 			inhertied.setPrivateProp('new value');
@@ -290,24 +290,24 @@ describe('Common', function(){
 			should.equal(inhertied.getPrivateProp(), 'new value');
 		});
 
-		it('should use the base testFunction function', function(){
+		it('should use the base testFunction function', function() {
 			should.equal(Common.typeOf(base.testFunction), 'function');
 
 			should.equal(base.testFunction(), 'base');
 		});
 
-		it('should use the new testFunction function', function(){
+		it('should use the new testFunction function', function() {
 			should.equal(Common.typeOf(inhertied.testFunction), 'function');
 
 			should.equal(inhertied.testFunction(), 'inherited');
 		});
 	});
 
-	describe('#clone', function(){
+	describe('#clone', function() {
 		it('should create and exact copy of an object');
 	});
 
-	describe('#extend', function(){
+	describe('#extend', function() {
 		it('should not overwrite existing values', function () {
 			var options = {
 					prop : 'value',
@@ -369,20 +369,20 @@ describe('Common', function(){
 		});
 	});
 
-	describe('#namespace', function(){
+	describe('#namespace', function() {
 		it('should create a namespace if not exists');
 		it('should create a hierarquical namespace if not exists');
 		it('should not overwrite existant namespaces');
 	});
 
-	describe('#getKeysFromObject', function(){
-		it('should return empty list if object is empty', function(){
+	describe('#getKeysFromObject', function() {
+		it('should return empty list if object is empty', function() {
 			var object = {},
 				result = Common.getKeysFromObject(object);
 			result.should.be.an.Array.and.an.length(0);
 		});
 
-		it('should return a list with one element if object has one property', function(){
+		it('should return a list with one element if object has one property', function() {
 			var keyName = 'key',
 				object = { 'key' : 'value'},
 				result = Common.getKeysFromObject(object);
@@ -391,7 +391,7 @@ describe('Common', function(){
 			result.should.containEql(keyName);
 		});
 
-		it('should return a list with two element if object has two property', function(){
+		it('should return a list with two element if object has two property', function() {
 			var keyName1 = 'keyName1',
 				keyName2 = 'keyName2',
 				object = { 'keyName1' : 'value',  'keyName2' : 'value2' },

@@ -8,7 +8,7 @@ angular.module('animatesApp')
 			if (target === 'Effect') {
 				$scope.adaptMediaTimelines();
 			} else if (target === 'Shape') {
-				if ( operation === 'Create' || operation === 'Remove'){
+				if ( operation === 'Create' || operation === 'Remove') {
 					$scope.adaptMediaTimelines();
 				}
 			}
@@ -23,18 +23,18 @@ angular.module('animatesApp')
 			localAnimationStateService.setCurrentTick(newVal);
 		});
 
-		$scope.adaptMediaTimelines = function adaptMediaTimelines (){
+		$scope.adaptMediaTimelines = function adaptMediaTimelines () {
 			var mediaTimelines = animationService.getInstance().timeline.getMediaTimelines();
 
 			$scope.timelines = [];
-			angular.forEach(mediaTimelines, function (mediaTimeline){
+			angular.forEach(mediaTimelines, function (mediaTimeline) {
 				var timeline = {
 					guid : mediaTimeline.getMediaObjectId(),
 					name : mediaTimeline.getMediaObjectId(),
 					events : []
 				};
 
-				angular.forEach(mediaTimeline.getEffects(), function (effect){
+				angular.forEach(mediaTimeline.getEffects(), function (effect) {
 					timeline.events.push({
 						name : effect.getGuid(),
 						start : effect.getOption('startTick'),

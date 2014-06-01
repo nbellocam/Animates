@@ -2,7 +2,7 @@
 
 angular.module('animatesApp')
 	.factory('effectCreator', function effectCreator(localAnimationStateService, animationService) {
-		var applyEffectCreationOperation = function applyEffectCreationOperation (mediaObjectId, effect, sender){
+		var applyEffectCreationOperation = function applyEffectCreationOperation (mediaObjectId, effect, sender) {
 					animationService.getInstance().applyOperation('Effect', 'Create', {
 						mediaObjectId: mediaObjectId,
 						effect: effect
@@ -10,7 +10,7 @@ angular.module('animatesApp')
 						sender: sender
 					});
 				},
-				applyEffectUpdateOperation = function applyEffectUpdateOperation (mediaObjectId, effectId, options, sender){
+				applyEffectUpdateOperation = function applyEffectUpdateOperation (mediaObjectId, effectId, options, sender) {
 					animationService.getInstance().applyOperation('Effect', 'Update', {
 						mediaObjectId: mediaObjectId,
 						effectId: effectId,
@@ -20,7 +20,7 @@ angular.module('animatesApp')
 					});
 				};
 
-		var addMoveEffectIfRequired = function addMoveEffectIfRequired(updatedPropertiesDiff, originalProperties, mediaTimeline, sender){
+		var addMoveEffectIfRequired = function addMoveEffectIfRequired(updatedPropertiesDiff, originalProperties, mediaTimeline, sender) {
 			var positionX = updatedPropertiesDiff['position.x'],
 				positionY = updatedPropertiesDiff['position.y'],
 				posXStart = (positionX) ? positionX.oldValue : originalProperties.position.x,
@@ -101,7 +101,7 @@ angular.module('animatesApp')
 					applyEffectUpdateOperation(mediaObjectId, effectToSplit.getGuid(), effectToSplitOptions, sender);
 				}
 
-				if (addNewEffect){
+				if (addNewEffect) {
 					moveEffect.setOption('startTick', mediaTimeline.getStartTickFor(moveEffect, moveEffect.getOption('endTick')));
 					applyEffectCreationOperation(mediaObjectId, moveEffect, sender);
 				}

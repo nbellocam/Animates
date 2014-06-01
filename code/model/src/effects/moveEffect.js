@@ -26,21 +26,21 @@ function MoveEffect(options) {
 			endTick = _self.getOption('endTick'),
 			path = _self.getOption('path');
 
-		if (tick >= startTick){
+		if (tick >= startTick) {
 			if (typeof path !== 'undefined' && typeof path.getPositionFor === 'function' ) {
 				var currentPos;
 
-				if (endTick === -1){
+				if (endTick === -1) {
 					currentPos = path.getPositionFor(startTick, endTick, tick);
 				} else {
 					currentPos = path.getPositionFor(startTick, endTick, (tick < endTick) ? tick : endTick);
 				}
 
-				if (typeof currentPos.x !== 'undefined' ){
+				if (typeof currentPos.x !== 'undefined' ) {
 					mediaFrameProperties.position.x = currentPos.x;
 				}
 
-				if (typeof currentPos.y !== 'undefined' ){
+				if (typeof currentPos.y !== 'undefined' ) {
 					mediaFrameProperties.position.y = currentPos.y;
 				}
 			}

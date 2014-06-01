@@ -17,7 +17,7 @@ angular.module('animatesApp')
 		};
 
 		this.on = function (id, eventName, callback) {
-			if (_self.isAvailable() && sockets[id]){
+			if (_self.isAvailable() && sockets[id]) {
 				sockets[id].on(eventName, function () {
 					var args = arguments;
 					$rootScope.$apply(function () {
@@ -28,7 +28,7 @@ angular.module('animatesApp')
 		};
 		
 		this.emit = function (id, eventName, data, callback) {
-			if (_self.isAvailable() && sockets[id]){
+			if (_self.isAvailable() && sockets[id]) {
 				sockets[id].emit(eventName, data, function () {
 					var args = arguments;
 					$rootScope.$apply(function () {

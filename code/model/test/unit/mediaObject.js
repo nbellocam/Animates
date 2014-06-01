@@ -6,9 +6,9 @@ var MediaObject = require('../../src/mediaObject'),
 	CompositePropertyBuilder = require('../../src/properties/compositePropertyBuilder'),
 	should = require("should");
 
-describe('MediaObject', function(){
-	describe('constructor', function(){
-		it('Should generate a random guid.', function(){
+describe('MediaObject', function() {
+	describe('constructor', function() {
+		it('Should generate a random guid.', function() {
 			var mediaObject = new MediaObject(),
 				mediaObject2 = new MediaObject();
 
@@ -17,15 +17,15 @@ describe('MediaObject', function(){
 		});
 	});
 
-	describe('getProperties', function(){
-		it('Should return an empty object is no option is passed as parameter.', function(){
+	describe('getProperties', function() {
+		it('Should return an empty object is no option is passed as parameter.', function() {
 			var instance = new MediaObject(),
 				properties = instance.getProperties();
 
 			properties.should.be.empty;
 		});
 
-		it('Should return empty even if an option is passed by parameter.', function(){
+		it('Should return empty even if an option is passed by parameter.', function() {
 			var	instance = new MediaObject({propertyName: 'specifiedPropertyValue'}),
 				properties = instance.getProperties();
 
@@ -33,8 +33,8 @@ describe('MediaObject', function(){
 		});
 	});
 
-	describe('getProperty', function(){
-		it('Should throw an error if the property does not exits.', function(){
+	describe('getProperty', function() {
+		it('Should throw an error if the property does not exits.', function() {
 			var instance = new MediaObject();
 
 			(function () {
@@ -42,7 +42,7 @@ describe('MediaObject', function(){
 			}).should.throw(/^Property 'invalidProperty' could not be found/);
 		});
 
-		it('Should throw an error if parent property is empty.', function(){
+		it('Should throw an error if parent property is empty.', function() {
 			var instance = new MediaObject();
 
 			(function () {
@@ -50,7 +50,7 @@ describe('MediaObject', function(){
 			}).should.throw(/^Property 'parentPropertyName' could not be found/);
 		});
 
-		it('Should throw an error if inner property is empty.', function(){
+		it('Should throw an error if inner property is empty.', function() {
 			var propertyBuilder = new CompositePropertyBuilder(),
 				instance;
 
@@ -69,7 +69,7 @@ describe('MediaObject', function(){
 			}).should.throw(/^Property 'innerPropertyName' could not be found/);
 		});
 
-		it('Should return the property if it exits.', function(){
+		it('Should return the property if it exits.', function() {
 			var propertyBuilder = new CompositePropertyBuilder(),
 				instance;
 
@@ -84,7 +84,7 @@ describe('MediaObject', function(){
 			instance.getProperty('prop').should.equal('text');
 		});
 
-		it('Should return the inner property if it exits.', function(){
+		it('Should return the inner property if it exits.', function() {
 			var propertyBuilder = new CompositePropertyBuilder(),
 				instance;
 
@@ -102,8 +102,8 @@ describe('MediaObject', function(){
 		});
 	});
 
-	describe('setProperty', function(){
-		it('Should throw an error if the property does not exits.', function(){
+	describe('setProperty', function() {
+		it('Should throw an error if the property does not exits.', function() {
 			var instance = new MediaObject();
 
 			(function () {
@@ -111,7 +111,7 @@ describe('MediaObject', function(){
 			}).should.throw(/^Property 'parentPropertyName' could not be found/);
 		});
 
-		it('Should update a property if it already exits.', function(){
+		it('Should update a property if it already exits.', function() {
 			var propertyBuilder = new CompositePropertyBuilder(),
 				instance;
 
@@ -128,7 +128,7 @@ describe('MediaObject', function(){
 			instance.getProperty('prop').should.equal('newText');
 		});
 
-		it('Should throw an exception if the property does not exits.', function(){
+		it('Should throw an exception if the property does not exits.', function() {
 			var propertyBuilder = new CompositePropertyBuilder(),
 				instance;
 
@@ -145,7 +145,7 @@ describe('MediaObject', function(){
 			}).should.throw(/^Property 'parentPropertyName' could not be found/);
 		});
 
-		it('Should update a inner property if it already exits.', function(){
+		it('Should update a inner property if it already exits.', function() {
 			var propertyBuilder = new CompositePropertyBuilder(),
 				instance;
 

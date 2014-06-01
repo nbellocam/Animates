@@ -5,9 +5,9 @@
 var Rectangle = require('../../../src/shapes/rectangle'),
 	should = require("should");
 
-describe('Rectangle', function(){
-	describe('constructor', function(){
-		it('Should generate a random guid.', function(){
+describe('Rectangle', function() {
+	describe('constructor', function() {
+		it('Should generate a random guid.', function() {
 			var rectangle = new Rectangle(),
 				rectangle2 = new Rectangle();
 
@@ -15,13 +15,13 @@ describe('Rectangle', function(){
 			rectangle.getGuid().should.not.be.equal(rectangle2.getGuid());
 		});
 
-		it('Should retrieve Rectangle as type.', function(){
+		it('Should retrieve Rectangle as type.', function() {
 			var rectangle = new Rectangle();
 
 			rectangle.getType().should.be.equal('Rectangle');
 		});
 		
-		it('Should set default properties.', function(){
+		it('Should set default properties.', function() {
 			var rectangle = new Rectangle();
 
 			rectangle.getProperty('position.x').should.equal(0);
@@ -35,7 +35,7 @@ describe('Rectangle', function(){
 			rectangle.getProperty('width').should.equal(100);
 		});
 
-		it('Should set the properties passed in the constructor.', function(){
+		it('Should set the properties passed in the constructor.', function() {
 			var specifiedX = 1,
 				specifiedY = 2,
 				specifiedZ = 3,
@@ -70,7 +70,7 @@ describe('Rectangle', function(){
 			rectangle.getProperty('width').should.equal(specifiedWidth);
 		});
 
-		it('Should set only the properties passed in the constructor and use the default for the rest.', function(){
+		it('Should set only the properties passed in the constructor and use the default for the rest.', function() {
 			var specifiedBorderType = 'border',
 				specifiedBorderColor = 'blue',
 				specifiedHeight = 32,

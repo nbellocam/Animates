@@ -5,9 +5,9 @@
 var Photo = require('../../src/photo'),
 	should = require("should");
 
-describe('Photo', function(){
-	describe('constructor', function(){
-		it('Should generate a random guid.', function(){
+describe('Photo', function() {
+	describe('constructor', function() {
+		it('Should generate a random guid.', function() {
 			var photo = new Photo(),
 				photo2 = new Photo();
 
@@ -15,7 +15,7 @@ describe('Photo', function(){
 			photo.getGuid().should.not.be.equal(photo2.getGuid());
 		});
 		
-		it('Should set default properties', function(){
+		it('Should set default properties', function() {
 			var photo = new Photo();
 
 			photo.getProperty('position.x').should.equal(0);
@@ -27,7 +27,7 @@ describe('Photo', function(){
 			photo.getProperty('source').should.equal('');
 		});
 
-		it('Should set the properties passed in the constructor.', function(){
+		it('Should set the properties passed in the constructor.', function() {
 			var specifiedX = 1,
 				specifiedY = 2,
 				specifiedZ = 3,
@@ -58,7 +58,7 @@ describe('Photo', function(){
 			photo.getProperty('source').should.equal(specifiedSource);
 		});
 
-		it('Should set only the properties passed in the constructor and use the default for the rest.', function(){
+		it('Should set only the properties passed in the constructor and use the default for the rest.', function() {
 			var specifiedBorderType = 'border',
 				specifiedBorderColor = 'blue',
 				specifiedSource = 'a source',

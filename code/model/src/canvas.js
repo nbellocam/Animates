@@ -17,7 +17,7 @@ function Canvas (options) {
 	this.backgroundColor = options.backgroundColor || 'white';
 	this.backgroundImage = options.backgroundImage || '';
 
-	this.filterDrawables = function filterDrawables(mediaFrames){
+	this.filterDrawables = function filterDrawables(mediaFrames) {
 		return mediaFrames; //TODO filter media frames
 	};
 	

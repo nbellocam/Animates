@@ -5,9 +5,9 @@
 var VisualMediaObject = require('../../src/visualMediaObject'),
 	should = require("should");
 
-describe('VisualMediaObject', function(){
-	describe('constructor', function(){
-		it('Should generate a random guid.', function(){
+describe('VisualMediaObject', function() {
+	describe('constructor', function() {
+		it('Should generate a random guid.', function() {
 			var instance = new VisualMediaObject(),
 				instance2 = new VisualMediaObject();
 
@@ -15,7 +15,7 @@ describe('VisualMediaObject', function(){
 			instance.getGuid().should.not.be.equal(instance2.getGuid());
 		});
 		
-		it('Should set default properties.', function(){
+		it('Should set default properties.', function() {
 			var visualMediaObject = new VisualMediaObject();
 
 			visualMediaObject.getProperty('position.x').should.equal(0);
@@ -26,7 +26,7 @@ describe('VisualMediaObject', function(){
 			visualMediaObject.getProperty('border.color').should.equal('black');
 		});
 
-		it('Should set the properties passed in the constructor.', function(){
+		it('Should set the properties passed in the constructor.', function() {
 			var specifiedX = 1,
 				specifiedY = 2,
 				specifiedZ = 3,
@@ -54,7 +54,7 @@ describe('VisualMediaObject', function(){
 			visualMediaObject.getProperty('border.color').should.equal(specifiedBorderColor);
 		});
 
-		it('Should set only the properties passed in the constructor and use the default for the rest.', function(){
+		it('Should set only the properties passed in the constructor and use the default for the rest.', function() {
 			var specifiedBorderType = 'border',
 				specifiedBorderColor = 'blue',
 				visualMediaObject = new VisualMediaObject({

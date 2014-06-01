@@ -18,7 +18,7 @@ angular.module('animatesApp')
 				canvasPosition.top = (top < canvasConfig.canvasMinPosition.top) ? canvasConfig.canvasMinPosition.top : top;
 				canvasPosition.left = (left < canvasConfig.canvasMinPosition.left) ? canvasConfig.canvasMinPosition.left : left;
 
-				if (!viewportInstance){
+				if (!viewportInstance) {
 					viewportInstance = new fabric.Rect(canvasConfig.viewportInitialConfig);
 					canvasInstance.add(viewportInstance);
 				}
@@ -30,7 +30,7 @@ angular.module('animatesApp')
 					height: canvasInstance.model.height
 				});
 			},
-			updateAllObjects = function updateAllObjects(viewport, oldViewport){
+			updateAllObjects = function updateAllObjects(viewport, oldViewport) {
 				var diffTop = viewport.top - oldViewport.top,
 					diffLeft = viewport.left - oldViewport.left,
 					allObjects = canvasInstance.getObjects(),
@@ -47,10 +47,10 @@ angular.module('animatesApp')
 					}
 				}
 			},
-			renderAll = function renderAll(){
+			renderAll = function renderAll() {
 				canvasInstance.renderAll();
 			},
-			updateMediaObjectInCanvas = function updateMediaObjectInCanvas(mediaObjectId){
+			updateMediaObjectInCanvas = function updateMediaObjectInCanvas(mediaObjectId) {
 				var allObjects = canvasInstance.getObjects(),
 					founded = false,
 					newMediaFrame = animationService.getInstance().timeline.getMediaFrameFor(mediaObjectId, localAnimationStateService.getCurrentTick()),
@@ -69,9 +69,9 @@ angular.module('animatesApp')
 					}
 				}
 
-				if (!founded && newMediaFrame){
+				if (!founded && newMediaFrame) {
 					var shape = shapeCreator.createShapeFromFrame(newMediaFrame, _self.getCanvasPosition());
-					if (shape){
+					if (shape) {
 						_self.add(shape);
 					}
 				}
@@ -81,10 +81,10 @@ angular.module('animatesApp')
 
 				if (context.sender !== 'CanvasService') {
 					if (target === 'Shape') {
-						switch (operation){
+						switch (operation) {
 							case 'Create':
 								var shape = shapeCreator.createShapeFromMediaObject(params.mediaObject, _self.getCanvasPosition());
-								if (shape){
+								if (shape) {
 									_self.add(shape);
 								}
 								renderAll();
@@ -124,7 +124,7 @@ angular.module('animatesApp')
 				_self.clear();
 				for (i = mediaFrames.length - 1; i >= 0; i--) {
 					shape = shapeCreator.createShapeFromFrame(mediaFrames[i], _self.getCanvasPosition());
-					if (shape){
+					if (shape) {
 						_self.add(shape);
 					}
 				}
@@ -144,7 +144,7 @@ angular.module('animatesApp')
 			canvas.on('object:modified', function(event) {
 				var target = event.target;
 				if (target) {
-					if (target.isType('group')){
+					if (target.isType('group')) {
 						$rootScope.$broadcast('shapeChange', target);
 					} else {
 						var updatedProperties = shapeSync.syncFromView(target, _self.getCanvasPosition());
@@ -153,9 +153,9 @@ angular.module('animatesApp')
 				}
 			});
 
-			canvas.on('selection:cleared', function (){
+			canvas.on('selection:cleared', function () {
 				if (selectedShape) {
-					if (selectedShape.isType('group')){
+					if (selectedShape.isType('group')) {
 						var allObjects = canvas.getObjects(),
 							object;
 
@@ -187,19 +187,19 @@ angular.module('animatesApp')
 				}
 			});
 
-			canvas.on('after:render', function(){
+			canvas.on('after:render', function() {
 				canvas.calcOffset();
 			});
 
 			canvasInstance = canvas;
 		};
 
-		this.getInstance = function getInstance(){
+		this.getInstance = function getInstance() {
 			return canvasInstance;
 		};
 
-		this.updateSize = function updateSize(height, width){
-			var getNewValue = function getNewValue(newValue, originalValue, minMargin){
+		this.updateSize = function updateSize(height, width) {
+			var getNewValue = function getNewValue(newValue, originalValue, minMargin) {
 				var minValue = originalValue + (minMargin * 2);
 				return (minValue > newValue) ? minValue : newValue;
 			};
@@ -215,21 +215,21 @@ angular.module('animatesApp')
 			updateCanvasPosition(height, width);
 			updateAllObjects(canvasPosition, oldCanvasPosition);
 
-			canvasInstance.forEachObject(function (obj){
+			canvasInstance.forEachObject(function (obj) {
 				obj.setCoords();
 			});
 			renderAll();
 		};
 
-		this.add = function add(element){
+		this.add = function add(element) {
 			canvasInstance.add(element);
 		};
 
-		this.remove = function remove(element){
+		this.remove = function remove(element) {
 			canvasInstance.remove(element);
 		};
 
-		this.clear = function clear(){
+		this.clear = function clear() {
 			canvasInstance.clear();
 			if (viewportInstance)
 			{
@@ -237,11 +237,11 @@ angular.module('animatesApp')
 			}
 		};
 
-		this.getSelectedShape = function getSelectedShape(){
+		this.getSelectedShape = function getSelectedShape() {
 			return selectedShape;
 		};
 
-		this.getCanvasPosition = function getCanvasPosition(){
+		this.getCanvasPosition = function getCanvasPosition() {
 			return {
 				left : canvasPosition.left,
 				top : canvasPosition.top

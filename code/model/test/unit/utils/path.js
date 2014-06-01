@@ -5,9 +5,9 @@
 var Path = require('../../../src/utils/path'),
 	should = require("should");
 
-describe('Path', function(){
-	describe('startPosition', function(){
-		it('Should start at (0,0) if it not specified otherwise', function(){
+describe('Path', function() {
+	describe('startPosition', function() {
+		it('Should start at (0,0) if it not specified otherwise', function() {
 			var path = new Path(),
 				startPosition = path.startPosition;
 
@@ -15,7 +15,7 @@ describe('Path', function(){
 			startPosition.should.have.property('y', 0);
 		});
 
-		it('Should start at the value specified using the constructor', function(){
+		it('Should start at the value specified using the constructor', function() {
 			var specifiedPositionX = 42,
 				specifiedPositionY = 84,
 				path = new Path({ startPosition : { x: specifiedPositionX, y: specifiedPositionY } }),
@@ -26,8 +26,8 @@ describe('Path', function(){
 		});
 	});
 
-	describe('endPosition', function(){
-		it('Should end at (0,0) if it not specified otherwise', function(){
+	describe('endPosition', function() {
+		it('Should end at (0,0) if it not specified otherwise', function() {
 			var path = new Path(),
 				endPosition = path.endPosition;
 
@@ -35,7 +35,7 @@ describe('Path', function(){
 			endPosition.should.have.property('y', 0);
 		});
 
-		it('Should start at the value specified using the constructor', function(){
+		it('Should start at the value specified using the constructor', function() {
 			var specifiedPositionX = 42,
 				specifiedPositionY = 84,
 				path = new Path({ endPosition : { x: specifiedPositionX, y: specifiedPositionY } }),
@@ -46,8 +46,8 @@ describe('Path', function(){
 		});
 	});
 
-	describe('getPositionFor()', function(){
-		it('Should return an object with no x and y properties if currentTick is less than startTick', function(){
+	describe('getPositionFor()', function() {
+		it('Should return an object with no x and y properties if currentTick is less than startTick', function() {
 			var startTick = 12,
 				endTick = 100,
 				currentTick = 1,
@@ -63,7 +63,7 @@ describe('Path', function(){
 			endPosition.should.not.have.properties('x', 'y');
 		});
 
-		it('Should return a copy of the endPosition if currentTick is greater than endTick.', function(){
+		it('Should return a copy of the endPosition if currentTick is greater than endTick.', function() {
 			var startTick = 12,
 				endTick = 100,
 				currentTick = 200,
@@ -81,7 +81,7 @@ describe('Path', function(){
 			endPosition.should.have.property('y', specifiedEndPositionY);
 		});
 
-		it('Should return a copy of the startPosition if currentTick is exactly the startTick.', function(){
+		it('Should return a copy of the startPosition if currentTick is exactly the startTick.', function() {
 			var startTick = 12,
 				endTick = 100,
 				currentTick = startTick,
@@ -101,7 +101,7 @@ describe('Path', function(){
 			endPosition.y.should.be.approximately(specifiedStartPositionY, 0.1);
 		});
 
-		it('Should return a copy of the startPosition if currentTick is exactly the startTick (with endTick == -1)', function(){
+		it('Should return a copy of the startPosition if currentTick is exactly the startTick (with endTick == -1)', function() {
 			var startTick = 12,
 				endTick = -1,
 				currentTick = startTick,
@@ -121,7 +121,7 @@ describe('Path', function(){
 			endPosition.y.should.be.approximately(specifiedStartPositionY, 0.1);
 		});
 
-		it('Should return a copy of the endPosition if currentTick is exactly the endTick.', function(){
+		it('Should return a copy of the endPosition if currentTick is exactly the endTick.', function() {
 			var startTick = 12,
 				endTick = 100,
 				currentTick = endTick,
@@ -141,7 +141,7 @@ describe('Path', function(){
 			endPosition.y.should.be.approximately(specifiedEndPositionY, 0.1);
 		});
 
-		it('Should calculate the correct value in an horizotal move with positive end position.', function(){
+		it('Should calculate the correct value in an horizotal move with positive end position.', function() {
 			var startTick = 0,
 				endTick = 10,
 				specifiedStartPositionX = 0,
@@ -162,7 +162,7 @@ describe('Path', function(){
 			}
 		});
 
-		it('Should calculate the correct value in an vertical move with positive end position.', function(){
+		it('Should calculate the correct value in an vertical move with positive end position.', function() {
 			var startTick = 0,
 				endTick = 10,
 				specifiedStartPositionY = 0,
@@ -183,7 +183,7 @@ describe('Path', function(){
 			}
 		});
 
-		it('Should calculate the correct value in an diagonal move with positive end position.', function(){
+		it('Should calculate the correct value in an diagonal move with positive end position.', function() {
 			var startTick = 0,
 				endTick = 10,
 				specifiedStartPositionX = 0,
@@ -205,7 +205,7 @@ describe('Path', function(){
 			}
 		});
 
-		it('Should calculate the correct value in an horizotal move with negative end position.', function(){
+		it('Should calculate the correct value in an horizotal move with negative end position.', function() {
 			var startTick = 0,
 				endTick = 10,
 				specifiedPositionX = 0,
@@ -226,7 +226,7 @@ describe('Path', function(){
 			}
 		});
 
-		it('Should calculate the correct value in an vertical move with negative end position.', function(){
+		it('Should calculate the correct value in an vertical move with negative end position.', function() {
 			var startTick = 0,
 				endTick = 10,
 				specifiedStartPositionX = 10,
@@ -247,7 +247,7 @@ describe('Path', function(){
 			}
 		});
 
-		it('Should calculate the correct value in an diagonal move with negative end position.', function(){
+		it('Should calculate the correct value in an diagonal move with negative end position.', function() {
 			var startTick = 0,
 				endTick = 10,
 				specifiedStartPositionX = 10,
@@ -269,7 +269,7 @@ describe('Path', function(){
 			}
 		});
 
-		it('Should calculate the correct value in an horizotal move with positive end position (with endTick == -1).', function(){
+		it('Should calculate the correct value in an horizotal move with positive end position (with endTick == -1).', function() {
 			var startTick = 0,
 				endTick = -1,
 				specifiedStartPositionX = 0,
@@ -290,7 +290,7 @@ describe('Path', function(){
 			}
 		});
 
-		it('Should calculate the correct value in an vertical move with positive end position (with endTick == -1).', function(){
+		it('Should calculate the correct value in an vertical move with positive end position (with endTick == -1).', function() {
 			var startTick = 0,
 				endTick = -1,
 				specifiedStartPositionY = 0,
@@ -311,7 +311,7 @@ describe('Path', function(){
 			}
 		});
 
-		it('Should calculate the correct value in an diagonal move with positive end position (with endTick == -1).', function(){
+		it('Should calculate the correct value in an diagonal move with positive end position (with endTick == -1).', function() {
 			var startTick = 0,
 				endTick = -1,
 				specifiedStartPositionX = 0,
@@ -333,7 +333,7 @@ describe('Path', function(){
 			}
 		});
 
-		it('Should calculate the correct value in an horizotal move with negative end position (with endTick == -1).', function(){
+		it('Should calculate the correct value in an horizotal move with negative end position (with endTick == -1).', function() {
 			var startTick = 0,
 				endTick = -1,
 				specifiedPositionX = 0,
@@ -354,7 +354,7 @@ describe('Path', function(){
 			}
 		});
 
-		it('Should calculate the correct value in an vertical move with negative end position (with endTick == -1).', function(){
+		it('Should calculate the correct value in an vertical move with negative end position (with endTick == -1).', function() {
 			var startTick = 0,
 				endTick = -1,
 				specifiedStartPositionX = 10,
@@ -375,7 +375,7 @@ describe('Path', function(){
 			}
 		});
 
-		it('Should calculate the correct value in an diagonal move with negative end position (with endTick == -1).', function(){
+		it('Should calculate the correct value in an diagonal move with negative end position (with endTick == -1).', function() {
 			var startTick = 0,
 				endTick = -1,
 				specifiedStartPositionX = 10,
