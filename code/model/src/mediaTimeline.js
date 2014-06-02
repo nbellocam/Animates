@@ -206,7 +206,7 @@ function MediaTimeline (options) {
 			resultEffects = Common.filterArray(resultEffects, affectedProperties);
 		}
 
-		return Common.filterObject(updatedProperties, resultEffects);
+		return resultEffects;
 	};
 
 	/**

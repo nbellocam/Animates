@@ -97,8 +97,8 @@ function Animation (options) {
 	function applyMediaFrameUpdateOperation(opParams) {
 		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
 		if (mediaTimeline) {
-			var notUpdatedPropertiesKeys = mediaTimeline.updateEffectsThatMatch(opParams.tick, opParams.updatedProperties);
-			var notUpdatedProperties = Common.filterObject(opParams.updatedProperties, notUpdatedPropertiesKeys)
+			var notUpdatedPropertiesKeys = mediaTimeline.updateEffectsThatMatch(opParams.tick, opParams.updatedProperties),
+				notUpdatedProperties = Common.filterObject(opParams.updatedProperties, notUpdatedPropertiesKeys);
 
 			notUpdatedProperties = createEffectsIfRequired(opParams.tick, mediaTimeline, notUpdatedProperties);
 
@@ -168,7 +168,7 @@ function Animation (options) {
 			if (result) {
 				for (var observerId in updateObservers) {
 					if (updateObservers.hasOwnProperty(observerId)) {
-						if (!context.sender || context.sender !== observerId) {
+						if (!context || !context.sender || context.sender !== observerId) {
 							updateObservers[observerId](target, operation, opParams, context);
 						}
 					}
