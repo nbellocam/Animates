@@ -23,7 +23,7 @@ describe('VisualMediaObject', function() {
 			visualMediaObject.getProperty('position.z').should.equal(0);
 			visualMediaObject.getProperty('opacity').should.equal(1);
 			visualMediaObject.getProperty('border.type').should.equal('none');
-			visualMediaObject.getProperty('border.color').should.equal('black');
+			visualMediaObject.getProperty('border.color').should.equal('#000000');
 		});
 
 		it('Should set the properties passed in the constructor.', function() {

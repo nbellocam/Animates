@@ -24,9 +24,9 @@ function VisualMediaObject (options, builder) {
 			opacity: 1,
 			border : {
 				type : 'none',
-				color : 'black'
+				color : '#000000'
 			},
-			fill : 'black',
+			fill : '#f0f0f0',
 			angle : 0,
 		};
 
@@ -71,7 +71,7 @@ function VisualMediaObject (options, builder) {
 							.value(options.border.type)
 						.add()
 						.property('color')
-							.type('string')
+							.type('color')
 							.value(options.border.color)
 						.add()
 					.add();

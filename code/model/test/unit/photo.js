@@ -23,7 +23,7 @@ describe('Photo', function() {
 			photo.getProperty('position.z').should.equal(0);
 			photo.getProperty('opacity').should.equal(1);
 			photo.getProperty('border.type').should.equal('none');
-			photo.getProperty('border.color').should.equal('black');
+			photo.getProperty('border.color').should.equal('#000000');
 			photo.getProperty('source').should.equal('');
 		});
 

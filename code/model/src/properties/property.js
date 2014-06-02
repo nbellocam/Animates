@@ -52,7 +52,7 @@ function Property (options) {
 	};
 
 	this.type = function type () {
-		Common.clone(currentOptions.type);
+		return currentOptions.type;
 	};
 
 	this.clone = function clone() {
