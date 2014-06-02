@@ -7,11 +7,11 @@ var Canvas = require('./canvas'),
 
 /**
  *  Creates a new Animation.
- *  @class Represents an Animation. 
+ *  @class Represents an Animation.
  */
 function Animation (options) {
 	options = options || {};
-	
+
 	var _self = this, // Save the this reference for later use
 		updateObservers = {},
 		loadCompleteObservers = {};
@@ -19,7 +19,7 @@ function Animation (options) {
 	_self.canvas = options.canvas || new Canvas();
 	_self.timeline = options.timeline || new Timeline();
 
-	function applyShapeCreateOperation(opParams, context) {
+	function applyShapeCreateOperation(opParams) {
 		var mediaTimeline = _self.timeline.addMediaObject(opParams.mediaObject);
 		if (mediaTimeline) {
 			mediaTimeline.setStartTick(opParams.tick);
@@ -29,7 +29,7 @@ function Animation (options) {
 		return false;
 	}
 
-	function applyShapeUpdateOperation(opParams, context) {
+	function applyShapeUpdateOperation(opParams) {
 		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
 		if (mediaTimeline) {
 			var mediaObject = mediaTimeline.getMediaObject();
@@ -40,7 +40,7 @@ function Animation (options) {
 		return false;
 	}
 
-	function applyShapeRemoveOperation(opParams, context) {
+	function applyShapeRemoveOperation(opParams) {
 		if (_self.timeline.getMediaTimeline(opParams.mediaObjectId)) {
 			_self.timeline.removeMediaObject(opParams.mediaObjectId);
 			return true;
@@ -49,7 +49,7 @@ function Animation (options) {
 		return false;
 	}
 
-	function applyEffectCreateOperation(opParams, context) {
+	function applyEffectCreateOperation(opParams) {
 		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
 		if (mediaTimeline) {
 			mediaTimeline.addEffect(opParams.effect);
@@ -59,7 +59,7 @@ function Animation (options) {
 		return false;
 	}
 
-	function applyEffectUpdateOperation(opParams, context) {
+	function applyEffectUpdateOperation(opParams) {
 		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
 		if (mediaTimeline) {
 			var effect = mediaTimeline.getEffect(opParams.effectId);
@@ -75,38 +75,74 @@ function Animation (options) {
 		return false;
 	}
 
-	function applyEffectRemoveOperation(opParams, context) {
+	function applyEffectRemoveOperation(opParams) {
 		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
 		if (mediaTimeline && mediaTimeline.getEffect(opParams.effectId)) {
 			mediaTimeline.removeEffect(opParams.effectId);
-			
+
 			return true;
 		}
 
 		return false;
 	}
 
-	function applyShapeOperation(operation, opParams, context) {
+	function createEffectsIfRequired(tick, mediaTimeline, updatedProperties){
+		if (mediaTimeline.getStartTick() === tick) {
+			return updatedProperties;
+		}
+
+		//TODO create Default Effects
+	}
+
+	function applyMediaFrameUpdateOperation(opParams) {
+		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
+		if (mediaTimeline) {
+			var notUpdatedPropertiesKeys = mediaTimeline.updateEffectsThatMatch(opParams.tick, opParams.updatedProperties);
+			var notUpdatedProperties = Common.filterObject(opParams.updatedProperties, notUpdatedPropertiesKeys)
+
+			notUpdatedProperties = createEffectsIfRequired(opParams.tick, mediaTimeline, notUpdatedProperties);
+
+			if (!Common.isEmpty(notUpdatedProperties)) {
+				var mediaObject = mediaTimeline.getMediaObject();
+				mediaObject.setProperties(opParams.properties);
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	function applyShapeOperation(operation, opParams) {
 		switch (operation) {
 			case 'Create':
-				return applyShapeCreateOperation(opParams, context);
+				return applyShapeCreateOperation(opParams);
 			case 'Update':
-				return applyShapeUpdateOperation(opParams, context);
+				return applyShapeUpdateOperation(opParams);
 			case 'Remove':
-				return applyShapeRemoveOperation(opParams, context);
+				return applyShapeRemoveOperation(opParams);
 			default:
 				return false;
 		}
 	}
 
-	function applyEffectOperation(operation, opParams, context) {
+	function applyEffectOperation(operation, opParams) {
 		switch (operation) {
 			case 'Create':
-				return applyEffectCreateOperation(opParams, context);
+				return applyEffectCreateOperation(opParams);
 			case 'Update':
-				return applyEffectUpdateOperation(opParams, context);
+				return applyEffectUpdateOperation(opParams);
 			case 'Remove':
-				return applyEffectRemoveOperation(opParams, context);
+				return applyEffectRemoveOperation(opParams);
+			default:
+				return false;
+		}
+	}
+
+	function applyMediaFrameOperation(operation, opParams) {
+		switch (operation) {
+			case 'Update':
+				return applyMediaFrameUpdateOperation(opParams);
 			default:
 				return false;
 		}
@@ -117,19 +153,24 @@ function Animation (options) {
 			var result = false;
 			switch (target) {
 				case 'Shape':
-					result = applyShapeOperation(operation, opParams, context);
+					result = applyShapeOperation(operation, opParams);
 					break;
 				case 'Effect':
-					result = applyEffectOperation(operation, opParams, context);
+					result = applyEffectOperation(operation, opParams);
+					break;
+				case 'MediaFrame':
+					result = applyMediaFrameOperation(operation, opParams);
 					break;
 				default:
 					return;
 			}
 
 			if (result) {
-				for (var observerId in updateObservers) { 
+				for (var observerId in updateObservers) {
 					if (updateObservers.hasOwnProperty(observerId)) {
-						updateObservers[observerId](target, operation, opParams, context);
+						if (!context.sender || context.sender !== observerId) {
+							updateObservers[observerId](target, operation, opParams, context);
+						}
 					}
 				}
 			}
@@ -167,7 +208,7 @@ function Animation (options) {
 				_self.canvas.fromJSON(animationData.canvas.data);
 			}
 
-			for(var observerId in loadCompleteObservers) { 
+			for(var observerId in loadCompleteObservers) {
 				if (loadCompleteObservers.hasOwnProperty(observerId)) {
 					loadCompleteObservers[observerId]();
 				}

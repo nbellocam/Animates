@@ -170,10 +170,10 @@ function createGuid ()
 }
 
 /**
- * Gets a new GUID string
+ * Gets a list of keys from an object
  *
  * @memberof animates.common
- * @return The new GUID (without braces)
+ * @return list of keys from the object passed by param
  */
 function getKeysFromObject(object)
 {
@@ -188,6 +188,60 @@ function getKeysFromObject(object)
   return list;
 }
 
+/**
+ * Gets a new list filtered by a list of elements passed by parameter.
+ *
+ * @memberof animates.common
+ * @return the new filtered list
+ */
+function filterArray(originalArray, listOfFilterElements) {
+  var result = [];
+
+  for(var i = 0; i < originalArray.length; i++) {
+    var element = originalArray[i];
+    if (listOfFilterElements.indexOf(element) === -1) {
+      result.push(element);
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Gets a new object filtered by a list of elements passed by parameter.
+ *
+ * @memberof animates.common
+ * @return the new filtered object
+ */
+function filterObject(originalObject, listOfFilterKeys) {
+  var result = {};
+
+  for (var key in originalObject) {
+    if (originalObject.hasOwnProperty(key) && listOfFilterKeys.indexOf(key) === -1) {
+      result[key] = originalObject[key];
+    }
+  }
+
+  return result;
+}
+
+
+/**
+ * Check if an object is an empty object({}).
+ *
+ * @memberof animates.common
+ * @return true if the object is an empty object.
+ */
+function isEmpty(obj) {
+  for(var prop in obj) {
+    if(obj.hasOwnProperty(prop)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 exports.namespace = namespace;
 exports.typeOf = typeOf;
 exports.inherits = inherits;
@@ -196,3 +250,6 @@ exports.extend = extend;
 exports.clone = clone;
 exports.realTypeOf = realTypeOf;
 exports.getKeysFromObject = getKeysFromObject;
+exports.filterArray = filterArray;
+exports.filterObject = filterObject;
+exports.isEmpty = isEmpty;

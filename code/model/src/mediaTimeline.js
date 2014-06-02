@@ -203,16 +203,10 @@ function MediaTimeline (options) {
 		for (var i = 0; i < effects.length; i++) {
 			affectedProperties = effects[i].updateProperties(tick, updatedProperties);
 
-			for (var j = 0; j < affectedProperties.length; j++) {
-				for(var k = 0; k < resultEffects.length; k++) {
-					if (resultEffects[k] === affectedProperties[j]) {
-						resultEffects.splice(k, 1);
-					}
-				}
-			}
+			resultEffects = Common.filterArray(resultEffects, affectedProperties);
 		}
 
-		return resultEffects;
+		return Common.filterObject(updatedProperties, resultEffects);
 	};
 
 	/**

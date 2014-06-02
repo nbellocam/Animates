@@ -1,4 +1,6 @@
 /*global require, describe, it */
+/*jshint expr: true */
+
 
 var Common = require('../src/common'),
 	assert = require("assert"),
@@ -400,6 +402,196 @@ describe('Common', function() {
 			result.should.be.an.Array.and.an.length(2);
 			result.should.containEql(keyName1);
 			result.should.containEql(keyName2);
+		});
+	});
+
+	describe('#filterArray', function() {
+		it('should return a new list with the same values if no filter was applied', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				filter = [],
+				list = [keyName1, keyName2],
+				result = Common.filterArray(list, filter);
+
+			result.should.be.an.Array.and.an.length(2);
+			result.should.not.equal(list);
+			result.should.containEql(keyName1);
+			result.should.containEql(keyName2);
+		});
+
+		it('should return a new list with one less value if one filter was applied', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				filter = [keyName1],
+				list = [keyName1, keyName2],
+				result = Common.filterArray(list, filter);
+
+			result.should.be.an.Array.and.an.length(1);
+			result.should.not.equal(list);
+			result.should.containEql(keyName2);
+		});
+
+		it('should return a new list with two less value if two filter was applied', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				keyName3 = 'keyName3',
+				filter = [keyName1, keyName3],
+				list = [keyName1, keyName2, keyName3],
+				result = Common.filterArray(list, filter);
+
+			result.should.be.an.Array.and.an.length(1);
+			result.should.not.equal(list);
+			result.should.containEql(keyName2);
+		});
+
+		it('should return a new list with one less value if two filter was applied but one was not present', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				keyName3 = 'keyName3',
+				filter = [keyName1, keyName3],
+				list = [keyName1, keyName2],
+				result = Common.filterArray(list, filter);
+
+			result.should.be.an.Array.and.an.length(1);
+			result.should.not.equal(list);
+			result.should.containEql(keyName2);
+		});
+
+		it('should return a new empty list if all elements in the filter match', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				keyName3 = 'keyName3',
+				filter = [keyName1, keyName2, keyName3],
+				list = [keyName1, keyName2, keyName3],
+				result = Common.filterArray(list, filter);
+
+			result.should.be.an.Array.and.an.length(0);
+			result.should.not.equal(list);
+		});
+	});
+
+	describe('#filterObject', function() {
+		it('should return a new object with the same key/values if no filter was applied', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				filter = [],
+				object = {
+					keyName1 : 42,
+					keyName2 : 42
+				},
+				result = Common.filterObject(object, filter);
+
+			result.should.not.be.an.Array.and.be.an.Object;
+			result.should.have.properties(keyName1, keyName2);
+			object.should.have.properties(keyName1, keyName2);
+		});
+
+		it('should return a new object with one less key/values if one filter was applied', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				filter = [keyName1],
+				object = {
+					keyName1 : 42,
+					keyName2 : 42
+				},
+				result = Common.filterObject(object, filter);
+
+			result.should.not.be.an.Array.and.be.an.Object;
+			result.should.not.have.property(keyName1);
+			result.should.have.property(keyName2);
+			object.should.have.properties(keyName1, keyName2);
+		});
+
+		it('should return a new object with two less key/values if two filter was applied', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				keyName3 = 'keyName3',
+				filter = [keyName1, keyName3],
+				object = {
+					keyName1 : 42,
+					keyName2 : 42,
+					keyName3 : 42
+				},
+				result = Common.filterObject(object, filter);
+
+
+				result.should.not.be.an.Array.and.be.an.Object;
+				result.should.not.have.property(keyName1);
+				result.should.have.property(keyName2);
+				result.should.not.have.property(keyName3);
+				object.should.have.properties(keyName1, keyName2, keyName3);
+		});
+
+		it('should return a new object with one less key/values if two filter was applied but one was not present', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				keyName3 = 'keyName3',
+				filter = [keyName1, keyName3],
+				object = {
+					keyName1 : 42,
+					keyName2 : 42,
+				},
+				result = Common.filterObject(object, filter);
+
+
+				result.should.not.be.an.Array.and.be.an.Object;
+				result.should.not.have.property(keyName1);
+				result.should.have.property(keyName2);
+				result.should.not.have.property(keyName3);
+				object.should.have.properties(keyName1, keyName2);
+		});
+
+		it('should return a new empty object if all elements in the filter match', function() {
+				var keyName1 = 'keyName1',
+					keyName2 = 'keyName2',
+					keyName3 = 'keyName3',
+					filter = [keyName1, keyName2, keyName3],
+					object = {
+						keyName1 : 42,
+						keyName2 : 42,
+						keyName3 : 42
+					},
+					result = Common.filterObject(object, filter);
+
+				result.should.not.be.an.Array.and.be.an.Object;
+				result.should.not.have.property(keyName1);
+				result.should.not.have.property(keyName2);
+				result.should.not.have.property(keyName3);
+				object.should.have.properties(keyName1, keyName2, keyName3);
+			});
+	});
+
+	describe('#isEmpty', function() {
+		it('should return true if an empty object is passed by param', function() {
+			var object = { },
+				result = Common.isEmpty(object);
+
+			result.should.be.an.Boolean.and.be.true;
+			object.should.be.empty;
+		});
+
+		it('should return false if a not empty object is passed by param', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				object = {
+					keyName1 : 42,
+					keyName2 : 42
+				},
+				result = Common.isEmpty(object);
+
+			result.should.be.an.Boolean.and.be.false;
+			object.should.have.properties(keyName1, keyName2);
+		});
+
+		it('should return false if a not empty object is passed by param (only functions)', function() {
+			var keyName1 = 'keyName1',
+				object = {
+					keyName1 : function (param){}
+				},
+				result = Common.isEmpty(object);
+
+			result.should.be.an.Boolean.and.be.false;
+			object.should.have.properties(keyName1);
 		});
 	});
 });
