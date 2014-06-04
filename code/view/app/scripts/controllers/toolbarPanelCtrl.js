@@ -53,4 +53,12 @@ angular.module('animatesApp')
 		$scope.stop = function () {
 			presentationPlayerService.stop();
 		};
+
+		$scope.stepForward = function () {
+			presentationPlayerService.stepForward(50);
+		};
+
+		$scope.stepBackward = function () {
+			presentationPlayerService.stepBackward(50);
+		};
 	});

@@ -31,4 +31,12 @@ angular.module('animatesApp')
 			_self.pause();
 			localAnimationStateService.setCurrentTick(0);
 		};
+
+		this.stepForward = function (step) {
+			localAnimationStateService.setCurrentTick(localAnimationStateService.getCurrentTick() + step);
+		};
+
+		this.stepBackward = function (step) {
+			localAnimationStateService.setCurrentTick(localAnimationStateService.getCurrentTick() - step);
+		};
 	});

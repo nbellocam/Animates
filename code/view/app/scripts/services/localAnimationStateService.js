@@ -14,10 +14,12 @@ angular.module('animatesApp')
 		};
 
 		this.setCurrentTick = function (tick) {
-			currentTick = tick;
-			for (var observerId in tickObservers) {
-				if (tickObservers.hasOwnProperty(observerId)) {
-					tickObservers[observerId](currentTick);
+			if (tick >= 0) {
+				currentTick = tick;
+				for (var observerId in tickObservers) {
+					if (tickObservers.hasOwnProperty(observerId)) {
+						tickObservers[observerId](currentTick);
+					}
 				}
 			}
 		};
