@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService, shapeHelper, toolbarService) {
+	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService, shapeHelper, toolbarService, presentationPlayerService) {
 		function applyOperation(target, operation, params) {
 			animationService.getInstance().applyOperation(target, operation, params, { sender: 'toolbar' });
 		}
@@ -40,5 +40,17 @@ angular.module('animatesApp')
 					});
 				}
 			}
+		};
+
+		$scope.play = function () {
+			presentationPlayerService.play();
+		};
+
+		$scope.pause = function () {
+			presentationPlayerService.pause();
+		};
+
+		$scope.stop = function () {
+			presentationPlayerService.stop();
 		};
 	});

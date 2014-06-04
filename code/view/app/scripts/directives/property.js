@@ -1,3 +1,4 @@
+/*global $*/
 'use strict';
 
 angular.module('animatesApp')
@@ -29,7 +30,7 @@ angular.module('animatesApp')
 					}
 				};
 			},
-			link : function (scope, element, attrs) {
+			link : function (scope, element) {
 				switch (scope.prop.type().name()) {
 					case 'color':
 						$(element.find('input')[0])
@@ -38,11 +39,9 @@ angular.module('animatesApp')
 							.minicolors('value', scope.prop.value());
 						break;
 					case 'integer':
-						console.log('integer');
 						element.find('input').attr('type', 'number');
 						break;
 					case 'float':
-						console.log('float');
 						element.find('input').attr('type', 'number');
 						break;
 				}
