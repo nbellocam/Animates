@@ -10,7 +10,7 @@ angular.module('animatesApp')
 				prop: '=',
 				updatehandler: '&'
 			},
-			template: '<input type="" minicolors value="{{ prop.value() }}" id="property.{{ propkey }}" class="property form-control" ng-blur="propertyBlur($event)"></input>',
+			template: '<input type="" value="{{ prop.value() }}" id="property.{{ propkey }}" class="property form-control" ng-blur="propertyBlur($event)"></input>',
 			controller: function($scope) {
 				$scope.isValid = true;
 				$scope.propertyBlur = function (event) {
@@ -37,6 +37,10 @@ angular.module('animatesApp')
 							.minicolors();
 						$(element.find('input')[0])
 							.minicolors('value', scope.prop.value());
+						scope.$watch('prop.value()', function (newVal) {
+							$(element.find('input')[0])
+								.minicolors('value', newVal);
+						});
 						break;
 					case 'integer':
 						element.find('input').attr('type', 'number');
