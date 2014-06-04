@@ -23,7 +23,7 @@ describe('Shape', function() {
 			shape.getProperty('position.z').should.equal(0);
 			shape.getProperty('opacity').should.equal(1);
 			shape.getProperty('border.type').should.equal('none');
-			shape.getProperty('border.color').should.equal('black');
+			shape.getProperty('border.color').should.equal('#000000');
 		});
 
 		it('Should set the properties passed in the constructor.', function() {

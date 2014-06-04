@@ -38,3 +38,10 @@ body {
 .loading .loading-message .progress-bar{
 	width: 100%;
 }
+
+.property.form-control {
+	height: 27px;
+	padding-bottom: 3px;
+	padding-top: 3px;
+	width: 100%;
+}

@@ -29,7 +29,7 @@ describe('Rectangle', function() {
 			rectangle.getProperty('position.z').should.equal(0);
 			rectangle.getProperty('opacity').should.equal(1);
 			rectangle.getProperty('border.type').should.equal('none');
-			rectangle.getProperty('border.color').should.equal('black');
+			rectangle.getProperty('border.color').should.equal('#000000');
 
 			rectangle.getProperty('height').should.equal(100);
 			rectangle.getProperty('width').should.equal(100);
