@@ -407,14 +407,14 @@ module.exports = function (grunt) {
   grunt.registerTask('run-model-grunt', function () {
     var done = this.async();
     grunt.util.spawn({
-        grunt: true,
-        args: ['package'],
-        opts: {
-            cwd: '../model'
+      grunt: true,
+      args: ['package'],
+      opts: {
+          cwd: '../model'
         }
-    }, function (err, result, code) {
+      }, function () {
         done();
-    });
+      });
   });
 
   grunt.registerTask('install-dep', function () {
