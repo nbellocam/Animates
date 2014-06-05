@@ -19,9 +19,9 @@ angular.module('animatesApp')
 			$scope.adaptMediaTimelines();
 		});
 
-		$scope.$on('currentTickChanged', function(event, newVal) {
+		$scope.onTickChange = function(newVal) {
 			localAnimationStateService.setCurrentTick(newVal);
-		});
+		};
 
 		$scope.adaptMediaTimelines = function adaptMediaTimelines () {
 			var mediaTimelines = animationService.getInstance().timeline.getMediaTimelines();
