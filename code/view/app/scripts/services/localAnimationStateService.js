@@ -14,8 +14,15 @@ angular.module('animatesApp')
 		};
 
 		this.setCurrentTick = function (tick) {
+			var finalTick = tick;
 			if (tick >= 0) {
-				currentTick = tick;
+				finalTick = tick;
+			} else {
+				finalTick = 0;
+			}
+
+			if (finalTick != currentTick) {
+				currentTick = finalTick;
 				for (var observerId in tickObservers) {
 					if (tickObservers.hasOwnProperty(observerId)) {
 						tickObservers[observerId](currentTick);
