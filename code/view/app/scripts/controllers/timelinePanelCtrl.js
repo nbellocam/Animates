@@ -3,6 +3,7 @@
 angular.module('animatesApp')
 	.controller('TimelinePanelCtrl', function($scope, localAnimationStateService, animationService) {
 		$scope.timelines = [];
+		$scope.tick = 0;
 
 		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation) {
 			if (target === 'Effect') {
@@ -14,14 +15,21 @@ angular.module('animatesApp')
 			}
 		};
 
+		$scope.onTimelineTickChange = function() {
+			localAnimationStateService.setCurrentTick($scope.tick);
+		};
+
+		$scope.onLocalStateTickChange = function(newVal) {
+			$scope.$apply(function () {
+				$scope.tick = newVal;
+			});
+		};
+
 		animationService.getInstance().addUpdateObserver('TimelinePanelCtrl', animationUpdateEventHandler);
+		localAnimationStateService.addTickObserver('TimelinePanelCtrl', $scope.onLocalStateTickChange);
 		animationService.getInstance().addLoadCompleteObserver('TimelinePanelCtrl', function animationLoadEventHandler () {
 			$scope.adaptMediaTimelines();
 		});
-
-		$scope.onTickChange = function(newVal) {
-			localAnimationStateService.setCurrentTick(newVal);
-		};
 
 		$scope.adaptMediaTimelines = function adaptMediaTimelines () {
 			var mediaTimelines = animationService.getInstance().timeline.getMediaTimelines();
