@@ -20,7 +20,7 @@ var utils = {
 			},
 			opacity: 0.9,
 			border : {
-				type : 'border',
+				type : 'solid',
 				color : 'blue'
 			},
 			height: 32,

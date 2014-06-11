@@ -22,7 +22,7 @@ describe('Photo', function() {
 			photo.getProperty('position.y').should.equal(0);
 			photo.getProperty('position.z').should.equal(0);
 			photo.getProperty('opacity').should.equal(1);
-			photo.getProperty('border.type').should.equal('none');
+			photo.getProperty('border.type').should.equal('solid');
 			photo.getProperty('border.color').should.equal('#000000');
 			photo.getProperty('source').should.equal('');
 		});
@@ -32,7 +32,7 @@ describe('Photo', function() {
 				specifiedY = 2,
 				specifiedZ = 3,
 				specifiedOpacity = 0.9,
-				specifiedBorderType = 'border',
+				specifiedBorderType = 'solid',
 				specifiedBorderColor = 'blue',
 				specifiedSource = 'a source',
 				photo = new Photo({
@@ -59,7 +59,7 @@ describe('Photo', function() {
 		});
 
 		it('Should set only the properties passed in the constructor and use the default for the rest.', function() {
-			var specifiedBorderType = 'border',
+			var specifiedBorderType = 'solid',
 				specifiedBorderColor = 'blue',
 				specifiedSource = 'a source',
 				photo = new Photo({

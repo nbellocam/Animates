@@ -22,7 +22,7 @@ describe('VisualMediaObject', function() {
 			visualMediaObject.getProperty('position.y').should.equal(0);
 			visualMediaObject.getProperty('position.z').should.equal(0);
 			visualMediaObject.getProperty('opacity').should.equal(1);
-			visualMediaObject.getProperty('border.type').should.equal('none');
+			visualMediaObject.getProperty('border.type').should.equal('solid');
 			visualMediaObject.getProperty('border.color').should.equal('#000000');
 		});
 
@@ -31,7 +31,7 @@ describe('VisualMediaObject', function() {
 				specifiedY = 2,
 				specifiedZ = 3,
 				specifiedOpacity = 0.5,
-				specifiedBorderType = 'border',
+				specifiedBorderType = 'solid',
 				specifiedBorderColor = 'blue',
 				visualMediaObject = new VisualMediaObject({
 					position : {
@@ -55,7 +55,7 @@ describe('VisualMediaObject', function() {
 		});
 
 		it('Should set only the properties passed in the constructor and use the default for the rest.', function() {
-			var specifiedBorderType = 'border',
+			var specifiedBorderType = 'solid',
 				specifiedBorderColor = 'blue',
 				visualMediaObject = new VisualMediaObject({
 					border : {

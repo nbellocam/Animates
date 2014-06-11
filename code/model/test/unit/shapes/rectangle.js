@@ -28,7 +28,7 @@ describe('Rectangle', function() {
 			rectangle.getProperty('position.y').should.equal(0);
 			rectangle.getProperty('position.z').should.equal(0);
 			rectangle.getProperty('opacity').should.equal(1);
-			rectangle.getProperty('border.type').should.equal('none');
+			rectangle.getProperty('border.type').should.equal('solid');
 			rectangle.getProperty('border.color').should.equal('#000000');
 
 			rectangle.getProperty('height').should.equal(100);
@@ -40,7 +40,7 @@ describe('Rectangle', function() {
 				specifiedY = 2,
 				specifiedZ = 3,
 				specifiedOpacity = 0.8,
-				specifiedBorderType = 'border',
+				specifiedBorderType = 'solid',
 				specifiedBorderColor = 'blue',
 				specifiedHeight = 32,
 				specifiedWidth = 84,
@@ -71,7 +71,7 @@ describe('Rectangle', function() {
 		});
 
 		it('Should set only the properties passed in the constructor and use the default for the rest.', function() {
-			var specifiedBorderType = 'border',
+			var specifiedBorderType = 'solid',
 				specifiedBorderColor = 'blue',
 				specifiedHeight = 32,
 				rectangle = new Rectangle({
