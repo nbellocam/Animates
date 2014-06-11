@@ -68,7 +68,7 @@ function VisualMediaObject (options, builder) {
 					.propertyArray('border')
 						.property('type')
 							.type('string')
-							.constraint(function (val) { return (['dotted', 'dashed', 'solid'].indexOf(val) > 0); })
+							.constraint(function (val) { return (['dotted', 'dashed', 'solid'].indexOf(val) >= 0); })
 							.value(options.border.type)
 						.add()
 						.property('color')
