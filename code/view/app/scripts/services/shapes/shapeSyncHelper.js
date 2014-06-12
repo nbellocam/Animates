@@ -37,6 +37,20 @@ angular.module('animatesApp')
 				var model = shapeHelper.getMediaFrameFromView(viewObject);
 
 				syncViewProperty(model.getProperty('fill'), viewObject, 'fill');
+				syncViewProperty(model.getProperty('border.color'), viewObject, 'stroke');
+				switch (model.getProperty('border.type')) {
+					case 'dashed':
+						syncViewProperty([3,3], viewObject, 'strokeDashArray');
+						break;
+					case 'dotted':
+						syncViewProperty([1,2], viewObject, 'strokeDashArray');
+						break;
+					case 'solid':
+					default:
+						syncViewProperty([0,0], viewObject, 'strokeDashArray');
+				}
+				syncViewProperty(model.getProperty('opacity'), viewObject, 'opacity');		
+				syncViewProperty(model.getProperty('border.color'), viewObject, 'stroke');		
 				syncViewProperty(model.getProperty('angle'), viewObject, 'angle');
 				syncViewProperty(model.getProperty('position.x') + canvasPosition.left, viewObject, 'left');
 				syncViewProperty(model.getProperty('position.y') + canvasPosition.top, viewObject, 'top');
