@@ -13,6 +13,7 @@ angular.module('animatesApp')
 			template: '<input type="" value="{{ prop.value() }}" id="property.{{ propkey }}" class="property form-control" ng-blur="propertyBlur($event)"></input>',
 			controller: function($scope) {
 				$scope.isValid = true;
+
 				$scope.propertyBlur = function (event) {
 					var oldValue = $scope.prop.value(),
 						newValue = event.target.value;
@@ -31,16 +32,22 @@ angular.module('animatesApp')
 				};
 			},
 			link : function (scope, element) {
+
+				scope.updateValue = function (value) {
+					element.find('input').val(value);
+				}
+
 				switch (scope.prop.type().name()) {
 					case 'color':
 						$(element.find('input')[0])
 							.minicolors();
 						$(element.find('input')[0])
 							.minicolors('value', scope.prop.value());
-						scope.$watch('prop.value()', function (newVal) {
+						
+						scope.updateValue = function (newVal) {
 							$(element.find('input')[0])
 								.minicolors('value', newVal);
-						});
+						}
 						break;
 					case 'integer':
 						element.find('input').attr('type', 'number');
@@ -49,6 +56,10 @@ angular.module('animatesApp')
 						element.find('input').attr('type', 'number');
 						break;
 				}
+
+				scope.$watch('prop.value()', function (newVal) {
+					scope.updateValue(newVal);
+				});
 			}
 		};
 	});
