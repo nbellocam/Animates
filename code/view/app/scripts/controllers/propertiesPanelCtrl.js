@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('PropertiesPanelCtrl', function PropertiesPanelCtrl($scope, $rootScope, canvasService, animationService, propertyUpdateManagerService, shapeHelper) {
+	.controller('PropertiesPanelCtrl', function PropertiesPanelCtrl($scope, $rootScope, canvasService, animationService, propertyUpdateManagerService, localAnimationStateService, shapeHelper) {
 		$scope.properties = null;
 		$scope.groupProperties = null;
 		$scope.mediaObjectId = null;
 
 		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation, params) {
-			var selectedShapes = canvasService.getSelectedShape(),
+			var selectedShapes = localAnimationStateService.getSelectedShape(),
 				mediaObjectId = params.mediaObjectId || params.mediaObject.getGuid();
 
 			if (selectedShapes !== null) {
@@ -29,8 +29,36 @@ angular.module('animatesApp')
 			$scope.mediaObjectId = null;
 		};
 
+		var animationSelectedShapeEventHandler = function animationSelectedShapeEventHandler (canvasShape) {
+			if (canvasShape === null) {
+				$scope.properties = null;
+				$scope.groupProperties = null;
+				$scope.mediaObjectId = null;
+			} else if (!canvasShape.isType('group')) {
+				var mediaFrame = shapeHelper.getMediaFrameFromView(canvasShape);
+
+				if (mediaFrame) {
+					$scope.properties = mediaFrame.getPropertiesSchema();
+					$scope.mediaObjectId = shapeHelper.getGuidFromView(canvasShape);
+				}
+
+				$scope.groupProperties = null;
+			} else {
+
+				$scope.groupProperties = createGroupProperties(canvasShape);
+				$scope.properties = null;
+				$scope.mediaObjectId = null;
+			}
+			
+			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
+				$scope.$apply();
+			}
+
+		};
+
 		animationService.getInstance().addUpdateObserver('PropertiesPanelCtrl', animationUpdateEventHandler);
 		animationService.getInstance().addLoadCompleteObserver('PropertiesPanelCtrl', animationLoadEventHandler);
+		localAnimationStateService.addSelectedShapeObserver('PropertiesPanelCtrl', animationSelectedShapeEventHandler);
 
 		$scope.empty = function () {
 			if (!$scope.isGroup()) {
@@ -61,42 +89,4 @@ angular.module('animatesApp')
 				'Group y position': fabricGroup.top - canvasPosition.top,
 			};
 		};
-
-		$rootScope.$on('selectedShapeChange', function (event, canvasShape) {
-			if (canvasShape === null) {
-				$scope.properties = null;
-				$scope.groupProperties = null;
-				$scope.mediaObjectId = null;
-			} else if (!canvasShape.isType('group')) {
-				var mediaFrame = shapeHelper.getMediaFrameFromView(canvasShape);
-
-				if (mediaFrame) {
-					$scope.properties = mediaFrame.getPropertiesSchema();
-					$scope.mediaObjectId = shapeHelper.getGuidFromView(canvasShape);
-				}
-
-				$scope.groupProperties = null;
-			} else {
-
-				$scope.groupProperties = createGroupProperties(canvasShape);
-				$scope.properties = null;
-				$scope.mediaObjectId = null;
-			}
-			
-			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
-				$scope.$apply();
-			}
-		});
-
-		$rootScope.$on('shapeChange', function (event, canvasShape) {
-			var selectedShapes = canvasService.getSelectedShape();
-
-			if (selectedShapes !== null) {
-				if (selectedShapes.isType('group') && canvasShape.isType('group')) {
-					$scope.groupProperties = createGroupProperties(canvasShape);
-					$scope.properties = null;
-					$scope.$apply();
-				}
-			}
-		});
 	});

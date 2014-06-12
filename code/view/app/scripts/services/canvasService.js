@@ -8,7 +8,6 @@ angular.module('animatesApp')
 				left: canvasConfig.canvasMinPosition.left,
 				top: canvasConfig.canvasMinPosition.top
 			},
-			selectedShape = null,
 			canvasInstance,
 			viewportInstance,
 			updateCanvasPosition = function updateCanvasPosition(height, width) {
@@ -147,17 +146,17 @@ angular.module('animatesApp')
 			canvas.on('object:modified', function(event) {
 				var target = event.target;
 				if (target) {
-					if (target.isType('group')) {
-						$rootScope.$broadcast('shapeChange', target);
-					} else {
+					if (!target.isType('group')) {
 						var updatedProperties = shapeSync.syncFromView(target, _self.getCanvasPosition());
 						propertyUpdateManagerService.syncProperties(shapeHelper.getGuidFromView(target), updatedProperties, 'CanvasService');
+					} else {
+						//TODO do we have to update every shape inside the group?
 					}
 				}
 			});
 
 			canvas.on('selection:cleared', function () {
-				if (selectedShape) {
+				/* if (selectedShape) {
 					if (selectedShape.isType('group')) {
 						var allObjects = canvas.getObjects(),
 							object;
@@ -172,21 +171,20 @@ angular.module('animatesApp')
 					}
 					selectedShape = null;
 					$rootScope.$broadcast('selectedShapeChange', null);
-				}
+				}*/
+				localAnimationStateService.setSelectedShape(null);
 			});
 
 			canvas.on('selection:created', function(event) {
-				selectedShape = event.target;
-				$rootScope.$broadcast('selectedShapeChange', selectedShape);
+				localAnimationStateService.setSelectedShape(event.target);
 			});
 
 			canvas.on('object:selected', function(event) {
 				if (event.target)
 				{
-					selectedShape = event.target;
-					$rootScope.$broadcast('selectedShapeChange', selectedShape);
+					localAnimationStateService.setSelectedShape(event.target);
 				} else {
-					$rootScope.$broadcast('selectedShapeChange', null);
+					localAnimationStateService.setSelectedShape(null);
 				}
 			});
 
@@ -241,10 +239,6 @@ angular.module('animatesApp')
 					canvasInstance.add(viewportInstance);
 				}
 			}
-		};
-
-		this.getSelectedShape = function getSelectedShape() {
-			return selectedShape;
 		};
 
 		this.getCanvasPosition = function getCanvasPosition() {

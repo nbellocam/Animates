@@ -3,7 +3,9 @@
 angular.module('animatesApp')
 	.service('localAnimationStateService', function localAnimationStateService($window, animationService) {
 		var currentTick = 0,
-			tickObservers = {};
+			tickObservers = {},
+			selectedShape = null,
+			selectedShapeObservers = {};
 
 		animationService.getInstance().addLoadCompleteObserver('localAnimationStateService', function onAnimationLoad() {
 			currentTick = 0;
@@ -11,6 +13,10 @@ angular.module('animatesApp')
 		
 		this.addTickObserver = function addTickObserver(observerId, callback) {
 			tickObservers[observerId] = callback;
+		};
+
+		this.addSelectedShapeObserver = function addSelectedShapeObserver(observerId, callback) {
+			selectedShapeObservers[observerId] = callback;
 		};
 
 		this.setCurrentTick = function (tick) {
@@ -37,5 +43,18 @@ angular.module('animatesApp')
 		
 		this.startsAtCurrentTick = function (mediaTimeline) {
 			return mediaTimeline.getStartTick() === currentTick;
+		};
+
+		this.setSelectedShape = function (shape) {
+			selectedShape = shape;
+			for (var observerId in selectedShapeObservers) {
+				if (selectedShapeObservers.hasOwnProperty(observerId)) {
+					selectedShapeObservers[observerId](selectedShape);
+				}
+			}
+		};
+
+		this.getSelectedShape = function () {
+			return selectedShape;
 		};
 	});
