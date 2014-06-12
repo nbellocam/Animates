@@ -21,7 +21,7 @@ angular.module('animatesApp')
 				finalTick = 0;
 			}
 
-			if (finalTick != currentTick) {
+			if (finalTick !== currentTick) {
 				currentTick = finalTick;
 				for (var observerId in tickObservers) {
 					if (tickObservers.hasOwnProperty(observerId)) {

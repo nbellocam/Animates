@@ -35,7 +35,7 @@ angular.module('animatesApp')
 
 				scope.updateValue = function (value) {
 					element.find('input').val(value);
-				}
+				};
 
 				switch (scope.prop.type().name()) {
 					case 'color':
@@ -47,7 +47,7 @@ angular.module('animatesApp')
 						scope.updateValue = function (newVal) {
 							$(element.find('input')[0])
 								.minicolors('value', newVal);
-						}
+						};
 						break;
 					case 'integer':
 						element.find('input').attr('type', 'number');
