@@ -33,8 +33,11 @@ angular.module('animatesApp')
 		animationService.getInstance().addLoadCompleteObserver('PropertiesPanelCtrl', animationLoadEventHandler);
 
 		$scope.empty = function () {
-			var isEmpty = ($scope.properties === null);
-			return isEmpty;
+			if (!$scope.isGroup()) {
+				return ($scope.properties === null);
+			} else {
+				return ($scope.groupProperties === null);
+			}
 		};
 
 		$scope.isGroup = function () {
