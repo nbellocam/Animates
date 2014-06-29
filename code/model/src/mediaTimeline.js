@@ -185,10 +185,7 @@ function MediaTimeline (options) {
 		return resultEffects;
 	};
 
-
-
 	/**
-
 	* Updates all effects that match the updated properties in the tick passed by parameter.
 	* @param {integer} tick The tick that must be contained by the effects
 	* @param {Map} updatedProperties Map of new properties updates that will be used to update all the effects
