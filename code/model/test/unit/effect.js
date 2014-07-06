@@ -53,103 +53,30 @@ describe('Effect', function() {
 	});
 
 	describe('getOption', function () {
-		it('Should return undefined for non-existant custom options', function () {
-			var effect = new Effect({'prop' : 'value'});
-			should.not.exists(effect.getOption('prop1'));
-		});
-
 		it('Should return the value for existant custom options', function () {
-			var effect = new Effect({'prop' : 'value'});
-			effect.getOption('prop').should.equal('value');
+			var effect = new Effect({'startTick' : 100});
+			effect.getOption('startTick').should.equal(100);
 		});
 	});
 
 	describe('setOption', function () {
-		it('Should define new properties if they do not exists', function () {
-			var effect = new Effect({'prop' : 'value'});
-			effect.setOption('prop1', 'value2');
-			effect.getOption('prop1').should.equal('value2');
-		});
-
-		it('Should return update extistant custom options values', function () {
-			var effect = new Effect({'prop' : 'value'});
-			effect.setOption('prop', 'newValue');
-			effect.getOption('prop').should.equal('newValue');
+		it('Should return update extistant options values', function () {
+			var effect = new Effect({'startTick' : 100});
+			effect.setOption('startTick', 200);
+			effect.getOption('startTick').should.equal(200);
 		});
 	});
 
 	describe('getOptions', function () {
-		it('Should return all existant options (including defaults)', function () {
-			var effect = new Effect({'prop' : 'value', 'prop2' : 'value2'}),
+		it('Should return all default options', function () {
+			var effect = new Effect(),
 				options = effect.getOptions();
 			
-			options.should.have.property('prop', 'value');
-			options.should.have.property('prop2', 'value2');
-			options.should.have.property('endTick');
-			options.should.have.property('startTick');
-		});
-
-		it('Should return all existant options (including added after constructor)', function () {
-			var effect = new Effect({'prop' : 'value', 'prop2' : 'value2'}),
-				options = null;
-
-			effect.setOption('newProp', 'newValue');
-			options = effect.getOptions();
-			
-			options.should.have.property('prop', 'value');
-			options.should.have.property('prop2', 'value2');
-			options.should.have.property('newProp', 'newValue');
 			options.should.have.property('endTick');
 			options.should.have.property('startTick');
 		});
 	});
 
-	describe('getOptions', function () {
-		it('Should add all non-existant options', function () {
-			var effect = new Effect({'prop' : 'value', 'prop2' : 'value2'}),
-				options = null;
-
-			effect.setOptions({'newProp' : 'newValue', 'newProp2' : 'newValue2'});
-
-			options = effect.getOptions();
-			
-			options.should.have.property('prop', 'value');
-			options.should.have.property('prop2', 'value2');
-			options.should.have.property('endTick');
-			options.should.have.property('startTick');
-			options.should.have.property('newProp', 'newValue');
-			options.should.have.property('newProp2', 'newValue2');
-		});
-
-		it('Should update all existant options', function () {
-			var effect = new Effect({'prop' : 'value', 'prop2' : 'value2'}),
-				options = null;
-
-			effect.setOptions({'prop' : 'newValue', 'prop2' : 'newValue2'});
-
-			options = effect.getOptions();
-			
-			options.should.have.property('prop', 'newValue');
-			options.should.have.property('prop2', 'newValue2');
-			options.should.have.property('endTick');
-			options.should.have.property('startTick');
-		});
-
-		it('Should update all existant options and add all non-existant', function () {
-			var effect = new Effect({'prop' : 'value', 'prop2' : 'value2'}),
-				options = null;
-
-			effect.setOptions({'prop' : 'newValue', 'newProp' : 'newPropValue'});
-
-			options = effect.getOptions();
-			
-			options.should.have.property('prop', 'newValue');
-			options.should.have.property('prop2', 'value2');
-			options.should.have.property('endTick');
-			options.should.have.property('startTick');
-			options.should.have.property('newProp', 'newPropValue');
-		});
-	});
 	describe('HasConflictWithProperties', function () {
 		it('Should indicate conflict without strict', function() {
 			var effect = new Effect(),
@@ -264,6 +191,7 @@ describe('Effect', function() {
 	describe('Serialization', function() {
 		it('toJSON should return json', function() { 
 			var effect = new Effect(),
+				pepe = effect.getOptions(),
 				json = effect.toJSON();
 
 			json.should.have.keys('options', 'guid');
@@ -271,13 +199,14 @@ describe('Effect', function() {
 		});
 
 		it('fromJSON should load the object', function() { 
-			var effect = new Effect({ 'prop' : 'value' }),
+			var effect = new Effect({ 'startTick' : 100, 'endTick' : 200 }),
 				json = effect.toJSON(),
 				effect2 = new Effect();
 
 			effect2.fromJSON(json);
 			effect2.getGuid().should.equal(effect.getGuid());
-			effect2.getOptions().should.have.property('prop', 'value');
+			effect2.getOptions().should.have.property('startTick', 100);
+			effect2.getOptions().should.have.property('endTick', 200);
 		});
 	});
 });

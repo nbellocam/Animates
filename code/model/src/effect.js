@@ -1,18 +1,20 @@
 'use strict';
 
 var Common = require('animates-common'),
+	CompositePropertyBuilder = require('./properties/compositePropertyBuilder'),
 	JsonSerializer = require('./serialization/jsonSerializer');
 
 /**
  *  Creates a new Effect.
  *  @class Represents an Effect .
  */
-function Effect (options) {
+function Effect (options, builder) {
 
 	options = options || {};
 
 	var _self = this,
 		guid = '',
+		propBuilder,
 		defaultOptions = {
 			startTick : 0,
 			endTick : -1
@@ -121,15 +123,16 @@ function Effect (options) {
 	};
 
 	this.getOption = function (name) {
-		return currentOptions[name];
+		return currentOptions.getValue(name);
 	};
 
 	this.setOption = function (name, value) {
-		currentOptions[name] = value;
+		currentOptions.setValue(name, value);
 	};
 
 	this.getOptions = function () {
-		return Common.clone(currentOptions);
+		return currentOptions.valuesToJSON();
+		// TODO esto no va mas;
 	};
 
 	this.setOptions = function (options) {
@@ -140,7 +143,7 @@ function Effect (options) {
 
 	this.toJSON = function () {
 		var ser =	{
-						'options' : JsonSerializer.serializeDictionary(currentOptions),
+						'options' : currentOptions.valuesToJSON(),
 						'guid' : _self.getGuid()
 					};
 
@@ -149,7 +152,7 @@ function Effect (options) {
 
 	this.fromJSON = function (json) {
 		guid = json.guid;
-		currentOptions = json.options;
+		currentOptions.valuesFromJSON(json.options);
 	};
 
 	this.getType = function () {
@@ -162,6 +165,18 @@ function Effect (options) {
 	(function init() {
 		currentOptions = Common.extend(options || {}, defaultOptions),
 		guid = Common.createGuid();
+		propBuilder = builder || new CompositePropertyBuilder();
+		propBuilder.property('startTick')
+						.value(currentOptions.startTick)
+						.type('float')
+						.constraint(function (val) { return (val >= 0); })
+					.add()
+					.property('endTick')
+						.value(currentOptions.endTick)
+						.type('float')
+						.constraint(function (val) { return (val >= -1); })
+					.add();
+		currentOptions = propBuilder.create();
 	}());
 }
 
