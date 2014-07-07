@@ -82,7 +82,7 @@ function MoveEffect(options, builder) {
 			if (positionX !== undefined || positionY !== undefined) {
 				var path = _self.getOption('path');
 
-				if (tick === _self.getOption('startTick')) {
+				if (tick === startTick) {
 					if (positionX !== undefined) {
 						path.startPosition.x = positionX;
 						changedProperties.push('position.x');
@@ -94,7 +94,7 @@ function MoveEffect(options, builder) {
 					}
 
 					_self.setOption('path', path);
-				} else if (tick === _self.getOption('endTick')) {
+				} else if (tick === endTick) {
 					if (positionX !== undefined) {
 						path.endPosition.x = positionX;
 						changedProperties.push('position.x');
