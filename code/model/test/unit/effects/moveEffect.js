@@ -97,7 +97,7 @@ describe('MoveEffect', function() {
 			var tick = 42,
 				mediaFrameProperties = {},
 				path = {},
-				effect = new MoveEffect({ 'path' : path }),
+				effect = new MoveEffect({ 'path' : 'Straight' }),
 				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
 
 			should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
@@ -111,7 +111,7 @@ describe('MoveEffect', function() {
 				y = 32,
 				mediaFrameProperties = { 'position' : { 'x' : x, 'y' : y } },
 				path = {},
-				effect = new MoveEffect({ 'path' : path }),
+				effect = new MoveEffect({ 'path' : 'Straight' }),
 				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
 
 			resultMediaFrameProperties.should.have.property('position');
@@ -127,7 +127,7 @@ describe('MoveEffect', function() {
 				resultX = x * 2,
 				resultY = y * 2,
 				path = { getPositionFor: function(startTick, endTick, currentTick) { return { 'x' : resultX, 'y' : resultY }; } },
-				effect = new MoveEffect({ 'path' : path }),
+				effect = new MoveEffect({ 'path' : 'Straight' }),
 				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
 
 			should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
@@ -146,7 +146,7 @@ describe('MoveEffect', function() {
 				resultX = x * 2,
 				resultY = y * 2,
 				path = { getPositionFor: function(startTick, endTick, currentTick) { return { 'x' : resultX, 'y' : resultY }; } },
-				effect = new MoveEffect({ 'startTick' : startTick, 'path' : path }),
+				effect = new MoveEffect({ 'startTick' : startTick, 'path' : 'Straight' }),
 				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
 
 			should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
@@ -165,7 +165,7 @@ describe('MoveEffect', function() {
 				resultY = y * endTick,
 				mediaFrameProperties = { position : { 'x' : x, 'y' : y } },
 				path = { getPositionFor: function(startTick, endTick, currentTick) { return { x:(x*currentTick), y:(y*currentTick) }; } },
-				effect = new MoveEffect({ 'endTick' : endTick, 'path' : path }),
+				effect = new MoveEffect({ 'endTick' : endTick, 'path' : 'Straight' }),
 				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
 
 			should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
@@ -184,17 +184,18 @@ describe('MoveEffect', function() {
 				json = effect.toJSON();
 
 			json.should.have.keys('options', 'guid');
-			json.options.should.have.keys('startTick', 'endTick');
+			json.options.should.have.keys('startTick', 'endTick', 'path');
 		});
 
 		it('fromJSON should load the object', function() {
-			var effect = new MoveEffect({ 'prop' : 'value' }),
+			var effect = new MoveEffect({ 'startTick' : 100, 'endTick' : 200 }),
 				json = effect.toJSON(),
 				effect2 = new MoveEffect();
 
 			effect2.fromJSON(json);
 			effect2.getGuid().should.equal(effect.getGuid());
-			effect2.getOptions().should.have.property('prop', 'value');
+			effect2.getOptions().should.have.property('startTick', 100);
+			effect2.getOptions().should.have.property('endTick', 200);
 		});
 	});
 
@@ -207,7 +208,7 @@ describe('MoveEffect', function() {
 				oldValueY = 35,
 				updatedPropertiesDiff = {  },
 				path = { startPosition : { x: oldValueX, y: oldValueY } },
-				effect = new MoveEffect({ 'endTick' : endTick, 'path' : path }),
+				effect = new MoveEffect({ 'endTick' : endTick, 'path' : 'Straight' }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
 
 			updatedProperties.should.have.length(0);
@@ -223,7 +224,7 @@ describe('MoveEffect', function() {
 				oldValueY = 35,
 				updatedPropertiesDiff = { 'other' : newValue },
 				path = { startPosition : { x: oldValueX, y: oldValueY } },
-				effect = new MoveEffect({ 'endTick' : endTick, 'path' : path }),
+				effect = new MoveEffect({ 'endTick' : endTick, 'path' : 'Straight' }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
 
 			updatedProperties.should.have.length(0);
@@ -239,7 +240,7 @@ describe('MoveEffect', function() {
 				oldValueY = 35,
 				updatedPropertiesDiff = { 'position.x' : newValue },
 				path = { startPosition : { x: oldValueX, y: oldValueY } },
-				effect = new MoveEffect({ 'endTick' : endTick, 'path' : path }),
+				effect = new MoveEffect({ 'endTick' : endTick, 'path' : 'Straight' }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
 
 			updatedProperties.should.have.length(0);
@@ -255,7 +256,7 @@ describe('MoveEffect', function() {
 				oldValueY = 35,
 				updatedPropertiesDiff = { 'position.x' : newValue },
 				path = { startPosition : { x: oldValueX, y: oldValueY } },
-				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : path }),
+				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : 'Straight' }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
 
 			updatedProperties.should.have.length(1);
@@ -272,7 +273,7 @@ describe('MoveEffect', function() {
 				oldValueY = 35,
 				updatedPropertiesDiff = { 'position.y' : newValue },
 				path = { startPosition : { x: oldValueX, y: oldValueY } },
-				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : path }),
+				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : 'Straight' }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
 
 			updatedProperties.should.have.length(1);
@@ -293,7 +294,7 @@ describe('MoveEffect', function() {
 					'position.y' : newValueY
 				},
 				path = { startPosition : { x: oldValueX, y: oldValueY } },
-				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : path }),
+				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : 'Straight' }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
 
 			updatedProperties.should.have.length(2);
@@ -316,7 +317,7 @@ describe('MoveEffect', function() {
 					'other' : { 'newValue' : newValueY, 'oldValue' : oldValueY }
 				},
 				path = { startPosition : { x: oldValueX, y: oldValueY } },
-				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : path }),
+				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : 'Straight' }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
 
 			updatedProperties.should.have.length(2);
@@ -334,7 +335,7 @@ describe('MoveEffect', function() {
 				oldValueY = 35,
 				updatedPropertiesDiff = { 'position.x' : newValue },
 				path = { endPosition : { x: oldValueX, y: oldValueY } },
-				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : path }),
+				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : 'Straight' }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
 
 			updatedProperties.should.have.length(1);
@@ -351,7 +352,7 @@ describe('MoveEffect', function() {
 				oldValueY = 35,
 				updatedPropertiesDiff = { 'position.y' : newValue },
 				path = { endPosition : { x: oldValueX, y: oldValueY } },
-				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : path }),
+				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : 'Straight' }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
 
 			updatedProperties.should.have.length(1);
@@ -372,7 +373,7 @@ describe('MoveEffect', function() {
 					'position.y' : newValueY
 				},
 				path = { endPosition : { x: oldValueX, y: oldValueY } },
-				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : path }),
+				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : 'Straight' }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
 
 			updatedProperties.should.have.length(2);
@@ -395,7 +396,7 @@ describe('MoveEffect', function() {
 					'other' : { 'newValue' : newValueY, 'oldValue' : oldValueY }
 				},
 				path = { endPosition : { x: oldValueX, y: oldValueY } },
-				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : path }),
+				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : 'Straight' }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
 
 			updatedProperties.should.have.length(2);
@@ -424,7 +425,7 @@ describe('MoveEffect', function() {
 					startPosition : { x: oldStartValueX, y: oldStartValueY },
 					endPosition : { x: oldEndValueX, y: oldEndValueY }
 				},
-				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : endTick, 'path' : path }),
+				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : endTick, 'path' : 'Straight' }),
 				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
 
 			updatedProperties.should.have.length(0);

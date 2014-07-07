@@ -2,6 +2,7 @@
 
 var Common = require('animates-common'),
 	JsonSerializer = require('../serialization/jsonSerializer'),
+	CompositePropertyBuilder = require('../properties/compositePropertyBuilder'),
 	Effect = require('../effect.js');
 
 
@@ -9,12 +10,28 @@ var Common = require('animates-common'),
  *  Creates a new MoveEffect.
  *  @class Represents an MoveEffect .
  */
-function MoveEffect(options) {
-	options = options || {};
+function MoveEffect(options, builder) {
+	var _self = this,
+		propBuilder,
+		defaultOptions = {
+			'path' : 'Straight'
+		};
+	
+	/**
+	 *  Constructor
+	 */
+	(function init() {
+		propBuilder = builder || new CompositePropertyBuilder();
+		options = Common.extend(options || {}, defaultOptions);
+		
+		propBuilder.property('path')
+						.value(defaultOptions.path)
+						.type('string')
+						.constraint(function (val) { return (['Straight'].indexOf(val) >= 0); })
+					.add();
 
-	this.base(options);
-
-	var _self = this;
+		_self.base(options, propBuilder);
+	}());
 
 	/**
 	 * Calculates the new shape properties based on the original ones and the current frame.
@@ -100,10 +117,6 @@ function MoveEffect(options) {
 	this.toJSON = function () {
 		return _self.effect_toJSON();
 	};
-
-	(function init() {
-
-	}());
 }
 
 Common.inherits(MoveEffect, Effect);

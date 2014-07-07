@@ -42,8 +42,7 @@ function Effect (options, builder) {
 	 * Gets the array of properties names that the effect modifies
 	 * @return The array of properties names
 	 */
-	this.getAffectedProperties = function ()
-	{
+	this.getAffectedProperties = function () {
 		return [];
 	};
 
@@ -53,8 +52,7 @@ function Effect (options, builder) {
 	* @param {Array} updatedPropertiesDiff the list of updated properties with the newValue as data for each property.
 	* @return The array of properties names that the effect update
 	*/
-	this.updateProperties = function (tick, updatedPropertiesDiff)
-	{
+	this.updateProperties = function (tick, updatedPropertiesDiff) {
 		return [];
 	};
 
