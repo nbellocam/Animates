@@ -1,11 +1,11 @@
 'use strict';
 
-var segmentHelper = require('utils/segmentHelper');
+var segmentHelper = require('./utils/segmentHelper');
 
 /**
  *  Straigth path strategy
  */
-function straigthPathStrategy (currentTick, points) {
+function straightPathStrategy (currentTick, points) {
 
 	/**
 	 * Calculates the new position based on the the currentTick, the start and end ticks and the start and end position.
@@ -84,4 +84,4 @@ function straigthPathStrategy (currentTick, points) {
 	return {};
 }
 
-module.exports = straigthPathStrategy;
+module.exports = straightPathStrategy;
