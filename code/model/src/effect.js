@@ -40,8 +40,6 @@ function Effect (options, builder) {
 						.constraint(function (val) { return (val >= -1); })
 					.add();
 		currentOptions = propBuilder.create();
-
-		console.log(currentOptions.names());
 	}());
 
 	/**

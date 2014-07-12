@@ -21,14 +21,14 @@ function MoveEffect(options, builder) {
 			'startPosition' : { 'x' : 0, 'y' : 0},
 			'endPosition' : { 'x' : 0, 'y' : 0}
 		};
-	
+
 	/**
 	 *  Constructor
 	 */
 	(function init() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
-		
+
 		propBuilder.property('path', PropertyBuilder)
 						.value(options.path)
 						.type('string')
@@ -54,8 +54,7 @@ function MoveEffect(options, builder) {
 							.type('float')
 						.add()
 					.add();
-					/*
-					.property('points', DictionaryPropertyBuilder)
+					/* .property('points', DictionaryPropertyBuilder)
 						.schema(CompositePropertyBuilder)
 							.property('position', CompositePropertyBuilder)
 								.property('x', PropertyBuilder)
@@ -76,7 +75,6 @@ function MoveEffect(options, builder) {
 	}());
 
 	function getPointsArray() {
-		console.log();
 		return [
 			{
 				position : _self.getOption('startPosition'),
@@ -88,6 +86,7 @@ function MoveEffect(options, builder) {
 			}
 		];
 	}
+
 	/**
 	 * Calculates the new shape properties based on the original ones and the current frame.
 	 * @param {integer} tick The current tick number.
@@ -95,8 +94,8 @@ function MoveEffect(options, builder) {
 	 */
 	this.getProperties = function (tick, mediaFrameProperties) {
 		var	path = _self.getOption('path');
-			
-			
+
+
 		if (path == 'Straight') {
 			return straightPathStrategy(tick, getPointsArray());
 		}
