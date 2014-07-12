@@ -3,7 +3,9 @@
 'use strict';
 
 var Property = require('../../../src/properties/property'),
+	PropertyBuilder = require('../../../src/properties/propertyBuilder'),
 	CompositePropertyBuilder = require('../../../src/properties/compositePropertyBuilder'),
+	DictionaryPropertyBuilder = require('../../../src/properties/dictionaryPropertyBuilder'),
 	TypesManager = require('../../../src/properties/typesManager'),
 	should = require("should");
 
@@ -16,7 +18,7 @@ describe('CompositePropertyBuilder', function() {
 
 		(function () {
 			var properties = propBuilder
-								.property('name')
+								.property('name', PropertyBuilder)
 									.type('custom')
 									.constraint(function () { return false; })
 									.value('value')
@@ -28,7 +30,7 @@ describe('CompositePropertyBuilder', function() {
 	it('Should return an array with only one property', function () {
 		var propBuilder = new CompositePropertyBuilder(),
 			properties =	propBuilder
-								.property('name')
+								.property('name', PropertyBuilder)
 									.type('custom')
 									.value('value')
 								.add()
@@ -41,16 +43,16 @@ describe('CompositePropertyBuilder', function() {
 	it('Should accept building sub-properties', function () {
 		var propBuilder = new CompositePropertyBuilder(),
 			properties =	propBuilder
-								.property('name')
+								.property('name', PropertyBuilder)
 									.type('custom')
 									.value('value')
 								.add()
-								.propertyArray('position')
-									.property('x')
+								.property('position', CompositePropertyBuilder)
+									.property('x', PropertyBuilder)
 										.type('custom')
 										.value(100)
 									.add()
-									.property('y')
+									.property('y', PropertyBuilder)
 										.type('custom')
 										.value(1000)
 									.add()
@@ -67,16 +69,16 @@ describe('CompositePropertyBuilder', function() {
 	it('Should throw an error with inexistent properties', function () {
 		var propBuilder = new CompositePropertyBuilder(),
 			properties =	propBuilder
-								.property('name')
+								.property('name', PropertyBuilder)
 									.type('custom')
 									.value('value')
 								.add()
-								.propertyArray('position')
-									.property('x')
+								.property('position', CompositePropertyBuilder)
+									.property('x', PropertyBuilder)
 										.type('custom')
 										.value(100)
 									.add()
-									.property('y')
+									.property('y', PropertyBuilder)
 										.type('custom')
 										.value(1000)
 									.add()
@@ -99,16 +101,16 @@ describe('CompositePropertyBuilder', function() {
 	it('Should set properties and sub-properties values', function () {
 		var propBuilder = new CompositePropertyBuilder(),
 			properties =	propBuilder
-								.property('name')
+								.property('name', PropertyBuilder)
 									.type('custom')
 									.value('value')
 								.add()
-								.propertyArray('position')
-									.property('x')
+								.property('position', CompositePropertyBuilder)
+									.property('x', PropertyBuilder)
 										.type('custom')
 										.value(100)
 									.add()
-									.property('y')
+									.property('y', PropertyBuilder)
 										.type('custom')
 										.value(1000)
 									.add()
@@ -126,5 +128,46 @@ describe('CompositePropertyBuilder', function() {
 		properties.getValue('name').should.equal('newValue');
 		properties.getValue('position.x').should.equal(200);
 		properties.getValue('position.y').should.equal(3000);
+	});
+
+	it('Should set properties and sub-properties values using a dictionary', function () {
+		var propBuilder = new CompositePropertyBuilder(),
+			values = {
+				'1' : {
+					position: {
+						'x' : 10,
+						'y'	: 20,
+					},
+					tick : 100
+				},
+				'2' : {
+					position: {
+						'x' : 30,
+						'y'	: 40,
+					},
+					tick : 200
+				},
+			},
+			properties =	propBuilder
+								.property('points', DictionaryPropertyBuilder)
+									.schema(CompositePropertyBuilder)
+										.property('position', CompositePropertyBuilder)
+											.property('x', PropertyBuilder)
+												.type('float')
+											.add()
+											.property('y', PropertyBuilder)
+												.type('float')
+											.add()
+										.add()
+										.property('tick', PropertyBuilder)
+											.type('float')
+										.add()
+									.add()
+									.values(values)
+								.add()
+							.create();
+
+			properties.names().should.have.lengthOf(6);
+			properties.names().should.eql(['points.1.position.x', 'points.1.position.y', 'points.1.tick', 'points.2.position.x', 'points.2.position.y', 'points.2.tick']);
 	});
 });

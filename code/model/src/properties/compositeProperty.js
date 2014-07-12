@@ -23,26 +23,26 @@ function CompositeProperty () {
 
 		if (property) {
 			for(var i = 1; i < length && property; i++) {
-				if (property.get)
-				{
+				if (property.get) {
 					property = property.get(parts[i]);
 				} else {
 					throw new Error("Property '" + parts[i] + "' could not be found.");	
 				}
 			}
 
-			if (property.value) {
-				return property;
-			} else {
-				throw new Error("Property '" + name + "' could not be found.");
-			}
+			return property;
 		} else {
 			throw new Error("Property '" + parts[0] + "' could not be found.");
 		}	
 	};
 
 	this.getValue = function (name) {
-		return _self.get(name).value();
+		var property = _self.get(name);
+		if (!property.value) {
+			throw new Error("Property '" + name + "' could not be found.");
+		}
+			
+		return property.value();
 	};
 
 	this.setValue = function (name, value) {

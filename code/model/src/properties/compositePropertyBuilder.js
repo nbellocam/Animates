@@ -1,6 +1,8 @@
 'use strict';
 
 var PropertyBuilder = require('./propertyBuilder'),
+	DictionaryPropertyBuilder = require('./dictionaryPropertyBuilder'),
+	PropertyBuilder = require('./propertyBuilder'),
 	CompositeProperty = require('./compositeProperty');
 
 /**
@@ -16,28 +18,14 @@ function CompositePropertyBuilder () {
 		name = arrayName;
 	};
 
-	this.property = function (name) {
-		var currentPropertyBuilder = new PropertyBuilder();
-		
-		currentPropertyBuilder.name(name);
-
-		currentPropertyBuilder.add = function () {
-			properties.add(name, currentPropertyBuilder.create());
+	this.property = function (name, BuilderClass) {
+		var builder = new BuilderClass(_self);
+		builder.name(name);
+		builder.add = function () {
+			properties.add(name, builder.create());
 			return _self;
 		};
-
-		return currentPropertyBuilder;
-	};
-
-	this.propertyArray = function (name) {
-		var currentPropertyArrayBuilder = new CompositePropertyBuilder();
-
-		currentPropertyArrayBuilder.add = function () {
-			properties.add(name, currentPropertyArrayBuilder.create());
-			return _self;
-		};
-
-		return currentPropertyArrayBuilder;
+		return builder;
 	};
 
 	this.create = function () {
