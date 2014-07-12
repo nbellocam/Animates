@@ -5,6 +5,7 @@
 
 var Shape = require('../shape'),
 	JsonSerializer = require('../serialization/jsonSerializer'),
+	PropertyBuilder = require('../properties/propertyBuilder'),
 	CompositePropertyBuilder = require('../properties/compositePropertyBuilder'),
 	Common = require('animates-common');
 
@@ -38,12 +39,12 @@ function Rectangle (options, builder) {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
 
-		propBuilder.property('height')
+		propBuilder.property('height', PropertyBuilder)
 						.value(options.height)
 						.type('float')
 						.constraint(function (val) { return (val >= 0); })
 					.add()
-					.property('width')
+					.property('width', PropertyBuilder)
 						.value(options.width)
 						.type('float')
 						.constraint(function (val) { return (val >= 0); })

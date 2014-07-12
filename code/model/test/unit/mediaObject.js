@@ -3,6 +3,7 @@
 'use strict';
 
 var MediaObject = require('../../src/mediaObject'),
+	PropertyBuilder = require('../../src/properties/propertyBuilder'),
 	CompositePropertyBuilder = require('../../src/properties/compositePropertyBuilder'),
 	should = require("should");
 
@@ -55,8 +56,8 @@ describe('MediaObject', function() {
 				instance;
 
 			propertyBuilder
-				.propertyArray('parentPropertyName')
-					.property('inner')
+				.property('parentPropertyName', CompositePropertyBuilder)
+					.property('inner', PropertyBuilder)
 						.type('string')
 						.value('text')
 					.add()
@@ -74,7 +75,7 @@ describe('MediaObject', function() {
 				instance;
 
 			propertyBuilder
-				.property('prop')
+				.property('prop', PropertyBuilder)
 					.type('string')
 					.value('text')
 				.add();
@@ -89,8 +90,8 @@ describe('MediaObject', function() {
 				instance;
 
 			propertyBuilder
-				.propertyArray('parentPropertyName')
-					.property('inner')
+				.property('parentPropertyName', CompositePropertyBuilder)
+					.property('inner', PropertyBuilder)
 						.type('string')
 						.value('text')
 					.add()
@@ -116,7 +117,7 @@ describe('MediaObject', function() {
 				instance;
 
 			propertyBuilder
-				.property('prop')
+				.property('prop', PropertyBuilder)
 					.type('string')
 					.value('text')
 				.add();
@@ -133,7 +134,7 @@ describe('MediaObject', function() {
 				instance;
 
 			propertyBuilder
-				.property('prop')
+				.property('prop', PropertyBuilder)
 					.type('string')
 					.value('text')
 				.add();
@@ -150,8 +151,8 @@ describe('MediaObject', function() {
 				instance;
 
 			propertyBuilder
-				.propertyArray('parentPropertyName')
-					.property('inner')
+				.property('parentPropertyName', CompositePropertyBuilder)
+					.property('inner', PropertyBuilder)
 						.type('string')
 						.value('text')
 					.add()
@@ -173,8 +174,8 @@ describe('MediaObject', function() {
 					schema;
 
 				propertyBuilder
-					.propertyArray('parentPropertyName')
-						.property('inner')
+					.property('parentPropertyName', CompositePropertyBuilder)
+						.property('inner', PropertyBuilder)
 							.type('string')
 							.value('text')
 						.add()
@@ -198,7 +199,7 @@ describe('MediaObject', function() {
 
 
 			propertyBuilder
-				.property('prop')
+				.property('prop', PropertyBuilder)
 					.type('string')
 					.value('text')
 				.add();
@@ -218,13 +219,13 @@ describe('MediaObject', function() {
 				mediaObject2;
 
 			propertyBuilder
-				.property('prop')
+				.property('prop', PropertyBuilder)
 					.type('string')
 					.value('value')
 				.add();
 
 			propertyBuilder2
-				.property('prop')
+				.property('prop', PropertyBuilder)
 					.type('string')
 					.value('no-value')
 				.add();

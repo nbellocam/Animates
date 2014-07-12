@@ -3,6 +3,7 @@
 'use strict';
 
 var MediaObject = require('./mediaObject'),
+	PropertyBuilder = require('./properties/propertyBuilder'),
 	CompositePropertyBuilder = require('./properties/compositePropertyBuilder'),
 	Common = require('animates-common');
 
@@ -37,41 +38,41 @@ function VisualMediaObject (options, builder) {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
 
-		propBuilder.property('opacity')
+		propBuilder.property('opacity', PropertyBuilder)
 						.value(options.opacity)
 						.type('float')
 						.constraint(function (val) { return (val >= 0 && val <= 1); })
 					.add()
-					.property('angle')
+					.property('angle',PropertyBuilder)
 						.value(options.angle)
 						.type('float')
 						.constraint(function (val) { return (val >= 0 && val <= 360); })
 					.add()
-					.property('fill')
+					.property('fill',PropertyBuilder)
 						.value(options.fill)
 						.type('color')
 					.add()
-					.propertyArray('position')
-						.property('x')
+					.property('position', CompositePropertyBuilder)
+						.property('x', PropertyBuilder)
 							.type('float')
 							.value(options.position.x)
 						.add()
-						.property('y')
+						.property('y', PropertyBuilder)
 							.type('float')
 							.value(options.position.y)
 						.add()
-						.property('z')
+						.property('z', PropertyBuilder)
 							.type('float')
 							.value(options.position.z)
 						.add()
 					.add()
-					.propertyArray('border')
-						.property('type')
+					.property('border', CompositePropertyBuilder)
+						.property('type', PropertyBuilder)
 							.type('string')
 							.constraint(function (val) { return (['dotted', 'dashed', 'solid'].indexOf(val) >= 0); })
 							.value(options.border.type)
 						.add()
-						.property('color')
+						.property('color', PropertyBuilder)
 							.type('color')
 							.value(options.border.color)
 						.add()

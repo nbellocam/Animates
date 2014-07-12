@@ -191,12 +191,12 @@ describe('Animation', function() {
 				operation.should.equal('Update');
 				params.mediaObjectId.should.equal(rec.getGuid());
 				params.effectId.should.equal(eff.getGuid());
-				params.options.should.have.property('newOp', 'test');
+				params.options.should.have.property('startTick', 100);
 				should.not.exist(context);
 				called = true;
 			});
 
-			animation.applyOperation('Effect', 'Update', { 'mediaObjectId' : rec.getGuid() , 'effectId' : eff.getGuid(), 'options' : {'newOp' : 'test'} });
+			animation.applyOperation('Effect', 'Update', { 'mediaObjectId' : rec.getGuid() , 'effectId' : eff.getGuid(), 'options' : {'startTick' :100} });
 			called.should.be.ok;
 
 			timeline.countMediaTimelines().should.be.equal(1);
@@ -204,7 +204,7 @@ describe('Animation', function() {
 			should.exist(mediaTimeline);
 			should.exist(mediaTimeline.getEffect(eff.getGuid()));
 			effectOptions = mediaTimeline.getEffect(eff.getGuid()).getOptions();
-			effectOptions.should.have.property('newOp', 'test');
+			effectOptions.should.have.property('startTick', 100);
 		});
 	});
 
