@@ -1,5 +1,5 @@
 /*global describe, it */
-
+/*
 'use strict';
 
 var MoveEffect = require('../../src/effects/moveEffect'),
@@ -7,7 +7,6 @@ var MoveEffect = require('../../src/effects/moveEffect'),
 	Timeline = require('../../src/timeline'),
 	MediaFrame = require('../../src/mediaFrame'),
 	MediaTimeline = require('../../src/mediaTimeline'),
-	Path = require('../../src/utils/path'),
 	should = require("should");
 
 var utils = {
@@ -84,7 +83,7 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 				specificEndTick = 42,
 				specificTick = specificEndTick / 2,
 				specifiedEndPosition = { x: specificEndTick, y: specificEndTick },
-				specifiedPath = new Path({ endPosition : specifiedEndPosition }),
+				specifiedPath = 'Straight',
 				moveEffect = new MoveEffect({ path: specifiedPath, endTick: specificEndTick }),
 				mediaTimeline,
 				mediaFrame,
@@ -133,12 +132,12 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 				specificEndTick1 = 42,
 				specificTick1 = specificEndTick1 / 2,
 				specifiedEndPosition1 = { x: specificEndTick1, y: specificEndTick1 },
-				specifiedPath1 = new Path({ endPosition : specifiedEndPosition1 }),
+				specifiedPath1 = 'Straight',
 				moveEffect1 = new MoveEffect({ path: specifiedPath1, endTick: specificEndTick1 }),
 				specificEndTick2 = specificEndTick1 * 2,
 				specificTick2 = specificTick1 + specificEndTick1,
 				specifiedEndPosition2 = { x: 0, y: 0 },
-				specifiedPath2 = new Path({ startPosition: specifiedEndPosition1, endPosition : specifiedEndPosition2 }),
+				specifiedPath2 = 'Straight',
 				moveEffect2 = new MoveEffect({ path: specifiedPath2, startTick: specificEndTick1, endTick: specificEndTick2 }),
 				mediaTimeline,
 				mediaFrame,
@@ -246,7 +245,7 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 				specificTick = 42,
 				specificTick2 = specificTick / 2,
 				specifiedEndPosition = { x: specificTick, y: specificTick },
-				specifiedPath = new Path({ endPosition : specifiedEndPosition }),
+				specifiedPath = 'Straight',
 				moveEffect = new MoveEffect({ path: specifiedPath, endTick: specificTick }),
 				mediaTimeline,
 				mediaFramesCollection,
@@ -327,4 +326,4 @@ describe('Retrive all MediaFrames for a specific frame number from the Timeline'
 			utils.testMediaFrameProperties(properties, specifiedProperties, specificTick2, specificTick2);
 		});
 	});
-});
+});*/

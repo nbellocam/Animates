@@ -2,7 +2,10 @@
 
 var Common = require('animates-common'),
 	JsonSerializer = require('../serialization/jsonSerializer'),
+	PropertyBuilder = require('../properties/propertyBuilder'),
+	DictionaryPropertyBuilder = require('../properties/dictionaryPropertyBuilder'),
 	CompositePropertyBuilder = require('../properties/compositePropertyBuilder'),
+	straightPathStrategy = require('./pathStrategies/straightPathStrategy'),
 	Effect = require('../effect.js');
 
 
@@ -14,7 +17,9 @@ function MoveEffect(options, builder) {
 	var _self = this,
 		propBuilder,
 		defaultOptions = {
-			'path' : 'Straight'
+			'path' : 'Straight',
+			'startPosition' : { 'x' : 0, 'y' : 0},
+			'endPosition' : { 'x' : 0, 'y' : 0}
 		};
 	
 	/**
@@ -24,46 +29,79 @@ function MoveEffect(options, builder) {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
 		
-		propBuilder.property('path')
-						.value(defaultOptions.path)
+		propBuilder.property('path', PropertyBuilder)
+						.value(options.path)
 						.type('string')
 						.constraint(function (val) { return (['Straight'].indexOf(val) >= 0); })
+					.add()
+					.property('startPosition', CompositePropertyBuilder)
+						.property('x', PropertyBuilder)
+							.value(options.startPosition.x)
+							.type('float')
+						.add()
+						.property('y', PropertyBuilder)
+							.value(options.startPosition.y)
+							.type('float')
+						.add()
+					.add()
+					.property('endPosition', CompositePropertyBuilder)
+						.property('x', PropertyBuilder)
+							.value(options.endPosition.x)
+							.type('float')
+						.add()
+						.property('y', PropertyBuilder)
+							.value(options.endPosition.y)
+							.type('float')
+						.add()
 					.add();
+					/*
+					.property('points', DictionaryPropertyBuilder)
+						.schema(CompositePropertyBuilder)
+							.property('position', CompositePropertyBuilder)
+								.property('x', PropertyBuilder)
+									.type('float')
+								.add()
+								.property('y', PropertyBuilder)
+									.type('float')
+								.add()
+							.add()
+							.property('tick', PropertyBuilder)
+								.type('float')
+							.add()
+						.add()
+						.values(options.points)
+					.add();*/
 
 		_self.base(options, propBuilder);
 	}());
 
+	function getPointsArray() {
+		console.log();
+		return [
+			{
+				position : _self.getOption('startPosition'),
+				tick : _self.getOption('startTick')
+			},
+			{
+				position : _self.getOption('endPosition'),
+				tick : _self.getOption('endTick')
+			}
+		];
+	}
 	/**
 	 * Calculates the new shape properties based on the original ones and the current frame.
 	 * @param {integer} tick The current tick number.
 	 * @param {object} mediaFrameProperties The original media frame properties.
 	 */
 	this.getProperties = function (tick, mediaFrameProperties) {
-		var startTick = _self.getOption('startTick'),
-			endTick = _self.getOption('endTick'),
-			path = _self.getOption('path');
-
-		if (tick >= startTick) {
-			if (typeof path !== 'undefined' && typeof path.getPositionFor === 'function' ) {
-				var currentPos;
-
-				if (endTick === -1) {
-					currentPos = path.getPositionFor(startTick, endTick, tick);
-				} else {
-					currentPos = path.getPositionFor(startTick, endTick, (tick < endTick) ? tick : endTick);
-				}
-
-				if (typeof currentPos.x !== 'undefined' ) {
-					mediaFrameProperties.position.x = currentPos.x;
-				}
-
-				if (typeof currentPos.y !== 'undefined' ) {
-					mediaFrameProperties.position.y = currentPos.y;
-				}
-			}
+		var	path = _self.getOption('path');
+			
+			
+		if (path == 'Straight') {
+			return straightPathStrategy(tick, getPointsArray());
 		}
 
-		return mediaFrameProperties;
+		throw new Error('Invalid path property');
 	};
 
 	this.getAffectedProperties = function () {

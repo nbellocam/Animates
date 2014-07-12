@@ -1,6 +1,7 @@
 'use strict';
 
 var Common = require('animates-common'),
+	PropertyBuilder = require('./properties/propertyBuilder'),
 	CompositePropertyBuilder = require('./properties/compositePropertyBuilder'),
 	JsonSerializer = require('./serialization/jsonSerializer');
 
@@ -20,6 +21,28 @@ function Effect (options, builder) {
 			endTick : -1
 		},
 		currentOptions = {};
+
+	/**
+	 *  Constructor
+	 */
+	(function init() {
+		currentOptions = Common.extend(options || {}, defaultOptions),
+		guid = Common.createGuid();
+		propBuilder = builder || new CompositePropertyBuilder();
+		propBuilder.property('startTick', PropertyBuilder)
+						.value(currentOptions.startTick)
+						.type('float')
+						.constraint(function (val) { return (val >= 0); })
+					.add()
+					.property('endTick', PropertyBuilder)
+						.value(currentOptions.endTick)
+						.type('float')
+						.constraint(function (val) { return (val >= -1); })
+					.add();
+		currentOptions = propBuilder.create();
+
+		console.log(currentOptions.names());
+	}());
 
 	/**
 	 * Calculates the new shape properties based on the original ones and the current tick.
@@ -121,7 +144,12 @@ function Effect (options, builder) {
 	};
 
 	this.getOption = function (name) {
-		return currentOptions.getValue(name);
+		var prop = currentOptions.get(name);
+		if (prop.value) {
+			return prop.value();
+		}
+
+		return prop.valuesToJSON();
 	};
 
 	this.setOption = function (name, value) {
@@ -156,26 +184,6 @@ function Effect (options, builder) {
 	this.getType = function () {
 		return Common.realTypeOf(this);
 	};
-
-	/**
-	 *  Constructor
-	 */
-	(function init() {
-		currentOptions = Common.extend(options || {}, defaultOptions),
-		guid = Common.createGuid();
-		propBuilder = builder || new CompositePropertyBuilder();
-		propBuilder.property('startTick')
-						.value(currentOptions.startTick)
-						.type('float')
-						.constraint(function (val) { return (val >= 0); })
-					.add()
-					.property('endTick')
-						.value(currentOptions.endTick)
-						.type('float')
-						.constraint(function (val) { return (val >= -1); })
-					.add();
-		currentOptions = propBuilder.create();
-	}());
 }
 
 JsonSerializer.registerType(Effect);
