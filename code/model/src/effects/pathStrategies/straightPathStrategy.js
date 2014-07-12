@@ -1,11 +1,11 @@
 'use strict';
 
-var segmentHelper = require('utils/segmentHelper');
+var segmentHelper = require('./utils/segmentHelper');
 
 /**
  *  Straigth path strategy
  */
-function straigthPathStrategy (currentTick, points) {
+function straightPathStrategy (currentTick, points) {
 
 	/**
 	 * Calculates the new position based on the the currentTick, the start and end ticks and the start and end position.
@@ -26,36 +26,6 @@ function straigthPathStrategy (currentTick, points) {
 			return {}; // The position can't be determined
 		}
 
-		if (endTick === -1) {
-			var tickDelta = currentTick - startTick,
-				currentXPosition,
-				currentYPosition,
-				finalXPosition,
-				finalYPosition;
-
-			if (startX === endX) {
-				finalXPosition = startX;
-			} else if (startX < endX) {
-				currentXPosition = startX + tickDelta;
-				finalXPosition = currentXPosition >= endX ? endX : currentXPosition;
-			} else {
-				currentXPosition = startX - tickDelta;
-				finalXPosition = currentXPosition <= endX ? endX : currentXPosition;
-			}
-
-			if (startY === endY) {
-				finalYPosition = startY;
-			} else if (startY < endY) {
-				currentYPosition = startY + tickDelta;
-				finalYPosition = currentYPosition >= endY ? endY : currentYPosition;
-			} else {
-				currentYPosition = startY - tickDelta;
-				finalYPosition = currentYPosition <= endY ? endY : currentYPosition;
-			}
-
-			return { x: finalXPosition, y: finalYPosition };
-		}
-
 		if (endTick <= currentTick) {
 			return { 'x' : endX, 'y' : endY };
 		}
@@ -73,8 +43,8 @@ function straigthPathStrategy (currentTick, points) {
 	if (segment && segment.startPoint) {
 		if (!segment.endPoint) {
 			return {
-				'x' : segment.endPoint.position.x,
-				'y' : segment.endPoint.position.y
+				'x' : segment.startPoint.position.x,
+				'y' : segment.startPoint.position.y
 			};
 		}
 
@@ -84,4 +54,4 @@ function straigthPathStrategy (currentTick, points) {
 	return {};
 }
 
-module.exports = straigthPathStrategy;
+module.exports = straightPathStrategy;

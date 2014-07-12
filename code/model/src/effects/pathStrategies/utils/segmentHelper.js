@@ -15,20 +15,19 @@ function getSegment(currentTick, points) {
     return pointA.tick - pointB.tick;
   });
 
-  if (points[0].tick >= currentTick) {
+  if (points[0].tick > currentTick) {
     return {
       endPoint : points[0]
     };
   }
 
-  if (points[points.length - 1].tick <= currentTick){
+  if (points[points.length - 1].tick <= currentTick) {
     return {
       startPoint : points[points.length - 1]
     };
   }
 
-  var maxValue = points.length - 1;
-  for (var i = 1; i < maxValue; i++) {
+  for (var i = 1; i < points.length; i++) {
     if (points[i].tick >= currentTick) {
       return {
         startPoint : points[i - 1],
