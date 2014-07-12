@@ -95,9 +95,16 @@ function MoveEffect(options, builder) {
 	this.getProperties = function (tick, mediaFrameProperties) {
 		var	path = _self.getOption('path');
 
-
 		if (path == 'Straight') {
-			return straightPathStrategy(tick, getPointsArray());
+			var newPosition = straightPathStrategy(tick, getPointsArray());
+
+			for (var key in newPosition) {
+				if (newPosition.hasOwnProperty(key)) {
+					mediaFrameProperties.position[key] = newPosition[key];
+				}
+			}
+
+			return mediaFrameProperties;
 		}
 
 		throw new Error('Invalid path property');
