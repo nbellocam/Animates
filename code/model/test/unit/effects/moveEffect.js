@@ -78,7 +78,7 @@ describe('MoveEffect', function() {
 			}).should.throw('The property \'path\' could not be built due to invalid value.');
 		});
 
-		it('Should retrive a copy of the original tick with no changes if the tick is before the startTick.', function() {
+		it('Should retrive the original mediaFrame with no changes if the tick is before the startTick.', function() {
 			var tick = 0,
 				resultX = 50,
 				resultY = 100,
@@ -97,60 +97,48 @@ describe('MoveEffect', function() {
 			resultMediaFrameProperties.position.should.have.property('y', resultY);
 		});
 
-	//	it('Should return the original tick with the new values.', function() {
-	//		var tick = 42,
-	//			x = 24,
-	//			y = 32,
-	//			mediaFrameProperties = { 'position' : { 'x' : x, 'y' : y } },
-	//			resultX = x * 2,
-	//			resultY = y * 2,
-	//			path = { getPositionFor: function(startTick, endTick, currentTick) { return { 'x' : resultX, 'y' : resultY }; } },
-	//			effect = new MoveEffect({ 'path' : 'Straight' }),
-	//			resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
-	//
-	//		should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
-	//
-	//		resultMediaFrameProperties.should.have.property('position');
-	//		resultMediaFrameProperties.position.should.have.property('x', resultX);
-	//		resultMediaFrameProperties.position.should.have.property('y', resultY);
-	//	});
-	//
-	//	it('Should retrive a copy of the original tick with no changes if the tick is before the startTick', function() {
-	//		var tick = 42,
-	//			startTick = 100,
-	//			x = 24,
-	//			y = 32,
-	//			mediaFrameProperties = { 'position' : { 'x' : x, 'y' : y } },
-	//			resultX = x * 2,
-	//			resultY = y * 2,
-	//			path = { getPositionFor: function(startTick, endTick, currentTick) { return { 'x' : resultX, 'y' : resultY }; } },
-	//			effect = new MoveEffect({ 'startTick' : startTick, 'path' : 'Straight' }),
-	//			resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
-	//
-	//		should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
-	//
-	//		resultMediaFrameProperties.should.have.property('position');
-	//		resultMediaFrameProperties.position.should.have.property('x', x);
-	//		resultMediaFrameProperties.position.should.have.property('y', y);
-	//	});
-	//
-	//	it('Should retrive a copy of the end tick with no extra changes if the tick is after the endTick', function() {
-	//		var tick = 42,
-	//			endTick = 40,
-	//			x = 24,
-	//			y = 32,
-	//			resultX = x * endTick,
-	//			resultY = y * endTick,
-	//			mediaFrameProperties = { position : { 'x' : x, 'y' : y } },
-	//			path = { getPositionFor: function(startTick, endTick, currentTick) { return { x:(x*currentTick), y:(y*currentTick) }; } },
-	//			effect = new MoveEffect({ 'endTick' : endTick, 'path' : 'Straight' }),
-	//			resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
-	//
-	//		should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
-	//		resultMediaFrameProperties.should.have.property('position');
-	//		resultMediaFrameProperties.position.should.have.property('x', resultX);
-	//		resultMediaFrameProperties.position.should.have.property('y', resultY);
-	//	});
+		it('Should retrive the original mediaFrame with the last position if the tick is before the endTick.', function() {
+			var tick = 100,
+				resultX = 10,
+				resultY = 20,
+				mediaFrameProperties = { 'position' : { 'x' : 50, 'y' : 100 } },
+				effect = new MoveEffect({
+					'path' : 'Straight',
+					'startTick' : 10,
+					'endTick': 20,
+					'endPosition': {  'x' : resultX, 'y' : resultY }
+					}),
+				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
+
+			should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
+
+			resultMediaFrameProperties.should.have.property('position');
+			resultMediaFrameProperties.position.should.have.property('x', resultX);
+			resultMediaFrameProperties.position.should.have.property('y', resultY);
+		});
+
+		it('Should retrive the original mediaFrame with the new position if the tick is between the startTick and the endTick.', function() {
+			var tick = 15,
+				resultX = 5,
+				resultY = 10,
+				mediaFrameProperties = { 'position' : { 'x' : 50, 'y' : 100 } },
+				effect = new MoveEffect({
+					'path' : 'Straight',
+					'startTick' : 10,
+					'endTick': 20,
+					'endPosition': {  'x' : 10, 'y' : 20 }
+					}),
+				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
+
+			should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
+
+			resultMediaFrameProperties.should.have.property('position');
+			resultMediaFrameProperties.position.should.have.property('x');
+			resultMediaFrameProperties.position.x.should.be.approximately(resultX, 0.1);
+
+			resultMediaFrameProperties.position.should.have.property('y');
+			resultMediaFrameProperties.position.y.should.be.approximately(resultY, 0.1);
+		});
 	});
 
 	describe('Serialization', function() {
@@ -174,7 +162,7 @@ describe('MoveEffect', function() {
 		});
 	});
 
-	//	describe('updateProperties', function() {
+	describe('updateProperties', function() {
 	//		it('Should return empty array and not modify any position if an empty list properties was passed by param', function() {
 	//			var tick = 42,
 	//				endTick = 100,
@@ -409,5 +397,5 @@ describe('MoveEffect', function() {
 	//			path.endPosition.x.should.equal(oldEndValueX);
 	//			path.endPosition.y.should.equal(oldEndValueY);
 	//		});
-	//	});
+	});
 });

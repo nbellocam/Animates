@@ -117,40 +117,35 @@ function MoveEffect(options, builder) {
 	this.updateProperties = function (tick, updatedProperties) {
 		var startTick = _self.getOption('startTick'),
 			endTick = _self.getOption('endTick'),
+			positionX = updatedProperties['position.x'],
+			positionY = updatedProperties['position.y'],
 			changedProperties = [];
 
-		if (tick >= startTick && tick <= endTick) {
-			var positionX = updatedProperties['position.x'],
-				positionY = updatedProperties['position.y'];
+		if (positionX === undefined && positionY === undefined) {
+			return changedProperties;
+		}
 
-			if (positionX !== undefined || positionY !== undefined) {
-				var path = _self.getOption('path');
+		if (tick === startTick) {
+			if (positionX !== undefined) {
+				_self.setOption('startPosition.x', positionX);
+				changedProperties.push('position.x');
+			}
 
-				if (tick === startTick) {
-					if (positionX !== undefined) {
-						path.startPosition.x = positionX;
-						changedProperties.push('position.x');
-					}
+			if (positionY !== undefined) {
+				_self.setOption('startPosition.y', positionY);
+				changedProperties.push('position.y');
+			}
+		}
 
-					if (positionY !== undefined) {
-						path.startPosition.y = positionY;
-						changedProperties.push('position.y');
-					}
+		if (tick === endTick) {
+			if (positionX !== undefined) {
+				_self.setOption('endPosition.x', positionX);
+				changedProperties.push('position.x');
+			}
 
-					_self.setOption('path', path);
-				} else if (tick === endTick) {
-					if (positionX !== undefined) {
-						path.endPosition.x = positionX;
-						changedProperties.push('position.x');
-					}
-
-					if (positionY !== undefined) {
-						path.endPosition.y = positionY;
-						changedProperties.push('position.y');
-					}
-
-					_self.setOption('path', path);
-				}
+			if (positionY !== undefined) {
+				_self.setOption('endPosition.y', positionY);
+				changedProperties.push('position.y');
 			}
 		}
 
