@@ -163,239 +163,324 @@ describe('MoveEffect', function() {
 	});
 
 	describe('updateProperties', function() {
-	//		it('Should return empty array and not modify any position if an empty list properties was passed by param', function() {
-	//			var tick = 42,
-	//				endTick = 100,
-	//				newValue = 24,
-	//				oldValueX = 32,
-	//				oldValueY = 35,
-	//				updatedPropertiesDiff = {  },
-	//				path = { startPosition : { x: oldValueX, y: oldValueY } },
-	//				effect = new MoveEffect({ 'endTick' : endTick, 'path' : 'Straight' }),
-	//				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
-	//
-	//			updatedProperties.should.have.length(0);
-	//			path.startPosition.x.should.equal(oldValueX);
-	//			path.startPosition.y.should.equal(oldValueY);
-	//		});
-	//
-	//		it('Should return empty array and not modify any position if a not applying list of properties was passed by param', function() {
-	//			var tick = 42,
-	//				endTick = 100,
-	//				newValue = 24,
-	//				oldValueX = 32,
-	//				oldValueY = 35,
-	//				updatedPropertiesDiff = { 'other' : newValue },
-	//				path = { startPosition : { x: oldValueX, y: oldValueY } },
-	//				effect = new MoveEffect({ 'endTick' : endTick, 'path' : 'Straight' }),
-	//				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
-	//
-	//			updatedProperties.should.have.length(0);
-	//			path.startPosition.x.should.equal(oldValueX);
-	//			path.startPosition.y.should.equal(oldValueY);
-	//		});
-	//
-	//		it('Should return empty array and not modify any position if the tick is not contained in the effect', function() {
-	//			var tick = 42,
-	//				endTick = 40,
-	//				newValue = 24,
-	//				oldValueX = 32,
-	//				oldValueY = 35,
-	//				updatedPropertiesDiff = { 'position.x' : newValue },
-	//				path = { startPosition : { x: oldValueX, y: oldValueY } },
-	//				effect = new MoveEffect({ 'endTick' : endTick, 'path' : 'Straight' }),
-	//				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
-	//
-	//			updatedProperties.should.have.length(0);
-	//			path.startPosition.x.should.equal(oldValueX);
-	//			path.startPosition.y.should.equal(oldValueY);
-	//		});
-	//
-	//		it('Should return position.x in the array and modify start value if only position.x is passed by param in startTick', function() {
-	//			var tick = 42,
-	//				endTick = 100,
-	//				newValue = 24,
-	//				oldValueX = 32,
-	//				oldValueY = 35,
-	//				updatedPropertiesDiff = { 'position.x' : newValue },
-	//				path = { startPosition : { x: oldValueX, y: oldValueY } },
-	//				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : 'Straight' }),
-	//				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
-	//
-	//			updatedProperties.should.have.length(1);
-	//			updatedProperties.should.containEql('position.x');
-	//			path.startPosition.x.should.equal(newValue);
-	//			path.startPosition.y.should.equal(oldValueY);
-	//		});
-	//
-	//		it('Should return position.y in the array and modify start value if only position.y is passed by param in startTick', function() {
-	//			var tick = 42,
-	//				endTick = 100,
-	//				newValue = 24,
-	//				oldValueX = 32,
-	//				oldValueY = 35,
-	//				updatedPropertiesDiff = { 'position.y' : newValue },
-	//				path = { startPosition : { x: oldValueX, y: oldValueY } },
-	//				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : 'Straight' }),
-	//				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
-	//
-	//			updatedProperties.should.have.length(1);
-	//			updatedProperties.should.containEql('position.y');
-	//			path.startPosition.x.should.equal(oldValueX);
-	//			path.startPosition.y.should.equal(newValue);
-	//		});
-	//
-	//		it('Should return both position in the array and modify start values if both positions are passed by param in startTick', function() {
-	//			var tick = 42,
-	//				endTick = 100,
-	//				newValueX = 23,
-	//				newValueY = 24,
-	//				oldValueX = 32,
-	//				oldValueY = 35,
-	//				updatedPropertiesDiff = {
-	//					'position.x' : newValueX,
-	//					'position.y' : newValueY
-	//				},
-	//				path = { startPosition : { x: oldValueX, y: oldValueY } },
-	//				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : 'Straight' }),
-	//				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
-	//
-	//			updatedProperties.should.have.length(2);
-	//			updatedProperties.should.containEql('position.x');
-	//			updatedProperties.should.containEql('position.y');
-	//			path.startPosition.x.should.equal(newValueX);
-	//			path.startPosition.y.should.equal(newValueY);
-	//		});
-	//
-	//		it('Should return both position in the array and modify start values if both positions are passed by param in startTick with more properties', function() {
-	//			var tick = 42,
-	//				endTick = 100,
-	//				newValueX = 23,
-	//				newValueY = 24,
-	//				oldValueX = 32,
-	//				oldValueY = 35,
-	//				updatedPropertiesDiff = {
-	//					'position.x' : newValueX,
-	//					'position.y' : newValueY,
-	//					'other' : { 'newValue' : newValueY, 'oldValue' : oldValueY }
-	//				},
-	//				path = { startPosition : { x: oldValueX, y: oldValueY } },
-	//				effect = new MoveEffect({ 'startTick': tick, 'endTick' : endTick, 'path' : 'Straight' }),
-	//				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
-	//
-	//			updatedProperties.should.have.length(2);
-	//			updatedProperties.should.containEql('position.x');
-	//			updatedProperties.should.containEql('position.y');
-	//			path.startPosition.x.should.equal(newValueX);
-	//			path.startPosition.y.should.equal(newValueY);
-	//		});
-	//
-	//		it('Should return position.x in the array and modify start value if only position.x is passed by param in endTick', function() {
-	//			var startTick = 42,
-	//				tick = 100,
-	//				newValue = 24,
-	//				oldValueX = 32,
-	//				oldValueY = 35,
-	//				updatedPropertiesDiff = { 'position.x' : newValue },
-	//				path = { endPosition : { x: oldValueX, y: oldValueY } },
-	//				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : 'Straight' }),
-	//				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
-	//
-	//			updatedProperties.should.have.length(1);
-	//			updatedProperties.should.containEql('position.x');
-	//			path.endPosition.x.should.equal(newValue);
-	//			path.endPosition.y.should.equal(oldValueY);
-	//		});
-	//
-	//		it('Should return position.y in the array and modify start value if only position.y is passed by param in endTick', function() {
-	//			var startTick = 42,
-	//				tick = 100,
-	//				newValue = 24,
-	//				oldValueX = 32,
-	//				oldValueY = 35,
-	//				updatedPropertiesDiff = { 'position.y' : newValue },
-	//				path = { endPosition : { x: oldValueX, y: oldValueY } },
-	//				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : 'Straight' }),
-	//				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
-	//
-	//			updatedProperties.should.have.length(1);
-	//			updatedProperties.should.containEql('position.y');
-	//			path.endPosition.x.should.equal(oldValueX);
-	//			path.endPosition.y.should.equal(newValue);
-	//		});
-	//
-	//		it('Should return both position in the array and modify start values if both positions are passed by param in endTick', function() {
-	//			var startTick = 42,
-	//				tick = 100,
-	//				newValueX = 23,
-	//				newValueY = 24,
-	//				oldValueX = 32,
-	//				oldValueY = 35,
-	//				updatedPropertiesDiff = {
-	//					'position.x' : newValueX,
-	//					'position.y' : newValueY
-	//				},
-	//				path = { endPosition : { x: oldValueX, y: oldValueY } },
-	//				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : 'Straight' }),
-	//				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
-	//
-	//			updatedProperties.should.have.length(2);
-	//			updatedProperties.should.containEql('position.x');
-	//			updatedProperties.should.containEql('position.y');
-	//			path.endPosition.x.should.equal(newValueX);
-	//			path.endPosition.y.should.equal(newValueY);
-	//		});
-	//
-	//		it('Should return both position in the array and modify start values if both positions are passed by param in endTick with more properties', function() {
-	//			var startTick = 42,
-	//				tick = 100,
-	//				newValueX = 23,
-	//				newValueY = 24,
-	//				oldValueX = 32,
-	//				oldValueY = 35,
-	//				updatedPropertiesDiff = {
-	//					'position.x' : newValueX,
-	//					'position.y' : newValueY,
-	//					'other' : { 'newValue' : newValueY, 'oldValue' : oldValueY }
-	//				},
-	//				path = { endPosition : { x: oldValueX, y: oldValueY } },
-	//				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : tick, 'path' : 'Straight' }),
-	//				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
-	//
-	//			updatedProperties.should.have.length(2);
-	//			updatedProperties.should.containEql('position.x');
-	//			updatedProperties.should.containEql('position.y');
-	//			path.endPosition.x.should.equal(newValueX);
-	//			path.endPosition.y.should.equal(newValueY);
-	//		});
-	//
-	//		it('Should return empty array and not modify any position if tick is not startTick nor endTick but is contained', function() {
-	//			var startTick = 1,
-	//				tick = 50,
-	//				endTick = 100,
-	//				newValueX = 23,
-	//				newValueY = 24,
-	//				oldStartValueX = 32,
-	//				oldStartValueY = 35,
-	//				oldEndValueX = 42,
-	//				oldEndValueY = 45,
-	//				updatedPropertiesDiff = {
-	//					'position.x' : newValueX,
-	//					'position.y' : newValueY,
-	//					'other' : { 'newValue' : newValueY, 'oldValue' : 53 }
-	//				},
-	//				path = {
-	//					startPosition : { x: oldStartValueX, y: oldStartValueY },
-	//					endPosition : { x: oldEndValueX, y: oldEndValueY }
-	//				},
-	//				effect = new MoveEffect({ 'startTick': startTick, 'endTick' : endTick, 'path' : 'Straight' }),
-	//				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff);
-	//
-	//			updatedProperties.should.have.length(0);
-	//			path.startPosition.x.should.equal(oldStartValueX);
-	//			path.startPosition.y.should.equal(oldStartValueY);
-	//			path.endPosition.x.should.equal(oldEndValueX);
-	//			path.endPosition.y.should.equal(oldEndValueY);
-	//		});
+		it('Should return empty array and not modify any position if an empty list properties was passed by param', function() {
+			var tick = 5,
+				endTick = tick,
+				oldValueX = 50,
+				oldValueY = 100,
+				updatedPropertiesDiff = { },
+				effect = new MoveEffect({
+					'endTick' : endTick,
+					'path' : 'Straight',
+					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
+					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
+				}),
+				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options;
+
+			updatedProperties.should.have.length(0);
+
+			newOptions.startPosition.should.have.property('x', oldValueX);
+			newOptions.startPosition.should.have.property('y', oldValueY);
+			newOptions.endPosition.should.have.property('x', oldValueX);
+			newOptions.endPosition.should.have.property('y', oldValueY);
+		});
+
+		it('Should return empty array and not modify any position if a not applying list of properties was passed by param', function() {
+			var tick = 5,
+				endTick = tick,
+				oldValueX = 50,
+				oldValueY = 100,
+				updatedPropertiesDiff = { 'something' : 'notUsed' },
+				effect = new MoveEffect({
+					'endTick' : endTick,
+					'path' : 'Straight',
+					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
+					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
+				}),
+				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options;
+
+			updatedProperties.should.have.length(0);
+
+			newOptions.startPosition.should.have.property('x', oldValueX);
+			newOptions.startPosition.should.have.property('y', oldValueY);
+			newOptions.endPosition.should.have.property('x', oldValueX);
+			newOptions.endPosition.should.have.property('y', oldValueY);
+		});
+
+		it('Should return empty array and not modify any position if the tick is not contained in the effect', function() {
+			var tick = 50,
+				endTick = 10,
+				oldValueX = 50,
+				oldValueY = 100,
+				newValue = 300,
+				updatedPropertiesDiff = { 'position.x' : newValue },
+				effect = new MoveEffect({
+					'endTick' : endTick,
+					'path' : 'Straight',
+					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
+					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
+				}),
+				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options;
+
+			updatedProperties.should.have.length(0);
+
+			newOptions.startPosition.should.have.property('x', oldValueX);
+			newOptions.startPosition.should.have.property('y', oldValueY);
+			newOptions.endPosition.should.have.property('x', oldValueX);
+			newOptions.endPosition.should.have.property('y', oldValueY);
+		});
+
+		it('Should return empty array and not modify any position if the tick is between startTick and endTick in the effect', function() {
+			var tick = 5,
+				endTick = 10,
+				oldValueX = 50,
+				oldValueY = 100,
+				newValue = 300,
+				updatedPropertiesDiff = { 'position.x' : newValue },
+				effect = new MoveEffect({
+					'endTick' : endTick,
+					'path' : 'Straight',
+					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
+					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
+				}),
+				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options;
+
+			updatedProperties.should.have.length(0);
+
+			newOptions.startPosition.should.have.property('x', oldValueX);
+			newOptions.startPosition.should.have.property('y', oldValueY);
+			newOptions.endPosition.should.have.property('x', oldValueX);
+			newOptions.endPosition.should.have.property('y', oldValueY);
+		});
+
+		it('Should return position.x in the array and modify start value if only position.x is passed by param in startTick', function() {
+			var tick = 5,
+				endTick = 10,
+				oldValueX = 50,
+				oldValueY = 100,
+				newValue = 300,
+				updatedPropertiesDiff = { 'position.x' : newValue },
+				effect = new MoveEffect({
+					'startTick' : tick,
+					'endTick' : endTick,
+					'path' : 'Straight',
+					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
+					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
+				}),
+				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options;
+
+			updatedProperties.should.have.length(1);
+			updatedProperties.should.containEql('position.x');
+
+			newOptions.startPosition.should.have.property('x', newValue);
+			newOptions.startPosition.should.have.property('y', oldValueY);
+			newOptions.endPosition.should.have.property('x', oldValueX);
+			newOptions.endPosition.should.have.property('y', oldValueY);
+		});
+
+		it('Should return position.y in the array and modify start value if only position.y is passed by param in startTick', function() {
+			var tick = 5,
+				endTick = 10,
+				oldValueX = 50,
+				oldValueY = 100,
+				newValue = 300,
+				updatedPropertiesDiff = { 'position.y' : newValue },
+				effect = new MoveEffect({
+					'startTick' : tick,
+					'endTick' : endTick,
+					'path' : 'Straight',
+					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
+					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
+				}),
+				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options;
+
+			updatedProperties.should.have.length(1);
+			updatedProperties.should.containEql('position.y');
+
+			newOptions.startPosition.should.have.property('x', oldValueX);
+			newOptions.startPosition.should.have.property('y', newValue);
+			newOptions.endPosition.should.have.property('x', oldValueX);
+			newOptions.endPosition.should.have.property('y', oldValueY);
+		});
+
+		it('Should return both position in the array and modify start values if both positions are passed by param in startTick', function() {
+			var tick = 5,
+				endTick = 10,
+				newValueX = 25,
+				newValueY = 30,
+				oldValueX = 50,
+				oldValueY = 100,
+				updatedPropertiesDiff = {
+					'position.x' : newValueX,
+					'position.y' : newValueY
+				},
+				effect = new MoveEffect({
+					'startTick' : tick,
+					'endTick' : endTick,
+					'path' : 'Straight',
+					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
+					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
+				}),
+				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options;
+
+			updatedProperties.should.have.length(2);
+			updatedProperties.should.containEql('position.x');
+			updatedProperties.should.containEql('position.y');
+
+			newOptions.startPosition.should.have.property('x', newValueX);
+			newOptions.startPosition.should.have.property('y', newValueY);
+			newOptions.endPosition.should.have.property('x', oldValueX);
+			newOptions.endPosition.should.have.property('y', oldValueY);
+		});
+
+		it('Should return both position in the array and modify start values if both positions are passed by param in startTick with more properties', function() {
+			var tick = 5,
+				endTick = 10,
+				newValueX = 25,
+				newValueY = 30,
+				oldValueX = 50,
+				oldValueY = 100,
+				updatedPropertiesDiff = {
+					'position.x' : newValueX,
+					'position.y' : newValueY,
+					'other' : { 'newValue' : newValueY, 'oldValue' : oldValueY }
+				},
+				effect = new MoveEffect({
+					'startTick' : tick,
+					'endTick' : endTick,
+					'path' : 'Straight',
+					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
+					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
+				}),
+				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options;
+
+			updatedProperties.should.have.length(2);
+			updatedProperties.should.containEql('position.x');
+			updatedProperties.should.containEql('position.y');
+
+			newOptions.startPosition.should.have.property('x', newValueX);
+			newOptions.startPosition.should.have.property('y', newValueY);
+			newOptions.endPosition.should.have.property('x', oldValueX);
+			newOptions.endPosition.should.have.property('y', oldValueY);
+		});
+
+		it('Should return position.x in the array and modify start value if only position.x is passed by param in endTick', function() {
+			var tick = 10,
+				oldValueX = 50,
+				oldValueY = 100,
+				newValue = 300,
+				updatedPropertiesDiff = { 'position.x' : newValue },
+				effect = new MoveEffect({
+					'startTick' : 0,
+					'endTick' : tick,
+					'path' : 'Straight',
+					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
+					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
+				}),
+				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options;
+
+			updatedProperties.should.have.length(1);
+			updatedProperties.should.containEql('position.x');
+
+			newOptions.startPosition.should.have.property('x', oldValueX);
+			newOptions.startPosition.should.have.property('y', oldValueY);
+			newOptions.endPosition.should.have.property('x', newValue);
+			newOptions.endPosition.should.have.property('y', oldValueY);
+		});
+
+		it('Should return position.y in the array and modify start value if only position.y is passed by param in endTick', function() {
+			var tick = 10,
+				oldValueX = 50,
+				oldValueY = 100,
+				newValue = 300,
+				updatedPropertiesDiff = { 'position.y' : newValue },
+				effect = new MoveEffect({
+					'startTick' : 0,
+					'endTick' : tick,
+					'path' : 'Straight',
+					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
+					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
+				}),
+				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options;
+
+			updatedProperties.should.have.length(1);
+			updatedProperties.should.containEql('position.y');
+
+			newOptions.startPosition.should.have.property('x', oldValueX);
+			newOptions.startPosition.should.have.property('y', oldValueY);
+			newOptions.endPosition.should.have.property('x', oldValueX);
+			newOptions.endPosition.should.have.property('y', newValue);
+		});
+
+		it('Should return both position in the array and modify start values if both positions are passed by param in endTick', function() {
+			var tick = 10,
+				newValueX = 25,
+				newValueY = 30,
+				oldValueX = 50,
+				oldValueY = 100,
+				updatedPropertiesDiff = {
+					'position.x' : newValueX,
+					'position.y' : newValueY
+				},
+				effect = new MoveEffect({
+					'startTick' : 0,
+					'endTick' : tick,
+					'path' : 'Straight',
+					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
+					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
+				}),
+				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options;
+
+			updatedProperties.should.have.length(2);
+			updatedProperties.should.containEql('position.x');
+			updatedProperties.should.containEql('position.y');
+
+			newOptions.startPosition.should.have.property('x', oldValueX);
+			newOptions.startPosition.should.have.property('y', oldValueY);
+			newOptions.endPosition.should.have.property('x', newValueX);
+			newOptions.endPosition.should.have.property('y', newValueY);
+		});
+
+		it('Should return both position in the array and modify start values if both positions are passed by param in endTick with more properties', function() {
+			var tick = 10,
+				newValueX = 25,
+				newValueY = 30,
+				oldValueX = 50,
+				oldValueY = 100,
+				updatedPropertiesDiff = {
+					'position.x' : newValueX,
+					'position.y' : newValueY,
+					'other' : { 'newValue' : newValueY, 'oldValue' : oldValueY }
+				},
+				effect = new MoveEffect({
+					'startTick' : 0,
+					'endTick' : tick,
+					'path' : 'Straight',
+					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
+					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
+				}),
+				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options;
+
+			updatedProperties.should.have.length(2);
+			updatedProperties.should.containEql('position.x');
+			updatedProperties.should.containEql('position.y');
+
+			newOptions.startPosition.should.have.property('x', oldValueX);
+			newOptions.startPosition.should.have.property('y', oldValueY);
+			newOptions.endPosition.should.have.property('x', newValueX);
+			newOptions.endPosition.should.have.property('y', newValueY);
+		});
 	});
 });

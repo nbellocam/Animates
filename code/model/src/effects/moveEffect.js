@@ -136,7 +136,7 @@ function MoveEffect(options, builder) {
 				changedProperties.push('position.y');
 			}
 		}
-
+		
 		if (tick === endTick) {
 			if (positionX !== undefined) {
 				_self.setOption('endPosition.x', positionX);
