@@ -86,25 +86,15 @@ function Animation (options) {
 		return false;
 	}
 
-	function createEffectsIfRequired(tick, mediaTimeline, updatedProperties){
-		if (mediaTimeline.getStartTick() === tick) {
-			return updatedProperties;
-		}
-
-		//TODO create Default Effects
-	}
-
 	function applyMediaFrameUpdateOperation(opParams) {
 		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
 		if (mediaTimeline) {
 			var notUpdatedPropertiesKeys = mediaTimeline.updateEffectsThatMatch(opParams.tick, opParams.updatedProperties),
 				notUpdatedProperties = Common.filterObject(opParams.updatedProperties, notUpdatedPropertiesKeys);
 
-			notUpdatedProperties = createEffectsIfRequired(opParams.tick, mediaTimeline, notUpdatedProperties);
-
 			if (!Common.isEmpty(notUpdatedProperties)) {
 				var mediaObject = mediaTimeline.getMediaObject();
-				mediaObject.setProperties(opParams.properties);
+				mediaObject.setProperties(notUpdatedProperties);
 			}
 
 			return true;
