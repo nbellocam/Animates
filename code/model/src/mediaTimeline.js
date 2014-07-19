@@ -194,16 +194,26 @@ function MediaTimeline (options) {
 	this.updateEffectsThatMatch = function (tick, updatedProperties) {
 		var propertiesList = Common.getKeysFromObject(updatedProperties),
 			effects = this.getEffectsForTickThatMatch(tick, propertiesList),
-			resultEffects = propertiesList,
-			affectedProperties;
+			updateResult,
+			newProperty,
+			newProperties = {};
 
 		for (var i = 0; i < effects.length; i++) {
-			affectedProperties = effects[i].updateProperties(tick, updatedProperties);
+			updateResult = effects[i].updateProperties(tick, updatedProperties);
 
-			resultEffects = Common.filterArray(resultEffects, affectedProperties);
+			propertiesList = Common.filterArray(propertiesList, updateResult.updatedProperties);
+
+			if (updateResult.newProperties) {
+				for(newProperty in updateResult.newProperties) {
+					newProperties[newProperty] = updateResult.newProperties[newProperty];
+				}
+			}
 		}
 
-		return resultEffects;
+		return {
+			pendingProperties: propertiesList,
+			newProperties : newProperties
+		};
 	};
 
 	/**

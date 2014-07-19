@@ -208,8 +208,66 @@ describe('Animation', function() {
 		});
 	});
 
+	/*describe('MediaFrames operations', function() {
+
+		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
+		if (mediaTimeline) {
+			var notUpdatedPropertiesKeys = mediaTimeline.updateEffectsThatMatch(opParams.tick, opParams.updatedProperties),
+				notUpdatedProperties = Common.filterObject(opParams.updatedProperties, notUpdatedPropertiesKeys);
+
+			if (!Common.isEmpty(notUpdatedProperties)) {
+				var mediaObject = mediaTimeline.getMediaObject();
+				mediaObject.setProperties(notUpdatedProperties);
+			}
+
+			return true;
+		}
+
+		return false;
+
+		it('Should call observer with MediaFrame update event', function() {
+			var targetMediaObjectId = "targetId",
+				timeline = {
+					getMediaTimeline : function(mediaObjectId){
+						mediaObjectId.should.be.equals(targetMediaObjectId);
+					},
+
+				},
+				canvas = new Canvas(),
+				animation = new Animation({ timeline : timeline, canvas : canvas}),
+				rec = new Rectangle(),
+				eff = new MoveEffect(),
+				called = false,
+				mediaTimeline = null,
+				effectOptions = null;
+
+			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec });
+			animation.applyOperation('Effect', 'Create', { 'mediaObjectId' : rec.getGuid() , 'effect' : eff });
+
+			animation.addUpdateObserver('test', function (target, operation, params, context) {
+				target.should.equal('Effect');
+				operation.should.equal('Update');
+				params.mediaObjectId.should.equal(rec.getGuid());
+				params.effectId.should.equal(eff.getGuid());
+				params.options.should.have.property('startTick', 100);
+				should.not.exist(context);
+				called = true;
+			});
+
+			animation.applyOperation('Effect', 'Update', { 'mediaObjectId' : rec.getGuid() , 'effectId' : eff.getGuid(), 'options' : {'startTick' :100} });
+			called.should.be.ok;
+
+			timeline.countMediaTimelines().should.be.equal(1);
+			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			should.exist(mediaTimeline);
+			should.exist(mediaTimeline.getEffect(eff.getGuid()));
+			effectOptions = mediaTimeline.getEffect(eff.getGuid()).getOptions();
+			effectOptions.should.have.property('startTick', 100);
+		});
+	});*/
+
 	describe('Serialization', function() {
-		it('toJson should return json', function() { 
+		it('toJson should return json', function() {
 			var animation = new Animation(),
 				json = animation.toJSON();
 

@@ -175,8 +175,9 @@ describe('MoveEffect', function() {
 					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
 					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
 				}),
-				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
-				newOptions = effect.toJSON().options;
+				result = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options,
+				updatedProperties = result.updatedProperties;
 
 			updatedProperties.should.have.length(0);
 
@@ -198,8 +199,9 @@ describe('MoveEffect', function() {
 					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
 					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
 				}),
-				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
-				newOptions = effect.toJSON().options;
+				result = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options,
+				updatedProperties = result.updatedProperties;
 
 			updatedProperties.should.have.length(0);
 
@@ -222,8 +224,9 @@ describe('MoveEffect', function() {
 					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
 					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
 				}),
-				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
-				newOptions = effect.toJSON().options;
+				result = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options,
+				updatedProperties = result.updatedProperties;
 
 			updatedProperties.should.have.length(0);
 
@@ -246,8 +249,9 @@ describe('MoveEffect', function() {
 					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
 					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
 				}),
-				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
-				newOptions = effect.toJSON().options;
+				result = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options,
+				updatedProperties = result.updatedProperties;
 
 			updatedProperties.should.have.length(0);
 
@@ -271,8 +275,9 @@ describe('MoveEffect', function() {
 					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
 					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
 				}),
-				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
-				newOptions = effect.toJSON().options;
+				result = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options,
+				updatedProperties = result.updatedProperties;
 
 			updatedProperties.should.have.length(1);
 			updatedProperties.should.containEql('position.x');
@@ -297,8 +302,9 @@ describe('MoveEffect', function() {
 					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
 					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
 				}),
-				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
-				newOptions = effect.toJSON().options;
+				result = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options,
+				updatedProperties = result.updatedProperties;
 
 			updatedProperties.should.have.length(1);
 			updatedProperties.should.containEql('position.y');
@@ -327,8 +333,9 @@ describe('MoveEffect', function() {
 					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
 					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
 				}),
-				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
-				newOptions = effect.toJSON().options;
+				result = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options,
+				updatedProperties = result.updatedProperties;
 
 			updatedProperties.should.have.length(2);
 			updatedProperties.should.containEql('position.x');
@@ -359,8 +366,9 @@ describe('MoveEffect', function() {
 					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
 					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
 				}),
-				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
-				newOptions = effect.toJSON().options;
+				result = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options,
+				updatedProperties = result.updatedProperties;
 
 			updatedProperties.should.have.length(2);
 			updatedProperties.should.containEql('position.x');
@@ -385,8 +393,9 @@ describe('MoveEffect', function() {
 					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
 					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
 				}),
-				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
-				newOptions = effect.toJSON().options;
+				result = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options,
+				updatedProperties = result.updatedProperties;
 
 			updatedProperties.should.have.length(1);
 			updatedProperties.should.containEql('position.x');
@@ -410,8 +419,9 @@ describe('MoveEffect', function() {
 					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
 					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
 				}),
-				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
-				newOptions = effect.toJSON().options;
+				result = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options,
+				updatedProperties = result.updatedProperties;
 
 			updatedProperties.should.have.length(1);
 			updatedProperties.should.containEql('position.y');
@@ -439,8 +449,9 @@ describe('MoveEffect', function() {
 					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
 					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
 				}),
-				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
-				newOptions = effect.toJSON().options;
+				result = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options,
+				updatedProperties = result.updatedProperties;
 
 			updatedProperties.should.have.length(2);
 			updatedProperties.should.containEql('position.x');
@@ -470,8 +481,9 @@ describe('MoveEffect', function() {
 					'startPosition' : { 'x': oldValueX, 'y': oldValueY },
 					'endPosition' : { 'x': oldValueX, 'y': oldValueY }
 				}),
-				updatedProperties = effect.updateProperties(tick, updatedPropertiesDiff),
-				newOptions = effect.toJSON().options;
+				result = effect.updateProperties(tick, updatedPropertiesDiff),
+				newOptions = effect.toJSON().options,
+				updatedProperties = result.updatedProperties;
 
 			updatedProperties.should.have.length(2);
 			updatedProperties.should.containEql('position.x');

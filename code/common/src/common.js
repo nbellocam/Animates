@@ -179,11 +179,13 @@ function getKeysFromObject(object)
 {
   var list = [];
 
-  for (var key in object) {
-    if (object.hasOwnProperty(key)) {
-      list.push(key);
-    }
-  }
+	if (object) {
+	  for (var key in object) {
+	    if (object.hasOwnProperty(key)) {
+	      list.push(key);
+	    }
+	  }
+	}
 
   return list;
 }
@@ -199,7 +201,7 @@ function filterArray(originalArray, listOfFilterElements) {
 
   for(var i = 0; i < originalArray.length; i++) {
     var element = originalArray[i];
-    if (listOfFilterElements.indexOf(element) === -1) {
+    if (!listOfFilterElements || listOfFilterElements.indexOf(element) === -1) {
       result.push(element);
     }
   }
@@ -217,7 +219,7 @@ function filterObject(originalObject, listOfFilterKeys) {
   var result = {};
 
   for (var key in originalObject) {
-    if (originalObject.hasOwnProperty(key) && listOfFilterKeys.indexOf(key) === -1) {
+    if (originalObject.hasOwnProperty(key) && (!listOfFilterKeys || listOfFilterKeys.indexOf(key) === -1)) {
       result[key] = originalObject[key];
     }
   }
@@ -233,11 +235,13 @@ function filterObject(originalObject, listOfFilterKeys) {
  * @return true if the object is an empty object.
  */
 function isEmpty(obj) {
-  for(var prop in obj) {
-    if(obj.hasOwnProperty(prop)) {
-      return false;
-    }
-  }
+	if (obj) {
+		for(var prop in obj) {
+			if(obj.hasOwnProperty(prop)) {
+				return false;
+			}
+		}
+	}
 
   return true;
 }

@@ -122,7 +122,7 @@ function MoveEffect(options, builder) {
 			changedProperties = [];
 
 		if (positionX === undefined && positionY === undefined) {
-			return changedProperties;
+			return { updatedProperties: changedProperties };
 		}
 
 		if (tick === startTick) {
@@ -136,7 +136,7 @@ function MoveEffect(options, builder) {
 				changedProperties.push('position.y');
 			}
 		}
-		
+
 		if (tick === endTick) {
 			if (positionX !== undefined) {
 				_self.setOption('endPosition.x', positionX);
@@ -149,7 +149,7 @@ function MoveEffect(options, builder) {
 			}
 		}
 
-		return changedProperties;
+		return { updatedProperties: changedProperties };
 	};
 
 	this.effect_toJSON = this.toJSON;

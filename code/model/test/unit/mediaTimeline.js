@@ -408,8 +408,6 @@ describe('MediaTimeline', function() {
 			startTick.should.be.empty;
 		});
 
-
-
 		it('Should not return any effect (because non match)', function () {
 			var currentTick = 42,
 				specifiedMediaObjectId = '42',
@@ -1221,9 +1219,9 @@ describe('MediaTimeline', function() {
 			var currentTick = 3,
 				mediaTimeline = new MediaTimeline(),
 				propertyList = { },
-				pendingProperties;
+				result = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList),
+				pendingProperties = result.pendingProperties;
 
-			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
 			pendingProperties.should.be.an.Array.and.have.length(0);
 		});
 
@@ -1246,15 +1244,17 @@ describe('MediaTimeline', function() {
 					'updateProperties' : function (tick, propertyList) {
 						propertyList.should.be.an.Object.and.be.empty;
 						tick.should.be.equal(currentTick);
-						return ['propOther', 'propOther2'];
+						return { updatedProperties : ['propOther', 'propOther2'] };
 					}
 				},
 				propertyList = { },
-				pendingProperties;
+				result, pendingProperties;
 
 			mediaTimeline.addEffect(effect1);
 
-			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+
+			result = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties = result.pendingProperties;
 			pendingProperties.should.be.an.Array.and.have.length(0);
 		});
 
@@ -1267,9 +1267,11 @@ describe('MediaTimeline', function() {
 					prop3 : 3,
 					prop4 : 4
 				},
-				pendingProperties;
+				result, pendingProperties;
 
-			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+
+			result = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties = result.pendingProperties;
 			pendingProperties.should.be.an.Array.and.have.length(4);
 			pendingProperties.should.containEql('prop1');
 			pendingProperties.should.containEql('prop2');
@@ -1296,7 +1298,7 @@ describe('MediaTimeline', function() {
 					'updateProperties' : function (tick, propertyList) {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
-						return ['propOther', 'propOther2'];
+						return { updatedProperties : ['propOther', 'propOther2'] };
 					}
 				},
 				propertyList = {
@@ -1305,11 +1307,12 @@ describe('MediaTimeline', function() {
 					prop3 : 3,
 					prop4 : 4
 				},
-				pendingProperties;
+				result, pendingProperties;
 
 			mediaTimeline.addEffect(effect1);
 
-			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			result = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties = result.pendingProperties;
 			pendingProperties.should.be.an.Array.and.have.length(4);
 			pendingProperties.should.containEql('prop1');
 			pendingProperties.should.containEql('prop2');
@@ -1336,7 +1339,7 @@ describe('MediaTimeline', function() {
 					'updateProperties' : function (tick, propertyList) {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
-						return ['prop1', 'prop4'];
+						return { updatedProperties : ['prop1', 'prop4'] };
 					},
 					isInfinite : function() {
 						return false;
@@ -1348,11 +1351,12 @@ describe('MediaTimeline', function() {
 					prop3 : 3,
 					prop4 : 4
 				},
-				pendingProperties;
+				result, pendingProperties;
 
 			mediaTimeline.addEffect(effect1);
 
-			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			result = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties = result.pendingProperties;
 			pendingProperties.should.be.an.Array.and.have.length(4);
 			pendingProperties.should.containEql('prop1');
 			pendingProperties.should.containEql('prop2');
@@ -1378,7 +1382,7 @@ describe('MediaTimeline', function() {
 					},
 					'updateProperties' : function (tick, propertyList) {
 						should.fail('UpdateProperties should not be called');
-						return ['prop1', 'prop4'];
+						return { updatedProperties : ['prop1', 'prop4'] };
 					}
 				},
 				propertyList = {
@@ -1387,11 +1391,12 @@ describe('MediaTimeline', function() {
 					prop3 : 3,
 					prop4 : 4
 				},
-				pendingProperties;
+				result, pendingProperties;
 
 			mediaTimeline.addEffect(effect1);
 
-			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			result = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties = result.pendingProperties;
 			pendingProperties.should.be.an.Array.and.have.length(4);
 			pendingProperties.should.containEql('prop1');
 			pendingProperties.should.containEql('prop2');
@@ -1418,7 +1423,7 @@ describe('MediaTimeline', function() {
 					'updateProperties' : function (tick, propertyList) {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
-						return ['prop1', 'prop4'];
+						return { updatedProperties : ['prop1', 'prop4'] };
 					}
 				},
 				propertyList = {
@@ -1427,11 +1432,12 @@ describe('MediaTimeline', function() {
 					prop3 : 3,
 					prop4 : 4
 				},
-				pendingProperties;
+				result, pendingProperties;
 
 			mediaTimeline.addEffect(effect1);
 
-			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			result = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties = result.pendingProperties;
 			pendingProperties.should.be.an.Array.and.have.length(2);
 			pendingProperties.should.containEql('prop2');
 			pendingProperties.should.containEql('prop3');
@@ -1456,7 +1462,7 @@ describe('MediaTimeline', function() {
 					'updateProperties' : function (tick, propertyList) {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
-						return ['prop3'];
+						return { updatedProperties : ['prop3'] };
 					}
 				},
 				effectStartTick2 = 2,
@@ -1475,7 +1481,7 @@ describe('MediaTimeline', function() {
 					'updateProperties' : function (tick, propertyList) {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
-						return ['prop2'];
+						return { updatedProperties : ['prop2'] };
 					}
 				},
 				propertyList = {
@@ -1484,12 +1490,13 @@ describe('MediaTimeline', function() {
 					prop3 : 3,
 					prop4 : 4
 				},
-				pendingProperties;
+				result, pendingProperties;
 
 			mediaTimeline.addEffect(effect1);
 			mediaTimeline.addEffect(effect2);
 
-			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			result = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties = result.pendingProperties;
 			pendingProperties.should.be.an.Array.and.have.length(2);
 			pendingProperties.should.containEql('prop1');
 			pendingProperties.should.containEql('prop4');
@@ -1514,7 +1521,7 @@ describe('MediaTimeline', function() {
 					'updateProperties' : function (tick, propertyList) {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
-						return ['prop1'];
+						return { updatedProperties : ['prop1'] };
 					}
 				},
 				effectStartTick2 = 2,
@@ -1533,7 +1540,7 @@ describe('MediaTimeline', function() {
 					'updateProperties' : function (tick, propertyList) {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
-						return ['prop1'];
+						return { updatedProperties : ['prop1'] };
 					}
 				},
 				propertyList = {
@@ -1542,12 +1549,13 @@ describe('MediaTimeline', function() {
 					prop3 : 3,
 					prop4 : 4
 				},
-				pendingProperties;
+				result, pendingProperties;
 
 			mediaTimeline.addEffect(effect1);
 			mediaTimeline.addEffect(effect2);
 
-			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			result = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties = result.pendingProperties;
 			pendingProperties.should.be.an.Array.and.have.length(3);
 			pendingProperties.should.containEql('prop2');
 			pendingProperties.should.containEql('prop3');
@@ -1573,7 +1581,7 @@ describe('MediaTimeline', function() {
 					'updateProperties' : function (tick, propertyList) {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
-						return ['prop1', 'prop4'];
+						return { updatedProperties : ['prop1', 'prop4'] };
 					}
 				},
 				effectStartTick2 = 2,
@@ -1592,7 +1600,7 @@ describe('MediaTimeline', function() {
 					'updateProperties' : function (tick, propertyList) {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
-						return ['prop1', 'prop3'];
+						return { updatedProperties : ['prop1', 'prop3'] };
 					}
 				},
 				propertyList = {
@@ -1601,12 +1609,13 @@ describe('MediaTimeline', function() {
 					prop3 : 3,
 					prop4 : 4
 				},
-				pendingProperties;
+				result, pendingProperties;
 
 			mediaTimeline.addEffect(effect1);
 			mediaTimeline.addEffect(effect2);
 
-			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			result = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties = result.pendingProperties;
 			pendingProperties.should.be.an.Array.and.have.length(1);
 			pendingProperties.should.containEql('prop2');
 		});
@@ -1630,7 +1639,7 @@ describe('MediaTimeline', function() {
 					'updateProperties' : function (tick, propertyList) {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
-						return ['prop1', 'prop2', 'prop4'];
+						return { updatedProperties : ['prop1', 'prop2', 'prop4'] };
 					}
 				},
 				effectStartTick2 = 2,
@@ -1649,7 +1658,7 @@ describe('MediaTimeline', function() {
 					'updateProperties' : function (tick, propertyList) {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
-						return ['prop1', 'prop3'];
+						return { updatedProperties : ['prop1', 'prop3'] };
 					}
 				},
 				propertyList = {
@@ -1658,12 +1667,13 @@ describe('MediaTimeline', function() {
 					prop3 : 3,
 					prop4 : 4
 				},
-				pendingProperties;
+				result, pendingProperties;
 
 			mediaTimeline.addEffect(effect1);
 			mediaTimeline.addEffect(effect2);
 
-			pendingProperties = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			result = mediaTimeline.updateEffectsThatMatch(currentTick, propertyList);
+			pendingProperties = result.pendingProperties;
 			pendingProperties.should.be.an.Array.and.have.length(0);
 		});
 	});

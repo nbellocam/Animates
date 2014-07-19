@@ -87,10 +87,18 @@ function Animation (options) {
 	}
 
 	function applyMediaFrameUpdateOperation(opParams) {
-		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
+		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId),
+			newProperty, updateResult, notUpdatedProperties;
+
 		if (mediaTimeline) {
-			var notUpdatedPropertiesKeys = mediaTimeline.updateEffectsThatMatch(opParams.tick, opParams.updatedProperties),
-				notUpdatedProperties = Common.filterObject(opParams.updatedProperties, notUpdatedPropertiesKeys);
+			updateResult = mediaTimeline.updateEffectsThatMatch(opParams.tick, opParams.updatedProperties);
+			notUpdatedProperties = Common.filterObject(opParams.updatedProperties, updateResult.pendingProperties);
+
+			if (updateResult.newProperties) {
+				for(newProperty in updateResult.newProperties) {
+					opParams.updatedProperties[newProperty] = updateResult.newProperties[newProperty];
+				}
+			}
 
 			if (!Common.isEmpty(notUpdatedProperties)) {
 				var mediaObject = mediaTimeline.getMediaObject();
