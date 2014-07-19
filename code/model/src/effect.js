@@ -82,7 +82,7 @@ function Effect (options, builder) {
 	* @return The array of properties names
 	*/
 	this.getCommonAffectedPropertiesFromList = function (effectAffectedProperties) {
-		var currentAffectedProperties = this.getAffectedProperties();
+		var currentAffectedProperties = _self.getAffectedProperties();
 
 		return currentAffectedProperties.filter(function(n) {
 			return effectAffectedProperties.indexOf(n) != -1;
@@ -94,7 +94,7 @@ function Effect (options, builder) {
 	 * @return The array of properties names
 	 */
 	this.getCommonAffectedProperties = function (effect) {
-		return this.getCommonAffectedPropertiesFromList(effect.getAffectedProperties());
+		return _self.getCommonAffectedPropertiesFromList(effect.getAffectedProperties());
 	};
 
 	/**
@@ -108,7 +108,7 @@ function Effect (options, builder) {
 	*/
 	this.HasConflictWithListOfProperties = function (effectAffectedProperties, strict) {
 		// Check for all properties to indicate a conflict
-		var currentAffectedProperties = this.getAffectedProperties();
+		var currentAffectedProperties = _self.getAffectedProperties();
 
 		if (strict) {
 			if (currentAffectedProperties.length == effectAffectedProperties.length) {
@@ -124,7 +124,7 @@ function Effect (options, builder) {
 				return false;
 			}
 		} else {
-			return this.getCommonAffectedPropertiesFromList(effectAffectedProperties).length > 0;
+			return _self.getCommonAffectedPropertiesFromList(effectAffectedProperties).length > 0;
 		}
 	};
 
@@ -139,6 +139,10 @@ function Effect (options, builder) {
 	 */
 	this.HasConflictWithProperties = function (effect, strict) {
 		return this.HasConflictWithListOfProperties(effect.getAffectedProperties(), strict);
+	};
+
+	this.isInfinite = function() {
+		return _self.getOption('endTick') === -1;
 	};
 
 	this.getOption = function (name) {

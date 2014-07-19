@@ -255,7 +255,10 @@ describe('MediaTimeline', function() {
 								var op = { 'startTick': 20,'endTick' : 100 };
 								return op[name];
 							},
-							'getGuid' : function () { return 'id'; }
+							'getGuid' : function () { return 'id'; },
+							isInfinite : function() {
+								return false;
+							}
 						},
 				foundEffect = null;
 
@@ -285,7 +288,10 @@ describe('MediaTimeline', function() {
 								var op = { 'startTick': 20,'endTick' : currentTick };
 								return op[name];
 							},
-							'getGuid' : function () { return 'id'; }
+							'getGuid' : function () { return 'id'; },
+							isInfinite : function() {
+								return false;
+							}
 						},
 				foundEffect = null;
 
@@ -315,7 +321,10 @@ describe('MediaTimeline', function() {
 								var op = { 'startTick': currentTick,'endTick' : 100 };
 								return op[name];
 							},
-							'getGuid' : function () { return 'id'; }
+							'getGuid' : function () { return 'id'; },
+							isInfinite : function() {
+								return false;
+							}
 						},
 				foundEffect = null;
 
@@ -345,14 +354,20 @@ describe('MediaTimeline', function() {
 								var op = { 'startTick': 20,'endTick' : 100 };
 								return op[name];
 							},
-							'getGuid' : function () { return 'id'; }
+							'getGuid' : function () { return 'id'; },
+							isInfinite : function() {
+								return false;
+							}
 						},
 				effect2 = {
 							'getOption' : function (name) {
 								var op = { 'startTick': 10,'endTick' : 70 };
 								return op[name];
 							},
-							'getGuid' : function () { return 'id2'; }
+							'getGuid' : function () { return 'id2'; },
+							isInfinite : function() {
+								return false;
+							}
 						},
 				foundEffect = null;
 
@@ -412,7 +427,10 @@ describe('MediaTimeline', function() {
 							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict) {
 								return false;
 							},
-							'getGuid' : function () { return 'id'; }
+							'getGuid' : function () { return 'id'; },
+							isInfinite : function() {
+								return false;
+							}
 						},
 				effectAffectedProperties = ['position','angle'],
 				foundEffect = null;
@@ -446,7 +464,10 @@ describe('MediaTimeline', function() {
 							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict) {
 								return true;
 							},
-							'getGuid' : function () { return 'id'; }
+							'getGuid' : function () { return 'id'; },
+							isInfinite : function() {
+								return false;
+							}
 						},
 				effectAffectedProperties = ['position','angle'],
 				foundEffect = null;
@@ -480,7 +501,10 @@ describe('MediaTimeline', function() {
 							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict) {
 								return true;
 							},
-							'getGuid' : function () { return 'id'; }
+							'getGuid' : function () { return 'id'; },
+							isInfinite : function() {
+								return false;
+							}
 						},
 				effectAffectedProperties = ['position','angle'],
 				foundEffect = null;
@@ -514,7 +538,10 @@ describe('MediaTimeline', function() {
 							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict) {
 								return true;
 							},
-							'getGuid' : function () { return 'id'; }
+							'getGuid' : function () { return 'id'; },
+							isInfinite : function() {
+								return false;
+							}
 						},
 				effectAffectedProperties = ['position','angle'],
 				foundEffect = null;
@@ -548,7 +575,10 @@ describe('MediaTimeline', function() {
 							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict) {
 								return true;
 							},
-							'getGuid' : function () { return 'id'; }
+							'getGuid' : function () { return 'id'; },
+							isInfinite : function() {
+								return false;
+							}
 						},
 				effect2 = {
 							'getOption' : function (name) {
@@ -558,7 +588,10 @@ describe('MediaTimeline', function() {
 							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict) {
 								return true;
 							},
-							'getGuid' : function () { return 'id2'; }
+							'getGuid' : function () { return 'id2'; },
+							isInfinite : function() {
+								return false;
+							}
 						},
 				effectAffectedProperties = ['position','angle'],
 				foundEffect = null;
@@ -598,7 +631,10 @@ describe('MediaTimeline', function() {
 							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict) {
 								return false;
 							},
-							'getGuid' : function () { return 'id'; }
+							'getGuid' : function () { return 'id'; },
+							isInfinite : function() {
+								return false;
+							}
 						},
 				effect2 = {
 							'getOption' : function (name) {
@@ -608,7 +644,10 @@ describe('MediaTimeline', function() {
 							'HasConflictWithListOfProperties' : function (effectAffectedProperties, strict) {
 								return true;
 							},
-							'getGuid' : function () { return 'id2'; }
+							'getGuid' : function () { return 'id2'; },
+							isInfinite : function() {
+								return false;
+							}
 						},
 				effectAffectedProperties = ['position','angle'],
 				foundEffect = null;
@@ -665,7 +704,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'HasConflictWithProperties' : function (effect) { return true; },
-					'getGuid' : function () { return 1; }
+					'getGuid' : function () { return 1; },
+					isInfinite : function() {
+						return false;
+					}
 				},
 				newEffect = { },
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
@@ -691,7 +733,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'HasConflictWithProperties' : function (effect) { return true; },
-					'getGuid' : function () { return 1; }
+					'getGuid' : function () { return 1; },
+					isInfinite : function() {
+						return false;
+					}
 				},
 				alreadyExistantEffect2 = {
 					'getOption' : function (name) {
@@ -699,7 +744,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'HasConflictWithProperties' : function (effect) { return false; },
-					'getGuid' : function () { return 2; }
+					'getGuid' : function () { return 2; },
+					isInfinite : function() {
+						return false;
+					}
 				},
 				newEffect = {},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
@@ -726,7 +774,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'HasConflictWithProperties' : function (effect) { return true; },
-					'getGuid' : function () { return 1; }
+					'getGuid' : function () { return 1; },
+					isInfinite : function() {
+						return false;
+					}
 				},
 				alreadyExistantEffect2 = {
 					'getOption' : function (name) {
@@ -734,7 +785,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'HasConflictWithProperties' : function (effect) { return true; },
-					'getGuid' : function () { return 2; }
+					'getGuid' : function () { return 2; },
+					isInfinite : function() {
+						return false;
+					}
 				},
 				newEffect = {},
 				mediaTimeline = new MediaTimeline( { mediaObject: specifiedMediaObject } ),
@@ -837,7 +891,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'getGuid' : function () { return effectId; },
-					'getProperties' : getPropertiesFunction
+					'getProperties' : getPropertiesFunction,
+					isInfinite : function() {
+						return false;
+					}
 				};
 
 
@@ -872,7 +929,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'getGuid' : function () { return effectId; },
-					'getProperties' : getPropertiesFunction
+					'getProperties' : getPropertiesFunction,
+					isInfinite : function() {
+						return false;
+					}
 				};
 
 
@@ -907,7 +967,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'getGuid' : function () { return effectId1; },
-					'getProperties' : getPropertiesFunction
+					'getProperties' : getPropertiesFunction,
+					isInfinite : function() {
+						return false;
+					}
 				},
 				effectStartTick2 = 6,
 				effectEndTick2 = 10,
@@ -918,7 +981,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'getGuid' : function () { return effectId2; },
-					'getProperties' : getPropertiesFunction
+					'getProperties' : getPropertiesFunction,
+					isInfinite : function() {
+						return false;
+					}
 				};
 
 
@@ -954,7 +1020,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'getGuid' : function () { return effectId1; },
-					'getProperties' : getPropertiesFunction
+					'getProperties' : getPropertiesFunction,
+					isInfinite : function() {
+						return false;
+					}
 				},
 				effectStartTick2 = 6,
 				effectEndTick2 = 10,
@@ -965,7 +1034,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'getGuid' : function () { return effectId2; },
-					'getProperties' : getPropertiesFunction
+					'getProperties' : getPropertiesFunction,
+					isInfinite : function() {
+						return false;
+					}
 				};
 
 
@@ -1001,7 +1073,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'getGuid' : function () { return effectId1; },
-					'getProperties' : getPropertiesFunction
+					'getProperties' : getPropertiesFunction,
+					isInfinite : function() {
+						return false;
+					}
 				},
 				effectStartTick2 = 6,
 				effectEndTick2 = 10,
@@ -1012,7 +1087,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'getGuid' : function () { return effectId2; },
-					'getProperties' : getPropertiesFunction
+					'getProperties' : getPropertiesFunction,
+					isInfinite : function() {
+						return false;
+					}
 				};
 
 
@@ -1048,7 +1126,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'getGuid' : function () { return effectId1; },
-					'getProperties' : getPropertiesFunction
+					'getProperties' : getPropertiesFunction,
+					isInfinite : function() {
+						return false;
+					}
 				},
 				effectStartTick2 = 6,
 				effectEndTick2 = 10,
@@ -1059,7 +1140,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'getGuid' : function () { return effectId2; },
-					'getProperties' : getPropertiesFunction
+					'getProperties' : getPropertiesFunction,
+					isInfinite : function() {
+						return false;
+					}
 				};
 
 
@@ -1094,6 +1178,9 @@ describe('MediaTimeline', function() {
 					'getProperties' : function (tick, mediaFrameProperties) {
 						mediaFrameProperties.x += (tick - 1);
 						return mediaFrameProperties;
+					},
+					isInfinite : function() {
+						return false;
 					}
 				},
 				effectStartTick2 = 2,
@@ -1109,6 +1196,9 @@ describe('MediaTimeline', function() {
 						mediaFrameProperties.y += (tick - 1);
 						return mediaFrameProperties;
 					},
+					isInfinite : function() {
+						return false;
+					}
 				},
 				properties;
 
@@ -1247,6 +1337,9 @@ describe('MediaTimeline', function() {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
 						return ['prop1', 'prop4'];
+					},
+					isInfinite : function() {
+						return false;
 					}
 				},
 				propertyList = {

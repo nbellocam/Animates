@@ -40,7 +40,7 @@ function MediaTimeline (options) {
 			for (var i = effectsArray.length - 1; i >= 0; i--) {
 				currentEffect = effectsArray[i];
 				if (currentTick >= currentEffect.getOption('startTick')) {
-					if (currentEffect.getOption('endTick') === -1 ) {
+					if (currentEffect.isInfinite()) {
 						mediaObjectFrame.properties(currentEffect.getProperties(currentTick, mediaObjectFrame.properties()));
 					} else {
 						mediaObjectFrame.properties(
@@ -132,7 +132,7 @@ function MediaTimeline (options) {
 				// Only consider effects that start before the upperLimitTick
 				if (currentEffect.getOption('startTick') < upperTickLimit) {
 					if (currentEffect.HasConflictWithProperties(effect)) {
-						if (endTick < currentEffect.getOption('endTick')) {
+						if (endTick < currentEffect.getOption('endTick') && !currentEffect.isInfinite()) {
 							endTick = currentEffect.getOption('endTick');
 						}
 					}
@@ -157,7 +157,7 @@ function MediaTimeline (options) {
 				var currentEffect = effects[id];
 
 				// If the effect contains the tick
-				if ((currentEffect.getOption('startTick') <= tick) && (currentEffect.getOption('endTick') >= tick)) {
+				if ((currentEffect.getOption('startTick') <= tick) && (currentEffect.getOption('endTick') >= tick || currentEffect.isInfinite())) {
 					resultEffects.push(currentEffect);
 				}
 			}
