@@ -28,19 +28,15 @@ angular.module('animatesApp')
 				posXEnd = (positionX) ? positionX.newValue : originalProperties.position.x,
 				posYEnd = (positionY) ? positionY.newValue : originalProperties.position.y,
 				currentEffects = null,
-				path = null,
 				moveEffect = null;
 
 			if (posXStart !== posXEnd || posYStart !== posYEnd) {
-				path = new animationService.Model.Path({
+				moveEffect = new animationService.Model.MoveEffect({
+					startTick : mediaTimeline.getStartTick(),
+					endTick : localAnimationStateService.getCurrentTick(),
+					path : 'Straight',
 					startPosition: { x: posXStart, y: posYStart },
 					endPosition: { x: posXEnd, y: posYEnd }
-				});
-
-				moveEffect = new animationService.Model.MoveEffect({
-					path : path,
-					startTick : mediaTimeline.getStartTick(),
-					endTick : localAnimationStateService.getCurrentTick()
 				});
 
 				var effectsToSplit = [];
@@ -58,7 +54,7 @@ angular.module('animatesApp')
 
 				var addNewEffect = true;
 
-				var effectToSplit, effectToSplitOptions, effectPath, newEffectPath, effectToSplitPath;
+				var effectToSplit, effectToSplitOptions, newPosition;
 
 				// "Split" : Modify the found effect and insert the new one
 				for (var j = 0; j < effectsToSplit.length; j++) {
@@ -67,34 +63,40 @@ angular.module('animatesApp')
 					effectToSplitOptions = null;
 
 					if(effectToSplit.getOption('endTick') === moveEffect.getOption('endTick')) {
-						effectPath = effectToSplit.getOption('path');
-						newEffectPath = moveEffect.getOption('path');
+						newPosition = moveEffect.getOption('endPosition');
 
-						effectPath.endPosition = newEffectPath.endPosition;
+						effectToSplit.setOption('endPosition.x', newPosition.x);
+						effectToSplit.setOption('endPosition.y', newPosition.y);
 						effectToSplitOptions = {
-							path: effectPath
+							'endPosition.x': newPosition.x,
+							'endPosition.y': newPosition.y,
 						};
 
 						addNewEffect = false;
 					} else if (effectToSplit.getOption('startTick') === moveEffect.getOption('endTick')) {
-						effectPath = effectToSplit.getOption('path');
-						newEffectPath = moveEffect.getOption('path');
+						newPosition = moveEffect.getOption('endPosition');
 
-						effectPath.startPosition = newEffectPath.endPosition;
+						effectToSplit.setOption('startPosition.x', newPosition.x);
+						effectToSplit.setOption('startPosition.y', newPosition.y);
 						effectToSplitOptions = {
-							path: effectPath
+							'startPosition.x': newPosition.x,
+							'startPosition.y': newPosition.y,
 						};
 
 						addNewEffect = false;
 					} else {
-						effectToSplitPath = effectToSplit.getOption('path');
-						moveEffect.getOption('path').startPosition = effectToSplitPath.startPosition;
+						newPosition = effectToSplit.getOption('startPosition');
+						moveEffect.setOption('startPosition.x', newPosition.x);
+						moveEffect.setOption('startPosition.y', newPosition.y);
 
-						effectToSplitPath.startPosition = { x: posXEnd, y : posYEnd };
+						newPosition = { x: posXEnd, y : posYEnd };
+						effectToSplit.setOption('startPosition.x', newPosition.x);
+						effectToSplit.setOption('startPosition.y', newPosition.y);
 
 						effectToSplitOptions = {
-							startTick : localAnimationStateService.getCurrentTick(),
-							path: effectToSplitPath
+							startTick : moveEffect.getOption('endTick'),
+							'startPosition.x': newPosition.x,
+							'startPosition.y': newPosition.y,
 						};
 					}
 

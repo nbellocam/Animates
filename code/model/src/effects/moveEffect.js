@@ -54,22 +54,6 @@ function MoveEffect(options, builder) {
 							.type('float')
 						.add()
 					.add();
-					/* .property('points', DictionaryPropertyBuilder)
-						.schema(CompositePropertyBuilder)
-							.property('position', CompositePropertyBuilder)
-								.property('x', PropertyBuilder)
-									.type('float')
-								.add()
-								.property('y', PropertyBuilder)
-									.type('float')
-								.add()
-							.add()
-							.property('tick', PropertyBuilder)
-								.type('float')
-							.add()
-						.add()
-						.values(options.points)
-					.add();*/
 
 		_self.base(options, propBuilder);
 	}());
