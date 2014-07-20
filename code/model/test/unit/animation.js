@@ -208,63 +208,80 @@ describe('Animation', function() {
 		});
 	});
 
-	/*describe('MediaFrames operations', function() {
-
-		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
-		if (mediaTimeline) {
-			var notUpdatedPropertiesKeys = mediaTimeline.updateEffectsThatMatch(opParams.tick, opParams.updatedProperties),
-				notUpdatedProperties = Common.filterObject(opParams.updatedProperties, notUpdatedPropertiesKeys);
-
-			if (!Common.isEmpty(notUpdatedProperties)) {
-				var mediaObject = mediaTimeline.getMediaObject();
-				mediaObject.setProperties(notUpdatedProperties);
-			}
-
-			return true;
-		}
-
-		return false;
-
+	describe('MediaFrames operations', function() {
 		it('Should call observer with MediaFrame update event', function() {
 			var targetMediaObjectId = "targetId",
-				timeline = {
-					getMediaTimeline : function(mediaObjectId){
-						mediaObjectId.should.be.equals(targetMediaObjectId);
+				targetTick = 42,
+				targetUpdatedProperties = {
+					key1 : 'value1',
+					key2 : 'value2',
+					key3 : 'value3'
+				},
+				updatedTargetUpdatedPropertiesKeys = ['key1', 'key3'],
+				getMediaTimelineCalled = false,
+				updateEffectsThatMatchCalled = false,
+				getMediaObjectCalled = false,
+				setPropertiesCalled = false,
+				mediaObject = {
+					setProperties : function (notUpdatedProperties) {
+						setPropertiesCalled.should.not.be.ok;
+						setPropertiesCalled = true;
+						notUpdatedProperties.should.not.have.property('key1');
+						notUpdatedProperties.should.have.property('key2', 'value2');
+						notUpdatedProperties.should.not.have.property('key3');
+					}
+				},
+				mediatimeline = {
+					updateEffectsThatMatch : function (tick, updatedProperties) {
+						updateEffectsThatMatchCalled.should.not.be.ok;
+						updateEffectsThatMatchCalled = true;
+						tick.should.be.equal(targetTick);
+						updatedProperties.should.be.equal(targetUpdatedProperties);
+						return { pendingProperties : updatedTargetUpdatedPropertiesKeys };
 					},
-
+					getMediaObject : function () {
+						getMediaObjectCalled = true;
+						return mediaObject;
+					}
+				},
+				timeline = {
+					getMediaTimeline : function(mediaObjectId) {
+						getMediaTimelineCalled.should.not.be.ok;
+						getMediaTimelineCalled = true;
+						mediaObjectId.should.be.equal(targetMediaObjectId);
+						return mediatimeline;
+					}
 				},
 				canvas = new Canvas(),
 				animation = new Animation({ timeline : timeline, canvas : canvas}),
-				rec = new Rectangle(),
-				eff = new MoveEffect(),
-				called = false,
-				mediaTimeline = null,
-				effectOptions = null;
-
-			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec });
-			animation.applyOperation('Effect', 'Create', { 'mediaObjectId' : rec.getGuid() , 'effect' : eff });
+				observerCalled = false;
 
 			animation.addUpdateObserver('test', function (target, operation, params, context) {
-				target.should.equal('Effect');
+				observerCalled.should.not.be.ok;
+				observerCalled = true;
+				target.should.equal('MediaFrame');
 				operation.should.equal('Update');
-				params.mediaObjectId.should.equal(rec.getGuid());
-				params.effectId.should.equal(eff.getGuid());
-				params.options.should.have.property('startTick', 100);
+				params.should.have.property('mediaObjectId', targetMediaObjectId);
+				params.should.have.property('updatedProperties');
+				params.updatedProperties.should.have.properties('key1', 'key2', 'key3');
+				params.updatedProperties.should.equal(targetUpdatedProperties);
+				params.should.have.property('tick', targetTick);
 				should.not.exist(context);
-				called = true;
 			});
 
-			animation.applyOperation('Effect', 'Update', { 'mediaObjectId' : rec.getGuid() , 'effectId' : eff.getGuid(), 'options' : {'startTick' :100} });
-			called.should.be.ok;
+			animation.applyOperation('MediaFrame', 'Update', {
+				'mediaObjectId' : targetMediaObjectId,
+				'updatedProperties' : targetUpdatedProperties,
+				'tick' : targetTick
+				});
 
-			timeline.countMediaTimelines().should.be.equal(1);
-			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
-			should.exist(mediaTimeline);
-			should.exist(mediaTimeline.getEffect(eff.getGuid()));
-			effectOptions = mediaTimeline.getEffect(eff.getGuid()).getOptions();
-			effectOptions.should.have.property('startTick', 100);
+			getMediaTimelineCalled.should.be.ok;
+			updateEffectsThatMatchCalled.should.be.ok;
+			getMediaObjectCalled.should.be.ok;
+			setPropertiesCalled.should.be.ok;
+			observerCalled.should.be.ok;
 		});
-	});*/
+	});
 
 	describe('Serialization', function() {
 		it('toJson should return json', function() {
