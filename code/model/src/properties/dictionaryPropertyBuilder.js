@@ -12,7 +12,7 @@ var PropertyBuilder = require('./propertyBuilder'),
 function DictionaryPropertyBuilder () {
 	var _self = this,
 		name = '',
-		values = [],
+		currentValues = [],
 		schemaBuilder;
 
 	this.name = function (value) {
@@ -30,8 +30,8 @@ function DictionaryPropertyBuilder () {
 		return schemaBuilder;
 	};
 
-	this.values = function (value) {
-		values = value;
+	this.values = function (values) {
+		currentValues = values;
 		return _self;
 	};
 
@@ -39,10 +39,8 @@ function DictionaryPropertyBuilder () {
 		var properties = new DictionaryProperty();
 		properties.schema(schemaBuilder);
 
-		for(var key in values) {
-			var newProp = schemaBuilder.create().clone();
-			newProp.valuesFromJSON(values[key]);
-			properties.add(key, newProp);
+		for(var key in currentValues) {
+			properties.setValue(key, currentValues[key]);
 		}
 
 		return properties;

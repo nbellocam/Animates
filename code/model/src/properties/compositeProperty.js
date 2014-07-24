@@ -20,7 +20,6 @@ function CompositeProperty () {
 			property;
 
 		property = properties[parts[0]];
-
 		if (property) {
 			for(var i = 1; i < length && property; i++) {
 				if (property.get) {
@@ -29,7 +28,6 @@ function CompositeProperty () {
 					throw new Error("Property '" + parts[i] + "' could not be found.");	
 				}
 			}
-
 			return property;
 		} else {
 			throw new Error("Property '" + parts[0] + "' could not be found.");
@@ -38,11 +36,14 @@ function CompositeProperty () {
 
 	this.getValue = function (name) {
 		var property = _self.get(name);
-		if (!property.value) {
+		if (property.value) {
+			return property.value();
+		} else if (property.valuesToJSON) {
+			return property.valuesToJSON();
+		} else {
 			throw new Error("Property '" + name + "' could not be found.");
 		}
-			
-		return property.value();
+		
 	};
 
 	this.setValue = function (name, value) {
@@ -50,22 +51,27 @@ function CompositeProperty () {
 		property.value(value);
 	};
 
-	this.names = function () {
+	this.names = function (root) {
 		var namesArray = [];
 
-		for (var propName in properties) {
-			var prop = properties[propName];
-			if (prop.value) {
-				namesArray.push(propName);
-			} else {
-				var aux = prop.names();
-				for(var i = 0; i < aux.length; i++) {
-					aux[i] = propName + '.' + aux[i];
+		if (root) {
+			for (var rootPropName in properties) {
+				namesArray.push(rootPropName);
+			}
+		} else {
+			for (var propName in properties) {
+				var prop = properties[propName];
+				if (prop.value) {
+					namesArray.push(propName);
+				} else {
+					var aux = prop.names();
+					for(var i = 0; i < aux.length; i++) {
+						aux[i] = propName + '.' + aux[i];
+					}
+					namesArray = namesArray.concat(aux);
 				}
-				namesArray = namesArray.concat(aux);
 			}
 		}
-
 		return namesArray;
 	};
 

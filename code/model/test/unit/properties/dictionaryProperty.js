@@ -4,13 +4,15 @@
 
 var Common = require('animates-common'),
 	Property = require('../../../src/properties/property'),
+	PropertyBuilder = require('../../../src/properties/propertyBuilder'),
 	CompositeProperty = require('../../../src/properties/compositeProperty'),
+	CompositePropertyBuilder = require('../../../src/properties/compositePropertyBuilder'),
 	DictionaryProperty = require('../../../src/properties/dictionaryProperty'),
 	DictionaryPropertyBuilder = require('../../../src/properties/compositePropertyBuilder'),
 	TypesManager = require('../../../src/properties/typesManager'),
 	should = require("should");
 
-describe('DictionaryPropertyBuilder', function() {
+describe('DictionaryProperty', function() {
 	function propertyOptions () {
 		return {
 			'type' : 'custom',
@@ -30,114 +32,65 @@ describe('DictionaryPropertyBuilder', function() {
 	TypesManager.registerType('custom', []);
 
 
-	it('Should get properties and sub-properties values', function () {
+	it('Should fail when call add method from outside a builder', function () {
 		var properties = new DictionaryProperty(),
 			compositeProperty = new CompositeProperty(),
 			spOp = subPropertyOptions(),
 			pOp = propertyOptions();
 
-
-		compositeProperty.add('sub-prop1', new Property(spOp));
-		properties.add('property1', new Property(pOp));
-		properties.add('property2', compositeProperty);
-
-		properties.getValue('property1').should.equal('val');
-		properties.getValue('property2.sub-prop1').should.equal('val2');
+		(function(){
+			properties.add('property1', compositeProperty);			
+		}).should.throw('Method add cannot be called from outside a builder');
 	});
 
-	it('Should set properties and sub-properties values', function () {
+	it('Should fail when setValue is called with no schema set', function () {
 		var properties = new DictionaryProperty(),
 			compositeProperty = new CompositeProperty(),
 			spOp = subPropertyOptions(),
 			pOp = propertyOptions();
 
-
-		compositeProperty.add('sub-prop1', new Property(spOp));
-		properties.add('property1', new Property(pOp));
-		properties.add('property2', compositeProperty);
-
-		properties.getValue('property1').should.equal('val');
-		properties.getValue('property2.sub-prop1').should.equal('val2');
-
-		properties.setValue('property1', 'newVal');
-		properties.setValue('property2.sub-prop1','newVal2');
-
-		properties.getValue('property1').should.equal('newVal');
-		properties.getValue('property2.sub-prop1').should.equal('newVal2');
+		(function(){
+			properties.setValue('property1', {});			
+		}).should.throw("Set an schema before trying to set a value for the property 'property1'");
 	});
 
-	it('Should create a clone', function () {
+	it('Should should add a new guid if not exists', function () {
 		var properties = new DictionaryProperty(),
-			compositeProperty = new CompositeProperty(),
-			compositePropertyClone,
+			schema = new CompositePropertyBuilder(),
 			spOp = subPropertyOptions(),
 			pOp = propertyOptions();
 
+		// Define the schema
+		schema
+			.property('prop', PropertyBuilder)
+				.value('default')
+				.type('custom')
+			.add();
+		properties.schema(schema);
 
-		compositeProperty.add('sub-prop1', new Property(spOp));
-		properties.add('property1', new Property(pOp));
-		properties.add('property2', compositeProperty);
-
-		properties.getValue('property1').should.equal('val');
-		properties.getValue('property2.sub-prop1').should.equal('val2');
-		
-		compositePropertyClone = properties.clone();
-
-		compositePropertyClone.getValue('property1').should.equal('val');
-		compositePropertyClone.getValue('property2.sub-prop1').should.equal('val2');
-
-		properties.setValue('property1', 'newVal');
-		properties.setValue('property2.sub-prop1','newVal2');
-
-		properties.getValue('property1').should.equal('newVal');
-		properties.getValue('property2.sub-prop1').should.equal('newVal2');
-
-		compositePropertyClone.getValue('property1').should.equal('val');
-		compositePropertyClone.getValue('property2.sub-prop1').should.equal('val2');
-
-		compositePropertyClone.setValue('property1', 'newValCloned');
-		compositePropertyClone.setValue('property2.sub-prop1','newVal2Cloned');
-
-		compositePropertyClone.getValue('property1').should.equal('newValCloned');
-		compositePropertyClone.getValue('property2.sub-prop1').should.equal('newVal2Cloned');
-
-		properties.getValue('property1').should.equal('newVal');
-		properties.getValue('property2.sub-prop1').should.equal('newVal2');
+		// Try to add the value
+		properties.setValue('id1', { 'prop' : 'newValue' });
+		properties.getValue('id1.prop').should.equal('newValue');
 	});
 
-	it('Should build json object from values', function () {
+	it('Should update an inner property', function () {
 		var properties = new DictionaryProperty(),
-			compositeProperty = new CompositeProperty(),
+			schema = new CompositePropertyBuilder(),
 			spOp = subPropertyOptions(),
-			pOp = propertyOptions(),
-			json;
+			pOp = propertyOptions();
 
+		// Define the schema
+		schema
+			.property('prop', PropertyBuilder)
+				.value('default')
+				.type('custom')
+			.add();
+		properties.schema(schema);
 
-		compositeProperty.add('sub-prop1', new Property(spOp));
-		properties.add('property1', new Property(pOp));
-		properties.add('property2', compositeProperty);
+		// Try to add the value
+		properties.setValue('id1', { 'prop' : 'newValue' });
+		properties.setValue('id1.prop', 'anotherNewValue');
 
-		json = properties.valuesToJSON();
-
-		json.should.have.keys('property1', 'property2');
-		json.property2.should.have.property('sub-prop1');
-	});
-
-	it('Should build values from json object', function () {
-		var properties = new DictionaryProperty(),
-			compositeProperty = new CompositeProperty(),
-			spOp = subPropertyOptions(),
-			pOp = propertyOptions(),
-			json = { property1: 'jsonVal', property2: { 'sub-prop1': 'jsonSubVal' } };
-
-
-		compositeProperty.add('sub-prop1', new Property(spOp));
-		properties.add('property1', new Property(pOp));
-		properties.add('property2', compositeProperty);
-
-		properties.valuesFromJSON(json);
-
-		properties.getValue('property1').should.equal('jsonVal');
-		properties.getValue('property2.sub-prop1').should.equal('jsonSubVal');
+		properties.getValue('id1.prop').should.equal('anotherNewValue');
 	});
 });
