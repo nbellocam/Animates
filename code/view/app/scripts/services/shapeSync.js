@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.service('shapeSync', function shapeSync(localAnimationStateService, effectCreator, animationService, shapeHelper) {
+	.service('shapeSync', function shapeSync(localAnimationStateService, animationService, shapeHelper) {
 		var registeredShapes = {};
 
 		function isTypeRegistered(type) {
@@ -14,7 +14,7 @@ angular.module('animatesApp')
 			if (type && !isTypeRegistered(type) &&
 					(typeof(syncFromModelFunction) === 'function') &&
 					(typeof(syncFromViewFunction) === 'function')) {
-				
+
 				registeredShapes[type] = {
 					syncFromModel: syncFromModelFunction,
 					syncFromView: syncFromViewFunction
@@ -31,7 +31,7 @@ angular.module('animatesApp')
 
 			return true;
 		}
-		
+
 		this.syncFromView = function syncFromView(fabricObject, canvasPosition) {
 			var type = shapeHelper.getTypeFromView(fabricObject);
 			if (isTypeRegistered(type)) {
@@ -50,4 +50,3 @@ angular.module('animatesApp')
 			}
 		};
 	});
-

@@ -233,7 +233,7 @@ angular.module('animatesApp')
 		this.clear = function clear() {
 			if(canvasInstance) {
 				canvasInstance.clear();
-				
+
 				if (viewportInstance)
 				{
 					canvasInstance.add(viewportInstance);

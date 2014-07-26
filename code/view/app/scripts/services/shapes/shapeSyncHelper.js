@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('shapeSyncHelper', function shapeSyncHelper($window, effectCreator, animationService, localAnimationStateService, shapeHelper) {
+	.factory('shapeSyncHelper', function shapeSyncHelper($window, animationService, localAnimationStateService, shapeHelper) {
 		var syncModelProperty = function syncModelProperty(fabricValue, model, propertyName, diff, round) {
 				var modelProperty = model.getProperty(propertyName),
 					value = (round) ? $window.Math.round(fabricValue) : fabricValue;
@@ -49,8 +49,8 @@ angular.module('animatesApp')
 					default:
 						syncViewProperty([0,0], viewObject, 'strokeDashArray');
 				}
-				syncViewProperty(model.getProperty('opacity'), viewObject, 'opacity');		
-				syncViewProperty(model.getProperty('border.color'), viewObject, 'stroke');		
+				syncViewProperty(model.getProperty('opacity'), viewObject, 'opacity');
+				syncViewProperty(model.getProperty('border.color'), viewObject, 'stroke');
 				syncViewProperty(model.getProperty('angle'), viewObject, 'angle');
 				syncViewProperty(model.getProperty('position.x') + canvasPosition.left, viewObject, 'left');
 				syncViewProperty(model.getProperty('position.y') + canvasPosition.top, viewObject, 'top');
