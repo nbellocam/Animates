@@ -90,7 +90,7 @@ function MultiPointMoveEffect(options, builder) {
 	};
 
 	this.getAffectedProperties = function () {
-		return ['position'];
+		return ['position.x', 'position.y'];
 	};
 
 	function addPoint(guid, tick, x, y) {
