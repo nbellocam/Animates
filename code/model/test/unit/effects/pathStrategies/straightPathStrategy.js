@@ -7,6 +7,52 @@ var straightPathStrategy = require('../../../../src/effects/pathStrategies/strai
 
 describe('straightPathStrategy', function() {
 	describe('getPositionFor()', function() {
+		it('Should return an object with x and y properties equals to the only point present (same tick).', function() {
+			var tick = 10,
+				currentTick = 10,
+				specifiedPositionX = 20,
+				specifiedPositionY = 10,
+				specifiedPoint = {
+					tick: tick,
+					position: { x: specifiedPositionX, y: specifiedPositionY }
+				},
+				endPosition = straightPathStrategy(currentTick, [specifiedPoint]);
+
+				should.notStrictEqual(endPosition, specifiedPoint.position);
+				endPosition.should.have.property('x', specifiedPositionX);
+				endPosition.should.have.property('y', specifiedPositionY);
+		});
+
+		it('Should return an object with x and y properties equals to the only point present (greater tick).', function() {
+			var tick = 10,
+				currentTick = 15,
+				specifiedPositionX = 20,
+				specifiedPositionY = 10,
+				specifiedPoint = {
+					tick: tick,
+					position: { x: specifiedPositionX, y: specifiedPositionY }
+				},
+				endPosition = straightPathStrategy(currentTick, [specifiedPoint]);
+
+				should.notStrictEqual(endPosition, specifiedPoint.position);
+				endPosition.should.have.property('x', specifiedPositionX);
+				endPosition.should.have.property('y', specifiedPositionY);
+		});
+
+		it('Should return an object with no x and y properties if currentTick is less than startTick (with only one point).', function() {
+			var tick = 10,
+				currentTick = 5,
+				specifiedPositionX = 20,
+				specifiedPositionY = 10,
+				specifiedPoint = {
+					tick: tick,
+					position: { x: specifiedPositionX, y: specifiedPositionY }
+				},
+				endPosition = straightPathStrategy(currentTick, [specifiedPoint]);
+
+				endPosition.should.not.have.properties('x', 'y');
+		});
+
 		it('Should return an object with no x and y properties if currentTick is less than startTick', function() {
 			var startTick = 10,
 				endTick = 20,

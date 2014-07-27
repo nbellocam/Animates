@@ -49,6 +49,11 @@ function straightPathStrategy (currentTick, points) {
 		}
 
 		return getPositionFor(currentTick, segment.startPoint, segment.endPoint);
+	} else if (points.length === 1 && currentTick >= points[0].tick) {
+		return {
+			'x' : points[0].position.x,
+			'y' : points[0].position.y
+		};
 	}
 
 	return {};
