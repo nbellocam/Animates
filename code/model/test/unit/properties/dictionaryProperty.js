@@ -8,7 +8,6 @@ var Common = require('animates-common'),
 	CompositeProperty = require('../../../src/properties/compositeProperty'),
 	CompositePropertyBuilder = require('../../../src/properties/compositePropertyBuilder'),
 	DictionaryProperty = require('../../../src/properties/dictionaryProperty'),
-	DictionaryPropertyBuilder = require('../../../src/properties/compositePropertyBuilder'),
 	TypesManager = require('../../../src/properties/typesManager'),
 	should = require("should");
 
@@ -75,9 +74,7 @@ describe('DictionaryProperty', function() {
 
 	it('Should update an inner property', function () {
 		var properties = new DictionaryProperty(),
-			schema = new CompositePropertyBuilder(),
-			spOp = subPropertyOptions(),
-			pOp = propertyOptions();
+			schema = new CompositePropertyBuilder();
 
 		// Define the schema
 		schema

@@ -5,6 +5,7 @@
 var Property = require('../../../src/properties/property'),
 	PropertyBuilder = require('../../../src/properties/propertyBuilder'),
 	CompositePropertyBuilder = require('../../../src/properties/compositePropertyBuilder'),
+	DictionaryProperty = require('../../../src/properties/dictionaryProperty'),
 	DictionaryPropertyBuilder = require('../../../src/properties/dictionaryPropertyBuilder'),
 	TypesManager = require('../../../src/properties/typesManager'),
 	should = require("should");
@@ -169,5 +170,40 @@ describe('CompositePropertyBuilder', function() {
 
 			properties.names().should.have.lengthOf(6);
 			properties.names().should.eql(['points.1.position.x', 'points.1.position.y', 'points.1.tick', 'points.2.position.x', 'points.2.position.y', 'points.2.tick']);
+	});
+
+	it('Should should add a new guid if not exists with a complex schema', function () {
+		var builder = new CompositePropertyBuilder(),
+			schema = new CompositePropertyBuilder(),
+			properties;
+
+		// Define the schema
+		properties =	builder
+							.property('path', PropertyBuilder)
+									.value('Straight')
+									.type('string')
+									.constraint(function (val) { return (['Straight'].indexOf(val) >= 0); })
+								.add()
+								.property('points', DictionaryPropertyBuilder)
+									.schema(CompositePropertyBuilder)
+										.property('position', CompositePropertyBuilder)
+											.property('x', PropertyBuilder)
+												.type('float')
+											.add()
+											.property('y', PropertyBuilder)
+												.type('float')
+											.add()
+										.add()
+										.property('tick', PropertyBuilder)
+											.type('float')
+										.add()
+									.add()
+									.values([])
+								.add()
+							.create();
+
+		// Try to add the value
+		properties.setValue('points.a6d8297d-b31e-43a3-a8e0-8cafffd50910', { tick: 5, position: { x: 300, y: 40 } });
+		properties.getValue('points.a6d8297d-b31e-43a3-a8e0-8cafffd50910.tick').should.equal(5);
 	});
 });

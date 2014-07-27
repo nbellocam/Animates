@@ -47,8 +47,26 @@ function CompositeProperty () {
 	};
 
 	this.setValue = function (name, value) {
-		var property = _self.get(name);
-		property.value(value);
+		var parts = name.split('.'),
+			currentPart = '',
+			length = parts.length,
+			property;
+
+		property = properties[parts[0]];
+		if (property) {
+			if (property.value) { // its a leaf
+				if (length > 1) {
+					throw new Error("Property '" + parts[1] + "' does not exists.");
+				} else {
+					property.value(value);
+				}
+			} else { // its a composite
+				var newName = name.replace(parts[0] + '.','');
+				property.setValue(newName, value);
+			}
+		} else {
+			throw new Error("Property '" + parts[0] + "' could not be found.");
+		}		
 	};
 
 	this.names = function (root) {
