@@ -217,7 +217,7 @@ describe('Animation', function() {
 					key2 : 'value2',
 					key3 : 'value3'
 				},
-				updatedTargetUpdatedPropertiesKeys = ['key1', 'key3'],
+				updatedTargetUpdatedPropertiesKeys = ['key2'],
 				getMediaTimelineCalled = false,
 				updateEffectsThatMatchCalled = false,
 				getMediaObjectCalled = false,

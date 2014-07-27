@@ -92,7 +92,7 @@ function Animation (options) {
 
 		if (mediaTimeline) {
 			updateResult = mediaTimeline.updateEffectsThatMatch(opParams.tick, opParams.updatedProperties);
-			notUpdatedProperties = Common.filterObject(opParams.updatedProperties, updateResult.pendingProperties);
+			notUpdatedProperties = Common.filterObject(opParams.updatedProperties, updateResult.pendingProperties, true);
 
 			if (updateResult.newProperties) {
 				for(newProperty in updateResult.newProperties) {

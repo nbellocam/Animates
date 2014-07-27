@@ -112,7 +112,7 @@ angular.module('animatesApp')
 							default:
 								break;
 						}
-					} else if (target === 'Effect') {
+					} else if (target === 'Effect' || target === 'MediaFrame') {
 						updateMediaObjectInCanvas(params.mediaObjectId);
 						renderAll();
 					}

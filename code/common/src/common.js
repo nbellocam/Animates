@@ -180,11 +180,11 @@ function getKeysFromObject(object)
   var list = [];
 
 	if (object) {
-	  for (var key in object) {
-	    if (object.hasOwnProperty(key)) {
-	      list.push(key);
-	    }
-	  }
+		for (var key in object) {
+			if (object.hasOwnProperty(key)) {
+				list.push(key);
+			}
+		}
 	}
 
   return list;
@@ -215,12 +215,14 @@ function filterArray(originalArray, listOfFilterElements) {
  * @memberof animates.common
  * @return the new filtered object
  */
-function filterObject(originalObject, listOfFilterKeys) {
+function filterObject(originalObject, listOfFilterKeys, included) {
   var result = {};
 
   for (var key in originalObject) {
-    if (originalObject.hasOwnProperty(key) && (!listOfFilterKeys || listOfFilterKeys.indexOf(key) === -1)) {
-      result[key] = originalObject[key];
+    if (originalObject.hasOwnProperty(key) &&
+			((!included && (!listOfFilterKeys || listOfFilterKeys.indexOf(key) === -1)) || 
+			(included && listOfFilterKeys && listOfFilterKeys.indexOf(key) !== -1))) {
+				result[key] = originalObject[key];
     }
   }
 

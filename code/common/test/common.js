@@ -514,12 +514,11 @@ describe('Common', function() {
 				},
 				result = Common.filterObject(object, filter);
 
-
-				result.should.not.be.an.Array.and.be.an.Object;
-				result.should.not.have.property(keyName1);
-				result.should.have.property(keyName2);
-				result.should.not.have.property(keyName3);
-				object.should.have.properties(keyName1, keyName2, keyName3);
+			result.should.not.be.an.Array.and.be.an.Object;
+			result.should.not.have.property(keyName1);
+			result.should.have.property(keyName2);
+			result.should.not.have.property(keyName3);
+			object.should.have.properties(keyName1, keyName2, keyName3);
 		});
 
 		it('should return a new object with one less key/values if two filter was applied but one was not present', function() {
@@ -533,32 +532,137 @@ describe('Common', function() {
 				},
 				result = Common.filterObject(object, filter);
 
-
-				result.should.not.be.an.Array.and.be.an.Object;
-				result.should.not.have.property(keyName1);
-				result.should.have.property(keyName2);
-				result.should.not.have.property(keyName3);
-				object.should.have.properties(keyName1, keyName2);
+			result.should.not.be.an.Array.and.be.an.Object;
+			result.should.not.have.property(keyName1);
+			result.should.have.property(keyName2);
+			result.should.not.have.property(keyName3);
+			object.should.have.properties(keyName1, keyName2);
 		});
 
 		it('should return a new empty object if all elements in the filter match', function() {
-				var keyName1 = 'keyName1',
-					keyName2 = 'keyName2',
-					keyName3 = 'keyName3',
-					filter = [keyName1, keyName2, keyName3],
-					object = {
-						keyName1 : 42,
-						keyName2 : 42,
-						keyName3 : 42
-					},
-					result = Common.filterObject(object, filter);
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				keyName3 = 'keyName3',
+				filter = [keyName1, keyName2, keyName3],
+				object = {
+					keyName1 : 42,
+					keyName2 : 42,
+					keyName3 : 42
+				},
+				result = Common.filterObject(object, filter);
 
-				result.should.not.be.an.Array.and.be.an.Object;
-				result.should.not.have.property(keyName1);
-				result.should.not.have.property(keyName2);
-				result.should.not.have.property(keyName3);
-				object.should.have.properties(keyName1, keyName2, keyName3);
-			});
+			result.should.not.be.an.Array.and.be.an.Object;
+			result.should.not.have.property(keyName1);
+			result.should.not.have.property(keyName2);
+			result.should.not.have.property(keyName3);
+			object.should.have.properties(keyName1, keyName2, keyName3);
+		});
+
+		it('should return a new object with no elements if no filter was applied with included option', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				filter = [],
+				object = {
+					keyName1 : 42,
+					keyName2 : 42
+				},
+				result = Common.filterObject(object, filter, true);
+
+			result.should.not.be.an.Array.and.be.an.Object;
+			result.should.not.have.properties(keyName1, keyName2);
+			result.should.be.empty;
+			object.should.have.properties(keyName1, keyName2);
+		});
+
+		it('should return a new object with one key/values if one filter was applied (with included option)', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				filter = [keyName1],
+				object = {
+					keyName1 : 42,
+					keyName2 : 42
+				},
+				result = Common.filterObject(object, filter, true);
+
+			result.should.not.be.an.Array.and.be.an.Object;
+			result.should.have.property(keyName1);
+			result.should.not.have.property(keyName2);
+			object.should.have.properties(keyName1, keyName2);
+		});
+
+		it('should return a new object with one key/values if one filter was applied (with included option and three elements)', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				keyName3 = 'keyName3',
+				filter = [keyName2],
+				object = {
+					keyName1 : 42,
+					keyName2 : 42,
+					keyName3 : 42
+				},
+				result = Common.filterObject(object, filter, true);
+
+			result.should.not.be.an.Array.and.be.an.Object;
+			result.should.not.have.property(keyName1);
+			result.should.have.property(keyName2);
+			result.should.not.have.property(keyName3);
+			object.should.have.properties(keyName1, keyName2, keyName3);
+		});
+
+		it('should return a new object with two key/values if two filter was applied (with included option)', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				keyName3 = 'keyName3',
+				filter = [keyName1, keyName3],
+				object = {
+					keyName1 : 42,
+					keyName2 : 42,
+					keyName3 : 42
+				},
+				result = Common.filterObject(object, filter, true);
+
+			result.should.not.be.an.Array.and.be.an.Object;
+			result.should.have.property(keyName1);
+			result.should.not.have.property(keyName2);
+			result.should.have.property(keyName3);
+			object.should.have.properties(keyName1, keyName2, keyName3);
+		});
+
+		it('should return a new object with one key/values if two filter was applied but one was not present (with included option)', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				keyName3 = 'keyName3',
+				filter = [keyName1, keyName3],
+				object = {
+					keyName1 : 42,
+					keyName2 : 42,
+				},
+				result = Common.filterObject(object, filter, true);
+
+
+			result.should.not.be.an.Array.and.be.an.Object;
+			result.should.have.have.property(keyName1);
+			result.should.not.property(keyName2);
+			result.should.not.have.property(keyName3);
+			object.should.have.properties(keyName1, keyName2);
+		});
+
+		it('should return a new object with all the elements if all elements in the filter match (with included option)', function() {
+			var keyName1 = 'keyName1',
+				keyName2 = 'keyName2',
+				keyName3 = 'keyName3',
+				filter = [keyName1, keyName2, keyName3],
+				object = {
+					keyName1 : 42,
+					keyName2 : 42,
+					keyName3 : 42
+				},
+				result = Common.filterObject(object, filter, true);
+
+			result.should.not.be.an.Array.and.be.an.Object;
+			result.should.have.properties(keyName1, keyName2, keyName3);
+			object.should.have.properties(keyName1, keyName2, keyName3);
+		});
 	});
 
 	describe('#isEmpty', function() {

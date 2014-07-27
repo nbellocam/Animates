@@ -6,7 +6,7 @@ angular.module('animatesApp')
 		$scope.tick = 0;
 
 		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation) {
-			if (target === 'Effect') {
+			if (target === 'Effect' || target === 'MediaFrame') {
 				$scope.adaptMediaTimelines();
 			} else if (target === 'Shape') {
 				if ( operation === 'Create' || operation === 'Remove') {
