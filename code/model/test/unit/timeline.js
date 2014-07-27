@@ -6,11 +6,15 @@ var Timeline = require('../../src/timeline'),
 	should = require("should");
 
 describe('Timeline', function() {
+	function getProperties (name) {
+		return 0;
+	}
+
 	describe('*addMediaObject', function() {
 
 		it('Should add a new element to the timeline', function() {
 			var specifiedMediaObjectId = '42',
-				specifiedMediaObject = { getGuid : function () { return specifiedMediaObjectId; } },
+				specifiedMediaObject = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId; } },
 				timeline = new Timeline(),
 				timelineElementsCount = timeline.countMediaTimelines(),
 				element;
@@ -29,8 +33,8 @@ describe('Timeline', function() {
 		it('Should add two elements.', function() {
 			var specifiedMediaObjectId1 = '42',
 				specifiedMediaObjectId2 = '82',
-				specifiedMediaObject1 = { getGuid : function () { return specifiedMediaObjectId1; } },
-				specifiedMediaObject2 = { getGuid : function () { return specifiedMediaObjectId2; } },
+				specifiedMediaObject1 = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId1; } },
+				specifiedMediaObject2 = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId2; } },
 				timeline = new Timeline(),
 				timelineElementsCount = timeline.countMediaTimelines(),
 				element;
@@ -70,7 +74,7 @@ describe('Timeline', function() {
 
 		it('Should not add duplicated elements.', function() {
 			var specifiedMediaObjectId = '42',
-				specifiedMediaObject = { getGuid : function () { return specifiedMediaObjectId; } },
+				specifiedMediaObject = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId; } },
 				timeline = new Timeline(),
 				timelineElementsCount = timeline.countMediaTimelines(),
 				element1,element2;
@@ -98,8 +102,8 @@ describe('Timeline', function() {
 
 		it('Should not add duplicated elements same id but different objects.', function() {
 			var specifiedMediaObjectId = '42',
-				specifiedMediaObject1 = { getGuid : function () { return specifiedMediaObjectId; } },
-				specifiedMediaObject2 = { getGuid : function () { return specifiedMediaObjectId; } },
+				specifiedMediaObject1 = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId; } },
+				specifiedMediaObject2 = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId; } },
 				timeline = new Timeline(),
 				timelineElementsCount = timeline.countMediaTimelines(),
 				element1,element2;
@@ -129,7 +133,7 @@ describe('Timeline', function() {
 	describe('*removeMediaObject', function() {
 		it('Should remove the only existing element', function() {
 			var specifiedMediaObjectId = '42',
-				specifiedMediaObject = { getGuid : function () { return specifiedMediaObjectId; } },
+				specifiedMediaObject = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId; } },
 				timeline = new Timeline(),
 				timelineElementsCount = timeline.countMediaTimelines(),
 				element;
@@ -153,7 +157,7 @@ describe('Timeline', function() {
 		it('Should not remove a non existing element.', function() {
 			var specifiedMediaObjectIdToRemove = '12',
 				specifiedMediaObjectId = '42',
-				specifiedMediaObject = { getGuid : function () { return specifiedMediaObjectId; } },
+				specifiedMediaObject = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId; } },
 				timeline = new Timeline(),
 				timelineElementsCount = timeline.countMediaTimelines(),
 				element;
@@ -174,8 +178,8 @@ describe('Timeline', function() {
 		it('Should remove an element (the first) when another exist.', function() {
 			var specifiedMediaObjectId1 = '42',
 				specifiedMediaObjectId2 = '82',
-				specifiedMediaObject1 = { getGuid : function () { return specifiedMediaObjectId1; } },
-				specifiedMediaObject2 = { getGuid : function () { return specifiedMediaObjectId2; } },
+				specifiedMediaObject1 = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId1; } },
+				specifiedMediaObject2 = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId2; } },
 				timeline = new Timeline(),
 				timelineElementsCount;
 
@@ -194,8 +198,8 @@ describe('Timeline', function() {
 		it('Should remove an element (the last) when another exist.', function() {
 			var specifiedMediaObjectId1 = '42',
 				specifiedMediaObjectId2 = '82',
-				specifiedMediaObject1 = { getGuid : function () { return specifiedMediaObjectId1; } },
-				specifiedMediaObject2 = { getGuid : function () { return specifiedMediaObjectId2; } },
+				specifiedMediaObject1 = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId1; } },
+				specifiedMediaObject2 = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId2; } },
 				timeline = new Timeline(),
 				timelineElementsCount;
 
@@ -215,7 +219,7 @@ describe('Timeline', function() {
 	describe('*getMediaTimeline', function() {
 		it('Should get an element.', function() {
 			var specifiedMediaObjectId = '42',
-				specifiedMediaObject = { getGuid : function () { return specifiedMediaObjectId; } },
+				specifiedMediaObject = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId; } },
 				timeline = new Timeline(),
 				timelineElementsCount = timeline.countMediaTimelines(),
 				element,
@@ -233,7 +237,7 @@ describe('Timeline', function() {
 		it('Should return undefined when trying to get a non existing element.', function() {
 			var specifiedMediaObjectId = '42',
 				specifiedMediaObjectIdToFind = '12',
-				specifiedMediaObject = { getGuid : function () { return specifiedMediaObjectId; } },
+				specifiedMediaObject = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId; } },
 				timeline = new Timeline(),
 				timelineElementsCount = timeline.countMediaTimelines(),
 				element,
@@ -249,7 +253,7 @@ describe('Timeline', function() {
 	describe('#countMediaTimelines', function() {
 		it('Should count only one element at the timeline.', function() {
 			var specifiedMediaObjectId = '42',
-				specifiedMediaObject = { getGuid : function () { return specifiedMediaObjectId; } },
+				specifiedMediaObject = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId; } },
 				timeline = new Timeline(),
 				timelineElementsCount = timeline.countMediaTimelines();
 
@@ -264,8 +268,8 @@ describe('Timeline', function() {
 		it('Should count two elements at the timeline.', function() {
 			var specifiedMediaObjectId1 = '42',
 				specifiedMediaObjectId2 = '82',
-				specifiedMediaObject1 = { getGuid : function () { return specifiedMediaObjectId1; } },
-				specifiedMediaObject2 = { getGuid : function () { return specifiedMediaObjectId2; } },
+				specifiedMediaObject1 = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId1; } },
+				specifiedMediaObject2 = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId2; } },
 				timeline = new Timeline(),
 				timelineElementsCount = timeline.countMediaTimelines();
 
@@ -288,7 +292,7 @@ describe('Timeline', function() {
 
 		it('Should not count any elements at the timeline if the element is removed.', function() {
 			var specifiedMediaObjectId = '42',
-				specifiedMediaObject = { getGuid : function () { return specifiedMediaObjectId; } },
+				specifiedMediaObject = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId; } },
 				timeline = new Timeline(),
 				timelineElementsCount = timeline.countMediaTimelines();
 
@@ -310,8 +314,8 @@ describe('Timeline', function() {
 		it('Should remove all the elements.', function() {
 			var specifiedMediaObjectId1 = '42',
 				specifiedMediaObjectId2 = '82',
-				specifiedMediaObject1 = { getGuid : function () { return specifiedMediaObjectId1; } },
-				specifiedMediaObject2 = { getGuid : function () { return specifiedMediaObjectId2; } },
+				specifiedMediaObject1 = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId1; } },
+				specifiedMediaObject2 = { getProperty: getProperties, getGuid : function () { return specifiedMediaObjectId2; } },
 				timeline = new Timeline(),
 				timelineElementsCount;
 
@@ -358,10 +362,12 @@ describe('Timeline', function() {
 				defaultProperties = { },
 				specifiedMediaObject1 = { 
 					getGuid : function () { return specifiedMediaObjectId1; },
+					getProperty: getProperties, 
 					getProperties : function () { return defaultProperties; }
 				},
 				specifiedMediaObject2 = { 
 					getGuid : function () { return specifiedMediaObjectId2; }, 
+					getProperty: getProperties, 
 					getProperties : function () { return defaultProperties; }
 				},
 				timeline = new Timeline(),
@@ -385,10 +391,12 @@ describe('Timeline', function() {
 				defaultProperties = { },
 				specifiedMediaObject1 = { 
 					getGuid : function () { return specifiedMediaObjectId1; },
+					getProperty: getProperties, 
 					getProperties : function () { return defaultProperties; }
 				},
 				specifiedMediaObject2 = { 
-					getGuid : function () { return specifiedMediaObjectId2; }, 
+					getGuid : function () { return specifiedMediaObjectId2; },
+					getProperty: getProperties, 
 					getProperties : function () { return defaultProperties; }
 				},
 				timeline = new Timeline(),
@@ -417,6 +425,7 @@ describe('Timeline', function() {
 				json = null,
 				dummyMediaObject = { 
 					getGuid : function () { return 'ID'; }, 
+					getProperty: getProperties, 
 					toJSON : function () { return ''; }
 				};
 			timeline.addMediaObject(dummyMediaObject);
