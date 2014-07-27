@@ -20,9 +20,11 @@ angular.module('animatesApp')
 		};
 
 		$scope.onLocalStateTickChange = function(newVal) {
-			$scope.$apply(function () {
-				$scope.tick = newVal;
-			});
+			$scope.tick = newVal;
+			//TODO review if this apply is necesasary
+			//$scope.$apply(function () {
+			//	$scope.tick = newVal;
+			//});
 		};
 
 		animationService.getInstance().addUpdateObserver('TimelinePanelCtrl', animationUpdateEventHandler);
