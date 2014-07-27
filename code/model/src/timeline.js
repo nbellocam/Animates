@@ -1,6 +1,7 @@
 'use strict';
 
 var MediaTimeline = require('./mediaTimeline'),
+	MultiPointMoveEffect = require('./effects/multiPointMoveEffect'),
 	JsonSerializer = require('./serialization/jsonSerializer');
 
 /**
@@ -30,8 +31,18 @@ function Timeline (options) {
 			}
 
 			if (!mediaTimeline) {
+				var defaultMoveEffect = new MultiPointMoveEffect();
+
 				mediaTimeline = new MediaTimeline({ mediaObject : mediaObject });
 				mediaTimelineCollection.push(mediaTimeline);
+				mediaTimeline.addEffect(defaultMoveEffect);
+
+				defaultMoveEffect.updateProperties(0, 
+					{ 
+						'position.x' : mediaObject.getProperty('position.x'), 
+						'position.y' : mediaObject.getProperty('position.y')
+					});
+
 			}
 
 			return mediaTimeline;
