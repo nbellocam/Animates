@@ -29,8 +29,6 @@ function MultiPointMoveEffect(options, builder) {
 		propBuilder = builder || new CompositePropertyBuilder();
 
 		currentOptions = Common.extend(options || {}, defaultOptions);
-		if (currentOptions.startPosition) throw new Error("startPosition is invalid");
-		if (currentOptions.endPosition) throw new Error("endPosition is invalid");
 
 		propBuilder.property('path', PropertyBuilder)
 						.value(currentOptions.path)
