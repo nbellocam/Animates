@@ -32,9 +32,9 @@ describe('MultiPointMoveEffect', function() {
 
 			should(effectAffectedProperties)
 				.be.instanceof(Array)
-				.and.have.lengthOf(1);
+				.and.have.lengthOf(2);
 			should(effectAffectedProperties)
-				.containEql('position');
+				.eql(['position.x', 'position.y']);
 		});
 	});
 
