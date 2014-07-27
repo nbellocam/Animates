@@ -77,6 +77,10 @@ function MultiPointMoveEffect(options, builder) {
 		if (path == 'Straight') {
 			var newPosition = straightPathStrategy(tick, getPointsArray());
 
+			if (newPosition && !mediaFrameProperties.hasOwnProperty('position')) {
+				mediaFrameProperties.position = {};
+			}
+
 			for (var key in newPosition) {
 				if (newPosition.hasOwnProperty(key)) {
 					mediaFrameProperties.position[key] = newPosition[key];
@@ -118,7 +122,7 @@ function MultiPointMoveEffect(options, builder) {
 		var newPoint = updatedProperties['MultiPointMoveEffect.newPoint'];
 		if(newPoint && newPoint.target === _self.getGuid()) {
 			addPoint(newPoint.guid, tick, positionX, positionY);
-			return	{ 
+			return	{
 						'updatedProperties' : ['position.y', 'position.x']
 					};
 		}
@@ -144,7 +148,7 @@ function MultiPointMoveEffect(options, builder) {
 		// A new point must be added
 		var newPointGuid = Common.createGuid();
 		addPoint(newPointGuid, tick, positionX, positionY);
-			return	{ 
+			return	{
 						'updatedProperties' : ['position.y', 'position.x'],
 						'newProperties' : {
 							'MultiPointMoveEffect.newPoint' : { 'guid' : newPointGuid, 'target' : _self.getGuid()}
