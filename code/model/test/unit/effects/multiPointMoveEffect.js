@@ -68,6 +68,20 @@ describe('MultiPointMoveEffect', function() {
 		});
 	});
 
+	describe('setOption', function () {
+		it('Should return update extistant options values', function () {
+			var effect = new MultiPointMoveEffect();
+
+			(function(){
+				effect.setOption('startTick', 200);
+			}).should.throw('The property \'startTick\' cannot be set.');
+
+			(function(){
+				effect.setOption('endTick', 200);
+			}).should.throw('The property \'endTick\' cannot be set.');
+		});
+	});
+
 	describe('getProperties()', function() {
 		it('Should throw exception if path is not valid.', function() {
 			var tick = 10,

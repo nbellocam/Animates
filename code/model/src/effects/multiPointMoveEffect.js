@@ -66,6 +66,15 @@ function MultiPointMoveEffect(options, builder) {
 		return pointsArray;
 	}
 
+	this.base_setOption = this.setOption;
+	this.setOption = function (name, value) {
+		if ((name === 'startTick') || (name === 'endTick')) {
+			throw new Error("The property '" + name + "' cannot be set.");
+		} else {
+			this.base_setOption(name, value);
+		}
+	};
+
 	/**
 	 * Calculates the new shape properties based on the original ones and the current frame.
 	 * @param {integer} tick The current tick number.
