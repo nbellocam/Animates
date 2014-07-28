@@ -57,6 +57,17 @@ function DictionaryProperty () {
 			throw new Error("Set an schema before trying to set a value for the property '" + name + "'");
 		}
 	};
+
+	this.valuesFromJSON = function (json) {
+		var newProp;
+		for (var name in json) {
+			newProp = schema.create().clone();
+			newProp.valuesFromJSON(json[name]);
+			base_add(name, newProp);
+		}
+
+		return json;
+	};
 }
 
 Common.inherits(DictionaryProperty, CompositeProperty);

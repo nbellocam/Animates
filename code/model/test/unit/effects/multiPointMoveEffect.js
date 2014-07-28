@@ -144,14 +144,43 @@ describe('MultiPointMoveEffect', function() {
 		});
 
 		it('fromJSON should load the object', function() {
-			var effect = new MultiPointMoveEffect({ 'startTick' : 100, 'endTick' : 200 }),
+			var effect = new MultiPointMoveEffect(
+								{
+									'startTick' : 100,
+									'endTick' : 200,
+									'points': {
+											'id1' : {
+														'tick' : 5,
+														'position' : {
+															'x' : 10,
+															'y' : 10
+														}
+													},
+											'id2' : {
+														'tick' : 100,
+														'position' : {
+															'x' : 20,
+															'y' : 20
+													}
+												}
+										}	
+								}),
 				json = effect.toJSON(),
-				effect2 = new MultiPointMoveEffect();
+				effect2 = new MultiPointMoveEffect(),
+				deserializedOptions;
 
 			effect2.fromJSON(json);
 			effect2.getGuid().should.equal(effect.getGuid());
-			effect2.getOptions().should.have.property('startTick', 100);
-			effect2.getOptions().should.have.property('endTick', 200);
+			deserializedOptions = effect2.getOptions();
+			deserializedOptions.should.have.property('startTick', 100);
+			deserializedOptions.should.have.property('endTick', 200);
+			deserializedOptions.should.have.property('startTick', 100);
+			deserializedOptions.points.id1.tick.should.equal(5);
+			deserializedOptions.points.id1.position.x.should.equal(10);
+			deserializedOptions.points.id1.position.y.should.equal(10);
+			deserializedOptions.points.id2.tick.should.equal(100);
+			deserializedOptions.points.id2.position.x.should.equal(20);
+			deserializedOptions.points.id2.position.y.should.equal(20);
 		});
 	});
 
