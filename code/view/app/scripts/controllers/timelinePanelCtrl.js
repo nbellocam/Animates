@@ -42,18 +42,41 @@ angular.module('animatesApp')
 			$scope.timelines = [];
 			angular.forEach(mediaTimelines, function (mediaTimeline) {
 				var timeline = {
-					guid : mediaTimeline.getMediaObjectId(),
-					name : mediaTimeline.getMediaObjectId(),
-					events : []
-				};
+						guid : mediaTimeline.getMediaObjectId(),
+						name : mediaTimeline.getMediaObjectId(),
+						lines : []
+					},
+					events = [],
+					effectPoints, points;
 
 				angular.forEach(mediaTimeline.getEffects(), function (effect) {
-					timeline.events.push({
-						name : effect.getGuid(),
-						start : effect.getOption('startTick'),
-						duration : effect.getOption('endTick') - effect.getOption('startTick')
-					});
+					if (effect.isInfinite()) {
+						effectPoints = effect.getOption('points');
+						points = [];
+
+						for (var guid in effectPoints) {
+							points.push({
+								id: guid,
+								tick: effectPoints[guid].tick
+							});
+						}
+
+						timeline.lines.push({
+							name : effect.getGuid(),
+							points : points
+						});
+					} else {
+						events.push({
+							name : effect.getGuid(),
+							start : effect.getOption('startTick'),
+							duration : effect.getOption('endTick') - effect.getOption('startTick')
+						});
+					}
 				});
+
+				if (events.length > 0) {
+					timeline.lines.push({ events : events});
+				}
 
 				$scope.timelines.push(timeline);
 			});
