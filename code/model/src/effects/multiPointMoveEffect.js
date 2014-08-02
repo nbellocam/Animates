@@ -29,6 +29,8 @@ function MultiPointMoveEffect(options, builder) {
 		propBuilder = builder || new CompositePropertyBuilder();
 
 		currentOptions = Common.extend(options || {}, defaultOptions);
+		currentOptions.startTick = 0;
+		currentOptions.endTick = -1;
 
 		propBuilder.property('path', PropertyBuilder)
 						.value(currentOptions.path)
