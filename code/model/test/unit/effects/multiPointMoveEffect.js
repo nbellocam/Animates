@@ -45,11 +45,11 @@ describe('MultiPointMoveEffect', function() {
 			effect.getOption('startTick').should.be.exactly(0);
 		});
 
-		it('Should start at the value specified using the constructor', function() {
+		it('Should start always at 0', function() {
 			var startTick = 42,
 				effect = new MultiPointMoveEffect({ 'startTick' : startTick });
 
-			effect.getOption('startTick').should.be.exactly(startTick);
+			effect.getOption('startTick').should.be.exactly(0);
 		});
 	});
 
@@ -60,11 +60,11 @@ describe('MultiPointMoveEffect', function() {
 			effect.getOption('endTick').should.be.exactly(-1);
 		});
 
-		it('Should end at the value specified using the constructor', function() {
+		it('Should end always at -1', function() {
 			var endTick = 42,
 				effect = new MultiPointMoveEffect({ 'endTick' : endTick });
 
-			effect.getOption('endTick').should.be.exactly(endTick);
+			effect.getOption('endTick').should.be.exactly(-1);
 		});
 	});
 
@@ -160,8 +160,8 @@ describe('MultiPointMoveEffect', function() {
 		it('fromJSON should load the object', function() {
 			var effect = new MultiPointMoveEffect(
 								{
-									'startTick' : 100,
-									'endTick' : 200,
+									'startTick' : 0,
+									'endTick' : -1,
 									'points': {
 											'id1' : {
 														'tick' : 5,
@@ -186,9 +186,8 @@ describe('MultiPointMoveEffect', function() {
 			effect2.fromJSON(json);
 			effect2.getGuid().should.equal(effect.getGuid());
 			deserializedOptions = effect2.getOptions();
-			deserializedOptions.should.have.property('startTick', 100);
-			deserializedOptions.should.have.property('endTick', 200);
-			deserializedOptions.should.have.property('startTick', 100);
+			deserializedOptions.should.have.property('startTick', 0);
+			deserializedOptions.should.have.property('endTick', -1);
 			deserializedOptions.points.id1.tick.should.equal(5);
 			deserializedOptions.points.id1.position.x.should.equal(10);
 			deserializedOptions.points.id1.position.y.should.equal(10);
