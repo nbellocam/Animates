@@ -15,8 +15,8 @@ angular.module('animatesApp')
 			}
 		};
 
-		$scope.onTimelineTickChange = function() {
-			localAnimationStateService.setCurrentTick($scope.tick);
+		$scope.onTimelineTickChange = function(tick) {
+			localAnimationStateService.setCurrentTick(tick);
 		};
 
 		$scope.onLocalStateTickChange = function(newVal) {
