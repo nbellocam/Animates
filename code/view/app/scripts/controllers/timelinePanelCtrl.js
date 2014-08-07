@@ -20,12 +20,7 @@ angular.module('animatesApp')
 		};
 
 		$scope.onLocalStateTickChange = function(newVal) {
-			//TODO review if this apply is necesasary
-			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
-				$scope.$apply(function () {
-					$scope.tick = newVal;
-				});
-			} else {
+			if ($scope.tick !== newVal) {
 				$scope.tick = newVal;
 			}
 		};
