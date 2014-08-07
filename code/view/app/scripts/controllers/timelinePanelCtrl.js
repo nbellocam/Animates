@@ -82,4 +82,49 @@ angular.module('animatesApp')
 		$scope.empty = function () {
 			return ($scope.timelines.length === 0);
 		};
+
+		$scope.onPointMove = function (timelineData, pointData, newTick) {
+			console.log('onPointMove');
+			console.log(timelineData);
+			console.log(pointData);
+			console.log(newTick);
+			console.log('------');
+		};
+
+		$scope.onPointClick = function (timelineData, pointData) {
+			console.log('onPointClick');
+			console.log(timelineData);
+			console.log(pointData);
+			console.log('------');
+		};
+
+		$scope.onMultiplePointEventSelected = function (timelineData, eventData) {
+			console.log('onMultiplePointEventSelected');
+			console.log(timelineData);
+			console.log(eventData);
+			console.log('------');
+		};
+
+		$scope.onEventStartChange = function (timelineData, eventData, newStartTick) {
+			console.log('onEventStartChange');
+			console.log(timelineData);
+			console.log(eventData);
+			console.log(newStartTick);
+			console.log('------');
+		};
+
+		$scope.onEventDurationChange = function (timelineData, eventData, newDuration) {
+			console.log('onEventDurationChange');
+			console.log(timelineData);
+			console.log(eventData);
+			console.log(newDuration);
+			console.log('------');
+		};
+
+		$scope.onEventClick = function (timelineData, eventData){
+			console.log('onEventClick');
+			console.log(timelineData);
+			console.log(eventData);
+			console.log('------');
+		};
 	});
