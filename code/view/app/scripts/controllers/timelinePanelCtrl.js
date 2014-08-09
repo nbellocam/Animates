@@ -68,14 +68,18 @@ angular.module('animatesApp')
 					effectPoints, points;
 
 				angular.forEach(mediaTimeline.getEffects(), function (effect) {
+					var pointTick;
+
 					if (effect.isInfinite()) {
 						effectPoints = effect.getOption('points');
 						points = [];
 
 						for (var guid in effectPoints) {
+							pointTick = effectPoints[guid].tick;
+							if ( pointTick !== 0)
 							points.push({
 								data : { id: guid },
-								tick: effectPoints[guid].tick
+								tick: pointTick
 							});
 						}
 
