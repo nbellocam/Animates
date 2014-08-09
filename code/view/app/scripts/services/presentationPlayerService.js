@@ -2,18 +2,22 @@
 
 angular.module('animatesApp')
 	.service('presentationPlayerService', function canvasService($window, $rootScope, animationService, localAnimationStateService) {
-		var fps = 30,
+		var fps = 40,
 			interval = 1000 / fps,
 			timer = null,
 			play = false,
 			_self = this;
 
 		this.play = function () {
+			var lastTick = localAnimationStateService.getCurrentTick();
 			function draw() {
 				if (play) {
 					return setTimeout(function() {
-								timer = $window.requestAnimationFrame(draw);
-								localAnimationStateService.setCurrentTick(localAnimationStateService.getCurrentTick() + 1);
+								if (play) {
+									$window.cancelAnimationFrame(timer);
+									timer = $window.requestAnimationFrame(draw);
+									localAnimationStateService.setCurrentTick(lastTick++);
+								}
 							}, interval);
 				}
 			}
@@ -26,9 +30,9 @@ angular.module('animatesApp')
 		};
 
 		this.pause = function () {
+			play = false;
 			$window.cancelAnimationFrame(timer);
 			timer = null;
-			play = false;
 			animationService.isEditingEnable = true;
 		};
 

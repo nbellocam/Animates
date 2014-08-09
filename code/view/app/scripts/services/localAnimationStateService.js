@@ -26,12 +26,7 @@ angular.module('animatesApp')
 		};
 
 		this.setCurrentTick = function (tick) {
-			var finalTick = tick;
-			if (tick >= 0) {
-				finalTick = tick;
-			} else {
-				finalTick = 0;
-			}
+			var finalTick = (tick >= 0) ? tick : 0;
 
 			if (finalTick !== currentTick) {
 				currentTick = finalTick;

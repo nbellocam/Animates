@@ -76,11 +76,12 @@ angular.module('animatesApp')
 
 						for (var guid in effectPoints) {
 							pointTick = effectPoints[guid].tick;
-							if ( pointTick !== 0)
-							points.push({
-								data : { id: guid },
-								tick: pointTick
-							});
+							if ( pointTick !== 0) {
+								points.push({
+									data : { id: guid },
+									tick: pointTick
+								});
+							}
 						}
 
 						timeline.lines.push({
