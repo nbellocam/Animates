@@ -4,6 +4,13 @@ angular.module('animatesApp')
 	.controller('TimelinePanelCtrl', function($scope, localAnimationStateService, animationService) {
 		$scope.timelines = [];
 		$scope.tick = 0;
+		$scope.disable = false;
+
+		$scope.$watch(function() {
+				return animationService.isEditingEnable;
+			}, function() {
+				$scope.disable = !animationService.isEditingEnable;
+			});
 
 		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation) {
 			if (target === 'Effect' || target === 'MediaFrame') {

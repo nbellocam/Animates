@@ -9,7 +9,6 @@ angular.module('animatesApp')
 			_self = this;
 
 		this.play = function () {
-			play = true;
 			function draw() {
 				if (play) {
 					return setTimeout(function() {
@@ -18,13 +17,19 @@ angular.module('animatesApp')
 							}, interval);
 				}
 			}
-			draw();
+
+			if (!play) {
+				play = true;
+				animationService.isEditingEnable = false;
+				draw();
+			}
 		};
 
 		this.pause = function () {
 			$window.cancelAnimationFrame(timer);
 			timer = null;
 			play = false;
+			animationService.isEditingEnable = true;
 		};
 
 		this.stop = function () {

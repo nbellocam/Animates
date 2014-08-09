@@ -6,7 +6,8 @@ angular.module('animatesApp')
 			_self = this;
 
 		this.Model = $window.model;
-			
+		this.isEditingEnable = true;
+
 		function createAnimation() {
 			var canvas = new _self.Model.Canvas({
 					height: canvasConfig.canvasDefaultSize.height,
@@ -21,7 +22,7 @@ angular.module('animatesApp')
 
 			return animationInstance;
 		}
-		
+
 		this.getInstance = function getInstance() {
 			return animationInstance || createAnimation();
 		};
