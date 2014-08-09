@@ -31,7 +31,14 @@ angular.module('animatesApp')
 		}
 
 		$scope.loading = true;
+		$scope.playing = false;
 		$scope.errorMessage = undefined;
+
+		$scope.$watch(function() {
+				return animationService.isEditingEnable;
+			}, function() {
+				$scope.playing = !animationService.isEditingEnable;
+			});
 
 		$scope.initializeAnimation = function initializeAnimation(id) {
 			$scope.loading = true;

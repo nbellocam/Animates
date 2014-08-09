@@ -84,6 +84,7 @@
       <!-- Add your site or application content here -->
       <div class="ui-layout-center" ng-hide="loading">
         <canvas id="mainCanvas" ng-controller="CanvasCtrl"></canvas>
+        <div class="canvas-blocker" ng-show="playing"></div>
       </div>
       <div class="ui-layout-west" ng-hide="loading"><div ng-include="'views/toolbarPanel.html'"></div></div>
       <div class="ui-layout-south" ng-hide="loading"><div ng-include="'views/timelinePanel.html'"></div></div>

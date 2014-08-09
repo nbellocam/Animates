@@ -2,10 +2,12 @@ extends layouts/editor-layout
 
 block content
   include includes/editor-navbar
-  
+
   .outer-layout-center(ng-controller='EditorCtrl', ng-init='initializeAnimation("#{project.id}");')
     .ui-layout-center(ng-hide='loading')
       canvas#mainCanvas(ng-controller='CanvasCtrl')
+
+      .canvas-blocker(ng-show='playing')
     .ui-layout-west(ng-hide='loading')
       div(ng-include='\'partials/editor/toolbarPanel.html\'')
     .ui-layout-south(ng-hide='loading')
