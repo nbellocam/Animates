@@ -3,7 +3,10 @@
 angular.module('animatesApp')
 	.constant('canvasConfig', {
 		canvasInitialConfig: {
-			backgroundColor: '#F3F3F3'
+			backgroundColor: '#F3F3F3',
+			selection : false,
+			centeredRotation : true,
+			centeredScaling: true,
 		},
 		viewportInitialConfig: {
 			fill: '#FFF',
