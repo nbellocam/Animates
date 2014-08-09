@@ -35,7 +35,7 @@ function straightPathStrategy (currentTick, points) {
 			xDelta = (endX - startX) * currentPathPercentage,
 			yDelta = (endY - startY) * currentPathPercentage;
 
-		return { 'x' : startX + xDelta, 'y' : startY + yDelta};
+		return { 'x' : startX + Math.round(xDelta), 'y' : startY + Math.round(yDelta) };
 	}
 
 	var segment = segmentHelper.getSegment(currentTick, points);
