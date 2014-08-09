@@ -12,7 +12,17 @@ angular.module('animatesApp')
 				$scope.disable = !animationService.isEditingEnable;
 			});
 
-		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation) {
+		var applyEffectUpdateOperation = function applyEffectUpdateOperation(mediaObjectId, effectId, updatedOptions) {
+			animationService.getInstance().applyOperation('Effect', 'Update', {
+				mediaObjectId :  mediaObjectId,
+				effectId : effectId,
+				options: updatedOptions
+			}, {
+				sender: 'TimelinePanelCtrl'
+			});
+		};
+
+		var animationUpdateEventHandler = function animationUpdateEventHandler(target, operation) {
 			if (target === 'Effect' || target === 'MediaFrame') {
 				$scope.adaptMediaTimelines();
 			} else if (target === 'Shape') {
@@ -22,8 +32,12 @@ angular.module('animatesApp')
 			}
 		};
 
+		var getMediaTimeline = function getMediaTimeline(timelineId) {
+			return animationService.getInstance().timeline.getMediaTimeline(timelineId);
+		};
+
 		var getEffect = function getEffect(timelineId, eventDataId) {
-			var mediaTimeline = animationService.getInstance().timeline.getMediaTimeline(timelineId);
+			var mediaTimeline = getMediaTimeline(timelineId);
 			if (mediaTimeline) {
 				return mediaTimeline.getEffect(eventDataId);
 			}
@@ -112,48 +126,50 @@ angular.module('animatesApp')
 		};
 
 		$scope.onPointMove = function (timelineData, eventData, pointData, newTick) {
-			console.log('onPointMove');
-			console.log(pointData);
-			console.log(newTick);
+			var mediaTimeline = getMediaTimeline(timelineData.id);
+			if (mediaTimeline) {
+				var updatedOptions = {},
+					pointKey = 'points.' + pointData.id + '.tick';
 
-			var effect = getEffect(timelineData.id, eventData.id);
+				updatedOptions[pointKey] = newTick;
 
-			console.log(effect);
-			console.log('------');
+				applyEffectUpdateOperation(mediaTimeline.getMediaObjectId(), eventData.id, updatedOptions);
+			}
 		};
 
-		$scope.onPointClick = function (timelineData, eventData, pointData) {
-			console.log('onPointClick');
-			console.log(pointData);
-
-			var effect = getEffect(timelineData.id, eventData.id);
-
-			console.log(effect);
-			console.log('------');
-		};
+		//html: point-click="onPointClick(timelineData, eventData, pointData)"
+		//$scope.onPointClick = function (timelineData, eventData, pointData) {
+		//	console.log('onPointClick');
+		//	console.log(pointData);
+		//
+		//	var effect = getEffect(timelineData.id, eventData.id);
+		//
+		//	console.log(effect);
+		//	console.log('------');
+		//};
 
 		$scope.onMultiplePointEventSelected = function (timelineData, eventData) {
 			changeSelectedEffect(timelineData.id, eventData.id);
 		};
 
 		$scope.onEventStartChange = function (timelineData, eventData, newStartTick) {
-			console.log('onEventStartChange');
-			console.log(newStartTick);
+			var mediaTimeline = getMediaTimeline(timelineData.id);
+			if (mediaTimeline) {
+				var updatedOptions = { startTick: newStartTick };
 
-			var effect = getEffect(timelineData.id, eventData.id);
-
-			console.log(effect);
-			console.log('------');
+				applyEffectUpdateOperation(mediaTimeline.getMediaObjectId(), eventData.id, updatedOptions);
+			}
 		};
 
 		$scope.onEventDurationChange = function (timelineData, eventData, newDuration) {
-			console.log('onEventDurationChange');
-			console.log(newDuration);
+			var mediaTimeline = getMediaTimeline(timelineData.id);
+			if (mediaTimeline) {
+				var effect = mediaTimeline.getEffect(eventData.id),
+					newEndTick = effect.getOption('startTick') + newDuration,
+					updatedOptions = { endTick: newEndTick };
 
-			var effect = getEffect(timelineData.id, eventData.id);
-
-			console.log(effect);
-			console.log('------');
+				applyEffectUpdateOperation(mediaTimeline.getMediaObjectId(), eventData.id, updatedOptions);
+			}
 		};
 
 		$scope.onEventClick = function (timelineData, eventData){
