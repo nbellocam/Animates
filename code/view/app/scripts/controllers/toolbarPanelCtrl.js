@@ -6,6 +6,12 @@ angular.module('animatesApp')
 			animationService.getInstance().applyOperation(target, operation, params, { sender: 'toolbar' });
 		}
 
+		$scope.$watch(function() {
+				return animationService.isEditingEnable;
+			}, function() {
+				$scope.playing = !animationService.isEditingEnable;
+			});
+
 		$scope.addType = function(type) {
 			var mediaObject = toolbarService.createMediaObject(type);
 

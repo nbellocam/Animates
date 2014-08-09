@@ -1,17 +1,17 @@
 <div class="btn-toolbar" role="toolbar" ng-controller="ToolbarPanelCtrl">
   <div class="btn-group-vertical">
-    <button type="button" class="btn btn-default" ng-repeat="type in registeredTypes" ng-click="addType(type);" ><i ng-class="getClassForType(type);"></i></button>
+    <button type="button" class="btn btn-default" ng-repeat="type in registeredTypes" ng-disabled="playing" ng-click="addType(type);" ><i ng-class="getClassForType(type);"></i></button>
   </div>
   <br/>
   <br/>
   <div class="btn-group-vertical">
     <button type="button" class="btn btn-default" ng-click="stepBackward();"><span class="glyphicon glyphicon-step-backward"></span></button>
-    <button type="button" class="btn btn-default" ng-click="play();"><span class="glyphicon glyphicon-play"></span></button>
+    <button type="button" class="btn btn-default" ng-disabled="playing" ng-click="play();"><span class="glyphicon glyphicon-play"></span></button>
     <button type="button" class="btn btn-default" ng-click="stepForward();"><span class="glyphicon glyphicon-step-forward"></span></button>
     <button type="button" class="btn btn-default" ng-click="pause();"><span class="glyphicon glyphicon-pause"></span></button>
     <button type="button" class="btn btn-default" ng-click="stop();"><span class="glyphicon glyphicon-stop"></span></button>
-    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button>
-    <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-share-alt"></span></button>
-    <button type="button" class="btn btn-default" ng-click="removeElements();"><span class="glyphicon glyphicon-trash"></span></button>
+    <button type="button" class="btn btn-default" ng-disabled="playing" ><span class="glyphicon glyphicon-download-alt"></span></button>
+    <button type="button" class="btn btn-default" ng-disabled="playing" ><span class="glyphicon glyphicon-share-alt"></span></button>
+    <button type="button" class="btn btn-default" ng-disabled="playing" ng-click="removeElements();"><span class="glyphicon glyphicon-trash"></span></button>
   </div>
 </div >
