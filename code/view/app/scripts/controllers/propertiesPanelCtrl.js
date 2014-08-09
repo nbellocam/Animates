@@ -29,7 +29,7 @@ angular.module('animatesApp')
 			$scope.mediaObjectId = null;
 		};
 
-		var animationSelectedShapeEventHandler = function animationSelectedShapeEventHandler (canvasShape) {
+		var selectedShapeChangeEventHandler = function selectedShapeChangeEventHandler (canvasShape) {
 			if (canvasShape === null) {
 				$scope.properties = null;
 				$scope.groupProperties = null;
@@ -44,38 +44,50 @@ angular.module('animatesApp')
 
 				$scope.groupProperties = null;
 			} else {
-
 				$scope.groupProperties = createGroupProperties(canvasShape);
 				$scope.properties = null;
 				$scope.mediaObjectId = null;
 			}
-			
+
 			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
 				$scope.$apply();
 			}
+		};
 
+		var selectedEffectChangeEventHandler = function selectedEffectChangeEventHandler(effect) {
+			$scope.properties = null;
+			$scope.groupProperties = null;
+			$scope.mediaObjectId = null;
+
+			if (effect === null) {
+			} else {
+			}
+
+			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
+				$scope.$apply();
+			}
 		};
 
 		animationService.getInstance().addUpdateObserver('PropertiesPanelCtrl', animationUpdateEventHandler);
 		animationService.getInstance().addLoadCompleteObserver('PropertiesPanelCtrl', animationLoadEventHandler);
-		localAnimationStateService.addSelectedShapeObserver('PropertiesPanelCtrl', animationSelectedShapeEventHandler);
+		localAnimationStateService.addSelectedShapeObserver('PropertiesPanelCtrl', selectedShapeChangeEventHandler);
+		localAnimationStateService.addSelectedEffectObserver('PropertiesPanelCtrl', selectedEffectChangeEventHandler);
 
 		$scope.empty = function () {
 			if (!$scope.isGroup()) {
-				return ($scope.properties === null);
+				return $scope.properties === null;
 			} else {
-				return ($scope.groupProperties === null);
+				return $scope.groupProperties === null;
 			}
 		};
 
 		$scope.isGroup = function () {
-			var isGroup = ($scope.groupProperties !== null);
-			return isGroup;
+			return $scope.groupProperties !== null;
 		};
 
 		$scope.onUpdate = function (key, newValue) {
 			var values = {};
-			
+
 			values[key] = newValue;
 			propertyUpdateManagerService.syncProperties($scope.mediaObjectId, values, 'PropertiesPanelCtrl');
 		};
