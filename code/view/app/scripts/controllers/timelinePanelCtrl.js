@@ -108,58 +108,50 @@ angular.module('animatesApp')
 
 		$scope.onPointMove = function (timelineData, eventData, pointData, newTick) {
 			console.log('onPointMove');
-			console.log(timelineData);
 			console.log(pointData);
 			console.log(newTick);
-			console.log('------');
+
 			var effect = getEffect(timelineData.id, eventData.id);
+
 			console.log(effect);
+			console.log('------');
 		};
 
 		$scope.onPointClick = function (timelineData, eventData, pointData) {
 			console.log('onPointClick');
-			console.log(timelineData);
 			console.log(pointData);
-			console.log('------');
+
 			var effect = getEffect(timelineData.id, eventData.id);
+
 			console.log(effect);
+			console.log('------');
 		};
 
 		$scope.onMultiplePointEventSelected = function (timelineData, eventData) {
-			console.log('onMultiplePointEventSelected');
-			console.log(timelineData);
-			console.log(eventData);
-			console.log('------');
-
 			changeSelectedEffect(timelineData.id, eventData.id);
 		};
 
 		$scope.onEventStartChange = function (timelineData, eventData, newStartTick) {
 			console.log('onEventStartChange');
-			console.log(timelineData);
-			console.log(eventData);
 			console.log(newStartTick);
-			console.log('------');
+
 			var effect = getEffect(timelineData.id, eventData.id);
+
 			console.log(effect);
+			console.log('------');
 		};
 
 		$scope.onEventDurationChange = function (timelineData, eventData, newDuration) {
 			console.log('onEventDurationChange');
-			console.log(timelineData);
-			console.log(eventData);
 			console.log(newDuration);
-			console.log('------');
+
 			var effect = getEffect(timelineData.id, eventData.id);
+
 			console.log(effect);
+			console.log('------');
 		};
 
 		$scope.onEventClick = function (timelineData, eventData){
-			console.log('onEventClick');
-			console.log(timelineData);
-			console.log(eventData);
-			console.log('------');
-
 			changeSelectedEffect(timelineData.id, eventData.id);
 		};
 	});
