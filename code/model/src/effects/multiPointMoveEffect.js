@@ -73,6 +73,18 @@ function MultiPointMoveEffect(options, builder) {
 		if ((name === 'startTick') || (name === 'endTick')) {
 			throw new Error("The property '" + name + "' cannot be set.");
 		} else {
+			if (name.slice(0,6) === 'points' && name.slice(-4) === 'tick') {
+				// Check if a point exists in the same tick and then remove the old point.
+				var points = _self.getOption('points');
+
+				for (var key in points) {
+					if (points[key].tick === value) {
+						// A point already exist in the same tick, remove it
+						this.base_setOption('points.' + key , undefined);
+					}
+				}
+			}
+
 			this.base_setOption(name, value);
 		}
 	};

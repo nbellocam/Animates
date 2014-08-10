@@ -12,13 +12,14 @@ angular.module('animatesApp')
 				$scope.disable = !animationService.isEditingEnable;
 			});
 
-		var applyEffectUpdateOperation = function applyEffectUpdateOperation(mediaObjectId, effectId, updatedOptions) {
+		var applyEffectUpdateOperation = function applyEffectUpdateOperation(mediaObjectId, effectId, updatedOptions, sender) {
+			var senderId = (sender) ? ('-' + sender) : '';
 			animationService.getInstance().applyOperation('Effect', 'Update', {
 				mediaObjectId :  mediaObjectId,
 				effectId : effectId,
 				options: updatedOptions
 			}, {
-				sender: 'TimelinePanelCtrl'
+				sender: 'TimelinePanelCtrl' + senderId
 			});
 		};
 
@@ -133,7 +134,7 @@ angular.module('animatesApp')
 
 				updatedOptions[pointKey] = newTick;
 
-				applyEffectUpdateOperation(mediaTimeline.getMediaObjectId(), eventData.id, updatedOptions);
+				applyEffectUpdateOperation(mediaTimeline.getMediaObjectId(), eventData.id, updatedOptions, 'point');
 			}
 		};
 

@@ -28,7 +28,7 @@ function DictionaryProperty () {
 		for (var i = 0; i < names.length; i++) {
 			values[names[i]] = _self.get(names[i]);
 		}
-			
+
 		return values;
 	};
 
@@ -41,11 +41,15 @@ function DictionaryProperty () {
 
 		if (schema) {
 			try {
-				property = _self.get(name);
-				property.value(value);
+				if (value === undefined && name.indexOf('.') === -1) {
+					_self.remove(name);
+				} else {
+					property = _self.get(name);
+					property.value(value);
+				}
 			} catch (err) {
 				// Just try to add it when its property name (not a path)
-				if (name.split('.').length > 0) {
+				if (name.indexOf('.') === -1) {
 					var newProp = schema.create().clone();
 					newProp.valuesFromJSON(value);
 					base_add(name, newProp);

@@ -9,6 +9,10 @@ function CompositeProperty () {
 		properties[name] = property;
 	};
 
+	this.remove = function add (name) {
+		delete properties[name];
+	};
+
 	this.length = function () {
 		return Object.keys(properties).length;
 	};
@@ -25,13 +29,13 @@ function CompositeProperty () {
 				if (property.get) {
 					property = property.get(parts[i]);
 				} else {
-					throw new Error("Property '" + parts[i] + "' could not be found.");	
+					throw new Error("Property '" + parts[i] + "' could not be found.");
 				}
 			}
 			return property;
 		} else {
 			throw new Error("Property '" + parts[0] + "' could not be found.");
-		}	
+		}
 	};
 
 	this.getValue = function (name) {
@@ -43,7 +47,7 @@ function CompositeProperty () {
 		} else {
 			throw new Error("Property '" + name + "' could not be found.");
 		}
-		
+
 	};
 
 	this.setValue = function (name, value) {
@@ -66,7 +70,7 @@ function CompositeProperty () {
 			}
 		} else {
 			throw new Error("Property '" + parts[0] + "' could not be found.");
-		}		
+		}
 	};
 
 	this.names = function (root) {
