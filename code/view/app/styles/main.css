@@ -54,3 +54,8 @@ body {
 	padding-top: 3px;
 	width: 100%;
 }
+
+
+.timelinePane {
+	padding: 10px !important;
+}
