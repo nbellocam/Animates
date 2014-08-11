@@ -397,10 +397,12 @@ angular.module('animates.angular-timeline', [])
 		return {
 			restrict: 'E',
 			template:
+						'<span class="timetooltip"></span>' +
 						'<div class="timelines-tick-navigator">' +
 							'<div class="tickHandlerHeader" ></div>' +
 							'<div class="tickHandlerScrollerContainer" >' +
 								'<div class="tickHandlerContainer" style="width:{{maxTick}}px;">' +
+									'<div class="ruler"></div>' +
 									'<div class="tickHandler" style="left:{{tick-5}}px;" ng-class="{cursor: !isDisable}"></div>' +
 								'</div>' +
 							'</div>' +
@@ -440,11 +442,39 @@ angular.module('animates.angular-timeline', [])
 				eventClick: '&',
 				pointMove: '&',
 				pointClick: '&',
-				multiplepointeventSelected: '&'
+				multiplepointeventSelected: '&',
+				tickRatio: '='
 			},
 			controller : function ($scope, $element) {
+				var ruleElement = angular.element($element[0].querySelector('.ruler'));
+
 				$scope.tick = $scope.externalTick;
 				$scope.maxTick = 5000;
+
+
+				$scope.drawRule =  function () {
+					// Horizontal ruler ticks
+					var tickLabelPos = 0,
+						width = $scope.maxTick,
+						newTickLabel = '',
+						interval = $scope.tickRatio ? $scope.tickRatio / 10 : 5;
+
+					ruleElement[0].innerHTML = '';
+
+					while ( tickLabelPos <= width ) {
+						if ((( tickLabelPos ) %50 ) === 0 ) {
+							newTickLabel = '<div class="tickLabel"></div>';
+							ruleElement.append(angular.element(newTickLabel).css( 'left', tickLabelPos+'px' ));
+						} else if ((( tickLabelPos) %10 ) === 0 ) {
+							newTickLabel = '<div class="tickMajor"></div>';
+							ruleElement.append(angular.element(newTickLabel).css('left',tickLabelPos+'px'));
+						} else if ((( tickLabelPos) %5 ) === 0 ) {
+							newTickLabel = '<div class="tickMinor"></div>';
+							ruleElement.append(angular.element(newTickLabel).css( 'left', tickLabelPos+'px' ));
+						}
+						tickLabelPos = (tickLabelPos + interval);
+					}//hz ticks
+				};
 
 				$scope.$watch('externalTick', function() {
 
@@ -455,9 +485,40 @@ angular.module('animates.angular-timeline', [])
 					}
 				});
 
+				$scope.$watch('maxTick', function () {
+					$scope.drawRule();
+				});
+
 				$scope.$watchCollection('data', function() {
 					$scope.updateHeaders();
 				});
+
+				$scope.getTime = function (tick) {
+					if ($scope.tickRatio) {
+						return (tick / $scope.tickRatio);
+					} else {
+						return '00:00:00';
+					}
+				};
+
+				$scope.formatTime = function (tick) {
+					if ($scope.tickRatio) {
+						var totalSeconds = $scope.getTime(tick),
+							hours   = Math.floor(totalSeconds / 3600),
+							minutes = Math.floor((totalSeconds - (hours * 3600)) / 60),
+							seconds = totalSeconds - (hours * 3600) - (minutes * 60);
+
+						seconds = seconds.toFixed(3);
+
+						if (hours   < 10) {hours   = '0' + hours;}
+						if (minutes < 10) {minutes = '0' + minutes;}
+						if (seconds < 10) {seconds = '0' + seconds;}
+
+						return (hours + ':' + minutes + ':' + seconds);
+					} else {
+						return 'Tick: ' + tick;
+					}
+				};
 
 				$scope.updateHeaders = function () {
 					$timeout(function () {
@@ -469,6 +530,7 @@ angular.module('animates.angular-timeline', [])
 						});
 					});
 				};
+
 
 				$scope.internalTickChange = function () {
 					$scope.$apply(function (){ $scope.externalTick = $scope.tick;});
@@ -541,15 +603,18 @@ angular.module('animates.angular-timeline', [])
 				post : function ($scope, element) {
 
 					$scope.updateHeaders();
+					$scope.drawRule();
 
 					var x, originalTick,
 						tickHandlerElement = angular.element(element[0].querySelector('.tickHandler')),
 						timelineContainerElement = angular.element(element[0].querySelector('.timelinesContainer')),
-						tickHandlerScrollerContainerElement = angular.element(element[0].querySelector('.tickHandlerScrollerContainer'));
+						tickHandlerScrollerContainerElement = angular.element(element[0].querySelector('.tickHandlerScrollerContainer')),
+						tooltipElement = angular.element(element[0].querySelector('.timetooltip')),
+						tickIsMoving = false;
 
 					function scrollTime(toTick) {
 						// Validate bounds
-						if ((toTick < 0) || (toTick > $scope.maxTick)) {
+						if ((toTick < 0)) {
 							return;
 						}
 
@@ -559,12 +624,12 @@ angular.module('animates.angular-timeline', [])
 					}
 
 					function setTick(newTick) {
-						console.log('new' + newTick);
 						$scope.$apply(function () {
 							if (newTick < 0) {
 								$scope.tick = 0;
-							} else if (newTick > $scope.maxTick) {
+							} else if (newTick >= $scope.maxTick) {
 								$scope.tick = $scope.maxTick;
+								$scope.maxTick += 100;
 							} else {
 								$scope.tick = newTick;
 							}
@@ -588,13 +653,41 @@ angular.module('animates.angular-timeline', [])
 					});
 
 					tickHandlerScrollerContainerElement.on('mousedown', function () {
-						var rect = getRect(tickHandlerScrollerContainerElement);
+						if (!$scope.isDisable) {
+							var rect = getRect(tickHandlerScrollerContainerElement);
 						
-						setTick(getCurrentScrollPos() + event.pageX - rect.left);
+							setTick(getCurrentScrollPos() + event.pageX - rect.left);
+						}
+					});
+
+					tickHandlerScrollerContainerElement.on('mouseover', function (event) {
+						function followMouse (evt) {
+							var rect = getRect(tickHandlerScrollerContainerElement),
+								currentTick = getCurrentScrollPos() + evt.pageX - rect.left;
+
+							tooltipElement.html($scope.formatTime(currentTick));
+							tooltipElement.css({
+									'left' : (evt.pageX - (tooltipElement.prop('offsetWidth') / 2)) + 'px',
+									'top': (evt.pageY - 5 - tooltipElement.prop('offsetHeight')) + 'px'
+								});
+
+							tooltipElement.addClass('active');
+						}
+						followMouse(event);
+						$document.on('mousemove', followMouse);
+					});
+
+					tickHandlerScrollerContainerElement.on('mouseout', function () {
+						if (!tickIsMoving) {
+							$document.unbind('mousemove');
+						}
+
+						tooltipElement.removeClass('active');
 					});
 
 					tickHandlerElement.on('mousedown', function(event) {
 						if (!$scope.isDisable) {
+							tickIsMoving = true;
 							tickHandlerElement.addClass('moving');
 
 							// Prevent default dragging of selected content
@@ -635,6 +728,7 @@ angular.module('animates.angular-timeline', [])
 						}
 
 						tickHandlerElement.removeClass('moving');
+						tickIsMoving = false;
 					}
 				}
 			}
