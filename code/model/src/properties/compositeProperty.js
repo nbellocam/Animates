@@ -5,11 +5,11 @@ function CompositeProperty () {
 	var properties = {},
 		_self = this;
 
-	this.add = function add (name, property) {
+	this.add = function (name, property) {
 		properties[name] = property;
 	};
 
-	this.remove = function add (name) {
+	this.remove = function (name) {
 		delete properties[name];
 	};
 
