@@ -158,7 +158,6 @@ function Effect (options, builder) {
 		currentOptions.setValue(name, value);
 	};
 
-
 	/**
 	* Get the options values
 	* @return {Object} The current properties

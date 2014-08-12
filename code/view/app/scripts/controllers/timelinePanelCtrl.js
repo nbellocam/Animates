@@ -37,19 +37,14 @@ angular.module('animatesApp')
 			return animationService.getInstance().timeline.getMediaTimeline(timelineId);
 		};
 
-		var getEffect = function getEffect(timelineId, eventDataId) {
+		var changeSelectedEffect = function changeSelectedEffect(timelineId, eventDataId) {
 			var mediaTimeline = getMediaTimeline(timelineId);
 			if (mediaTimeline) {
-				return mediaTimeline.getEffect(eventDataId);
-			}
-
-			return undefined;
-		};
-
-		var changeSelectedEffect = function changeSelectedEffect(timelineId, eventDataId) {
-			var effect = getEffect(timelineId, eventDataId);
-			if (effect) {
-				localAnimationStateService.setSelectedEffect(effect);
+				var effect = mediaTimeline.getEffect(eventDataId);
+				if (effect) {
+					localAnimationStateService.clearAllSelected();
+					localAnimationStateService.setSelectedEffect(effect, mediaTimeline.getMediaObjectId());
+				}
 			}
 		};
 

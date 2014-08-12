@@ -172,19 +172,21 @@ angular.module('animatesApp')
 					selectedShape = null;
 					$rootScope.$broadcast('selectedShapeChange', null);
 				}*/
-				localAnimationStateService.setSelectedShape(null);
+
+				localAnimationStateService.clearAllSelected();
 			});
 
 			canvas.on('selection:created', function(event) {
+				localAnimationStateService.clearAllSelected();
 				localAnimationStateService.setSelectedShape(event.target);
 			});
 
 			canvas.on('object:selected', function(event) {
+				localAnimationStateService.clearAllSelected();
+
 				if (event.target)
 				{
 					localAnimationStateService.setSelectedShape(event.target);
-				} else {
-					localAnimationStateService.setSelectedShape(null);
 				}
 			});
 
