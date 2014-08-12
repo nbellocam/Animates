@@ -1,8 +1,10 @@
+/*global $*/
 'use strict';
 
 angular.module('animatesApp')
 	.controller('EditorCtrl', function EditorCtrl($scope, $timeout, canvasService, animationService, serverService) {
 		function initializeLayout() {
+
 			angular.element(document).ready(function () {
 				angular.element('body').layout({
 					spacing: 0,
@@ -17,7 +19,11 @@ angular.module('animatesApp')
 						resizable:false
 					},
 					south:{
-						size: 130
+						size: 230,
+						onresize : function (panelName, element) {
+							var pane = $(element);
+							$('animates-timelines').css('height', pane.height() - (pane.outerHeight() - pane.height()) + 'px');
+						}
 					},
 					center: {
 						onresize : function (panelName, element, state) {
@@ -25,7 +31,7 @@ angular.module('animatesApp')
 						}
 					}
 				});
-
+				innerLayout.resizeAll();
 				canvasService.updateSize(innerLayout.state.center.innerHeight, innerLayout.state.center.innerWidth);
 			});
 		}
