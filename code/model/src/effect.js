@@ -158,9 +158,22 @@ function Effect (options, builder) {
 		currentOptions.setValue(name, value);
 	};
 
-	this.getOptions = function () {
+
+	/**
+	* Get the options values
+	* @return {Object} The current properties
+	*/
+	this.getOptions = function getOptions() {
 		return currentOptions.valuesToJSON();
-		// TODO esto no va mas;
+		// TODO esto no va mas
+	};
+
+	/**
+	* Get the properties schema with types and values
+	* @return {Object} The current properties
+	*/
+	this.getPropertiesSchema = function getPropertiesSchema () {
+		return currentOptions.clone();
 	};
 
 	this.setOptions = function (options) {
