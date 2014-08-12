@@ -7,6 +7,7 @@ angular.module('animatesApp')
 			selectedShape = null,
 			selectedShapeObservers = {},
 			selectedEffect = null,
+			selectedMediaObjectId = null,
 			selectedEffectObservers = {};
 
 		animationService.getInstance().addLoadCompleteObserver('localAnimationStateService', function onAnimationLoad() {
@@ -59,16 +60,27 @@ angular.module('animatesApp')
 			return selectedShape;
 		};
 
-		this.setSelectedEffect = function (effect) {
+		this.setSelectedEffect = function (effect, mediaObjectId) {
 			selectedEffect = effect;
+			selectedMediaObjectId = mediaObjectId;
 			for (var observerId in selectedEffectObservers) {
 				if (selectedEffectObservers.hasOwnProperty(observerId)) {
-					selectedEffectObservers[observerId](selectedEffect);
+					selectedEffectObservers[observerId](selectedEffect, selectedMediaObjectId);
 				}
 			}
 		};
 
 		this.getSelectedEffect = function () {
 			return selectedEffect;
+		};
+
+		this.getSelectedMediaObjectId = function () {
+			return selectedMediaObjectId;
+		};
+
+		this.clearAllSelected = function () {
+			selectedShape = null;
+			selectedEffect = null;
+			selectedMediaObjectId = null;
 		};
 	});

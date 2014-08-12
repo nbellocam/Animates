@@ -1,18 +1,29 @@
   <div ng-controller="PropertiesPanelCtrl" class="panel propertiesPanel">
-    <div ng-show="!isGroup()">
-      <h4>Properties</h4>
-      <table class="table table-striped" ng-show="!empty()">
-        <tr ng-repeat="key in properties.names();">
+    <div ng-show="isShape()">
+      <h4>Shape's Properties</h4>
+      <table class="table table-striped">
+        <tr ng-repeat="key in shapeProperties.names();">
           <td>{{ key }}</td>
           <td>
-            <animates-Property propkey="key" prop="properties.get(key)" updatehandler="onUpdate(key, value)"></animates-Property>
+            <animates-Property propkey="key" prop="shapeProperties.get(key)" updatehandler="onShapeUpdate(key, value)"></animates-Property>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div ng-show="isEffect()">
+      <h4>Effect's Properties</h4>
+      <table class="table table-striped">
+        <tr ng-repeat="key in effectProperties.names();">
+          <td>{{ key }}</td>
+          <td>
+            <animates-Property propkey="key" prop="effectProperties.get(key)" updatehandler="onEffectUpdate(key, value)"></animates-Property>
           </td>
         </tr>
       </table>
     </div>
     <div ng-show="isGroup()">
       <h4>Group properties</h4>
-      <table class="table table-striped" ng-show="!empty()">
+      <table class="table table-striped">
         <tr ng-repeat="(key, value) in groupProperties">
           <td>{{ key }}</td>
           <td>{{ value }}</td>
@@ -20,7 +31,7 @@
       </table>
     </div>
     <div>
-      <span ng-show="empty()"> No properties to display</span>
+      <span ng-show="empty()">No properties to display</span>
     </div>
 
   </div>

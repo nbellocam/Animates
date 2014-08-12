@@ -2,9 +2,75 @@
 
 angular.module('animatesApp')
 	.controller('PropertiesPanelCtrl', function PropertiesPanelCtrl($scope, $rootScope, canvasService, animationService, propertyUpdateManagerService, localAnimationStateService, shapeHelper) {
-		$scope.properties = null;
+		$scope.shapeProperties = null;
 		$scope.groupProperties = null;
+		$scope.effectProperties = null;
 		$scope.mediaObjectId = null;
+		$scope.effectId = null;
+
+		//--- Effect related methods ---//
+
+		$scope.isEffect = function () {
+			return !$scope.isEffectEmpty();
+		};
+
+		$scope.isEffectEmpty = function () {
+			return $scope.effectProperties === null;
+		};
+
+		$scope.onEffectUpdate = function (key, newValue) {
+			var updatedOptions = {};
+			updatedOptions[key] = newValue;
+
+			animationService.getInstance().applyOperation('Effect', 'Update', {
+				mediaObjectId :  $scope.mediaObjectId,
+				effectId : $scope.effectId,
+				options: updatedOptions
+			}, {
+				sender: 'PropertiesPanelCtrl'
+			});
+		};
+
+		var cleanEffect = function () {
+			$scope.effectProperties = null;
+			$scope.effectId = null;
+		};
+
+		var selectedEffectChangeEventHandler = function selectedEffectChangeEventHandler(effect, mediaObjectId) {
+			cleanAll();
+
+			if (effect !== undefined) {
+				$scope.effectProperties = effect.getPropertiesSchema();
+				$scope.effectId = effect.getGuid();
+				$scope.mediaObjectId = mediaObjectId;
+			}
+
+			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
+				$scope.$apply();
+			}
+		};
+
+		//--- Shape related methods ---//
+
+		$scope.isShape = function () {
+			return !$scope.isShapeEmpty();
+		};
+
+		$scope.isShapeEmpty = function () {
+			return $scope.shapeProperties === null;
+		};
+
+		var cleanShape = function () {
+			$scope.shapeProperties = null;
+			$scope.mediaObjectId = null;
+		};
+
+		$scope.onShapeUpdate = function (key, newValue) {
+			var values = {};
+
+			values[key] = newValue;
+			propertyUpdateManagerService.syncProperties($scope.mediaObjectId, values, 'PropertiesPanelCtrl');
+		};
 
 		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation, params) {
 			var selectedShapes = localAnimationStateService.getSelectedShape(),
@@ -14,7 +80,7 @@ angular.module('animatesApp')
 				if (shapeHelper.getGuidFromView(selectedShapes) === mediaObjectId) {
 					var mediaFrame = shapeHelper.getMediaFrameFromView(selectedShapes);
 
-					$scope.properties = mediaFrame ? mediaFrame.getPropertiesSchema() : null;
+					$scope.shapeProperties = mediaFrame ? mediaFrame.getPropertiesSchema() : null;
 					if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
 						$scope.$apply();
 					}
@@ -22,74 +88,18 @@ angular.module('animatesApp')
 			}
 		};
 
-		var animationLoadEventHandler = function animationLoadEventHandler () {
-			$scope.properties = null;
-			$scope.properiesName = null;
-			$scope.groupProperties = null;
-			$scope.mediaObjectId = null;
-		};
-
-		var selectedShapeChangeEventHandler = function selectedShapeChangeEventHandler (canvasShape) {
-			if (canvasShape === null) {
-				$scope.properties = null;
-				$scope.groupProperties = null;
-				$scope.mediaObjectId = null;
-			} else if (!canvasShape.isType('group')) {
-				var mediaFrame = shapeHelper.getMediaFrameFromView(canvasShape);
-
-				if (mediaFrame) {
-					$scope.properties = mediaFrame.getPropertiesSchema();
-					$scope.mediaObjectId = shapeHelper.getGuidFromView(canvasShape);
-				}
-
-				$scope.groupProperties = null;
-			} else {
-				$scope.groupProperties = createGroupProperties(canvasShape);
-				$scope.properties = null;
-				$scope.mediaObjectId = null;
-			}
-
-			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
-				$scope.$apply();
-			}
-		};
-
-		var selectedEffectChangeEventHandler = function selectedEffectChangeEventHandler(effect) {
-			$scope.properties = null;
-			$scope.groupProperties = null;
-			$scope.mediaObjectId = null;
-
-			if (effect === null) {
-			} else {
-			}
-
-			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
-				$scope.$apply();
-			}
-		};
-
-		animationService.getInstance().addUpdateObserver('PropertiesPanelCtrl', animationUpdateEventHandler);
-		animationService.getInstance().addLoadCompleteObserver('PropertiesPanelCtrl', animationLoadEventHandler);
-		localAnimationStateService.addSelectedShapeObserver('PropertiesPanelCtrl', selectedShapeChangeEventHandler);
-		localAnimationStateService.addSelectedEffectObserver('PropertiesPanelCtrl', selectedEffectChangeEventHandler);
-
-		$scope.empty = function () {
-			if (!$scope.isGroup()) {
-				return $scope.properties === null;
-			} else {
-				return $scope.groupProperties === null;
-			}
-		};
+		//--- Group related methods ---//
 
 		$scope.isGroup = function () {
-			return $scope.groupProperties !== null;
+			return !$scope.isGroupEmpty();
 		};
 
-		$scope.onUpdate = function (key, newValue) {
-			var values = {};
+		$scope.isGroupEmpty = function () {
+			return $scope.groupProperties === null;
+		};
 
-			values[key] = newValue;
-			propertyUpdateManagerService.syncProperties($scope.mediaObjectId, values, 'PropertiesPanelCtrl');
+		var cleanGroup = function () {
+			$scope.groupProperties = null;
 		};
 
 		var createGroupProperties = function createGroupProperties(fabricGroup) {
@@ -101,4 +111,45 @@ angular.module('animatesApp')
 				'Group y position': fabricGroup.top - canvasPosition.top,
 			};
 		};
+
+		var selectedShapeChangeEventHandler = function selectedShapeChangeEventHandler (canvasShape) {
+			cleanAll();
+
+			if (canvasShape) {
+				if (!canvasShape.isType('group')) {
+					var mediaFrame = shapeHelper.getMediaFrameFromView(canvasShape);
+
+					if (mediaFrame) {
+						$scope.shapeProperties = mediaFrame.getPropertiesSchema();
+						$scope.mediaObjectId = shapeHelper.getGuidFromView(canvasShape);
+					}
+				} else {
+					$scope.groupProperties = createGroupProperties(canvasShape);
+				}
+			}
+
+			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
+				$scope.$apply();
+			}
+		};
+
+		//--- General related methods ---//
+		$scope.isEmpty = function () {
+			return $scope.isGroupEmpty() && $scope.isShapeEmpty() && $scope.isEffectEmpty();
+		};
+
+		var cleanAll = function () {
+			cleanGroup();
+			cleanShape();
+			cleanEffect();
+		};
+
+		var animationLoadEventHandler = function animationLoadEventHandler () {
+			cleanAll();
+		};
+
+		animationService.getInstance().addUpdateObserver('PropertiesPanelCtrl', animationUpdateEventHandler);
+		animationService.getInstance().addLoadCompleteObserver('PropertiesPanelCtrl', animationLoadEventHandler);
+		localAnimationStateService.addSelectedShapeObserver('PropertiesPanelCtrl', selectedShapeChangeEventHandler);
+		localAnimationStateService.addSelectedEffectObserver('PropertiesPanelCtrl', selectedEffectChangeEventHandler);
 	});
