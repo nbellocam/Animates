@@ -410,7 +410,7 @@ angular.module('animates.angular-timeline', [])
 						'<div class="timelines-group">' +
 							'<div class="timelinesHeaders">' +
 								'<div ng-repeat="timeline in data" class="timeline-part timeline-header" data="timeline.data" rel="{{$index}}">' +
-									'<span class="timeline-header-track" title="timeline.name" >{{timeline.name}}</span>' +
+									'<span class="timeline-header-track" title="{{timeline.name}}" >{{timeline.name}}</span>' +
 								'</div>' +
 							'</div>' +
 							'<div class="timelinesContainer">' +
@@ -526,7 +526,12 @@ angular.module('animates.angular-timeline', [])
 							var index = angular.element(timeline).attr('rel'),
 								height = angular.element(timeline)[0].offsetHeight;
 
-							$element[0].querySelector('.timeline-header[rel="' + index + '"]').style.height = height - 1 + 'px';
+							angular.element($element[0]
+								.querySelector('.timeline-header[rel="' + index + '"]'))
+									.css({
+									'line-height' : height + 'px',
+									'height' : height + 'px'
+								});
 						});
 					});
 				};
@@ -609,7 +614,14 @@ angular.module('animates.angular-timeline', [])
 						tickHandlerElement = angular.element(element[0].querySelector('.tickHandler')),
 						timelineContainerElement = angular.element(element[0].querySelector('.timelinesContainer')),
 						tickHandlerScrollerContainerElement = angular.element(element[0].querySelector('.tickHandlerScrollerContainer')),
-						tooltipElement = angular.element(element[0].querySelector('.timetooltip'));
+						tooltipElement = angular.element(element[0].querySelector('.timetooltip')),
+						timelinesHeadersElement = angular.element(element[0].querySelector('.timelinesHeaders')),
+						bodyElement = angular.element($document[0].querySelector('body'));
+
+
+					// append the tooltip to the body so it can be display above any element.
+					tooltipElement.remove();
+					bodyElement.append(tooltipElement);
 
 					function scrollTime(toTick) {
 						// Validate bounds
@@ -658,7 +670,7 @@ angular.module('animates.angular-timeline', [])
 
 						tooltipElement.addClass('active');
 					}
-					
+
 					timelineContainerElement.on('scroll', function () {
 						var tick = timelineContainerElement[0].scrollLeft;
 						scrollTime(tick);

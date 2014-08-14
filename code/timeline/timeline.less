@@ -1,22 +1,22 @@
+.timetooltip {
+  visibility: hidden;
+  white-space: nowrap;
+  position: fixed;
+  background-color: lightgreen;
+  border-radius: 5px;
+  border: 1px solid green;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 3px;
+  z-index: 2003;
+
+    &.active {
+      visibility: visible;
+    }
+}
+  
 animates-timelines {
   display: block;
-
-  .timetooltip {
-    visibility: hidden;
-    white-space: nowrap;
-    position: fixed;
-    background-color: lightgreen;
-    border-radius: 5px;
-    border: 1px solid green;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 3px;
-    z-index: 2003;
-
-      &.active {
-        visibility: visible;
-      }
-  }
 
   .timelines-tick-navigator {
     width : 100%;
@@ -128,9 +128,9 @@ animates-timelines {
       background-color: gray;
       color: white;
       border-right: 1px black dashed;
+      min-height: 100%;
 
       .timeline-header {
-        border-top: 1px dotted lightgray;
         background-color : #999;
         vertical-align: middle;
         overflow: hidden;
@@ -158,6 +158,7 @@ animates-timelines {
       position: relative;
       overflow-x: scroll;
       width: auto;
+      min-height: 100%;
 
       .elementLinesContainer {
         min-height: 30px;
