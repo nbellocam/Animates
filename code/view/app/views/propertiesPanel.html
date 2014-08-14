@@ -1,5 +1,5 @@
   <div ng-controller="PropertiesPanelCtrl" class="panel propertiesPanel">
-    <div ng-show="isShape()">
+    <div ng-if="isShape()">
       <h4>Shape's Properties</h4>
       <table class="table table-striped">
         <tr ng-repeat="key in shapeProperties.names();">
@@ -10,9 +10,10 @@
         </tr>
       </table>
     </div>
-    <div ng-show="isEffect()">
+    <div ng-if="isEffect()">
       <h4>Effect's Properties</h4>
-      <table class="table table-striped">
+      <animates-Effectproperties ng-if="effectIsInfinite" effect-properties="effectProperties" updatehandler="onEffectUpdate(key, value)"></animates-EffectProperties>
+      <table class="table table-striped" ng-if="!effectIsInfinite">
         <tr ng-repeat="key in effectProperties.names();">
           <td>{{ key }}</td>
           <td>
@@ -21,7 +22,7 @@
         </tr>
       </table>
     </div>
-    <div ng-show="isGroup()">
+    <div ng-if="isGroup()">
       <h4>Group properties</h4>
       <table class="table table-striped">
         <tr ng-repeat="(key, value) in groupProperties">
