@@ -40,7 +40,7 @@ angular.module('animatesApp')
 		var selectedEffectChangeEventHandler = function selectedEffectChangeEventHandler(effect, mediaObjectId) {
 			cleanAll();
 
-			if (effect !== undefined) {
+			if (effect !== null) {
 				$scope.effectProperties = effect.getPropertiesSchema();
 				$scope.effectId = effect.getGuid();
 				$scope.effectIsInfinite = effect.isInfinite();
