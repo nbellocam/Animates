@@ -19,7 +19,7 @@ function Circle (options, builder) {
 		propBuilder,
 		properties,
 		defaultOptions = {
-			radius : 100
+			radius : 50
 		};
 
 	this.shape_toJSON = this.toJSON;
