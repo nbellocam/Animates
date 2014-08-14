@@ -5,7 +5,11 @@ angular.module('animatesApp')
 		var typeId = 'Circle';
 
 		function createShape() {
-			return new shapeSyncHelper.Fabric.Circle();
+			var shape = new shapeSyncHelper.Fabric.Circle();
+
+			shape.setOptions({ 'lockUniScaling' : true });
+
+			return shape;
 		}
 
 		shapeCreator.registerShape(typeId, createShape);
