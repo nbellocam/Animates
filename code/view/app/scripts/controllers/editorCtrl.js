@@ -14,6 +14,9 @@ angular.module('animatesApp')
 
 				var innerLayout = angular.element('div.outer-layout-center').layout({
 					applyDefaultStyles: false,
+					east:{
+						size: 280
+					},
 					west:{
 						size: 60,
 						resizable:false
