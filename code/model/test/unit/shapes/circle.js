@@ -31,7 +31,7 @@ describe('Circle', function() {
 			circle.getProperty('border.type').should.equal('solid');
 			circle.getProperty('border.color').should.equal('#000000');
 
-			circle.getProperty('radius').should.equal(100);
+			circle.getProperty('radius').should.equal(50);
 		});
 
 		it('Should set the properties passed in the constructor.', function() {
