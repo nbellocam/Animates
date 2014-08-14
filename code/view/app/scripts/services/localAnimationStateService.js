@@ -47,7 +47,7 @@ angular.module('animatesApp')
 			return mediaTimeline.getStartTick() === currentTick;
 		};
 
-		this.setSelectedShape = function (shape) {
+		var setSelectedShape = function (shape) {
 			selectedShape = shape;
 			for (var observerId in selectedShapeObservers) {
 				if (selectedShapeObservers.hasOwnProperty(observerId)) {
@@ -55,12 +55,13 @@ angular.module('animatesApp')
 				}
 			}
 		};
+		this.setSelectedShape = setSelectedShape;
 
 		this.getSelectedShape = function () {
 			return selectedShape;
 		};
 
-		this.setSelectedEffect = function (effect, mediaObjectId) {
+		var setSelectedEffect = function (effect, mediaObjectId) {
 			selectedEffect = effect;
 			selectedMediaObjectId = mediaObjectId;
 			for (var observerId in selectedEffectObservers) {
@@ -69,6 +70,8 @@ angular.module('animatesApp')
 				}
 			}
 		};
+
+		this.setSelectedEffect = setSelectedEffect;
 
 		this.getSelectedEffect = function () {
 			return selectedEffect;
@@ -79,8 +82,12 @@ angular.module('animatesApp')
 		};
 
 		this.clearAllSelected = function () {
-			selectedShape = null;
-			selectedEffect = null;
-			selectedMediaObjectId = null;
+			if (selectedShape !== null){
+				setSelectedShape(null);
+			}
+
+			if (selectedEffect !== null){
+				setSelectedEffect(null, null);
+			}
 		};
 	});
