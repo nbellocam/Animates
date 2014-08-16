@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('animatesApp')
-	.run(function text(shapeCreator, shapeSync, toolbarService, shapeSyncHelper, shapeHelper) {
+	.run(function text(shapeCreator, shapeSync, toolbarShapeService, shapeSyncHelper, shapeHelper) {
 		var typeId = 'Text';
 
 		function createShape() {
 			var text = new shapeSyncHelper.Fabric.IText('Text');
-			
+
 			// lock x and y scaling to be consistent with the font type
-			// fabric does not allow to change the height and width 
+			// fabric does not allow to change the height and width
 			// directly you must do it by chaging the
 			text.lockScalingY = true;
 			text.lockScalingX = true;
@@ -18,10 +18,10 @@ angular.module('animatesApp')
 
 		shapeCreator.registerShape(typeId, createShape);
 
-		function syncFromModel(viewObject, canvasPosition, initialCreation) {
+		function syncFromModel(viewObject, canvasPosition) {
 			var model = shapeHelper.getMediaFrameFromView(viewObject);
 
-			shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject, canvasPosition, initialCreation);
+			shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject, canvasPosition);
 
 			shapeSyncHelper.syncViewProperty(model.getProperty('fontSize'), viewObject, 'fontSize');
 			shapeSyncHelper.syncViewProperty(model.getProperty('fontFamily'), viewObject, 'fontFamily');
@@ -53,5 +53,5 @@ angular.module('animatesApp')
 			return new shapeSyncHelper.Model.Text();
 		};
 
-		toolbarService.registerItem(typeId, getButtonClass, createMediaObject)
+		toolbarShapeService.registerItem(typeId, getButtonClass, createMediaObject)
 	});

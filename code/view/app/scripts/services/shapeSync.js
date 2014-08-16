@@ -43,10 +43,10 @@ angular.module('animatesApp')
 			return undefined;
 		};
 
-		this.syncFromModel = function syncFromModel(fabricObject, canvasPosition, initialCreation) {
+		this.syncFromModel = function syncFromModel(fabricObject, canvasPosition) {
 			var type = shapeHelper.getTypeFromView(fabricObject);
 			if (isTypeRegistered(type)) {
-				registeredShapes[type].syncFromModel(fabricObject, canvasPosition, initialCreation);
+				registeredShapes[type].syncFromModel(fabricObject, canvasPosition);
 			}
 		};
 	});

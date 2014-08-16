@@ -70,7 +70,7 @@ angular.module('animatesApp')
 				}
 
 				if (!founded && newMediaFrame) {
-					var shape = shapeCreator.createShapeFromFrame(newMediaFrame, _self.getCanvasPosition());
+					var shape = shapeCreator.createShapeFromFrame(newMediaFrame, _self.getCanvasPosition(), true);
 					if (shape) {
 						_self.add(shape);
 						shape.setCoords();
@@ -84,10 +84,9 @@ angular.module('animatesApp')
 					if (target === 'Shape') {
 						switch (operation) {
 							case 'Create':
-								var shape = shapeCreator.createShapeFromMediaObject(params.mediaObject, _self.getCanvasPosition());
+								var shape = shapeCreator.createShapeFromMediaObject(params.mediaObject, _self.getCanvasPosition(), true);
 								if (shape) {
 									_self.add(shape);
-									shape.moveTo(shape.zindex);
 									shape.setCoords();
 								}
 								renderAll();

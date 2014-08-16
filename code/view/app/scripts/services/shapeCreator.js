@@ -26,7 +26,7 @@ angular.module('animatesApp')
 					shape.setOriginY('center');
 
 					shapeHelper.setModelInView(mediaFrame, shape);
-					shapeSync.syncFromModel(shape, canvasPosition, true);
+					shapeSync.syncFromModel(shape, canvasPosition);
 					return shape;
 				}
 			}
