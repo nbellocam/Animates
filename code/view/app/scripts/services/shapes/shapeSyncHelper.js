@@ -33,7 +33,7 @@ angular.module('animatesApp')
 
 				return diff;
 			},
-			syncVisualMediaObjectFromModel = function syncVisualMediaObjectFromModel(viewObject, canvasPosition) {
+			syncVisualMediaObjectFromModel = function syncVisualMediaObjectFromModel(viewObject, canvasPosition, initialCreation) {
 				var model = shapeHelper.getMediaFrameFromView(viewObject);
 
 				syncViewProperty(model.getProperty('fill'), viewObject, 'fill');
@@ -54,6 +54,11 @@ angular.module('animatesApp')
 				syncViewProperty(model.getProperty('angle'), viewObject, 'angle');
 				syncViewProperty(model.getProperty('position.x') + canvasPosition.left, viewObject, 'left');
 				syncViewProperty(model.getProperty('position.y') + canvasPosition.top, viewObject, 'top');
+				viewObject.zindex = model.getProperty('position.z') + 1;
+
+				if (!initialCreation) {
+					viewObject.moveTo(viewObject.zindex);
+				}
 			};
 
 		return {

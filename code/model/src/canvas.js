@@ -4,12 +4,12 @@ var JsonSerializer = require('./serialization/jsonSerializer');
 
 /**
  *  Creates a new Canvas.
- *  @class Represents a Canvas. 
+ *  @class Represents a Canvas.
  */
 
 function Canvas (options) {
 	options = options || {};
-	
+
 	var _self = this; // Save the this reference for later use
 
 	this.height = options.height || 600;
@@ -20,7 +20,7 @@ function Canvas (options) {
 	this.filterDrawables = function filterDrawables(mediaFrames) {
 		return mediaFrames; //TODO filter media frames
 	};
-	
+
 	this.toJSON = function () {
 		var ser =	{
 						'height' : _self.height,

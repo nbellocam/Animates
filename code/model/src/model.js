@@ -21,7 +21,7 @@ var model = {
 
 	// effects
 	MoveEffect : require('./effects/moveEffect'),
-	Path : require('./utils/path'),
+	FadeEffect: require('./effects/fadeEffect'),
 
 	JsonSerializer: require('./serialization/jsonSerializer'),
 };

@@ -21,12 +21,12 @@ angular.module('animatesApp')
 
 				if (isTypeRegistered(type)) {
 					var shape = registeredShapes[type]();
-					
+
 					shape.setOriginX('center');
 					shape.setOriginY('center');
 
 					shapeHelper.setModelInView(mediaFrame, shape);
-					shapeSync.syncFromModel(shape, canvasPosition);
+					shapeSync.syncFromModel(shape, canvasPosition, true);
 					return shape;
 				}
 			}
