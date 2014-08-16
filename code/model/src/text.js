@@ -71,7 +71,7 @@ function Text (options, builder) {
 					.add()
 						.property('text', PropertyBuilder)
 						.value(options.text)
-						.type('string')
+						.type('text')
 					.add();
 
 		_self.VisualMediaObject(options, propBuilder); // Call base constructor

@@ -56,6 +56,7 @@ function parseNumber(value) {
 manager.registerType('integer', [ isInteger ], parseNumber);
 manager.registerType('float', [ isFloat ], parseNumber);
 manager.registerType('string', []);
+manager.registerType('text', []);
 manager.registerType('color', []);
 
 module.exports = manager;

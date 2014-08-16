@@ -1,4 +1,3 @@
-/*global $*/
 'use strict';
 
 angular.module('animatesApp')
@@ -10,9 +9,13 @@ angular.module('animatesApp')
 				prop: '=',
 				updatehandler: '&'
 			},
-			template: '<input type="" value="{{ prop.value() }}" id="property.{{ propkey }}" class="property form-control" ng-blur="propertyBlur($event)"></input>',
+			template:
+				'<textarea ng-show="isText()" rows="{{ rows() }}" type="text" value="{{ prop.value() }}" id="property.{{ propkey }}" class="property form-control text" ng-blur="propertyBlur($event)"></textarea>' +
+				'<input ng-show="!isText()" type="" value="{{ prop.value() }}" id="property.{{ propkey }}" class="property form-control" ng-blur="propertyBlur($event)"></input>',
 			controller: function($scope) {
 				$scope.isValid = true;
+				$scope.isText = function () { return $scope.prop.type().name() === 'text'; };
+				$scope.rows = function () { return $scope.prop.value().split('\n').length; };
 
 				$scope.propertyBlur = function (event) {
 					var oldValue = $scope.prop.value(),
@@ -32,29 +35,34 @@ angular.module('animatesApp')
 				};
 			},
 			link : function (scope, element) {
+				var input;
+
+				if (scope.isText()) {
+					input = element.find('textarea');
+				} else {
+					input = element.find('input');
+				}
 
 				scope.updateValue = function (value) {
-					element.find('input').val(value);
+					input.val(value);
 				};
 
 				switch (scope.prop.type().name()) {
 					case 'color':
-						$(element.find('input')[0])
-							.minicolors();
-						$(element.find('input')[0])
-							.minicolors('value', scope.prop.value());
+						input.minicolors();
+						input.minicolors('value', scope.prop.value());
 						
 						scope.updateValue = function (newVal) {
-							$(element.find('input')[0])
-								.minicolors('value', newVal);
+							input.minicolors('value', newVal);
 						};
 						break;
 					case 'integer':
-						element.find('input').attr('type', 'number');
+						input.attr('type', 'number');
 						break;
 					case 'float':
-						element.find('input').attr('type', 'number');
+						input.attr('type', 'number');
 						break;
+
 				}
 
 				scope.$watch('prop.value()', function (newVal) {

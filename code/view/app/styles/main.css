@@ -55,6 +55,9 @@ body {
 	width: 100%;
 }
 
+.property.form-control.text {
+	height: auto;
+}
 
 .timelinePane {
 	padding: 10px !important;
