@@ -10,7 +10,7 @@ angular.module('animatesApp')
 				updatehandler: '&'
 			},
 			template:
-				'<textarea ng-show="isText()" rows="{{ rows() }}" type="text" value="{{ prop.value() }}" id="property.{{ propkey }}" class="property form-control text" ng-blur="propertyBlur($event)"></textarea>' +
+				'<textarea ng-show="isText()" ng-rows="rows()" type="text" value="{{ prop.value() }}" id="property.{{ propkey }}" class="property form-control text" ng-blur="propertyBlur($event)"></textarea>' +
 				'<input ng-show="!isText()" type="" value="{{ prop.value() }}" id="property.{{ propkey }}" class="property form-control" ng-blur="propertyBlur($event)"></input>',
 			controller: function($scope) {
 				$scope.isValid = true;
