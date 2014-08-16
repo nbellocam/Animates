@@ -54,6 +54,11 @@ angular.module('animatesApp')
 				syncViewProperty(model.getProperty('angle'), viewObject, 'angle');
 				syncViewProperty(model.getProperty('position.x') + canvasPosition.left, viewObject, 'left');
 				syncViewProperty(model.getProperty('position.y') + canvasPosition.top, viewObject, 'top');
+
+				try {
+					viewObject.moveTo(model.getProperty('position.z'));
+				} catch (e) {
+				}
 			};
 
 		return {
