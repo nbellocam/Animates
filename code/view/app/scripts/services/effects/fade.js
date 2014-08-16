@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-  .run(function fade(toolbarService, $windows) {
+  .run(function fade($windows) {
     var typeId = 'fade',
       Model = $window.model;
 
@@ -13,5 +13,5 @@ angular.module('animatesApp')
       return new Model.FadeEffect();
     };
 
-    toolbarService.registerItem(typeId, getButtonClass, createEffect)
+    //toolbarEffectService.registerItem(typeId, getButtonClass, createEffect)
   });

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.run(function rectangle(shapeCreator, shapeSync, toolbarService, shapeSyncHelper, shapeHelper) {
+	.run(function rectangle(shapeCreator, shapeSync, toolbarShapeService, shapeSyncHelper, shapeHelper) {
 		var typeId = 'Rectangle';
 
 		function createShape() {
@@ -39,5 +39,5 @@ angular.module('animatesApp')
 			return new shapeSyncHelper.Model.Rectangle();
 		};
 
-		toolbarService.registerItem(typeId, getButtonClass, createMediaObject)
+		toolbarShapeService.registerItem(typeId, getButtonClass, createMediaObject)
 	});

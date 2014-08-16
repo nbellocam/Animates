@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService, shapeHelper, toolbarService, presentationPlayerService) {
+	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService, shapeHelper, toolbarShapeService, presentationPlayerService) {
 		function applyOperation(target, operation, params) {
 			animationService.getInstance().applyOperation(target, operation, params, { sender: 'toolbar' });
 		}
@@ -13,21 +13,21 @@ angular.module('animatesApp')
 			});
 
 		$scope.addType = function(type) {
-			var mediaObject = toolbarService.createMediaObject(type);
+			var mediaObject = toolbarShapeService.createMediaObject(type);
 
 			if (mediaObject) {
 				applyOperation('Shape', 'Create', {
-					mediaObject: toolbarService.createMediaObject(type),
+					mediaObject: toolbarShapeService.createMediaObject(type),
 					tick : localAnimationStateService.getCurrentTick()
 				});
 			}
 		};
 
 		$scope.getClassForType = function(type) {
-			return toolbarService.getButtonClass(type);
+			return toolbarShapeService.getButtonClass(type);
 		};
 
-		$scope.registeredTypes = toolbarService.getRegisteredTypes();
+		$scope.registeredTypes = toolbarShapeService.getRegisteredTypes();
 
 		$scope.removeElements = function() {
 			var selectedElement = canvasService.getSelectedShape();

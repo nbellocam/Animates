@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-  .service('toolbarService', function toolbarService() {
+  .service('toolbarShapeService', function toolbarShapeService() {
     var registeredItems = {};
 
     function isTypeRegistered(type) {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.run(function circle(shapeCreator, shapeSync, toolbarService, shapeSyncHelper, shapeHelper) {
+	.run(function circle(shapeCreator, shapeSync, toolbarShapeService, shapeSyncHelper, shapeHelper) {
 		var typeId = 'Circle';
 
 		function createShape() {
@@ -41,5 +41,5 @@ angular.module('animatesApp')
 			return new shapeSyncHelper.Model.Circle();
 		};
 
-		toolbarService.registerItem(typeId, getButtonClass, createMediaObject)
+		toolbarShapeService.registerItem(typeId, getButtonClass, createMediaObject)
 	});
