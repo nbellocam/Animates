@@ -1,4 +1,4 @@
-<div class="btn-toolbar" role="toolbar" ng-controller="ToolbarPanelCtrl">
+<div class="btn-toolbar layout-panel" role="toolbar" ng-controller="ToolbarPanelCtrl">
   <div class="btn-group-vertical">
     <button type="button" class="btn btn-default" ng-repeat="type in registeredShapeTypes" ng-disabled="playing" ng-click="addShapeType(type);" ><i ng-class="getClassForShapeType(type);"></i></button>
   </div>
