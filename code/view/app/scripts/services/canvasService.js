@@ -143,7 +143,7 @@ angular.module('animatesApp')
 			animationService.getInstance().addUpdateObserver('CanvasService', animationUpdateEventHandler);
 			animationService.getInstance().addLoadCompleteObserver('CanvasService', animationLoadEventHandler);
 
-			canvas.on('object:modified', function(event) {
+			function onCanvasObjectChanged(event) {
 				var target = event.target;
 				if (target) {
 					if (!target.isType('group')) {
@@ -153,7 +153,11 @@ angular.module('animatesApp')
 						//TODO do we have to update every shape inside the group?
 					}
 				}
-			});
+			}
+
+			canvas.on('text:editing:exited', onCanvasObjectChanged);
+
+			canvas.on('object:modified', onCanvasObjectChanged);
 
 			canvas.on('selection:cleared', function () {
 				/* if (selectedShape) {

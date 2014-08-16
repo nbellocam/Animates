@@ -15,6 +15,7 @@ var model = {
 	Shape : require('./shape'),
 	Rectangle : require('./shapes/rectangle'),
 	Circle : require('./shapes/circle'),
+	Text : require('./text'),
 	Photo : require('./photo'),
 	Sound : require('./sound'),
 
