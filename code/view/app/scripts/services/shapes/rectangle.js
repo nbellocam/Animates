@@ -10,10 +10,10 @@ angular.module('animatesApp')
 
 		shapeCreator.registerShape(typeId, createShape);
 
-		function syncFromModel(viewObject, canvasPosition) {
+		function syncFromModel(viewObject, canvasPosition, initialCreation) {
 			var model = shapeHelper.getMediaFrameFromView(viewObject);
 
-			shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject, canvasPosition);
+			shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject, canvasPosition, initialCreation);
 
 			shapeSyncHelper.syncViewProperty(model.getProperty('height'), viewObject, 'height');
 			shapeSyncHelper.syncViewProperty(model.getProperty('width'), viewObject, 'width');

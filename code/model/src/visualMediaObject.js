@@ -9,7 +9,7 @@ var MediaObject = require('./mediaObject'),
 
 /**
  *  Creates a new VisualMediaObject
- *  @class Represents a Shape. 
+ *  @class Represents a Shape.
  */
 function VisualMediaObject (options, builder) {
 
@@ -33,7 +33,7 @@ function VisualMediaObject (options, builder) {
 
 	/**
 	 *  Constructor
-	 */ 
+	 */
 	(function init() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
@@ -63,6 +63,7 @@ function VisualMediaObject (options, builder) {
 						.add()
 						.property('z', PropertyBuilder)
 							.type('float')
+							.constraint(function (val) { return val >= 0; })
 							.value(options.position.z)
 						.add()
 					.add()
