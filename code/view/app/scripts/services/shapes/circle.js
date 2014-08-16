@@ -26,7 +26,7 @@ angular.module('animatesApp')
 			var diff = shapeSyncHelper.syncVisualMediaObjectFromView(viewObject, canvasPosition),
 				mediaObject = shapeHelper.getMediaObjectFromView(viewObject);
 
-			shapeSyncHelper.syncModelProperty(viewObject.currentRadius || viewObject.radius, mediaObject, 'radius', diff, true);
+			shapeSyncHelper.syncModelProperty((viewObject.currentHeight / 2 || viewObject.radius), mediaObject, 'radius', diff, true);
 
 			return diff;
 		};
