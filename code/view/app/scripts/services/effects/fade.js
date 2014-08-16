@@ -1,17 +1,16 @@
 'use strict';
 
 angular.module('animatesApp')
-  .run(function fade($windows) {
-    var typeId = 'fade',
-      Model = $window.model;
+  .run(function fade(toolbarEffectService, effectHelper) {
+    var typeId = 'fade';
 
     function getButtonClass() {
       return 'fa fa-star-half-o';
     };
 
     function createEffect() {
-      return new Model.FadeEffect();
+      return new effectHelper.Model.FadeEffect();
     };
 
-    //toolbarEffectService.registerItem(typeId, getButtonClass, createEffect)
+    toolbarEffectService.registerItem(typeId, getButtonClass, createEffect)
   });

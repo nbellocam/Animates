@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService, shapeHelper, toolbarShapeService, presentationPlayerService) {
+	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService, shapeHelper, toolbarShapeService, effectHelper, toolbarEffectService, presentationPlayerService) {
 		function applyOperation(target, operation, params) {
 			animationService.getInstance().applyOperation(target, operation, params, { sender: 'toolbar' });
 		}
@@ -12,23 +12,47 @@ angular.module('animatesApp')
 				$scope.playing = !animationService.isEditingEnable;
 			});
 
-		$scope.addType = function(type) {
+		localAnimationStateService.addSelectedShapeObserver('toolbar', function(selectedShape) {
+			$scope.selectedShape = selectedShape;
+		});
+
+		// Shape related methods
+		$scope.addShapeType = function(type) {
 			var mediaObject = toolbarShapeService.createMediaObject(type);
 
 			if (mediaObject) {
 				applyOperation('Shape', 'Create', {
-					mediaObject: toolbarShapeService.createMediaObject(type),
+					mediaObject: mediaObject,
 					tick : localAnimationStateService.getCurrentTick()
 				});
 			}
 		};
 
-		$scope.getClassForType = function(type) {
+		$scope.getClassForShapeType = function(type) {
 			return toolbarShapeService.getButtonClass(type);
 		};
 
-		$scope.registeredTypes = toolbarShapeService.getRegisteredTypes();
+		$scope.registeredShapeTypes = toolbarShapeService.getRegisteredTypes();
 
+		// Effect related methods
+		$scope.addEffectType = function(type) {
+			var effect = toolbarEffectService.createEffect(type);
+
+			if (effect) {
+				applyOperation('Effect', 'Create', {
+					effect: effectHelper.setDefaltTicks(effect, $scope.selectedShape),
+					mediaObjectId : shapeHelper.getGuidFromView($scope.selectedShape)
+				});
+			}
+		};
+
+		$scope.getClassForEffectType = function(type) {
+			return toolbarEffectService.getButtonClass(type);
+		};
+
+		$scope.registeredEffectTypes = toolbarEffectService.getRegisteredTypes();
+
+		// Other methods
 		$scope.removeElements = function() {
 			var selectedElement = canvasService.getSelectedShape();
 
