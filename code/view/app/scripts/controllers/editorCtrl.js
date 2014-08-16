@@ -22,7 +22,7 @@ angular.module('animatesApp')
 						resizable:false
 					},
 					south:{
-						size: 230,
+						size: 150,
 						onresize : function (panelName, element) {
 							var pane = $(element);
 							$('animates-timelines').css('height', pane.height() - (pane.outerHeight() - pane.height()) + 'px');

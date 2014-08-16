@@ -59,6 +59,7 @@ body {
 	height: auto;
 }
 
-.timelinePane {
-	padding: 10px !important;
+.layout-panel.timelinePane {
+	padding: 3px;
+	margin: 0px;
 }
