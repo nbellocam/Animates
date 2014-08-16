@@ -54,10 +54,10 @@ describe('MoveEffect', function() {
 	});
 
 	describe('endTick', function() {
-		it('Should end at -1 if it not specified otherwise', function() {
+		it('Should end at 100 if it not specified otherwise', function() {
 			var effect = new MoveEffect();
 
-			effect.getOption('endTick').should.be.exactly(-1);
+			effect.getOption('endTick').should.be.exactly(100);
 		});
 
 		it('Should end at the value specified using the constructor', function() {

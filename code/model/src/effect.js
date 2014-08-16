@@ -18,7 +18,7 @@ function Effect (options, builder) {
 		propBuilder,
 		defaultOptions = {
 			startTick : 0,
-			endTick : -1
+			endTick : 100
 		},
 		currentOptions = {};
 
@@ -26,18 +26,22 @@ function Effect (options, builder) {
 	 *  Constructor
 	 */
 	(function init() {
-		currentOptions = Common.extend(options || {}, defaultOptions),
+		currentOptions = Common.extend(options, defaultOptions);
+		if (currentOptions.endTick !== -1 && currentOptions.endTick <= currentOptions.startTick) {
+			currentOptions.endTick = currentOptions.startTick + defaultOptions.endTick;
+		}
+
 		guid = Common.createGuid();
 		propBuilder = builder || new CompositePropertyBuilder();
 		propBuilder.property('startTick', PropertyBuilder)
 						.value(currentOptions.startTick)
 						.type('float')
-						.constraint(function (val) { return (val >= 0); })
+						.constraint(function (val) { return (val >= 0) && (!_self.getOption || (val > _self.getOption('endTick'))); })
 					.add()
 					.property('endTick', PropertyBuilder)
 						.value(currentOptions.endTick)
 						.type('float')
-						.constraint(function (val) { return (val >= -1); })
+						.constraint(function (val) { return (val === -1) || !_self.getOption || (val > _self.getOption('startTick')); })
 					.add();
 		currentOptions = propBuilder.create();
 	}());
@@ -142,7 +146,7 @@ function Effect (options, builder) {
 	};
 
 	this.isInfinite = function() {
-		return _self.getOption('endTick') === -1;
+		return false;
 	};
 
 	this.getOption = function (name) {

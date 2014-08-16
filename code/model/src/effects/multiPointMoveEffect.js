@@ -68,6 +68,10 @@ function MultiPointMoveEffect(options, builder) {
 		return pointsArray;
 	}
 
+	this.isInfinite = function() {
+		return true;
+	};
+
 	this.base_setOption = this.setOption;
 	this.setOption = function (name, value) {
 		if ((name === 'startTick') || (name === 'endTick')) {

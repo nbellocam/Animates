@@ -71,7 +71,7 @@ describe('Effect', function() {
 		it('Should return all default options', function () {
 			var effect = new Effect(),
 				options = effect.getOptions();
-			
+
 			options.should.have.property('endTick');
 			options.should.have.property('startTick');
 		});
@@ -143,10 +143,10 @@ describe('Effect', function() {
 	});
 
 	describe('endTick', function() {
-		it('Should end at -1 if it not specified otherwise.', function() {
+		it('Should end at 100 if it not specified otherwise.', function() {
 			var effect = new Effect();
 
-			effect.getOption('endTick').should.be.exactly(-1);
+			effect.getOption('endTick').should.be.exactly(100);
 		});
 
 		it('Should end at the value specified using the constructor.', function() {
@@ -189,7 +189,7 @@ describe('Effect', function() {
 	});
 
 	describe('Serialization', function() {
-		it('toJSON should return json', function() { 
+		it('toJSON should return json', function() {
 			var effect = new Effect(),
 				pepe = effect.getOptions(),
 				json = effect.toJSON();
@@ -198,7 +198,7 @@ describe('Effect', function() {
 			json.options.should.have.keys('startTick', 'endTick');
 		});
 
-		it('fromJSON should load the object', function() { 
+		it('fromJSON should load the object', function() {
 			var effect = new Effect({ 'startTick' : 100, 'endTick' : 200 }),
 				json = effect.toJSON(),
 				effect2 = new Effect();
