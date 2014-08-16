@@ -36,7 +36,7 @@ function Effect (options, builder) {
 		propBuilder.property('startTick', PropertyBuilder)
 						.value(currentOptions.startTick)
 						.type('float')
-						.constraint(function (val) { return (val >= 0) && (!_self.getOption || (val > _self.getOption('endTick'))); })
+						.constraint(function (val) { return (val >= 0) && (!_self.getOption || (val < _self.getOption('endTick'))); })
 					.add()
 					.property('endTick', PropertyBuilder)
 						.value(currentOptions.endTick)
