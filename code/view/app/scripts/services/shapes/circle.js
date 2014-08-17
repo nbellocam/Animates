@@ -2,7 +2,8 @@
 
 angular.module('animatesApp')
 	.run(function circle(shapeCreator, shapeSync, toolbarShapeService, shapeSyncHelper, shapeHelper) {
-		var typeId = 'Circle';
+		var typeId = 'Circle',
+			objectNumber = 1;
 
 		function createShape() {
 			var shape = new shapeSyncHelper.Fabric.Circle();
@@ -38,7 +39,9 @@ angular.module('animatesApp')
 		};
 
 		function createMediaObject() {
-			return new shapeSyncHelper.Model.Circle();
+			return new shapeSyncHelper.Model.Circle({
+				name : typeId + ' ' + objectNumber++
+			});
 		};
 
 		toolbarShapeService.registerItem(typeId, getButtonClass, createMediaObject)

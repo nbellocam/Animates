@@ -2,7 +2,8 @@
 
 angular.module('animatesApp')
 	.run(function rectangle(shapeCreator, shapeSync, toolbarShapeService, shapeSyncHelper, shapeHelper) {
-		var typeId = 'Rectangle';
+		var typeId = 'Rectangle',
+			objectNumber = 1;
 
 		function createShape() {
 			return new shapeSyncHelper.Fabric.Rect();
@@ -36,7 +37,9 @@ angular.module('animatesApp')
 		};
 
 		function createMediaObject() {
-			return new shapeSyncHelper.Model.Rectangle();
+			return new shapeSyncHelper.Model.Rectangle({
+				name : typeId + ' ' + objectNumber++
+			});
 		};
 
 		toolbarShapeService.registerItem(typeId, getButtonClass, createMediaObject)

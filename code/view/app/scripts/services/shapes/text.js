@@ -2,7 +2,8 @@
 
 angular.module('animatesApp')
 	.run(function text(shapeCreator, shapeSync, toolbarShapeService, shapeSyncHelper, shapeHelper) {
-		var typeId = 'Text';
+		var typeId = 'Text',
+			objectNumber = 1;
 
 		function createShape() {
 			var text = new shapeSyncHelper.Fabric.IText('Text');
@@ -50,7 +51,9 @@ angular.module('animatesApp')
 		};
 
 		function createMediaObject() {
-			return new shapeSyncHelper.Model.Text();
+			return new shapeSyncHelper.Model.Text({
+				name : typeId + ' ' + objectNumber++
+			});
 		};
 
 		toolbarShapeService.registerItem(typeId, getButtonClass, createMediaObject)

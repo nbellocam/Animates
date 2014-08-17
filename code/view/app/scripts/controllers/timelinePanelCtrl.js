@@ -75,7 +75,7 @@ angular.module('animatesApp')
 			angular.forEach(mediaTimelines, function (mediaTimeline) {
 				var timeline = {
 						data : { id: mediaTimeline.getMediaObjectId() },
-						name : mediaTimeline.getMediaObjectId(),
+						name : mediaTimeline.getMediaObjectName(),
 						lines : []
 					},
 					events = [],
