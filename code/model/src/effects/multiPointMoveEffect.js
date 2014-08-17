@@ -6,7 +6,7 @@ var Common = require('animates-common'),
 	DictionaryPropertyBuilder = require('../properties/dictionaryPropertyBuilder'),
 	CompositePropertyBuilder = require('../properties/compositePropertyBuilder'),
 	straightPathStrategy = require('./pathStrategies/straightPathStrategy'),
-	Effect = require('../effect.js');
+	MultiPointEffect = require('../multiPointEffect.js');
 
 
 /**
@@ -26,6 +26,8 @@ function MultiPointMoveEffect(options, builder) {
 	 *  Constructor
 	 */
 	(function init() {
+		var pointsSchemaBuilder;
+
 		propBuilder = builder || new CompositePropertyBuilder();
 
 		currentOptions = Common.extend(options || {}, defaultOptions);
@@ -34,59 +36,23 @@ function MultiPointMoveEffect(options, builder) {
 						.value(currentOptions.path)
 						.type('string')
 						.constraint(function (val) { return (['Straight'].indexOf(val) >= 0); })
-					.add()
-					.property('points', DictionaryPropertyBuilder)
-						.schema(CompositePropertyBuilder)
-							.property('position', CompositePropertyBuilder)
-								.property('x', PropertyBuilder)
-									.type('float')
-								.add()
-								.property('y', PropertyBuilder)
-									.type('float')
-								.add()
-							.add()
-							.property('tick', PropertyBuilder)
-								.type('float')
-							.add()
-						.add()
-						.values(currentOptions.points)
 					.add();
 
-		_self.base(currentOptions, propBuilder);
+		// Build points schema
+		pointsSchemaBuilder = new CompositePropertyBuilder();
+
+		pointsSchemaBuilder
+			.property('position', CompositePropertyBuilder)
+				.property('x', PropertyBuilder)
+					.type('float')
+				.add()
+				.property('y', PropertyBuilder)
+					.type('float')
+				.add()
+			.add();
+
+		_self.MultiPointEffect(currentOptions, propBuilder, pointsSchemaBuilder);
 	}());
-
-	function getPointsArray() {
-		var pointsArray = [],
-			points = _self.getOption('points');
-
-		for (var key in points) {
-			pointsArray.push(points[key]);
-		}
-
-		return pointsArray;
-	}
-
-	this.isInfinite = function() {
-		return true;
-	};
-
-	this.base_setOption = this.setOption;
-	this.setOption = function (name, value) {
-		if (name.slice(0,6) === 'points' && name.slice(-4) === 'tick') {
-			// Check if a point exists in the same tick and then remove the old point.
-			var points = _self.getOption('points'),
-				pointId = name.slice(7).slice(0,-5);
-
-			for (var key in points) {
-				if (points[key].tick === value && key !== pointId) {
-					// A point already exist in the same tick, remove it
-					this.base_setOption('points.' + key , undefined);
-				}
-			}
-		}
-
-		this.base_setOption(name, value);
-	};
 
 	/**
 	 * Calculates the new shape properties based on the original ones and the current frame.
@@ -97,7 +63,7 @@ function MultiPointMoveEffect(options, builder) {
 		var	path = _self.getOption('path');
 
 		if (path == 'Straight') {
-			var newPosition = straightPathStrategy(tick, getPointsArray());
+			var newPosition = straightPathStrategy(tick, _self.getPointsArray());
 
 			if (newPosition && !mediaFrameProperties.hasOwnProperty('position')) {
 				mediaFrameProperties.position = {};
@@ -120,14 +86,13 @@ function MultiPointMoveEffect(options, builder) {
 	};
 
 	function addPoint(guid, tick, x, y) {
-		var newPosition = {
-								'tick' : tick,
-								'position' : {
-									'x' : x,
-									'y' : y
-								}
-							};
-		_self.setOption('points.' + guid, newPosition);
+		var data = {
+						'position' : {
+							'x' : x,
+							'y' : y
+						}
+					};
+		_self.addPoint(guid, tick, data);
 	}
 
 	this.updateProperties = function (tick, updatedProperties) {
@@ -179,7 +144,7 @@ function MultiPointMoveEffect(options, builder) {
 	};
 }
 
-Common.inherits(MultiPointMoveEffect, Effect);
+Common.inherits(MultiPointMoveEffect, MultiPointEffect, 'MultiPointEffect');
 
 JsonSerializer.registerType(MultiPointMoveEffect);
 

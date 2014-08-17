@@ -19,7 +19,7 @@ function CompositePropertyBuilder () {
 	};
 
 	this.property = function (name, BuilderClass) {
-		var builder = new BuilderClass(_self);
+		var builder = new BuilderClass();
 		builder.name(name);
 		builder.add = function () {
 			properties.add(name, builder.create());

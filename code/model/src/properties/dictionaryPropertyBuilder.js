@@ -22,8 +22,12 @@ function DictionaryPropertyBuilder () {
 
 	this.schema = function (BuilderClass) {
 		schemaBuilder = new BuilderClass(_self);
-		schemaBuilder.name('schema');
+		return _self.instancedSchema(schemaBuilder);
+	};
 
+	this.instancedSchema = function (builder) {
+		schemaBuilder = builder;
+		schemaBuilder.name('schema');
 		schemaBuilder.add = function () {
 			return _self;
 		};
