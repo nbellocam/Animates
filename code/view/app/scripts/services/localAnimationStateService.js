@@ -43,10 +43,6 @@ angular.module('animatesApp')
 			return currentTick;
 		};
 
-		this.startsAtCurrentTick = function (mediaTimeline) {
-			return mediaTimeline.getStartTick() === currentTick;
-		};
-
 		var setSelectedShape = function (shape) {
 			selectedShape = shape;
 			for (var observerId in selectedShapeObservers) {
