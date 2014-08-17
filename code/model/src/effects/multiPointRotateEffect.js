@@ -38,13 +38,17 @@ function MultiPointRotateEffect(options, builder) {
 		pointsSchemaBuilder
 			.property('angle', PropertyBuilder)
 				.type('float')
+			.add()
+			.property('motion', PropertyBuilder)
+				.type('string')
+				.value('clockwise')
+				.constraint(function (val) { return ['clockwise', 'counter-clockwise'].indexOf(val) >= 0;	})
 			.add();
 
 		_self.MultiPointEffect(currentOptions, propBuilder, pointsSchemaBuilder);
 	}());
 
-
-	function getAngleFor(currentTick, startPoint, endPoint) {
+	function getAngleFor(currentTick, startPoint, endPoint, clockwise) {
 		var m = (endPoint.angle - startPoint.angle) / (endPoint.tick - startPoint.tick);
 		return startPoint.angle + (m * currentTick);
 	}
@@ -62,7 +66,7 @@ function MultiPointRotateEffect(options, builder) {
 			if (!segment.endPoint) {
 				mediaFrameProperties.angle = segment.startPoint.angle;
 			} else {
-				mediaFrameProperties.angle = getAngleFor(tick, segment.startPoint, segment.endPoint);
+				mediaFrameProperties.angle = getAngleFor(tick, segment.startPoint, segment.endPoint, true);
 			}
 		} else if (points.length === 1 && tick >= points[0].tick) {
 			mediaFrameProperties.angle = points[0].angle;
@@ -72,29 +76,30 @@ function MultiPointRotateEffect(options, builder) {
 	};
 
 	this.getAffectedProperties = function () {
-		return ['angle'];
+		return ['angle', 'motion'];
 	};
 
-	function addPoint(guid, tick, angle) {
-		var data = { 'angle' : angle };
+	function addPoint(guid, tick, angle, motion) {
+		var data = { 'angle' : angle, 'motion' : motion};
 		_self.addPoint(guid, tick, data);
 	}
 
 	this.updateProperties = function (tick, updatedProperties) {
 		var angle = updatedProperties.angle,
+			motion = updatedProperties.motion,
 			changedProperties = [],
 			points;
 
-		if (angle === undefined ) {
+		if (angle === undefined  && motion === undefined) {
 			return { 'updatedProperties' : changedProperties };
 		}
 
 		// If a point was added from outside
 		var newPoint = updatedProperties['MultiPointRotateEffect.newPoint'];
 		if(newPoint && newPoint.target === _self.getGuid()) {
-			addPoint(newPoint.guid, tick, angle);
+			addPoint(newPoint.guid, tick, angle, motion);
 			return	{
-						'updatedProperties' : ['angle']
+						'updatedProperties' : ['angle', 'motion']
 					};
 		}
 
@@ -103,8 +108,15 @@ function MultiPointRotateEffect(options, builder) {
 		// There is a point at the updated tick
 		for (var guid in points) {
 			if (points[guid].tick == tick) {
-				_self.setOption('points.' + guid + '.angle', angle);
-				changedProperties.push('angle');
+				if (angle) {
+					_self.setOption('points.' + guid + '.angle', angle);
+					changedProperties.push('angle');	
+				}
+
+				if (motion) {
+					_self.setOption('points.' + guid + '.motion', motion);
+					changedProperties.push('motion');	
+				}
 
 				return { 'updatedProperties' : changedProperties };
 			}
@@ -112,9 +124,9 @@ function MultiPointRotateEffect(options, builder) {
 
 		// A new point must be added
 		var newPointGuid = Common.createGuid();
-		addPoint(newPointGuid, tick, angle);
+		addPoint(newPointGuid, tick, angle, motion);
 			return	{
-						'updatedProperties' : ['angle'],
+						'updatedProperties' : ['angle', 'motion'],
 						'newProperties' : {
 							'MultiPointRotateEffect.newPoint' : { 'guid' : newPointGuid, 'target' : _self.getGuid()}
 						}
