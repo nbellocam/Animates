@@ -86,6 +86,18 @@ function MultiPointMoveEffect(options, builder) {
 	};
 
 	function addPoint(guid, tick, x, y) {
+		if (x === undefined || y === undefined) {
+			var newPosition = straightPathStrategy(tick, _self.getPointsArray());
+
+			if(x === undefined) {
+				x = newPosition.x;
+			}
+
+			if(y === undefined) {
+				y = newPosition.y;
+			}
+		}
+
 		var data = {
 						'position' : {
 							'x' : x,
