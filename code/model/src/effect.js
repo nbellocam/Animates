@@ -24,9 +24,6 @@ function Effect (options, builder) {
 	 */
 	(function init() {
 		currentOptions = Common.extend(options, defaultOptions);
-		if (currentOptions.endTick !== -1 && currentOptions.endTick <= currentOptions.startTick) {
-			currentOptions.endTick = currentOptions.startTick + defaultOptions.endTick;
-		}
 
 		guid = Common.createGuid();
 		propBuilder = builder || new CompositePropertyBuilder();
