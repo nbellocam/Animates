@@ -20,7 +20,7 @@ describe('Rectangle', function() {
 
 			rectangle.getType().should.be.equal('Rectangle');
 		});
-		
+
 		it('Should set default properties.', function() {
 			var rectangle = new Rectangle();
 
@@ -33,6 +33,8 @@ describe('Rectangle', function() {
 
 			rectangle.getProperty('height').should.equal(100);
 			rectangle.getProperty('width').should.equal(100);
+
+			rectangle.getProperty('name').should.equal('Rectangle');
 		});
 
 		it('Should set the properties passed in the constructor.', function() {
@@ -95,7 +97,7 @@ describe('Rectangle', function() {
 	});
 
 	describe('Serialization', function() {
-		it('toJSON should return json', function() { 
+		it('toJSON should return json', function() {
 			var rec = new Rectangle({'height' : 200}),
 				json = rec.toJSON();
 
@@ -107,7 +109,7 @@ describe('Rectangle', function() {
 			json.properties.should.have.property('width', 100);
 		});
 
-		it('fromJSON should load the object', function() { 
+		it('fromJSON should load the object', function() {
 			var rec = new Rectangle({'height' : 200}),
 				json = rec.toJSON(),
 				rec2 = new Rectangle();
@@ -116,5 +118,5 @@ describe('Rectangle', function() {
 			rec2.getGuid().should.equal(rec.getGuid());
 			rec2.getProperties().should.have.property('height', 200);
 		});
-	});	
+	});
 });

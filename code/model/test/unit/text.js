@@ -20,7 +20,7 @@ describe('Text', function() {
 
 			text.getType().should.be.equal('Text');
 		});
-		
+
 		it('Should set default properties.', function() {
 			var text = new Text();
 
@@ -37,6 +37,8 @@ describe('Text', function() {
 			text.getProperty('fontStyle').should.equal('normal');
 			text.getProperty('textDecoration').should.equal('');
 			text.getProperty('text').should.equal('text');
+
+			text.getProperty('name').should.equal('Text');
 
 		});
 
@@ -110,7 +112,7 @@ describe('Text', function() {
 	});
 
 	describe('Serialization', function() {
-		it('toJSON should return json', function() { 
+		it('toJSON should return json', function() {
 			var rec = new Text({
 							'fontSize' : 20,
 							'fontWeight' : 'bold',
@@ -134,7 +136,7 @@ describe('Text', function() {
 
 		});
 
-		it('fromJSON should load the object', function() { 
+		it('fromJSON should load the object', function() {
 			var rec = new Text({'text' : 'Hola Mundo'}),
 				json = rec.toJSON(),
 				rec2 = new Text();
@@ -148,5 +150,5 @@ describe('Text', function() {
 			rec2.getProperties().should.have.property('textDecoration', '');
 			rec2.getProperties().should.have.property('text', 'Hola Mundo');
 		});
-	});	
+	});
 });

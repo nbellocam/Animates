@@ -24,6 +24,8 @@ describe('Shape', function() {
 			shape.getProperty('opacity').should.equal(1);
 			shape.getProperty('border.type').should.equal('solid');
 			shape.getProperty('border.color').should.equal('#000000');
+			
+			shape.getProperty('name').should.equal('Shape');
 		});
 
 		it('Should set the properties passed in the constructor.', function() {
@@ -74,7 +76,7 @@ describe('Shape', function() {
 	});
 
 	describe('Serialization', function() {
-		it('toJSON should return json', function() { 
+		it('toJSON should return json', function() {
 			var shape = new Shape(),
 				json = shape.toJSON();
 
@@ -86,7 +88,7 @@ describe('Shape', function() {
 			json.properties.should.have.property('angle');
 		});
 
-		it('fromJSON should load the object', function() { 
+		it('fromJSON should load the object', function() {
 			var shape = new Shape({'opacity' : 0}),
 				json = shape.toJSON(),
 				shape2 = new Shape();
@@ -95,5 +97,5 @@ describe('Shape', function() {
 			shape2.getGuid().should.equal(shape.getGuid());
 			shape2.getProperties().should.have.property('opacity', 0);
 		});
-	});	
+	});
 });

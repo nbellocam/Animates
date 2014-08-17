@@ -20,7 +20,7 @@ describe('Circle', function() {
 
 			circle.getType().should.be.equal('Circle');
 		});
-		
+
 		it('Should set default properties.', function() {
 			var circle = new Circle();
 
@@ -32,6 +32,8 @@ describe('Circle', function() {
 			circle.getProperty('border.color').should.equal('#000000');
 
 			circle.getProperty('radius').should.equal(50);
+
+			circle.getProperty('name').should.equal('Circle');
 		});
 
 		it('Should set the properties passed in the constructor.', function() {
@@ -90,7 +92,7 @@ describe('Circle', function() {
 	});
 
 	describe('Serialization', function() {
-		it('toJSON should return json', function() { 
+		it('toJSON should return json', function() {
 			var rec = new Circle({'radius' : 200}),
 				json = rec.toJSON();
 
@@ -101,7 +103,7 @@ describe('Circle', function() {
 			json.properties.should.have.property('radius', 200);
 		});
 
-		it('fromJSON should load the object', function() { 
+		it('fromJSON should load the object', function() {
 			var rec = new Circle({'radius' : 200}),
 				json = rec.toJSON(),
 				rec2 = new Circle();
@@ -110,5 +112,5 @@ describe('Circle', function() {
 			rec2.getGuid().should.equal(rec.getGuid());
 			rec2.getProperties().should.have.property('radius', 200);
 		});
-	});	
+	});
 });

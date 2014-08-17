@@ -14,7 +14,7 @@ describe('Photo', function() {
 			photo.getGuid().should.have.type('string');
 			photo.getGuid().should.not.be.equal(photo2.getGuid());
 		});
-		
+
 		it('Should set default properties', function() {
 			var photo = new Photo();
 
@@ -25,6 +25,8 @@ describe('Photo', function() {
 			photo.getProperty('border.type').should.equal('solid');
 			photo.getProperty('border.color').should.equal('#000000');
 			photo.getProperty('source').should.equal('');
+
+			photo.getProperty('name').should.equal('Photo');
 		});
 
 		it('Should set the properties passed in the constructor.', function() {

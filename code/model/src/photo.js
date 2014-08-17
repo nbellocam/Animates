@@ -10,14 +10,15 @@ var VisualMediaObject = require('./visualMediaObject'),
 
 /**
  *  Creates a new Photo
- *  @class Represents a Photo. 
+ *  @class Represents a Photo.
  */
 function Photo (options, builder) {
 	var _self = this,propBuilder,
 		properties,
 		defaultOptions = {
-			source : ''
-		};	
+			source : '',
+			name: 'Photo'
+		};
 
 	this.base_toJSON = this.toJSON;
 	this.toJSON = function () {
@@ -26,7 +27,7 @@ function Photo (options, builder) {
 	};
 	/**
 	 *  Constructor
-	 */ 
+	 */
 	(function init() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);

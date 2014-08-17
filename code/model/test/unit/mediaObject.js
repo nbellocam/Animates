@@ -16,21 +16,19 @@ describe('MediaObject', function() {
 			mediaObject.getGuid().should.have.type('string');
 			mediaObject.getGuid().should.not.be.equal(mediaObject2.getGuid());
 		});
-	});
 
-	describe('getProperties', function() {
-		it('Should return an empty object is no option is passed as parameter.', function() {
-			var instance = new MediaObject(),
-				properties = instance.getProperties();
-
-			properties.should.be.empty;
+		it('Should set default properties.', function() {
+			var mediaObject = new MediaObject();
+			mediaObject.getProperty('name').should.equal('Object');
 		});
 
-		it('Should return empty even if an option is passed by parameter.', function() {
-			var	instance = new MediaObject({propertyName: 'specifiedPropertyValue'}),
-				properties = instance.getProperties();
+		it('Should set the properties passed in the constructor.', function() {
+			var specifiedName = 'new name',
+				visualMediaObject = new MediaObject({
+					name : specifiedName
+				});
 
-			properties.should.be.empty;
+			visualMediaObject.getProperty('name').should.equal(specifiedName);
 		});
 	});
 
@@ -160,7 +158,7 @@ describe('MediaObject', function() {
 
 			instance = new MediaObject({}, propertyBuilder);
 
-			instance.getProperty('parentPropertyName.inner').should.equal('text');		
+			instance.getProperty('parentPropertyName.inner').should.equal('text');
 
 			instance.setProperty('parentPropertyName.inner', 'newText');
 
@@ -183,16 +181,16 @@ describe('MediaObject', function() {
 
 				instance = new MediaObject({}, propertyBuilder);
 
-				schema = instance.getPropertiesSchema();		
+				schema = instance.getPropertiesSchema();
 
-				schema.names().should.have.lengthOf(1);
-				schema.names().should.containEql('parentPropertyName.inner');
+				schema.names().should.have.lengthOf(2);
+				schema.names().should.containEql('parentPropertyName.inner', 'name');
 			});
 		});
 	});
 
 	describe('Serialization', function() {
-		it('toJSON should return json', function() { 
+		it('toJSON should return json', function() {
 			var propertyBuilder = new CompositePropertyBuilder(),
 				mediaObject,
 				json;
@@ -205,13 +203,13 @@ describe('MediaObject', function() {
 				.add();
 
 			mediaObject = new MediaObject({}, propertyBuilder);
-			
+
 			json = mediaObject.toJSON();
 
 			json.should.have.property('properties');
 		});
 
-		it('fromJSON should load the object', function() { 
+		it('fromJSON should load the object', function() {
 			var propertyBuilder = new CompositePropertyBuilder(),
 				propertyBuilder2 = new CompositePropertyBuilder(),
 				mediaObject,
@@ -232,12 +230,12 @@ describe('MediaObject', function() {
 
 			mediaObject = new MediaObject({}, propertyBuilder);
 			json = mediaObject.toJSON();
-			
+
 			mediaObject2 = new MediaObject({}, propertyBuilder2);
 			mediaObject2.fromJSON(json);
-			
+
 			mediaObject2.getGuid().should.equal(mediaObject.getGuid());
 			mediaObject2.getProperties().should.have.property('prop', 'value');
 		});
-	});	
+	});
 });

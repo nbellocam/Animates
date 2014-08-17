@@ -7,20 +7,21 @@ var MediaObject = require('./mediaObject'),
 
 /**
  *  Creates a new Sound
- *  @class Represents a Sound. 
+ *  @class Represents a Sound.
  */
 function Sound (options, builder) {
 	var _self = this,
 		propBuilder,
 		defaultOptions = {
 			volume : 100,
-			source : ''
+			source : '',
+			name : 'Sound'
 		},
 		properties;
 
 	/**
 	 *  Constructor
-	 */ 
+	 */
 	(function init() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);

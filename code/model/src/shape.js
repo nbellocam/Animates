@@ -7,13 +7,15 @@ var VisualMediaObject = require('./visualMediaObject'),
 
 /**
  *  Creates a new Shape
- *  @class Represents a Shape. 
+ *  @class Represents a Shape.
  */
 function Shape (options, builder) {
 	var _self = this,
 		propBuilder,
 		properties,
-		defaultOptions = {};
+		defaultOptions = {
+			name: 'Shape'
+		};
 
 	this.mediaObject_toJSON = this.toJSON;
 	this.toJSON = function () {
@@ -27,7 +29,7 @@ function Shape (options, builder) {
 
 	/**
 	 *  Constructor
-	 */ 
+	 */
 	(function init() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);

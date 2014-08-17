@@ -11,7 +11,7 @@ var VisualMediaObject = require('./visualMediaObject'),
 
 /**
  *  Creates a new Text
- *  @class Represents a Text. 
+ *  @class Represents a Text.
  */
 function Text (options, builder) {
 	var _self = this,
@@ -24,8 +24,7 @@ function Text (options, builder) {
 			fontStyle : 'normal',
 			textDecoration : '',
 			text : 'text',
-			height : 100,
-			width : 100
+			name : 'Text'
 		};
 
 	this.visualMediaObject_toJSON = this.toJSON;
@@ -40,7 +39,7 @@ function Text (options, builder) {
 
 	/**
 	 *  Constructor
-	 */ 
+	 */
 	(function init() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);

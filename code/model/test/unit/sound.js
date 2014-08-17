@@ -20,6 +20,8 @@ describe('Sound', function() {
 
 			sound.getProperty('source').should.equal('');
 			sound.getProperty('volume').should.equal(100);
+
+			sound.getProperty('name').should.equal('Sound');
 		});
 
 		it('Should set the properties passed in the constructor.', function() {

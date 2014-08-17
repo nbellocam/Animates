@@ -1,19 +1,24 @@
 'use strict';
 
 var Common = require('animates-common'),
+	PropertyBuilder = require('./properties/propertyBuilder'),
 	CompositePropertyBuilder = require('./properties/compositePropertyBuilder'),
 	JsonSerializer = require('./serialization/jsonSerializer');
 
 
 /**
  *  Creates a new MediaObject
- *  @class Represents a MediaObject. 
+ *  @class Represents a MediaObject.
  */
 function MediaObject (options, builder) {
 	var _self = this,
 		guid = '',
 		propBuilder,
-		properties;
+		properties,
+		defaultOptions = {
+			name : 'Object'
+		};
+
 
 	/**
 	 * Get the properties schema with types and values
@@ -43,7 +48,7 @@ function MediaObject (options, builder) {
 	};
 
 	/**
-	 * Get the property named after the first parameter value 
+	 * Get the property named after the first parameter value
 	 * @return {Object} The property value
 	 */
 	this.getProperty = function getProperty(name) {
@@ -51,7 +56,7 @@ function MediaObject (options, builder) {
 	};
 
 	/**
-	 * Set the property named after the first parameter value 
+	 * Set the property named after the first parameter value
 	 * @params {string} name The property name
 	 * @params {Object} value The property value
 	 */
@@ -87,10 +92,17 @@ function MediaObject (options, builder) {
 
 	/**
 	 *  Constructor
-	 */ 
+	 */
 	(function init() {
 		guid = Common.createGuid();
 		propBuilder = builder || new CompositePropertyBuilder();
+		options = Common.extend(options || {}, defaultOptions);
+
+		propBuilder.property('name', PropertyBuilder)
+						.type('string')
+						.value(options.name)
+					.add();
+
 		properties = propBuilder.create();
 	}());
 }

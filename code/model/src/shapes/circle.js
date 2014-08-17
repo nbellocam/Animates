@@ -12,14 +12,15 @@ var Shape = require('../shape'),
 
 /**
  *  Creates a new Circle
- *  @class Represents a Circle. 
+ *  @class Represents a Circle.
  */
 function Circle (options, builder) {
 	var _self = this,
 		propBuilder,
 		properties,
 		defaultOptions = {
-			radius : 50
+			radius : 50,
+			name: 'Circle'
 		};
 
 	this.shape_toJSON = this.toJSON;
@@ -34,7 +35,7 @@ function Circle (options, builder) {
 
 	/**
 	 *  Constructor
-	 */ 
+	 */
 	(function init() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);

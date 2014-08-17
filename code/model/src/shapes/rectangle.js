@@ -11,7 +11,7 @@ var Shape = require('../shape'),
 
 /**
  *  Creates a new Rectangle
- *  @class Represents a Rectangle. 
+ *  @class Represents a Rectangle.
  */
 function Rectangle (options, builder) {
 	var _self = this,
@@ -19,7 +19,8 @@ function Rectangle (options, builder) {
 		properties,
 		defaultOptions = {
 			height : 100,
-			width : 100
+			width : 100,
+			name: 'Rectangle'
 		};
 
 	this.shape_toJSON = this.toJSON;
@@ -34,7 +35,7 @@ function Rectangle (options, builder) {
 
 	/**
 	 *  Constructor
-	 */ 
+	 */
 	(function init() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
