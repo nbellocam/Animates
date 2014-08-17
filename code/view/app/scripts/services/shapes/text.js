@@ -33,7 +33,7 @@ angular.module('animatesApp')
 
 		function syncFromView(viewObject, canvasPosition) {
 			var diff = shapeSyncHelper.syncVisualMediaObjectFromView(viewObject, canvasPosition),
-				mediaObject = shapeHelper.getMediaObjectFromView(viewObject);
+				mediaObject = shapeHelper.getMediaFrameFromView(viewObject);
 
 			shapeSyncHelper.syncModelProperty(viewObject.fontSize || viewObject.fontSize, mediaObject, 'fontSize', diff, true);
 			shapeSyncHelper.syncModelProperty(viewObject.fontFamily || viewObject.fontFamily, mediaObject, 'fontFamily', diff, false);

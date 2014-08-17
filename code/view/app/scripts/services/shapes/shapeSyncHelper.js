@@ -21,7 +21,7 @@ angular.module('animatesApp')
 
 			syncVisualMediaObjectFromView = function syncVisualMediaObjectFromView(viewObject, canvasPosition) {
 				var diff = {},
-					mediaObject = shapeHelper.getMediaObjectFromView(viewObject);
+					mediaObject = shapeHelper.getMediaFrameFromView(viewObject);
 
 				syncModelProperty(viewObject.angle, mediaObject, 'angle', diff, true);
 				syncModelProperty(viewObject.left - canvasPosition.left, mediaObject, 'position.x', diff, true);
