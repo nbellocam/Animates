@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.factory('shapeSyncHelper', function shapeSyncHelper($window, animationService, localAnimationStateService, shapeHelper) {
+	.factory('shapeSyncHelper', function shapeSyncHelper($window, animationService, shapeHelper) {
 		var syncModelProperty = function syncModelProperty(fabricValue, model, propertyName, diff, round) {
 				var modelProperty = model.getProperty(propertyName),
 					value = (round) ? $window.Math.round(fabricValue) : fabricValue;
@@ -17,10 +17,6 @@ angular.module('animatesApp')
 				if (modelValue !== fabricProperty) {
 					viewObject.set(propertyName, modelValue);
 				}
-			},
-
-			startsAtCurrentTick = function startsAtCurrentTick(mediaTimeline) {
-				return localAnimationStateService.startsAtCurrentTick(mediaTimeline);
 			},
 
 			syncVisualMediaObjectFromView = function syncVisualMediaObjectFromView(viewObject, canvasPosition) {
@@ -65,8 +61,6 @@ angular.module('animatesApp')
 			syncViewProperty: syncViewProperty,
 
 			syncVisualMediaObjectFromModel: syncVisualMediaObjectFromModel,
-			syncVisualMediaObjectFromView: syncVisualMediaObjectFromView,
-
-			startsAtCurrentTick: startsAtCurrentTick
+			syncVisualMediaObjectFromView: syncVisualMediaObjectFromView
 		};
 	});
