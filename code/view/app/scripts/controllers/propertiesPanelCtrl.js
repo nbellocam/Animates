@@ -7,6 +7,7 @@ angular.module('animatesApp')
 		$scope.effectProperties = null;
 		$scope.mediaObjectId = null;
 		$scope.effectId = null;
+		$scope.effectName = null;
 		$scope.effectIsInfinite = false;
 
 		//--- Effect related methods ---//
@@ -34,6 +35,7 @@ angular.module('animatesApp')
 
 		var cleanEffect = function () {
 			$scope.effectProperties = null;
+			$scope.effectName = null;
 			$scope.effectId = null;
 		};
 
@@ -42,6 +44,7 @@ angular.module('animatesApp')
 
 			if (effect !== null) {
 				$scope.effectProperties = effect.getPropertiesSchema();
+				$scope.effectName = effect.getType().replace(/Effect/,'');
 				$scope.effectId = effect.getGuid();
 				$scope.effectIsInfinite = effect.isInfinite();
 				$scope.mediaObjectId = mediaObjectId;

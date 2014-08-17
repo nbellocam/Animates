@@ -12,8 +12,12 @@
     </div>
     <div ng-if="isEffect()">
       <h4>Effect's Properties</h4>
-      <animates-Effectproperties ng-if="effectIsInfinite" effect-properties="effectProperties" updatehandler="onEffectUpdate(key, value)"></animates-EffectProperties>
+      <animates-Effectproperties ng-if="effectIsInfinite" effect-name="effectName" effect-properties="effectProperties" updatehandler="onEffectUpdate(key, value)"></animates-EffectProperties>
       <table class="table table-striped" ng-if="!effectIsInfinite">
+        <tr>
+          <td>Type</td>
+          <td>{{ effectName }}</td>
+        </tr>
         <tr ng-repeat="key in effectProperties.names();">
           <td>{{ key }}</td>
           <td>
