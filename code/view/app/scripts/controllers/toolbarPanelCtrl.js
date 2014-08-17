@@ -14,6 +14,10 @@ angular.module('animatesApp')
 
 		localAnimationStateService.addSelectedShapeObserver('toolbar', function(selectedShape) {
 			$scope.selectedShape = selectedShape;
+
+			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
+				$scope.$apply();
+			}
 		});
 
 		// Shape related methods
