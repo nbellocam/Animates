@@ -6,10 +6,15 @@ angular.module('animatesApp')
 			restrict: 'E',
 			scope: {
 				effectProperties: '=',
+				effectName: '=',
 				updatehandler: '&'
 			},
 			template:
 			'<table class="table table-striped">' +
+				'<tr>' +
+					'<td>Type</td>' +
+					'<td>{{ effectName }}</td>' +
+				'</tr>' +
 				'<tr ng-repeat="key in basePropertiesKeys">' +
 					'<td>{{ key }}</td>' +
 					'<td>' +
@@ -24,20 +29,21 @@ angular.module('animatesApp')
 				'</tr>' +
 				'<tr ng-repeat="point in points">' +
 					'<td ng-repeat="pointData in point">' +
-						'<animates-Property propkey="pointData" prop="effectProperties.get(pointData)" updatehandler="onEffectUpdate(key, value)"></animates-Property>' +
+						'<span ng-if="firstTick(pointData)">0</span>' +
+						'<animates-Property ng-if="!firstTick(pointData)" propkey="pointData" prop="effectProperties.get(pointData)" updatehandler="onEffectUpdate(key, value)"></animates-Property>' +
 					'</td>' +
 				'</tr>' +
 			'</table>',
 			controller: function($scope) {
+				function getPointId(key) {
+					return key.slice(7, key.indexOf('.', 7) - 1);
+				}
+
+				function getPropertyName(key) {
+					return key.slice(key.indexOf('.', 7) + 1);
+				}
+
 				function adaptEffectProperties() {
-					function getPointId(key) {
-						return key.slice(7, key.indexOf('.', 7) - 1);
-					}
-
-					function getPropertyName(key) {
-						return key.slice(key.indexOf('.', 7) + 1);
-					}
-
 					var names = $scope.effectProperties.names(),
 						basePropertiesKeys = [],
 						pointsHeaders = [],
@@ -70,6 +76,10 @@ angular.module('animatesApp')
 					$scope.pointsHeaders = pointsHeaders;
 					$scope.points = points;
 				}
+
+				$scope.firstTick = function(pointData) {
+					return (getPropertyName(pointData) === 'tick' && $scope.effectProperties.get(pointData).value() === 0);
+				};
 
 				$scope.onEffectUpdate = function(key, value) {
 					if ($scope.updatehandler) {
