@@ -2,6 +2,7 @@
 
 var MediaTimeline = require('./mediaTimeline'),
 	MultiPointMoveEffect = require('./effects/multiPointMoveEffect'),
+	MultiPointRotateEffect = require('./effects/multiPointRotateEffect'),
 	JsonSerializer = require('./serialization/jsonSerializer');
 
 /**
@@ -31,17 +32,22 @@ function Timeline (options) {
 			}
 
 			if (!mediaTimeline) {
-				var defaultMoveEffect = new MultiPointMoveEffect();
+				var defaultMoveEffect = new MultiPointMoveEffect(),
+					defaultRotateEffect = new MultiPointRotateEffect();
+
+				defaultMoveEffect.updateProperties(0, { 
+					'position.x' : mediaObject.getProperty('position.x'), 
+					'position.y' : mediaObject.getProperty('position.y')
+				});
+
+				defaultRotateEffect.updateProperties(0, {
+					'angle' : mediaObject.getProperty('angle')
+				});
 
 				mediaTimeline = new MediaTimeline({ mediaObject : mediaObject });
 				mediaTimelineCollection.push(mediaTimeline);
 				mediaTimeline.addEffect(defaultMoveEffect);
-
-				defaultMoveEffect.updateProperties(0, 
-					{ 
-						'position.x' : mediaObject.getProperty('position.x'), 
-						'position.y' : mediaObject.getProperty('position.y')
-					});
+				mediaTimeline.addEffect(defaultRotateEffect);
 
 			}
 
