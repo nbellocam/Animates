@@ -84,147 +84,6 @@ describe('MediaTimeline', function() {
 		});
 	});
 
-	describe('*startTick', function() {
-		it('Should start at 0 if it not specified otherwise.', function() {
-			var mediaTimeline = new MediaTimeline(),
-				startTick = mediaTimeline.getStartTick();
-
-			startTick.should.be.exactly(0);
-		});
-
-		it('Should start at the value specified using the constructor.', function() {
-			var startTick = 42,
-				mediaTimeline = new MediaTimeline({'startTick' : startTick });
-
-			mediaTimeline.getStartTick().should.be.exactly(startTick);
-		});
-
-		it('Should start at the value specified using the set method.', function() {
-			var startTick = 42,
-				mediaTimeline = new MediaTimeline();
-
-			mediaTimeline.setStartTick(startTick);
-			mediaTimeline.getStartTick().should.be.exactly(startTick);
-		});
-	});
-
-	describe('*endTick', function() {
-		it('Should end at -1 if it not specified otherwise (without effects).', function() {
-			var mediaTimeline = new MediaTimeline();
-
-			mediaTimeline.getEndTick().should.be.exactly(-1);
-		});
-
-		it('Should end at the value specified using the constructor (without effects).', function() {
-			var endTick = 42,
-				mediaTimeline = new MediaTimeline({ 'endTick' : endTick });
-
-			mediaTimeline.getEndTick().should.be.exactly(endTick);
-		});
-
-		it('Should end at the value specified using the set method (without effects).', function() {
-			var endTick = 42,
-				mediaTimeline = new MediaTimeline();
-
-			mediaTimeline.setEndTick(endTick);
-
-			mediaTimeline.getEndTick().should.be.exactly(endTick);
-		});
-
-		it('Should end at -1 if it not specified otherwise (with effects that ends in -1).', function() {
-			var mediaTimeline = new MediaTimeline(),
-				effectId = 'myId',
-				effectEndTick = -1,
-				effect = {
-							'getOption' : function (name) {
-								var op = { 'endTick' : effectEndTick };
-								return op[name];
-							},
-							'getGuid' : function () { return effectId; }
-						};
-
-			mediaTimeline.addEffect(effect);
-
-			mediaTimeline.getEndTick().should.be.exactly(-1);
-		});
-
-		it('Should end at the value specified using the constructor (with effects that ends in -1).', function() {
-			var endTick = 42,
-				mediaTimeline = new MediaTimeline({ 'endTick' : endTick }),
-				effectId = 'myId',
-				effectEndTick = -1,
-				effect = {
-							'getOption' : function (name) {
-								var op = { 'endTick' : effectEndTick };
-								return op[name];
-							},
-							'getGuid' : function () { return effectId; }
-						};
-
-			mediaTimeline.addEffect(effect);
-
-			mediaTimeline.getEndTick().should.be.exactly(endTick);
-		});
-
-		it('Should end at the value specified using the set method (with effects that ends in -1).', function() {
-			var endTick = 42,
-				mediaTimeline = new MediaTimeline(),
-				effectId = 'myId',
-				effectEndTick = -1,
-				effect = {
-							'getOption' : function (name) {
-								var op = { 'endTick' : effectEndTick };
-								return op[name];
-							},
-							'getGuid' : function () { return effectId; }
-						};
-
-
-			mediaTimeline.setEndTick(endTick);
-			mediaTimeline.addEffect(effect);
-
-			mediaTimeline.getEndTick().should.be.exactly(endTick);
-		});
-
-		it('Should end at the value specified (with effects that ends before).', function() {
-			var endTick = 42,
-				mediaTimeline = new MediaTimeline({ 'endTick' : endTick }),
-				effectId = 'myId',
-				effectEndTick = 30,
-				effect = {
-							'getOption' : function (name) {
-								var op = { 'endTick' : effectEndTick };
-								return op[name];
-							},
-							'getGuid' : function () { return effectId; }
-						};
-
-
-			mediaTimeline.addEffect(effect);
-
-			mediaTimeline.getEndTick().should.be.exactly(endTick);
-		});
-
-		it('Should end at the value of the effect (with effects that ends after).', function() {
-			var endTick = 42,
-				effectEndTick = 84,
-				mediaTimeline = new MediaTimeline({ 'endTick' : endTick }),
-				effectId = 'myId',
-				effect = {
-							'getOption' : function (name) {
-								var op = { 'endTick' : effectEndTick };
-								return op[name];
-							},
-							'getGuid' : function () { return effectId; }
-						};
-
-
-			mediaTimeline.addEffect(effect);
-
-			mediaTimeline.getEndTick().should.be.exactly(effectEndTick);
-		});
-	});
-
 	describe('getEffectsForTick', function () {
 		it('Should not return any effect', function () {
 			var currentTick = 42,
@@ -816,21 +675,6 @@ describe('MediaTimeline', function() {
 			mediaFrame.properties().should.have.property('x', 0);
 		});
 
-		it('Should not retrive a MediaFrame if the frame is before the initialFrame.', function() {
-			var currentTick = 42,
-				startTick = 100,
-				specifiedMediaObjectId = '42',
-				defaultProperties = { x : 0 },
-				specifiedMediaObject = {
-					'getGuid' : function () { return specifiedMediaObjectId; },
-					'getProperties' : function () { return defaultProperties; }
-				},
-				mediaTimeline = new MediaTimeline( { startTick: startTick, mediaObject: specifiedMediaObject } ),
-				mediaFrame = mediaTimeline.getMediaFrameFor(currentTick);
-
-			should.not.exists(mediaFrame);
-		});
-
 		it('Should return a new mediaFrame when effects are present but start before the current frame.', function() {
 			var currentTick = 1,
 				specifiedMediaObjectId = '42',
@@ -854,7 +698,10 @@ describe('MediaTimeline', function() {
 								return op[name];
 							},
 					'getGuid' : function () { return effectId; },
-					'getProperties' : getPropertiesFunction
+					'getProperties' : getPropertiesFunction,
+					'isInfinite' : function() {
+								return false;
+							}
 				};
 
 
@@ -1241,6 +1088,9 @@ describe('MediaTimeline', function() {
 						propertyList.should.be.an.Array.and.have.length(0);
 						return true;
 					},
+					'isInfinite' : function() {
+								return false;
+							},
 					'updateProperties' : function (tick, propertyList) {
 						propertyList.should.be.an.Object.and.be.empty;
 						tick.should.be.equal(currentTick);
@@ -1299,6 +1149,9 @@ describe('MediaTimeline', function() {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
 						return { updatedProperties : ['propOther', 'propOther2'] };
+					},
+					'isInfinite' : function() {
+						return false;
 					}
 				},
 				propertyList = {
@@ -1383,6 +1236,9 @@ describe('MediaTimeline', function() {
 					'updateProperties' : function (tick, propertyList) {
 						should.fail('UpdateProperties should not be called');
 						return { updatedProperties : ['prop1', 'prop4'] };
+					},
+					'isInfinite' : function() {
+						return false;
 					}
 				},
 				propertyList = {
@@ -1424,6 +1280,9 @@ describe('MediaTimeline', function() {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
 						return { updatedProperties : ['prop1', 'prop4'] };
+					},
+					'isInfinite' : function() {
+						return false;
 					}
 				},
 				propertyList = {
@@ -1463,6 +1322,9 @@ describe('MediaTimeline', function() {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
 						return { updatedProperties : ['prop3'] };
+					},
+					'isInfinite' : function() {
+						return false;
 					}
 				},
 				effectStartTick2 = 2,
@@ -1482,6 +1344,9 @@ describe('MediaTimeline', function() {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
 						return { updatedProperties : ['prop2'] };
+					},
+					'isInfinite' : function() {
+						return false;
 					}
 				},
 				propertyList = {
@@ -1522,6 +1387,9 @@ describe('MediaTimeline', function() {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
 						return { updatedProperties : ['prop1'] };
+					},
+					'isInfinite' : function() {
+						return false;
 					}
 				},
 				effectStartTick2 = 2,
@@ -1541,6 +1409,9 @@ describe('MediaTimeline', function() {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
 						return { updatedProperties : ['prop1'] };
+					},
+					'isInfinite' : function() {
+						return false;
 					}
 				},
 				propertyList = {
@@ -1582,6 +1453,9 @@ describe('MediaTimeline', function() {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
 						return { updatedProperties : ['prop1', 'prop4'] };
+					},
+					'isInfinite' : function() {
+						return false;
 					}
 				},
 				effectStartTick2 = 2,
@@ -1601,6 +1475,9 @@ describe('MediaTimeline', function() {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
 						return { updatedProperties : ['prop1', 'prop3'] };
+					},
+					'isInfinite' : function() {
+						return false;
 					}
 				},
 				propertyList = {
@@ -1640,6 +1517,9 @@ describe('MediaTimeline', function() {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
 						return { updatedProperties : ['prop1', 'prop2', 'prop4'] };
+					},
+					'isInfinite' : function() {
+						return false;
 					}
 				},
 				effectStartTick2 = 2,
@@ -1659,6 +1539,9 @@ describe('MediaTimeline', function() {
 						propertyList.should.be.an.Object.and.have.properties('prop1', 'prop2', 'prop3', 'prop4');
 						tick.should.be.equal(currentTick);
 						return { updatedProperties : ['prop1', 'prop3'] };
+					},
+					'isInfinite' : function() {
+						return false;
 					}
 				},
 				propertyList = {

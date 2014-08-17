@@ -22,7 +22,6 @@ function Animation (options) {
 	function applyShapeCreateOperation(opParams) {
 		var mediaTimeline = _self.timeline.addMediaObject(opParams.mediaObject);
 		if (mediaTimeline) {
-			mediaTimeline.setStartTick(opParams.tick);
 			return true;
 		}
 

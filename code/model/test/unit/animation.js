@@ -4,7 +4,6 @@
 
 var Animation = require('../../src/animation'),
 	Rectangle = require('../../src/shapes/rectangle'),
-	Effect = require('../../src/finiteEffect'),
 	MoveEffect = require('../../src/effects/moveEffect'),
 	Timeline = require('../../src/timeline'),
 	Canvas = require('../../src/canvas'),
@@ -35,8 +34,6 @@ describe('Animation', function() {
 
 			var mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
 			should.exist(mediaTimeline);
-			mediaTimeline.getStartTick().should.be.equal(100);
-			mediaTimeline.getEndTick().should.be.equal(-1);
 		});
 
 		it('Should call observer with Rectangle Shape remove event', function() {

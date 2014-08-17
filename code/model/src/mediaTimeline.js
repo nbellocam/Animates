@@ -13,8 +13,6 @@ function MediaTimeline (options) {
 
 	var _self = this, // Save the this reference for later use
 		mediaObject = options.mediaObject,
-		startTick = options.startTick || 0,
-		endTick = options.endTick || -1,
 		effects = {};
 
 	/**
@@ -22,40 +20,45 @@ function MediaTimeline (options) {
 	 * @param {integer} currentTick The current tick.
 	 */
 	this.getMediaFrameFor = function getMediaFrameFor(currentTick) {
-		if (startTick <= currentTick) {
-			var mediaObjectFrame = new MediaFrame({ 'mediaObject' : mediaObject, 'currentTick' : currentTick }),
-				effectsArray = [],
-				currentEffect;
+		var mediaObjectFrame = new MediaFrame({ 'mediaObject' : mediaObject, 'currentTick' : currentTick }),
+			effectsArray = [],
+			currentEffect;
 
-			for (var id in effects) {
-				if (effects.hasOwnProperty(id)) {
-					effectsArray.push(effects[id]);
-				}
+		for (var id in effects) {
+			if (effects.hasOwnProperty(id)) {
+				effectsArray.push(effects[id]);
 			}
-
-			effectsArray.sort(function(a,b) {
-				return b.getOption('endTick') - a.getOption('endTick');
-			});
-
-			for (var i = effectsArray.length - 1; i >= 0; i--) {
-				currentEffect = effectsArray[i];
-				if (currentTick >= currentEffect.getOption('startTick')) {
-					if (currentEffect.isInfinite()) {
-						mediaObjectFrame.properties(currentEffect.getProperties(currentTick, mediaObjectFrame.properties()));
-					} else {
-						mediaObjectFrame.properties(
-							currentEffect.getProperties(
-								(currentTick < currentEffect.getOption('endTick')) ? currentTick : currentEffect.getOption('endTick'),
-								mediaObjectFrame.properties()
-							)
-						);
-					}
-				}
-			}
-
-			return mediaObjectFrame;
 		}
-		return undefined;
+
+		effectsArray.sort(function(a,b) {
+			if (a.isInfinite() && b.isInfinite()) {
+				return 0;
+			} else if (a.isInfinite()) {
+				return 1;
+			} else if (b.isInfinite()) {
+				return -1;
+			} else {
+				return b.getOption('endTick') - a.getOption('endTick');
+			}
+		});
+
+		for (var i = effectsArray.length - 1; i >= 0; i--) {
+			currentEffect = effectsArray[i];
+			if (currentEffect.isInfinite()) {
+					mediaObjectFrame.properties(currentEffect.getProperties(currentTick, mediaObjectFrame.properties()));
+			} else {
+				if (currentTick >= currentEffect.getOption('startTick')) {
+					var effectEndTick = currentEffect.getOption('endTick'),
+						endTick = (currentTick < effectEndTick) ? currentTick : effectEndTick;
+
+					mediaObjectFrame.properties(
+						currentEffect.getProperties(endTick, 
+								mediaObjectFrame.properties()));
+				}
+			}
+		}
+
+		return mediaObjectFrame;
 	};
 
 	/**
@@ -75,42 +78,6 @@ function MediaTimeline (options) {
 	};
 
 	/**
-	 * Get the start tick
-	 * @return {integer} The number of the start tick.
-	 */
-	this.getStartTick = function getStartTick() {
-		return startTick;
-	};
-
-	/**
-	 * Set the start tick for this media object
-	 * @param {integer} tick The start tick for this media object.
-	 */
-	this.setStartTick = function setStartTick(tick) {
-		startTick = tick;
-	};
-
-	/**
-	 * Calculates the end tick based on the effects and the configured end tick.
-	 * @return {integer} The number of the end tick.
-	 */
-	this.getEndTick = function getEndTick() {
-		var currentEndTick = endTick,
-			effectEndTick;
-
-		for (var id in effects) {
-			if (effects.hasOwnProperty(id)) {
-				effectEndTick = effects[id].getOption('endTick');
-				if (effectEndTick > currentEndTick) {
-					currentEndTick = effectEndTick;
-				}
-			}
-		}
-
-		return currentEndTick;
-	};
-
-	/**
 	 * Finds the most suitable start tick for the requested effect considering all
 	 * effects thay may change the same requested properties before it.
 	 * @param {Array} affectedProperties The properties to be considered during the search of effects
@@ -119,7 +86,7 @@ function MediaTimeline (options) {
 	 * @return {integer} the start tick
 	 */
 	this.getStartTickFor = function getStartTickFor (effect, upperTickLimit) {
-		var endTick = startTick;
+		var endTick = 0;
 
 		// up to now for us there is no effect that conflicts with the requested properties
 
@@ -130,9 +97,9 @@ function MediaTimeline (options) {
 				var currentEffect = effects[id];
 
 				// Only consider effects that start before the upperLimitTick
-				if (currentEffect.getOption('startTick') < upperTickLimit) {
+				if (!currentEffect.isInfinite() && currentEffect.getOption('startTick') < upperTickLimit) {
 					if (currentEffect.HasConflictWithProperties(effect)) {
-						if (endTick < currentEffect.getOption('endTick') && !currentEffect.isInfinite()) {
+						if (endTick < currentEffect.getOption('endTick')) {
 							endTick = currentEffect.getOption('endTick');
 						}
 					}
@@ -157,7 +124,7 @@ function MediaTimeline (options) {
 				var currentEffect = effects[id];
 
 				// If the effect contains the tick
-				if ((currentEffect.getOption('startTick') <= tick) && (currentEffect.getOption('endTick') >= tick || currentEffect.isInfinite())) {
+				if (currentEffect.isInfinite() || (currentEffect.getOption('startTick') <= tick) && (currentEffect.getOption('endTick') >= tick)) {
 					resultEffects.push(currentEffect);
 				}
 			}
@@ -217,14 +184,6 @@ function MediaTimeline (options) {
 	};
 
 	/**
-	 * Set the end tick for this media object
-	 * @param {integer} tick The end tick for this media object.
-	 */
-	this.setEndTick = function setEndTick(tick) {
-		endTick = tick;
-	};
-
-	/**
 	 * Add a new effect to the media object timeline.
 	 * @param {Effect} effect the effect that will be added.
 	 */
@@ -262,8 +221,6 @@ function MediaTimeline (options) {
 
 	this.toJSON = function () {
 		var ser =	{
-						'startTick' : startTick,
-						'endTick' : endTick,
 						'mediaObject' : JsonSerializer.serializeObject(mediaObject),
 						'effects' : JsonSerializer.serializeDictionary(effects)
 					};
@@ -272,8 +229,6 @@ function MediaTimeline (options) {
 	};
 
 	this.fromJSON = function (json) {
-		this.startTick = json.startTick;
-		this.endTick = json.endTick;
 		mediaObject = JsonSerializer.deserializeObject(json.mediaObject);
 		effects = JsonSerializer.deserializeDictionary(json.effects);
 	};
