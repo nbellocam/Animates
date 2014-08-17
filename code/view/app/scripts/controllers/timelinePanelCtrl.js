@@ -55,7 +55,7 @@ angular.module('animatesApp')
 		$scope.onLocalStateTickChange = function(newVal) {
 			if ($scope.tick !== newVal) {
 				$scope.tick = newVal;
-				
+
 				if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
 					$scope.$apply();
 				}
@@ -155,7 +155,12 @@ angular.module('animatesApp')
 		$scope.onEventStartChange = function (timelineData, eventData, newStartTick) {
 			var mediaTimeline = getMediaTimeline(timelineData.id);
 			if (mediaTimeline) {
-				var updatedOptions = { startTick: newStartTick };
+				var effect = mediaTimeline.getEffect(eventData.id),
+					duration = effect.getOption('endTick') - effect.getOption('startTick'),
+					updatedOptions = {
+						endTick: newStartTick + duration,
+						startTick: newStartTick
+					};
 
 				applyEffectUpdateOperation(mediaTimeline.getMediaObjectId(), eventData.id, updatedOptions);
 			}
