@@ -6,7 +6,7 @@ var JsonSerializer = require('../../src/serialization/jsonSerializer'),
 	MediaObject = require('../../src/mediaObject'),
 	Shape = require('../../src/shape'),
 	Rectangle = require('../../src/shapes/rectangle'),
-	Effect = require('../../src/effect'),
+	FiniteEffect = require('../../src/finiteEffect'),
 	MediaTimeline = require('../../src/mediaTimeline'),
 	Canvas = require('../../src/canvas'),
 	Timeline = require('../../src/timeline'),
@@ -95,19 +95,19 @@ describe('Serialization', function () {
 		});
 	});
 
-	describe('Effect', function() {
+	describe('FiniteEffect', function() {
 		it('Should serialize the json object', function() { 
-			var effect = new Effect(),
+			var effect = new FiniteEffect(),
 				json = JsonSerializer.serializeObject(effect);
 
-			json.should.have.property('type', 'Effect');
+			json.should.have.property('type', 'FiniteEffect');
 			json.should.have.property('data');
 			json.data.should.have.keys('options', 'guid');
 			json.data.options.should.have.keys('startTick', 'endTick');
 		});
 
 		it('Should deserialize from json object', function() { 
-			var effect = new Effect(),
+			var effect = new FiniteEffect(),
 				json = JsonSerializer.serializeObject(effect),
 				effect2 = JsonSerializer.deserializeObject(json);
 
@@ -128,7 +128,7 @@ describe('Serialization', function () {
 
 		it('Should deserialize from json object', function() { 
 			var mediaObject = new MediaObject(),
-				effect = new Effect(),
+				effect = new FiniteEffect(),
 				mediaTimeline = new MediaTimeline({'mediaObject' : mediaObject}),
 				json,
 				mediaTimeline2;

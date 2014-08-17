@@ -6,7 +6,7 @@ var Common = require('animates-common'),
 	DictionaryPropertyBuilder = require('../properties/dictionaryPropertyBuilder'),
 	CompositePropertyBuilder = require('../properties/compositePropertyBuilder'),
 	straightPathStrategy = require('./pathStrategies/straightPathStrategy'),
-	Effect = require('../effect.js');
+	Effect = require('../finiteEffect.js');
 
 
 /**

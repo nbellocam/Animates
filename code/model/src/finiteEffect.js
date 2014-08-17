@@ -6,10 +6,10 @@ var Common = require('animates-common'),
 	JsonSerializer = require('./serialization/jsonSerializer');
 
 /**
- *  Creates a new Effect.
- *  @class Represents an Effect .
+ *  Creates a new FiniteEffect.
+ *  @class Represents an FiniteEffect .
  */
-function Effect (options, builder) {
+function FiniteEffect (options, builder) {
 
 	options = options || {};
 
@@ -137,7 +137,7 @@ function Effect (options, builder) {
 	 * effects also changes
 	 * If the strict parameter is passed as true then all the properties must match
 	 *
-	 * @param {Effect} effect The effect on which conflicts must be checked
+	 * @param {FiniteEffect} effect The effect on which conflicts must be checked
 	 * @param {boolean} strict means that all properties must match to indicate a conflict
 	 * @return true if a match was found (according to the strict paramter)
 	 */
@@ -204,6 +204,6 @@ function Effect (options, builder) {
 	};
 }
 
-JsonSerializer.registerType(Effect);
+JsonSerializer.registerType(FiniteEffect);
 
-module.exports = Effect;
+module.exports = FiniteEffect;

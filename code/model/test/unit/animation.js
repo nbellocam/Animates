@@ -4,7 +4,7 @@
 
 var Animation = require('../../src/animation'),
 	Rectangle = require('../../src/shapes/rectangle'),
-	Effect = require('../../src/effect'),
+	Effect = require('../../src/finiteEffect'),
 	MoveEffect = require('../../src/effects/moveEffect'),
 	Timeline = require('../../src/timeline'),
 	Canvas = require('../../src/canvas'),
