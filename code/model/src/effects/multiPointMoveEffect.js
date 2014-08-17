@@ -177,11 +177,6 @@ function MultiPointMoveEffect(options, builder) {
 						}
 					};
 	};
-
-	this.effect_toJSON = this.toJSON;
-	this.toJSON = function () {
-		return _self.effect_toJSON();
-	};
 }
 
 Common.inherits(MultiPointMoveEffect, Effect);
