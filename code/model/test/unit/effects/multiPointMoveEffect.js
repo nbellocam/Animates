@@ -38,79 +38,7 @@ describe('MultiPointMoveEffect', function() {
 		});
 	});
 
-	describe('startTick', function() {
-		it('Should start at 0 if it not specified otherwise', function() {
-			var effect = new MultiPointMoveEffect();
-
-			effect.getOption('startTick').should.be.exactly(0);
-		});
-
-		it('Should start always at 0', function() {
-			var startTick = 42,
-				effect = new MultiPointMoveEffect({ 'startTick' : startTick });
-
-			effect.getOption('startTick').should.be.exactly(0);
-		});
-	});
-
-	describe('endTick', function() {
-		it('Should end at -1 if it not specified otherwise', function() {
-			var effect = new MultiPointMoveEffect();
-
-			effect.getOption('endTick').should.be.exactly(-1);
-		});
-
-		it('Should end always at -1', function() {
-			var endTick = 42,
-				effect = new MultiPointMoveEffect({ 'endTick' : endTick });
-
-			effect.getOption('endTick').should.be.exactly(-1);
-		});
-	});
-
-	describe('setOption', function () {
-		it('Should return update extistant options values', function () {
-			var effect = new MultiPointMoveEffect();
-
-			(function(){
-				effect.setOption('startTick', 200);
-			}).should.throw('The property \'startTick\' cannot be set.');
-
-			(function(){
-				effect.setOption('endTick', 200);
-			}).should.throw('The property \'endTick\' cannot be set.');
-		});
-	});
-
 	describe('getProperties()', function() {
-		it('Should throw exception if path is not valid.', function() {
-			var tick = 10,
-				mediaFrameProperties = { 'position' : { 'x' : 50, 'y' : 100 } };
-
-			(function(){
-				new MultiPointMoveEffect({ 'path' : 'invalidPathStrategy' });
-			}).should.throw('The property \'path\' could not be built due to invalid value.');
-		});
-
-		it('Should retrive the original mediaFrame with no changes if the tick is before the startTick.', function() {
-			var tick = 0,
-				resultX = 50,
-				resultY = 100,
-				mediaFrameProperties = { 'position' : { 'x' : resultX, 'y' : resultY } },
-				effect = new MultiPointMoveEffect({
-					'path' : 'Straight',
-					'startTick' : 10,
-					'endTick': 20,
-					}),
-				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
-
-			should.strictEqual(resultMediaFrameProperties, mediaFrameProperties);
-
-			resultMediaFrameProperties.should.have.property('position');
-			resultMediaFrameProperties.position.should.have.property('x', resultX);
-			resultMediaFrameProperties.position.should.have.property('y', resultY);
-		});
-
 		it('Should retrive the original mediaFrame with the last position if the tick is before the endTick.', function() {
 			var tick = 100,
 				resultX = 10,
@@ -154,14 +82,12 @@ describe('MultiPointMoveEffect', function() {
 				json = effect.toJSON();
 
 			json.should.have.keys('options', 'guid');
-			json.options.should.have.keys('startTick', 'endTick', 'path', 'points');
+			json.options.should.have.keys('path', 'points');
 		});
 
 		it('fromJSON should load the object', function() {
 			var effect = new MultiPointMoveEffect(
 								{
-									'startTick' : 0,
-									'endTick' : -1,
 									'points': {
 											'id1' : {
 														'tick' : 5,
@@ -186,8 +112,6 @@ describe('MultiPointMoveEffect', function() {
 			effect2.fromJSON(json);
 			effect2.getGuid().should.equal(effect.getGuid());
 			deserializedOptions = effect2.getOptions();
-			deserializedOptions.should.have.property('startTick', 0);
-			deserializedOptions.should.have.property('endTick', -1);
 			deserializedOptions.points.id1.tick.should.equal(5);
 			deserializedOptions.points.id1.position.x.should.equal(10);
 			deserializedOptions.points.id1.position.y.should.equal(10);
@@ -205,7 +129,6 @@ describe('MultiPointMoveEffect', function() {
 				oldValueY = 100,
 				updatedPropertiesDiff = { },
 				effect = new MultiPointMoveEffect({
-					'endTick' : endTick,
 					'path' : 'Straight',
 					'points': {
 								'id1' : {
@@ -237,12 +160,10 @@ describe('MultiPointMoveEffect', function() {
 
 		it('Should return empty array and not modify any position if a not applying list of properties was passed by param', function() {
 			var tick = 5,
-				endTick = tick,
 				oldValueX = 50,
 				oldValueY = 100,
 				updatedPropertiesDiff = { 'something' : 'notUsed' },
 				effect = new MultiPointMoveEffect({
-					'endTick' : endTick,
 					'path' : 'Straight',
 					'points': {
 								'id1' : {
@@ -280,7 +201,6 @@ describe('MultiPointMoveEffect', function() {
 				newValue = 300,
 				updatedPropertiesDiff = { 'position.x' : newValue },
 				effect = new MultiPointMoveEffect({
-					'endTick' : endTick,
 					'path' : 'Straight',
 					'points': {
 								'id1' : {
@@ -319,8 +239,6 @@ describe('MultiPointMoveEffect', function() {
 				newValue = 300,
 				updatedPropertiesDiff = { 'position.x' : newValue },
 				effect = new MultiPointMoveEffect({
-					'startTick' : tick,
-					'endTick' : endTick,
 					'path' : 'Straight',
 					'points': {
 								'id1' : {
@@ -359,8 +277,6 @@ describe('MultiPointMoveEffect', function() {
 				newValue = 300,
 				updatedPropertiesDiff = { 'position.y' : newValue },
 				effect = new MultiPointMoveEffect({
-					'startTick' : tick,
-					'endTick' : endTick,
 					'path' : 'Straight',
 					'points': {
 								'id1' : {
@@ -404,8 +320,6 @@ describe('MultiPointMoveEffect', function() {
 					'position.y' : newValueY
 				},
 				effect = new MultiPointMoveEffect({
-					'startTick' : tick,
-					'endTick' : endTick,
 					'path' : 'Straight',
 					'points': {
 								'id1' : {
@@ -451,8 +365,6 @@ describe('MultiPointMoveEffect', function() {
 					'other' : { 'newValue' : newValueY, 'oldValue' : oldValueY }
 				},
 				effect = new MultiPointMoveEffect({
-					'startTick' : tick,
-					'endTick' : endTick,
 					'points': {
 								'id1' : {
 											'tick' : tick,
@@ -490,8 +402,6 @@ describe('MultiPointMoveEffect', function() {
 				newValue = 300,
 				updatedPropertiesDiff = { 'position.x' : newValue },
 				effect = new MultiPointMoveEffect({
-					'startTick' : 0,
-					'endTick' : tick,
 					'path' : 'Straight',
 					'points': {
 								'id1' : {
@@ -529,8 +439,6 @@ describe('MultiPointMoveEffect', function() {
 				newValue = 300,
 				updatedPropertiesDiff = { 'position.y' : newValue },
 				effect = new MultiPointMoveEffect({
-					'startTick' : 0,
-					'endTick' : tick,
 					'path' : 'Straight',
 					'points': {
 								'id1' : {
@@ -572,8 +480,6 @@ describe('MultiPointMoveEffect', function() {
 					'position.y' : newValueY
 				},
 				effect = new MultiPointMoveEffect({
-					'startTick' : 0,
-					'endTick' : tick,
 					'path' : 'Straight',
 					'points': {
 								'id1' : {
@@ -617,8 +523,6 @@ describe('MultiPointMoveEffect', function() {
 					'other' : { 'newValue' : newValueY, 'oldValue' : oldValueY }
 				},
 				effect = new MultiPointMoveEffect({
-					'startTick' : 0,
-					'endTick' : tick,
 					'path' : 'Straight',
 					'points': {
 								'id1' : {

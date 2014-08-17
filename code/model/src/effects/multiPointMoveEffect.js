@@ -6,7 +6,7 @@ var Common = require('animates-common'),
 	DictionaryPropertyBuilder = require('../properties/dictionaryPropertyBuilder'),
 	CompositePropertyBuilder = require('../properties/compositePropertyBuilder'),
 	straightPathStrategy = require('./pathStrategies/straightPathStrategy'),
-	Effect = require('../finiteEffect.js');
+	Effect = require('../effect.js');
 
 
 /**
@@ -74,24 +74,20 @@ function MultiPointMoveEffect(options, builder) {
 
 	this.base_setOption = this.setOption;
 	this.setOption = function (name, value) {
-		if ((name === 'startTick') || (name === 'endTick')) {
-			throw new Error("The property '" + name + "' cannot be set.");
-		} else {
-			if (name.slice(0,6) === 'points' && name.slice(-4) === 'tick') {
-				// Check if a point exists in the same tick and then remove the old point.
-				var points = _self.getOption('points'),
-					pointId = name.slice(7).slice(0,-5);
+		if (name.slice(0,6) === 'points' && name.slice(-4) === 'tick') {
+			// Check if a point exists in the same tick and then remove the old point.
+			var points = _self.getOption('points'),
+				pointId = name.slice(7).slice(0,-5);
 
-				for (var key in points) {
-					if (points[key].tick === value && key !== pointId) {
-						// A point already exist in the same tick, remove it
-						this.base_setOption('points.' + key , undefined);
-					}
+			for (var key in points) {
+				if (points[key].tick === value && key !== pointId) {
+					// A point already exist in the same tick, remove it
+					this.base_setOption('points.' + key , undefined);
 				}
 			}
-
-			this.base_setOption(name, value);
 		}
+
+		this.base_setOption(name, value);
 	};
 
 	/**

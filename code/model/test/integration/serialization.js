@@ -123,7 +123,7 @@ describe('Serialization', function () {
 
 			json.should.have.property('type', 'MediaTimeline');
 			json.should.have.property('data');
-			json.data.should.have.keys('effects', 'startTick', 'endTick', 'mediaObject');
+			json.data.should.have.keys('effects', 'mediaObject');
 		});
 
 		it('Should deserialize from json object', function() { 

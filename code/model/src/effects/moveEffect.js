@@ -6,7 +6,7 @@ var Common = require('animates-common'),
 	DictionaryPropertyBuilder = require('../properties/dictionaryPropertyBuilder'),
 	CompositePropertyBuilder = require('../properties/compositePropertyBuilder'),
 	straightPathStrategy = require('./pathStrategies/straightPathStrategy'),
-	Effect = require('../finiteEffect.js');
+	FiniteEffect = require('../finiteEffect.js');
 
 
 /**
@@ -55,7 +55,7 @@ function MoveEffect(options, builder) {
 						.add()
 					.add();
 
-		_self.base(options, propBuilder);
+		_self.FiniteEffect(options, propBuilder);
 	}());
 
 	function getPointsArray() {
@@ -136,13 +136,13 @@ function MoveEffect(options, builder) {
 		return { updatedProperties: changedProperties };
 	};
 
-	this.effect_toJSON = this.toJSON;
+	/*this.effect_toJSON = this.toJSON;
 	this.toJSON = function () {
 		return _self.effect_toJSON();
-	};
+	};*/
 }
 
-Common.inherits(MoveEffect, Effect);
+Common.inherits(MoveEffect, FiniteEffect, 'FiniteEffect');
 
 JsonSerializer.registerType(MoveEffect);
 
