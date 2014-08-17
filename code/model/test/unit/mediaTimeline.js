@@ -84,6 +84,22 @@ describe('MediaTimeline', function() {
 		});
 	});
 
+	describe('getMediaObjectName()', function() {
+		it('Should return the media object id', function() {
+			var specifiedMediaObjectName = '42',
+				specifiedMediaObject = {
+					'getProperty' : function (propertyName) {
+							propertyName.should.be.exactly('name');
+							return specifiedMediaObjectName;
+						}
+					},
+				mediaTimeline = new MediaTimeline( { 'mediaObject' : specifiedMediaObject } ),
+				mediaObjectId = mediaTimeline.getMediaObjectName();
+
+			mediaObjectId.should.be.exactly(specifiedMediaObjectName);
+		});
+	});
+
 	describe('getEffectsForTick', function () {
 		it('Should not return any effect', function () {
 			var currentTick = 42,

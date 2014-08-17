@@ -52,7 +52,7 @@ function MediaTimeline (options) {
 						endTick = (currentTick < effectEndTick) ? currentTick : effectEndTick;
 
 					mediaObjectFrame.properties(
-						currentEffect.getProperties(endTick, 
+						currentEffect.getProperties(endTick,
 								mediaObjectFrame.properties()));
 				}
 			}
@@ -67,6 +67,14 @@ function MediaTimeline (options) {
 	 */
 	this.getMediaObjectId = function getMediaObjectId() {
 		return mediaObject.getGuid();
+	};
+
+	/**
+	* Get the media object name
+	* @return {string} The media object name.
+	*/
+	this.getMediaObjectName = function getMediaObjectName() {
+		return mediaObject.getProperty('name');
 	};
 
 	/**
