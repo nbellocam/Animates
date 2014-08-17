@@ -87,6 +87,7 @@ angular.module('animatesApp')
 								var shape = shapeCreator.createShapeFromMediaObject(params.mediaObject, _self.getCanvasPosition(), true);
 								if (shape) {
 									_self.add(shape);
+									canvasInstance.setActiveObject(shape);
 									shape.setCoords();
 								}
 								renderAll();
