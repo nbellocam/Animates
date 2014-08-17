@@ -28,7 +28,7 @@ angular.module('animatesApp')
 					'<th ng-repeat="key in pointsHeaders">{{ key }}</th>' +
 				'</tr>' +
 				'<tr ng-repeat="point in points">' +
-					'<td ng-repeat="pointData in point">' +
+					'<td ng-repeat="pointData in point.data">' +
 						'<span ng-if="firstTick(pointData)">0</span>' +
 						'<animates-Property ng-if="!firstTick(pointData)" propkey="pointData" prop="effectProperties.get(pointData)" updatehandler="onEffectUpdate(key, value)"></animates-Property>' +
 					'</td>' +
@@ -46,7 +46,7 @@ angular.module('animatesApp')
 				function adaptEffectProperties() {
 					var names = $scope.effectProperties.names(),
 						basePropertiesKeys = [],
-						pointsHeaders = [],
+						pointsHeaders = ['tick'],
 						points = {},
 						key, propertyName, id;
 
@@ -72,9 +72,30 @@ angular.module('animatesApp')
 						}
 					}
 
+					var pointsArray = [],
+						pointData, currentPoint;
+
+					for(var point in points) {
+						pointData = [];
+						currentPoint = points[point];
+
+						for (var j = 0; j < pointsHeaders.length; j++) {
+							pointData.push(currentPoint[pointsHeaders[j]]);
+						}
+
+						pointsArray.push({
+							data: pointData,
+							tick: $scope.effectProperties.get(currentPoint.tick).value()
+						});
+					}
+
+					pointsArray.sort(function(a, b) {
+						return a.tick - b.tick;
+					});
+
 					$scope.basePropertiesKeys = basePropertiesKeys;
 					$scope.pointsHeaders = pointsHeaders;
-					$scope.points = points;
+					$scope.points = pointsArray;
 				}
 
 				$scope.firstTick = function(pointData) {
