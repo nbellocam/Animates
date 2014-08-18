@@ -20,7 +20,7 @@ angular.module('animatesApp')
 				var type = mediaFrame.getMediaObjectType();
 
 				if (isTypeRegistered(type)) {
-					var shape = registeredShapes[type]();
+					var shape = registeredShapes[type](mediaFrame.getMediaObjectGuid());
 
 					shape.setOriginX('center');
 					shape.setOriginY('center');

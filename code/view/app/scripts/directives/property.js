@@ -29,7 +29,7 @@ angular.module('animatesApp')
 			},
 			template:
 				'<textarea ng-show="isText()" ng-rows="rows()" type="text" value="{{ prop.value() }}" id="property.{{ propkey }}" class="property form-control text" ng-blur="propertyBlur($event)"></textarea>' +
-				'<input ng-show="!isText()" type="" value="{{ getValue() }}" id="property.{{ propkey }}" class="property form-control" ng-blur="propertyBlur($event)"></input>',
+				'<input ng-show="!isText()" type="file" value="{{ getValue() }}" id="property.{{ propkey }}" class="property form-control" ng-blur="propertyBlur($event)"></input>',
 			controller: function($scope) {
 				$scope.isValid = true;
 				$scope.isText = function () { return $scope.prop.type().name() === 'text'; };
@@ -75,6 +75,7 @@ angular.module('animatesApp')
 
 				switch (scope.prop.type().name()) {
 					case 'color':
+						input.attr('type', '');
 						input.minicolors();
 						input.minicolors('value', scope.prop.value());
 
@@ -89,7 +90,7 @@ angular.module('animatesApp')
 						input.attr('type', 'number');
 						break;
 					case 'imageFile':
-						input.attr('type', 'file');
+						//input.attr('type', 'file');
 						input.attr('accept','image/*');
 						input.on('change', function (evt) {
 							var files = evt.target.files;
@@ -98,6 +99,9 @@ angular.module('animatesApp')
 							}
 						});
 
+						break;
+					default:
+						input.attr('type', '');
 						break;
 
 				}
