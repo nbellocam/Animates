@@ -32,9 +32,7 @@ describe('MultiPointRotateEffect', function() {
 
 			should(effectAffectedProperties)
 				.be.instanceof(Array)
-				.and.have.lengthOf(2);
 			should(effectAffectedProperties)
-				.eql(['angle' , 'motion']);
 		});
 	});
 

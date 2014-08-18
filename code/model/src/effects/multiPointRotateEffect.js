@@ -76,7 +76,7 @@ function MultiPointRotateEffect(options, builder) {
 	};
 
 	this.getAffectedProperties = function () {
-		return ['angle', 'motion'];
+		return ['angle'];
 	};
 
 	function addPoint(guid, tick, angle, motion) {
