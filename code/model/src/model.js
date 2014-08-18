@@ -14,6 +14,7 @@ var model = {
 	// media objects
 	Shape : require('./shape'),
 	Rectangle : require('./shapes/rectangle'),
+	Triangle : require('./shapes/triangle'),
 	Circle : require('./shapes/circle'),
 	Text : require('./text'),
 	Photo : require('./photo'),
