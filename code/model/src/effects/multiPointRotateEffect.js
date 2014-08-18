@@ -80,7 +80,7 @@ function MultiPointRotateEffect(options, builder) {
 	};
 
 	function addPoint(guid, tick, angle, motion) {
-		var data = { 'angle' : angle, 'motion' : motion};
+		var data = { 'angle' : angle || 0, 'motion' : motion || 'clockwise'};
 		_self.addPoint(guid, tick, data);
 	}
 
