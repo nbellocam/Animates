@@ -49,8 +49,36 @@ function MultiPointRotateEffect(options, builder) {
 	}());
 
 	function getAngleFor(currentTick, startPoint, endPoint, clockwise) {
-		var m = (endPoint.angle - startPoint.angle) / (endPoint.tick - startPoint.tick);
-		return startPoint.angle + (m * currentTick);
+		var startTick = startPoint.tick,
+			endTick = endPoint.tick,
+			startAngle = startPoint.angle,
+			endAngle = endPoint.angle,
+			resultAngle,
+			newLoopTick;
+
+		function getLinearAngle (sAngle, eAngle, sTick, eTick, tick) {
+			return sAngle + (((eAngle - sAngle) / (eTick - sTick)) * (tick - startTick));
+		}
+
+		if (clockwise && (startAngle > endAngle)) {
+			// 359, 360, 1
+			resultAngle = getLinearAngle(startAngle, endAngle + 360, startTick, endTick, currentTick);
+
+			if (resultAngle > 360) {
+				resultAngle -= 360;	
+			}
+		} else if (!clockwise && (startAngle < endAngle)) {
+			// 1, 0, 359
+			resultAngle = getLinearAngle(startAngle + 360, endAngle, startTick, endTick, currentTick);
+
+			if (resultAngle >= 360) {
+				resultAngle -= 360;
+			}
+		} else {
+			resultAngle = getLinearAngle(startAngle, endAngle, startTick, endTick, currentTick);
+		}
+		
+		return resultAngle;
 	}
 
 	/**
@@ -66,21 +94,21 @@ function MultiPointRotateEffect(options, builder) {
 			if (!segment.endPoint) {
 				mediaFrameProperties.angle = segment.startPoint.angle;
 			} else {
-				mediaFrameProperties.angle = getAngleFor(tick, segment.startPoint, segment.endPoint, true);
+				mediaFrameProperties.angle = getAngleFor(tick, segment.startPoint, segment.endPoint, segment.endPoint.motion === 'clockwise');
 			}
-		} else if (points.length === 1 && tick >= points[0].tick) {
-			mediaFrameProperties.angle = points[0].angle;
+		} else if (segment && segment.endPoint) {
+			mediaFrameProperties.angle = segment.endPoint.angle;
 		}
 
 		return mediaFrameProperties;
 	};
 
 	this.getAffectedProperties = function () {
-		return ['angle', 'motion'];
+		return ['angle'];
 	};
 
 	function addPoint(guid, tick, angle, motion) {
-		var data = { 'angle' : angle, 'motion' : motion};
+		var data = { 'angle' : angle || 0, 'motion' : motion || 'clockwise'};
 		_self.addPoint(guid, tick, data);
 	}
 
