@@ -3,11 +3,11 @@
 var Type = require('./type'),
 	manager;
 
-	
+
 
 /**
  *  Indicates vistualization options for MediaObjects properties.
- *  @class Represents an TypesManager. 
+ *  @class Represents an TypesManager.
  */
 
 function TypesManager (options) {
@@ -56,6 +56,7 @@ function parseNumber(value) {
 manager.registerType('integer', [ isInteger ], parseNumber);
 manager.registerType('float', [ isFloat ], parseNumber);
 manager.registerType('string', []);
+manager.registerType('imageFile', []);
 manager.registerType('text', []);
 manager.registerType('color', []);
 

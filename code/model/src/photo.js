@@ -16,6 +16,8 @@ function Photo (options, builder) {
 	var _self = this,propBuilder,
 		properties,
 		defaultOptions = {
+			height : 100,
+			width : 100,
 			source : '',
 			name: 'Photo'
 		};
@@ -32,9 +34,20 @@ function Photo (options, builder) {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
 
-		propBuilder.property('source', PropertyBuilder)
+
+		propBuilder.property('height', PropertyBuilder)
+						.value(options.height)
+						.type('float')
+						.constraint(function (val) { return (val >= 0); })
+					.add()
+					.property('width', PropertyBuilder)
+						.value(options.width)
+						.type('float')
+						.constraint(function (val) { return (val >= 0); })
+					.add()
+					.property('source', PropertyBuilder)
 						.value(options.source)
-						.type('string')
+						.type('imageFile')
 					.add();
 		_self.VisualMediaObject(options, propBuilder); // Call base constructor
 	}());
