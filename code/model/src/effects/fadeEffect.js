@@ -17,7 +17,6 @@ function FadeEffect(options, builder) {
 	var _self = this,
 		propBuilder,
 		defaultOptions = {
-			'path' : 'Straight',
 			'startOpacity' : 0,
 			'endOpacity' : 1
 		};
