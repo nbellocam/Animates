@@ -40,7 +40,7 @@ function Property (options) {
 	 * Indicates wheter the current property has a set of values that can take.
 	 */
 	this.isStrict = function isStrict() {
-		currentOptions.strictValues.length > 0;
+		return currentOptions.strictValues.length > 0;
 	};
 
 	this.strictValues = function strictValues () {
