@@ -32,16 +32,27 @@ describe('Property', function() {
 			falseConstraint = function (val) { return false; },
 			prop = new Property({ type: mockType, constraints : [trueConstraint, falseConstraint] });
 
-		prop.value('test');
+		prop.value('test', true);
 
 		prop.isValid().should.not.be.ok;
+	});
+
+	it('Should throw and exception when an invalid property value is set without the avoidvalidation parameter ', function () {
+		var trueConstraint = function (val) { return true; },
+			falseConstraint = function (val) { return false; },
+			prop = new Property({ type: mockType, constraints : [trueConstraint, falseConstraint] });
+
+		(function () {
+			prop.value('test');
+
+		}).should.throw(/^The value "test" is not valid for the property ""/);
 	});
 
 	it('Should not be valid when all constraint fails ', function () {
 		var falseConstraint = function (val) { return false; },
 			prop = new Property({ type: mockType, constraints : [falseConstraint, falseConstraint] });
 
-		prop.value('test');
+		prop.value('test', true);
 
 		prop.isValid().should.not.be.ok;
 	});

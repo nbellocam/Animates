@@ -54,14 +54,14 @@ describe('FiniteEffect', function() {
 
 	describe('getOption', function () {
 		it('Should return the value for existant custom options', function () {
-			var effect = new FiniteEffect({'startTick' : 100});
+			var effect = new FiniteEffect({'startTick' : 100, 'endTick' : 400});
 			effect.getOption('startTick').should.equal(100);
 		});
 	});
 
 	describe('setOption', function () {
 		it('Should return update extistant options values', function () {
-			var effect = new FiniteEffect({'startTick' : 100});
+			var effect = new FiniteEffect({'startTick' : 100, 'endTick' : 400});
 			effect.setOption('startTick', 200);
 			effect.getOption('startTick').should.equal(200);
 		});

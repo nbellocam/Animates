@@ -9,21 +9,42 @@ var Common = require('animates-common'),
  */
 function Property (options) {
 	var _self = this,
-		defaultOptions = { 
+		defaultOptions = {
+			name : '',
 			value : '',
-			type : '',
-			constraints : []
+			type : null,
+			constraints : [],
+			strictValues : []
 		},
 		currentOptions;
 
 	currentOptions = Common.extend(options || {}, defaultOptions);
 
-	this.value = function (val) {
+	this.value = function (val, avoidValidation) {
 		if (arguments.length > 0) {
-			currentOptions.value = val;
+			if (avoidValidation) {
+				currentOptions.value = val;
+			} else {
+				if (_self.isValid(val)) {
+					currentOptions.value = val;
+				} else {
+					throw new Error('The value "' + val + '" is not valid for the property "' + _self.name() + '"');
+				}
+			}
 		} else {
 			return currentOptions.value;
 		}
+	};
+
+	/**
+	 * Indicates wheter the current property has a set of values that can take.
+	 */
+	this.isStrict = function isStrict() {
+		currentOptions.strictValues.length > 0;
+	};
+
+	this.strictValues = function strictValues () {
+		return Common.clone(currentOptions.strictValues);
 	};
 
 	/**
@@ -33,7 +54,7 @@ function Property (options) {
 	this.isValid = function isValid(value) {
 		var valid = true,
 			valueToValidate = arguments.length > 0 ? value : currentOptions.value;
-		
+
 		if (!currentOptions.type.isValid(valueToValidate)) {
 			return false;
 		}
@@ -49,6 +70,10 @@ function Property (options) {
 
 	this.parse = function parse (value) {
 		currentOptions.value = currentOptions.type.parse(value);
+	};
+
+	this.name = function () {
+		return currentOptions.name;
 	};
 
 	this.type = function type () {

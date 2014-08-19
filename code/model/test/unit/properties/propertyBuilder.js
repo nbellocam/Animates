@@ -92,53 +92,73 @@ describe('PropertyBuilder', function() {
 			prop.isValid().should.be.ok;
 	});
 
+	it('Should create the property with strictValues', function () {
+		var propBuilder = new PropertyBuilder(),
+			prop;
+
+			prop = propBuilder
+						.name('Letters')
+						.type('custom')
+						.value('A')
+						.strictValues(['A', 'B', 'C'])
+						.create();
+
+			prop.value().should.equal('A');
+			prop.isValid().should.be.ok;
+			prop.value('D', true);
+			prop.isValid().should.not.be.ok;
+			prop.strictValues().should.containEql('A');
+			prop.strictValues().should.containEql('B');
+			prop.strictValues().should.containEql('C');
+	});
+
 	it('Should create the property according to its types', function () {
 		var propBuilder = new PropertyBuilder(),
 			prop = propBuilder
-						.name('name')
+						.name('OnlyCAtIndex0AndB')
 						.type('stringB')
 						.value('CAB')
 						.constraint(constraintStringC)
 						.create();
 
 			// Invalid values
-			prop.value('A');
+			prop.value('A', true);
 			prop.isValid().should.not.be.ok;
 
-			prop.value('B');
+			prop.value('B', true);
 			prop.isValid().should.not.be.ok;
 
-			prop.value('C');
+			prop.value('C', true);
 			prop.isValid().should.not.be.ok;
 
-			prop.value('AB');
+			prop.value('AB', true);
 			prop.isValid().should.not.be.ok;
 
-			prop.value('AC');
+			prop.value('AC', true);
 			prop.isValid().should.not.be.ok;
 
-			prop.value('BA');
+			prop.value('BA', true);
 			prop.isValid().should.not.be.ok;
 
-			prop.value('BC');
+			prop.value('BC', true);
 			prop.isValid().should.not.be.ok;
 
-			prop.value('CA');
+			prop.value('CA', true);
 			prop.isValid().should.not.be.ok;
 
-			prop.value('CB');
+			prop.value('CB', true);
 			prop.isValid().should.not.be.ok;
 
-			prop.value('ABC');
+			prop.value('ABC', true);
 			prop.isValid().should.not.be.ok;
 
-			prop.value('ACB');
+			prop.value('ACB', true);
 			prop.isValid().should.not.be.ok;
 
-			prop.value('BCA');
+			prop.value('BCA', true);
 			prop.isValid().should.not.be.ok;
 
-			prop.value('BAC');
+			prop.value('BAC', true);
 			prop.isValid().should.not.be.ok;
 
 			// Valid values

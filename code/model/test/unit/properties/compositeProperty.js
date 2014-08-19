@@ -12,7 +12,7 @@ var Common = require('animates-common'),
 describe('CompositePropertyBuilder', function() {
 	function propertyOptions () {
 		return {
-			'type' : 'custom',
+			'type' : TypesManager.getType('custom'),
 			'value' : 'val',
 			'constraints' : []
 		};
@@ -20,14 +20,13 @@ describe('CompositePropertyBuilder', function() {
 
 	function subPropertyOptions () {
 		return {
-			'type' : 'custom',
+			'type' : TypesManager.getType('custom'),
 			'value' : 'val2',
 			'constraints' : []
 		};
 	}
 
 	TypesManager.registerType('custom', []);
-
 
 	it('Should get properties and sub-properties values', function () {
 		var properties = new CompositeProperty(),
@@ -128,7 +127,6 @@ describe('CompositePropertyBuilder', function() {
 			spOp = subPropertyOptions(),
 			pOp = propertyOptions(),
 			json = { property1: 'jsonVal', property2: { 'sub-prop1': 'jsonSubVal' } };
-
 
 		compositeProperty.add('sub-prop1', new Property(spOp));
 		properties.add('property1', new Property(pOp));

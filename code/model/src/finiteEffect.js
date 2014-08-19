@@ -32,15 +32,15 @@ function FiniteEffect (options, builder) {
 		}
 
 		propBuilder = builder || new CompositePropertyBuilder();
-		propBuilder.property('startTick', PropertyBuilder)
-						.value(currentOptions.startTick)
-						.type('float')
-						.constraint(function (val) { return (val >= 0) && (!_self.getOption || (val < _self.getOption('endTick'))); })
-					.add()
-					.property('endTick', PropertyBuilder)
+		propBuilder.property('endTick', PropertyBuilder)
 						.value(currentOptions.endTick)
 						.type('float')
 						.constraint(function (val) { return (val === -1) || !_self.getOption || (val > _self.getOption('startTick')); })
+					.add()
+					.property('startTick', PropertyBuilder)
+						.value(currentOptions.startTick)
+						.type('float')
+						.constraint(function (val) { return (val >= 0) && (!_self.getOption || (val < _self.getOption('endTick'))); })
 					.add();
 		
 		_self.Effect(currentOptions, propBuilder);

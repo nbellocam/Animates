@@ -13,7 +13,8 @@ function PropertyBuilder() {
 			'constraints' : [],
 			'value' : '',
 			'type' : null,
-			'name' : null
+			'name' : null,
+			'strictValues' : []
 		},
 		_self = this,
 		types = {};
@@ -39,6 +40,11 @@ function PropertyBuilder() {
 		return _self;
 	};
 
+	this.strictValues = function (values) {
+		options.strictValues = values;
+		return _self;
+	};
+
 	this.constraint = function constraint(propConstraint) {
 		options.constraints.push(propConstraint);
 		return _self;
@@ -53,6 +59,13 @@ function PropertyBuilder() {
 		
 		if (options.type === null) {
 			throw new Error("The property '" + options.name + "' could not be built because the type was not defined.");
+		}
+
+		// Add the constraint for the strictValues
+		if (options.strictValues.length > 0) {
+			options.constraints.push( function (val) {
+				return (options.strictValues.indexOf(val) >= 0);
+			});
 		}
 
 		property = new Property(options);
