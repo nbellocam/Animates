@@ -103,6 +103,7 @@ describe('PropertyBuilder', function() {
 						.strictValues(['A', 'B', 'C'])
 						.create();
 
+			prop.isStrict().should.be.ok;
 			prop.value().should.equal('A');
 			prop.isValid().should.be.ok;
 			prop.value('D', true);

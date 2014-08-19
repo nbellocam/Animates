@@ -70,7 +70,7 @@ function VisualMediaObject (options, builder) {
 					.property('border', CompositePropertyBuilder)
 						.property('type', PropertyBuilder)
 							.type('string')
-							.constraint(function (val) { return (['dotted', 'dashed', 'solid'].indexOf(val) >= 0); })
+							.strictValues(['dotted', 'dashed', 'solid'])
 							.value(options.border.type)
 						.add()
 						.property('color', PropertyBuilder)

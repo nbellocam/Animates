@@ -42,7 +42,7 @@ function MultiPointRotateEffect(options, builder) {
 			.property('motion', PropertyBuilder)
 				.type('string')
 				.value('clockwise')
-				.constraint(function (val) { return ['clockwise', 'counter-clockwise'].indexOf(val) >= 0;	})
+				.strictValues(['clockwise', 'counter-clockwise'])
 			.add();
 
 		_self.MultiPointEffect(currentOptions, propBuilder, pointsSchemaBuilder);

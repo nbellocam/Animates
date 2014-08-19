@@ -35,7 +35,7 @@ function MultiPointMoveEffect(options, builder) {
 		propBuilder.property('path', PropertyBuilder)
 						.value(currentOptions.path)
 						.type('string')
-						.constraint(function (val) { return (['Straight'].indexOf(val) >= 0); })
+						.strictValues(['Straight'])
 					.add();
 
 		// Build points schema

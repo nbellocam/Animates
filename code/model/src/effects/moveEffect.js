@@ -32,7 +32,7 @@ function MoveEffect(options, builder) {
 		propBuilder.property('path', PropertyBuilder)
 						.value(options.path)
 						.type('string')
-						.constraint(function (val) { return (['Straight'].indexOf(val) >= 0); })
+						.strictValues(['Straight'])
 					.add()
 					.property('startPosition', CompositePropertyBuilder)
 						.property('x', PropertyBuilder)
