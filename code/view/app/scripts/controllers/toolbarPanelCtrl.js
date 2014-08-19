@@ -58,7 +58,7 @@ angular.module('animatesApp')
 
 		// Other methods
 		$scope.removeElements = function() {
-			var selectedElement = canvasService.getSelectedShape();
+			var selectedElement = $scope.selectedShape;
 
 			if (selectedElement) {
 				if (selectedElement.isType('group')) {
