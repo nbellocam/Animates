@@ -7,6 +7,16 @@ var Type = require('../../../src/properties/type'),
 
 describe('Type', function() {
 	describe('isValid' , function () {
+		it('Should return that the value is valid with no constraints', function () {
+			var options = 
+					{
+						'name' : 'test'
+					},
+				type = new Type(options);
+
+			type.isValid('test').should.be.ok;
+		});
+		
 		it('Should return that the value is valid', function () {
 			var options = 
 					{
