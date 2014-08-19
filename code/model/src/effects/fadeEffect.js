@@ -98,11 +98,6 @@ function FadeEffect(options, builder) {
 
 		return { updatedProperties: changedProperties };
 	};
-
-	this.effect_toJSON = this.toJSON;
-	this.toJSON = function () {
-		return _self.effect_toJSON();
-	};
 }
 
 Common.inherits(FadeEffect, Effect);
