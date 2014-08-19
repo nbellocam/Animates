@@ -28,12 +28,23 @@ angular.module('animatesApp')
 				updatehandler: '&'
 			},
 			template:
-				'<textarea ng-show="isText()" ng-rows="rows()" type="text" value="{{ prop.value() }}" id="property.{{ propkey }}" class="property form-control text" ng-blur="propertyBlur($event)"></textarea>' +
-				'<input ng-show="!isText()" type="file" value="{{ getValue() }}" id="property.{{ propkey }}" class="property form-control" ng-blur="propertyBlur($event)"></input>',
+				'<select ng-show="template() == \'select\'" id="property.{{ propkey }}" class="property form-control text" ng-blur="propertyBlur($event)">' +
+					'<option ng-repeat="option in prop.strictValues();" ng-selected="prop.value() == option">{{option}}</option>'+
+				'</select>' +
+				'<textarea ng-show="template() == \'textarea\'" ng-rows="rows()" type="text" value="{{ prop.value() }}" id="property.{{ propkey }}" class="property form-control text" ng-blur="propertyBlur($event)"></textarea>' +
+				'<input ng-show="template() == \'input\'" type="file" value="{{ getValue() }}" id="property.{{ propkey }}" class="property form-control" ng-blur="propertyBlur($event)"></input>',
 			controller: function($scope) {
 				$scope.isValid = true;
-				$scope.isText = function () { return $scope.prop.type().name() === 'text'; };
 				$scope.rows = function () { return $scope.prop.value().split('\n').length; };
+				$scope.template = function () {
+					if ($scope.prop.isStrict()) {
+						return 'select';
+					} else if ($scope.prop.type().name() === 'text') {
+						return 'textarea';
+					} else {
+						return 'input';
+					}
+				};
 
 				$scope.propertyBlur = function (event) {
 					var oldValue = $scope.prop.value(),
@@ -63,11 +74,7 @@ angular.module('animatesApp')
 			link : function (scope, element) {
 				var input;
 
-				if (scope.isText()) {
-					input = element.find('textarea');
-				} else {
-					input = element.find('input');
-				}
+				input = element.find(scope.template());
 
 				scope.updateValue = function (value) {
 					input.val((scope.prop.type().name() === 'imageFile') ? '' : value);
