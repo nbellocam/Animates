@@ -1,6 +1,9 @@
   <div ng-controller="PropertiesPanelCtrl" class="layout-panel propertiesPanel">
     <div ng-if="isShape()">
-      <h4>Shape's Properties</h4>
+      <span>
+          <h4>Shape's Properties</h4>
+          <button type="button" class="btn btn-default" ng-click="removeShape();"><span class="glyphicon glyphicon-trash"></span></button>
+      </span>
       <table class="table table-striped">
         <tr ng-repeat="key in shapeProperties.names();">
           <td>{{ key }}</td>
@@ -11,7 +14,10 @@
       </table>
     </div>
     <div ng-if="isEffect()">
-      <h4>Effect's Properties</h4>
+      <span>
+          <h4>Effect's Properties</h4>
+          <button type="button" class="btn btn-default" ng-if="!effectIsInfinite" ng-click="removeEffect();"><span class="glyphicon glyphicon-trash"></span></button>
+      </span>
       <animates-Effectproperties ng-if="effectIsInfinite" effect-name="effectName" effect-properties="effectProperties" updatehandler="onEffectUpdate(key, value)"></animates-EffectProperties>
       <table class="table table-striped" ng-if="!effectIsInfinite">
         <tr>
@@ -27,13 +33,16 @@
       </table>
     </div>
     <div ng-if="isGroup()">
-      <h4>Group properties</h4>
-      <table class="table table-striped">
+        <span>
+            <h4>Group's Properties</h4>
+            <button type="button" class="btn btn-default" ng-click="removeGroup();"><span class="glyphicon glyphicon-trash"></span></button>
+        </span>
+        <table class="table table-striped">
         <tr ng-repeat="(key, value) in groupProperties">
-          <td>{{ key }}</td>
-          <td>{{ value }}</td>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
         </tr>
-      </table>
+        </table>
     </div>
     <div>
       <span ng-show="empty()">No properties to display</span>

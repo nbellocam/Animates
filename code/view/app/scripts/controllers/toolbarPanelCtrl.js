@@ -57,24 +57,6 @@ angular.module('animatesApp')
 		$scope.registeredEffectTypes = toolbarEffectService.getRegisteredTypes();
 
 		// Other methods
-		$scope.removeElements = function() {
-			var selectedElement = $scope.selectedShape;
-
-			if (selectedElement) {
-				if (selectedElement.isType('group')) {
-					selectedElement.forEachObject(function (obj) {
-						applyOperation('Shape', 'Remove', {
-							mediaObjectId: shapeHelper.getGuidFromView(obj)
-						});
-					});
-					canvasService.getInstance().discardActiveGroup().renderAll();
-				} else {
-					applyOperation('Shape', 'Remove', {
-						mediaObjectId: shapeHelper.getGuidFromView(selectedElement)
-					});
-				}
-			}
-		};
 
 		$scope.play = function () {
 			presentationPlayerService.play();

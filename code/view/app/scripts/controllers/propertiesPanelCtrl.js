@@ -2,6 +2,16 @@
 
 angular.module('animatesApp')
 	.controller('PropertiesPanelCtrl', function PropertiesPanelCtrl($scope, $rootScope, canvasService, animationService, propertyUpdateManagerService, localAnimationStateService, shapeHelper) {
+		function applyOperation(target, operation, params) {
+			animationService.getInstance().applyOperation(target, operation, params, { sender: 'PropertiesPanelCtrl' });
+		}
+
+		function safeApply() {
+			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
+				$scope.$apply();
+			}
+		}
+
 		$scope.shapeProperties = null;
 		$scope.groupProperties = null;
 		$scope.effectProperties = null;
@@ -24,13 +34,20 @@ angular.module('animatesApp')
 			var updatedOptions = {};
 			updatedOptions[key] = newValue;
 
-			animationService.getInstance().applyOperation('Effect', 'Update', {
+			applyOperation('Effect', 'Update', {
 				mediaObjectId :  $scope.mediaObjectId,
 				effectId : $scope.effectId,
 				options: updatedOptions
-			}, {
-				sender: 'PropertiesPanelCtrl'
 			});
+		};
+
+		$scope.removeEffect = function () {
+			if ($scope.mediaObjectId && $scope.effectId) {
+				applyOperation('Effect', 'Remove', {
+					mediaObjectId :  $scope.mediaObjectId,
+					effectId : $scope.effectId
+				});
+			}
 		};
 
 		var cleanEffect = function () {
@@ -50,9 +67,7 @@ angular.module('animatesApp')
 				$scope.mediaObjectId = mediaObjectId;
 			}
 
-			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
-				$scope.$apply();
-			}
+			safeApply();
 		};
 
 		//--- Shape related methods ---//
@@ -65,16 +80,24 @@ angular.module('animatesApp')
 			return $scope.shapeProperties === null;
 		};
 
-		var cleanShape = function () {
-			$scope.shapeProperties = null;
-			$scope.mediaObjectId = null;
-		};
-
 		$scope.onShapeUpdate = function (key, newValue) {
 			var values = {};
 
 			values[key] = newValue;
 			propertyUpdateManagerService.syncProperties($scope.mediaObjectId, values, 'PropertiesPanelCtrl');
+		};
+
+		$scope.removeShape = function () {
+			if ($scope.mediaObjectId) {
+				applyOperation('Shape', 'Remove', {
+					mediaObjectId: $scope.mediaObjectId
+				});
+			}
+		};
+
+		var cleanShape = function () {
+			$scope.shapeProperties = null;
+			$scope.mediaObjectId = null;
 		};
 
 		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation, params) {
@@ -86,9 +109,7 @@ angular.module('animatesApp')
 					var mediaFrame = shapeHelper.getMediaFrameFromView(selectedShapes);
 
 					$scope.shapeProperties = mediaFrame ? mediaFrame.getPropertiesSchema() : null;
-					if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
-						$scope.$apply();
-					}
+					safeApply();
 				}
 			}
 		};
@@ -101,6 +122,21 @@ angular.module('animatesApp')
 
 		$scope.isGroupEmpty = function () {
 			return $scope.groupProperties === null;
+		};
+
+		$scope.removeGroup = function () {
+			var selectedShapes = localAnimationStateService.getSelectedShape();
+
+			if (selectedElement) {
+				if (selectedElement.isType('group')) {
+					selectedElement.forEachObject(function (obj) {
+						applyOperation('Shape', 'Remove', {
+							mediaObjectId: shapeHelper.getGuidFromView(obj)
+						});
+					});
+					canvasService.getInstance().discardActiveGroup().renderAll();
+				}
+			}
 		};
 
 		var cleanGroup = function () {
@@ -133,9 +169,7 @@ angular.module('animatesApp')
 				}
 			}
 
-			if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
-				$scope.$apply();
-			}
+			safeApply();
 		};
 
 		//--- General related methods ---//
