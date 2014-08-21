@@ -2,7 +2,7 @@
 
 'use strict';
 
-var segmentHelper = require('../../../../../src/effects/pathStrategies/utils/segmentHelper'),
+var segmentHelper = require('../../../../src/effects/utils/segmentHelper'),
   should = require("should");
 
 describe('segmentHelper', function() {

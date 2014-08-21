@@ -3,11 +3,12 @@
 var MediaTimeline = require('./mediaTimeline'),
 	MultiPointMoveEffect = require('./effects/multiPointMoveEffect'),
 	MultiPointRotateEffect = require('./effects/multiPointRotateEffect'),
+	MultiPointScaleEffect = require('./effects/multiPointScaleEffect'),
 	JsonSerializer = require('./serialization/jsonSerializer');
 
 /**
  *  Creates a new Timeline
- *  @class Represents a Timeline. 
+ *  @class Represents a Timeline.
  */
 function Timeline (options) {
 	var _self = this,
@@ -33,10 +34,11 @@ function Timeline (options) {
 
 			if (!mediaTimeline) {
 				var defaultMoveEffect = new MultiPointMoveEffect(),
-					defaultRotateEffect = new MultiPointRotateEffect();
+					defaultRotateEffect = new MultiPointRotateEffect(),
+					defaultScaleEffect = new MultiPointScaleEffect();
 
-				defaultMoveEffect.updateProperties(0, { 
-					'position.x' : mediaObject.getProperty('position.x'), 
+				defaultMoveEffect.updateProperties(0, {
+					'position.x' : mediaObject.getProperty('position.x'),
 					'position.y' : mediaObject.getProperty('position.y')
 				});
 
@@ -44,16 +46,28 @@ function Timeline (options) {
 					'angle' : mediaObject.getProperty('angle')
 				});
 
+				if (mediaObject.getType && mediaObject.getType() === 'Circle') {
+					defaultScaleEffect.updateProperties(0, {
+						'radius' :  mediaObject.getProperty('radius')
+					});
+				} else {
+					defaultScaleEffect.updateProperties(0, {
+						'width' : mediaObject.getProperty('width'),
+						'height' : mediaObject.getProperty('height')
+					});
+				}
+
+
 				mediaTimeline = new MediaTimeline({ mediaObject : mediaObject });
 				mediaTimelineCollection.push(mediaTimeline);
 				mediaTimeline.addEffect(defaultMoveEffect);
 				mediaTimeline.addEffect(defaultRotateEffect);
-
+				mediaTimeline.addEffect(defaultScaleEffect);
 			}
 
 			return mediaTimeline;
 		}
-		
+
 		return undefined;
 	};
 
@@ -79,7 +93,7 @@ function Timeline (options) {
 
 	/**
 	 * Return the media timeline element related to the media object id passed by parameter
-	 * @param  {string} mediaObjectId the if of the media object 
+	 * @param  {string} mediaObjectId the if of the media object
 	 * @returns {MediaTimeline} the media timeline related to the media object id passed by parameter
 	 */
 	this.getMediaTimeline = function getMediaTimeline(mediaObjectId) {
@@ -117,7 +131,7 @@ function Timeline (options) {
 	 */
 	this.getMediaFrames = function getMediaFrames(currentTick) {
 		var elements = [], i;
-		
+
 		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
 			var mediaFrame = mediaTimelineCollection[i].getMediaFrameFor(currentTick);
 			if (mediaFrame) {

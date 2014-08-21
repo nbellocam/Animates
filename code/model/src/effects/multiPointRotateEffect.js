@@ -6,7 +6,7 @@ var Common = require('animates-common'),
 	DictionaryPropertyBuilder = require('../properties/dictionaryPropertyBuilder'),
 	CompositePropertyBuilder = require('../properties/compositePropertyBuilder'),
 	straightPathStrategy = require('./pathStrategies/straightPathStrategy'),
-	segmentHelper = require('./pathStrategies/utils/segmentHelper'),
+	segmentHelper = require('./utils/segmentHelper'),
 	MultiPointEffect = require('../multiPointEffect.js');
 
 
@@ -65,7 +65,7 @@ function MultiPointRotateEffect(options, builder) {
 			resultAngle = getLinearAngle(startAngle, endAngle + 360, startTick, endTick, currentTick);
 
 			if (resultAngle > 360) {
-				resultAngle -= 360;	
+				resultAngle -= 360;
 			}
 		} else if (!clockwise && (startAngle < endAngle)) {
 			// 1, 0, 359
@@ -77,7 +77,7 @@ function MultiPointRotateEffect(options, builder) {
 		} else {
 			resultAngle = getLinearAngle(startAngle, endAngle, startTick, endTick, currentTick);
 		}
-		
+
 		return resultAngle;
 	}
 
@@ -87,7 +87,7 @@ function MultiPointRotateEffect(options, builder) {
 	 * @param {object} mediaFrameProperties The original media frame properties.
 	 */
 	this.getProperties = function (tick, mediaFrameProperties) {
-		var points = _self.getPointsArray(),		
+		var points = _self.getPointsArray(),
 			segment = segmentHelper.getSegment(tick, points);
 
 		if (segment && segment.startPoint) {
@@ -138,12 +138,12 @@ function MultiPointRotateEffect(options, builder) {
 			if (points[guid].tick == tick) {
 				if (angle) {
 					_self.setOption('points.' + guid + '.angle', angle);
-					changedProperties.push('angle');	
+					changedProperties.push('angle');
 				}
 
 				if (motion) {
 					_self.setOption('points.' + guid + '.motion', motion);
-					changedProperties.push('motion');	
+					changedProperties.push('motion');
 				}
 
 				return { 'updatedProperties' : changedProperties };
