@@ -159,8 +159,10 @@ function MultiPointScaleEffect(options, builder, pointsSchemaBuilder) {
 		// If a point was added from outside
 		var newPoint = updatedProperties['MultiPointScaleEffect.newPoint'];
 		if(newPoint && newPoint.target === _self.getGuid()) {
+			changedProperties = addScalePoint(newPoint.guid, tick, data);
+			changedProperties.push('MultiPointScaleEffect.newPoint');
 			return	{
-						'updatedProperties' : addScalePoint(newPoint.guid, tick, data)
+						'updatedProperties' : changedProperties
 					};
 		}
 

@@ -127,7 +127,7 @@ function MultiPointRotateEffect(options, builder) {
 		if(newPoint && newPoint.target === _self.getGuid()) {
 			addPoint(newPoint.guid, tick, angle, motion);
 			return	{
-						'updatedProperties' : ['angle', 'motion']
+						'updatedProperties' : ['angle', 'motion', 'MultiPointRotateEffect.newPoint']
 					};
 		}
 
