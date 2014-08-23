@@ -7,12 +7,18 @@ var PropertyBuilder = require('./propertyBuilder'),
 
 /**
  *  Builds custom properties with specified types and constraints
- *  @class Represents an CompositePropertyBuilder. 
+ *  @class Represents an CompositePropertyBuilder.
  */
 function CompositePropertyBuilder () {
 	var _self = this,
 		name = '',
 		properties = new CompositeProperty();
+
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+	}());
 
 	this.name = function (arrayName) {
 		name = arrayName;
@@ -31,6 +37,12 @@ function CompositePropertyBuilder () {
 	this.create = function () {
 		return properties;
 	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
+	}());
 }
 
 module.exports = CompositePropertyBuilder;

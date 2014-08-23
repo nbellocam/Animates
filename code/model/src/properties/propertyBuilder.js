@@ -6,7 +6,7 @@ var Common = require('animates-common'),
 
 /**
  *  Builds properties with constraints and values.
- *  @class Represents an PropertyBuilder. 
+ *  @class Represents an PropertyBuilder.
  */
 function PropertyBuilder() {
 	var options = {
@@ -18,6 +18,12 @@ function PropertyBuilder() {
 		},
 		_self = this,
 		types = {};
+
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+	}());
 
 
 	this.name = function name(propName) {
@@ -56,7 +62,7 @@ function PropertyBuilder() {
 		if (options.name === null) {
 			throw new Error('The property could not be built because it does not have a name.');
 		}
-		
+
 		if (options.type === null) {
 			throw new Error("The property '" + options.name + "' could not be built because the type was not defined.");
 		}
@@ -76,6 +82,12 @@ function PropertyBuilder() {
 			throw new Error("The property '" + options.name + "' could not be built due to invalid value.");
 		}
 	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
+	}());
 }
 
 module.exports = PropertyBuilder;

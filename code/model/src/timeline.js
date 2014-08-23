@@ -13,6 +13,12 @@ var MediaTimeline = require('./mediaTimeline'),
 function Timeline (options) {
 	var _self = this,
 		mediaTimelineCollection = [];
+	
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+	}());
 
 	function addDefaultMoveEffect(mediaTimeline, mediaObject) {
 		var defaultMoveEffect = new MultiPointMoveEffect();
@@ -183,7 +189,7 @@ function Timeline (options) {
 	/**
 	 *  Constructor
 	 */
-	(function init() {
+	(function postInit() {
 	}());
 
 }

@@ -19,6 +19,21 @@ function MediaObject (options, builder) {
 			name : 'Object'
 		};
 
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+		guid = Common.createGuid();
+		propBuilder = builder || new CompositePropertyBuilder();
+		options = Common.extend(options || {}, defaultOptions);
+
+		propBuilder.property('name', PropertyBuilder)
+						.type('string')
+						.value(options.name)
+					.add();
+
+		properties = propBuilder.create();
+	}());
 
 	/**
 	 * Get the properties schema with types and values
@@ -94,20 +109,11 @@ function MediaObject (options, builder) {
 		guid = json.guid;
 	};
 
+
 	/**
-	 *  Constructor
-	 */
-	(function init() {
-		guid = Common.createGuid();
-		propBuilder = builder || new CompositePropertyBuilder();
-		options = Common.extend(options || {}, defaultOptions);
-
-		propBuilder.property('name', PropertyBuilder)
-						.type('string')
-						.value(options.name)
-					.add();
-
-		properties = propBuilder.create();
+	*  Constructor
+	*/
+	(function postInit() {
 	}());
 }
 

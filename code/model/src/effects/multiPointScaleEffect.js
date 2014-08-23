@@ -24,7 +24,7 @@ function MultiPointScaleEffect(options, builder) {
 	/**
 	 *  Constructor
 	 */
-	(function init() {
+	(function preInit() {
 		var pointsSchemaBuilder;
 
 		propBuilder = builder || new CompositePropertyBuilder();
@@ -185,6 +185,12 @@ function MultiPointScaleEffect(options, builder) {
 						}
 					};
 	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
+	}());
 }
 
 Common.inherits(MultiPointScaleEffect, MultiPointEffect, 'MultiPointEffect');

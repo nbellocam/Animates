@@ -25,7 +25,7 @@ function FiniteEffect (options, builder) {
 	/**
 	 *  Constructor
 	 */
-	(function init() {
+	(function preInit() {
 		currentOptions = Common.extend(options, defaultOptions);
 		if (currentOptions.endTick !== -1 && currentOptions.endTick <= currentOptions.startTick) {
 			currentOptions.endTick = currentOptions.startTick + defaultOptions.endTick;
@@ -42,13 +42,20 @@ function FiniteEffect (options, builder) {
 						.type('float')
 						.constraint(function (val) { return (val >= 0) && (!_self.getOption || (val < _self.getOption('endTick'))); })
 					.add();
-		
+
 		_self.Effect(currentOptions, propBuilder);
 	}());
 
 	this.isInfinite = function() {
 		return false;
 	};
+
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
+	}());
 }
 
 Common.inherits(FiniteEffect, Effect, 'Effect');

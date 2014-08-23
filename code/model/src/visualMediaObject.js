@@ -34,7 +34,7 @@ function VisualMediaObject (options, builder) {
 	/**
 	 *  Constructor
 	 */
-	(function init() {
+	(function preInit() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
 
@@ -86,6 +86,12 @@ function VisualMediaObject (options, builder) {
 	this.fromJSON = function (json) {
 		_self.mediaObject_fromJSON(json);
 	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
+	}());
 
 }
 

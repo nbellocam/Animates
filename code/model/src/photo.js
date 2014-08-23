@@ -21,20 +21,11 @@ function Photo (options, builder) {
 			source : '',
 			name: 'Photo'
 		};
-
-	this.getScalableProperties = function getScalableProperties() {
-		return ['height', 'width'];
-	};
-
-	this.base_toJSON = this.toJSON;
-	this.toJSON = function () {
-		var ser = _self.base_toJSON();
-		return ser;
-	};
+		
 	/**
-	 *  Constructor
-	 */
-	(function init() {
+	*  Constructor
+	*/
+	(function preInit() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
 
@@ -54,6 +45,22 @@ function Photo (options, builder) {
 						.type('imageFile')
 					.add();
 		_self.VisualMediaObject(options, propBuilder); // Call base constructor
+	}());
+
+	this.getScalableProperties = function getScalableProperties() {
+		return ['height', 'width'];
+	};
+
+	this.base_toJSON = this.toJSON;
+	this.toJSON = function () {
+		var ser = _self.base_toJSON();
+		return ser;
+	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
 	}());
 }
 

@@ -27,20 +27,10 @@ function Text (options, builder) {
 			name : 'Text'
 		};
 
-	this.visualMediaObject_toJSON = this.toJSON;
-	this.toJSON = function () {
-		return _self.visualMediaObject_toJSON();
-	};
-
-	this.visualMediaObject_fromJSON = this.fromJSON;
-	this.fromJSON = function (json) {
-		_self.visualMediaObject_fromJSON(json);
-	};
-
 	/**
-	 *  Constructor
-	 */
-	(function init() {
+	*  Constructor
+	*/
+	(function preInit() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
 
@@ -74,6 +64,22 @@ function Text (options, builder) {
 					.add();
 
 		_self.VisualMediaObject(options, propBuilder); // Call base constructor
+	}());
+
+	this.visualMediaObject_toJSON = this.toJSON;
+	this.toJSON = function () {
+		return _self.visualMediaObject_toJSON();
+	};
+
+	this.visualMediaObject_fromJSON = this.fromJSON;
+	this.fromJSON = function (json) {
+		_self.visualMediaObject_fromJSON(json);
+	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
 	}());
 }
 

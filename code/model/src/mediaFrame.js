@@ -5,7 +5,7 @@ var Common = require('animates-common'),
 
 /**
  *  Creates a new MediaFrame.
- *  @class Represents the specific frame of a media object. 
+ *  @class Represents the specific frame of a media object.
  *  @param {object} options the constructor options.
  *  @param {MediaObject} options.mediaObject the frame mediaObject reference.
  *  @param {integer} options.currentTick the current tick number which is represented by the instance.
@@ -18,6 +18,14 @@ function MediaFrame (options) {
 		},
 		currentOptions,
 		currentProperties;
+
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+		currentOptions = Common.extend(options || {}, defaultOptions),
+		currentProperties = currentOptions.mediaObject.getProperties();
+	}());
 
 	/**
 	 * Sets or gets the properties
@@ -33,7 +41,7 @@ function MediaFrame (options) {
 	};
 
 	/**
-	 * Get the property named after the first parameter value 
+	 * Get the property named after the first parameter value
 	 * @return {Object} The property value
 	 */
 	this.getProperty = function getProperty(name)
@@ -77,12 +85,11 @@ function MediaFrame (options) {
 		return currentOptions.mediaObject.getType();
 	};
 
+
 	/**
-	 *  Constructor
-	 */
-	(function init() {
-		currentOptions = Common.extend(options || {}, defaultOptions),
-		currentProperties = currentOptions.mediaObject.getProperties();
+	*  Constructor
+	*/
+	(function postInit() {
 	}());
 }
 

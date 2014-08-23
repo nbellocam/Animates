@@ -22,7 +22,7 @@ function Effect (options, builder) {
 	/**
 	 *  Constructor
 	 */
-	(function init() {
+	(function preInit() {
 		currentOptions = Common.extend(options, defaultOptions);
 
 		guid = Common.createGuid();
@@ -190,6 +190,12 @@ function Effect (options, builder) {
 	this.getType = function () {
 		return Common.realTypeOf(this);
 	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
+	}());
 }
 
 JsonSerializer.registerType(Effect);

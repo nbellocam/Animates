@@ -5,6 +5,12 @@ function CompositeProperty () {
 	var properties = {},
 		_self = this;
 
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+	}());
+
 	this.add = function (name, property) {
 		properties[name] = property;
 	};
@@ -133,6 +139,12 @@ function CompositeProperty () {
 
 		return newProp;
 	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
+	}());
 }
 
 module.exports = CompositeProperty;

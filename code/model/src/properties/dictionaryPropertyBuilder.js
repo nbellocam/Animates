@@ -7,13 +7,19 @@ var PropertyBuilder = require('./propertyBuilder'),
 
 /**
  *  Builds a dictionary of custom properties
- *  @class Represents an DictionaryPropertyBuilder. 
+ *  @class Represents an DictionaryPropertyBuilder.
  */
 function DictionaryPropertyBuilder () {
 	var _self = this,
 		name = '',
 		currentValues = [],
 		schemaBuilder;
+
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+	}());
 
 	this.name = function (value) {
 		name = value;
@@ -49,6 +55,12 @@ function DictionaryPropertyBuilder () {
 
 		return properties;
 	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
+	}());
 }
 
 module.exports = DictionaryPropertyBuilder;
