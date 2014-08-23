@@ -83,10 +83,9 @@ function MultiPointEffect(options, builder, pointsSchemaBuilder) {
 				}
 			}
 		}
-		
-		_self.refreshPointsArray();
 
 		this.base_setOption(name, value);
+		_self.refreshPointsArray();
 	};
 
 	/**
