@@ -23,6 +23,10 @@ function Circle (options, builder) {
 			name: 'Circle'
 		};
 
+	this.getScalableProperties = function getScalableProperties() {
+		return ['radius'];
+	};
+
 	this.shape_toJSON = this.toJSON;
 	this.toJSON = function () {
 		return _self.shape_toJSON();

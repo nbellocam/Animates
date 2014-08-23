@@ -46,23 +46,27 @@ function Timeline (options) {
 					'angle' : mediaObject.getProperty('angle')
 				});
 
-				if (mediaObject.getType && mediaObject.getType() === 'Circle') {
-					defaultScaleEffect.updateProperties(0, {
-						'radius' :  mediaObject.getProperty('radius')
-					});
-				} else {
-					defaultScaleEffect.updateProperties(0, {
-						'width' : mediaObject.getProperty('width'),
-						'height' : mediaObject.getProperty('height')
-					});
-				}
+				var scalableProperties = mediaObject.getScalableProperties && mediaObject.getScalableProperties(),
+					scalableData = {};
 
+				if (scalableProperties) {
+					for (i = 0; i < scalableProperties.length; i++) {
+						scalableData[scalableProperties[i]] = mediaObject.getProperty(scalableProperties[i]);
+					}
+
+					if (scalableProperties.length > 0) {
+						defaultScaleEffect.updateProperties(0, scalableData);
+					}
+				}
 
 				mediaTimeline = new MediaTimeline({ mediaObject : mediaObject });
 				mediaTimelineCollection.push(mediaTimeline);
 				mediaTimeline.addEffect(defaultMoveEffect);
 				mediaTimeline.addEffect(defaultRotateEffect);
-				mediaTimeline.addEffect(defaultScaleEffect);
+
+				if (scalableProperties && scalableProperties.length > 0) {
+					mediaTimeline.addEffect(defaultScaleEffect);
+				}
 			}
 
 			return mediaTimeline;

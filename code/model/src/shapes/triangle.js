@@ -23,6 +23,10 @@ function Triangle (options, builder) {
 			name: 'Triangle'
 		};
 
+	this.getScalableProperties = function getScalableProperties() {
+		return ['height', 'width'];
+	};
+
 	this.shape_toJSON = this.toJSON;
 	this.toJSON = function () {
 		return _self.shape_toJSON();

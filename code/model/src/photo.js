@@ -22,6 +22,10 @@ function Photo (options, builder) {
 			name: 'Photo'
 		};
 
+	this.getScalableProperties = function getScalableProperties() {
+		return ['height', 'width'];
+	};
+
 	this.base_toJSON = this.toJSON;
 	this.toJSON = function () {
 		var ser = _self.base_toJSON();

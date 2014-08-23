@@ -76,6 +76,10 @@ function MediaObject (options, builder) {
 		return Common.realTypeOf(this);
 	};
 
+	this.getScalableProperties = function getScalableProperties() {
+		return [];
+	};
+
 	this.toJSON = function () {
 		var ser =	{
 						'properties' : properties.valuesToJSON(),
