@@ -4,6 +4,9 @@ var MediaTimeline = require('./mediaTimeline'),
 	MultiPointMoveEffect = require('./effects/multiPointMoveEffect'),
 	MultiPointRotateEffect = require('./effects/multiPointRotateEffect'),
 	MultiPointScaleEffect = require('./effects/multiPointScaleEffect'),
+	MultiPointRadiusScaleEffect = require('./effects/multiPointRadiusScaleEffect'),
+	MultiPointFontSizeScaleEffect = require('./effects/multiPointFontSizeScaleEffect'),
+	MultiPointWidthAndHeightScaleEffect = require('./effects/multiPointWidthAndHeightScaleEffect'),
 	JsonSerializer = require('./serialization/jsonSerializer');
 
 /**
@@ -13,7 +16,7 @@ var MediaTimeline = require('./mediaTimeline'),
 function Timeline (options) {
 	var _self = this,
 		mediaTimelineCollection = [];
-	
+
 	/**
 	*  Constructor
 	*/
@@ -41,6 +44,20 @@ function Timeline (options) {
 		mediaTimeline.addEffect(defaultRotateEffect);
 	}
 
+	function createMultipointEffectInstance(scalableProperties) {
+		if (scalableProperties.indexOf('radius') >= 0) {
+			return new MultiPointRadiusScaleEffect();
+		}
+
+		if (scalableProperties.indexOf('fontSize') >= 0) {
+			return new MultiPointFontSizeScaleEffect();
+		}
+
+		if (scalableProperties.indexOf('width') >= 0 && scalableProperties.indexOf('height') >= 0 ) {
+			return new MultiPointWidthAndHeightScaleEffect();
+		}
+	}
+
 	function addDefaultScaleEffect(mediaTimeline, mediaObject) {
 		var scalableProperties = mediaObject.getScalableProperties && mediaObject.getScalableProperties(),
 			scalableData = {};
@@ -51,9 +68,11 @@ function Timeline (options) {
 			}
 
 			if (scalableProperties.length > 0) {
-				var defaultScaleEffect = new MultiPointScaleEffect();
-				defaultScaleEffect.updateProperties(0, scalableData);
-				mediaTimeline.addEffect(defaultScaleEffect);
+				var defaultScaleEffect = createMultipointEffectInstance(scalableProperties);
+				if (defaultScaleEffect) {
+					defaultScaleEffect.updateProperties(0, scalableData);
+					mediaTimeline.addEffect(defaultScaleEffect);
+				}
 			}
 		}
 	}
