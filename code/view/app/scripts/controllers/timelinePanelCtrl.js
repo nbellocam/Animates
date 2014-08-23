@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('TimelinePanelCtrl', function($scope, localAnimationStateService, animationService) {
+	.controller('TimelinePanelCtrl', function($scope, localAnimationStateService, animationService, presentationPlayerService) {
 		$scope.timelines = [];
 		$scope.tick = 0;
 		$scope.disable = false;
+		$scope.tickRatio = presentationPlayerService.tickDuration();
 
 		$scope.$watch(function() {
 				return animationService.isEditingEnable;
