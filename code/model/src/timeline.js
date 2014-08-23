@@ -14,6 +14,44 @@ function Timeline (options) {
 	var _self = this,
 		mediaTimelineCollection = [];
 
+	function addDefaultMoveEffect(mediaTimeline, mediaObject) {
+		var defaultMoveEffect = new MultiPointMoveEffect();
+
+		defaultMoveEffect.updateProperties(0, {
+			'position.x' : mediaObject.getProperty('position.x'),
+			'position.y' : mediaObject.getProperty('position.y')
+		});
+
+		mediaTimeline.addEffect(defaultMoveEffect);
+	}
+
+	function addDefaultRotateEffect(mediaTimeline, mediaObject) {
+		var defaultRotateEffect = new MultiPointRotateEffect();
+
+		defaultRotateEffect.updateProperties(0, {
+			'angle' : mediaObject.getProperty('angle')
+		});
+
+		mediaTimeline.addEffect(defaultRotateEffect);
+	}
+
+	function addDefaultScaleEffect(mediaTimeline, mediaObject) {
+		var scalableProperties = mediaObject.getScalableProperties && mediaObject.getScalableProperties(),
+			scalableData = {};
+
+		if (scalableProperties) {
+			for (var i = 0; i < scalableProperties.length; i++) {
+				scalableData[scalableProperties[i]] = mediaObject.getProperty(scalableProperties[i]);
+			}
+
+			if (scalableProperties.length > 0) {
+				var defaultScaleEffect = new MultiPointScaleEffect();
+				defaultScaleEffect.updateProperties(0, scalableData);
+				mediaTimeline.addEffect(defaultScaleEffect);
+			}
+		}
+	}
+
 	/**
 	 * Add a new media timeline element related with the media object passed by parameter
 	 * @param {object} mediaObject the media object to be added.
@@ -33,40 +71,13 @@ function Timeline (options) {
 			}
 
 			if (!mediaTimeline) {
-				var defaultMoveEffect = new MultiPointMoveEffect(),
-					defaultRotateEffect = new MultiPointRotateEffect(),
-					defaultScaleEffect = new MultiPointScaleEffect();
-
-				defaultMoveEffect.updateProperties(0, {
-					'position.x' : mediaObject.getProperty('position.x'),
-					'position.y' : mediaObject.getProperty('position.y')
-				});
-
-				defaultRotateEffect.updateProperties(0, {
-					'angle' : mediaObject.getProperty('angle')
-				});
-
-				var scalableProperties = mediaObject.getScalableProperties && mediaObject.getScalableProperties(),
-					scalableData = {};
-
-				if (scalableProperties) {
-					for (i = 0; i < scalableProperties.length; i++) {
-						scalableData[scalableProperties[i]] = mediaObject.getProperty(scalableProperties[i]);
-					}
-
-					if (scalableProperties.length > 0) {
-						defaultScaleEffect.updateProperties(0, scalableData);
-					}
-				}
-
 				mediaTimeline = new MediaTimeline({ mediaObject : mediaObject });
-				mediaTimelineCollection.push(mediaTimeline);
-				mediaTimeline.addEffect(defaultMoveEffect);
-				mediaTimeline.addEffect(defaultRotateEffect);
 
-				if (scalableProperties && scalableProperties.length > 0) {
-					mediaTimeline.addEffect(defaultScaleEffect);
-				}
+				addDefaultMoveEffect(mediaTimeline, mediaObject);
+				addDefaultRotateEffect(mediaTimeline, mediaObject);
+				addDefaultScaleEffect(mediaTimeline, mediaObject);
+
+				mediaTimelineCollection.push(mediaTimeline);
 			}
 
 			return mediaTimeline;
