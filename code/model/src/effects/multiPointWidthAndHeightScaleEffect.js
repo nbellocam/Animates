@@ -5,7 +5,7 @@ var Common = require('animates-common'),
 	PropertyBuilder = require('../properties/propertyBuilder'),
 	DictionaryPropertyBuilder = require('../properties/dictionaryPropertyBuilder'),
 	CompositePropertyBuilder = require('../properties/compositePropertyBuilder'),
-	MultiPointScaleEffect = require('./MultiPointScaleEffect.js'),
+	MultiPointScaleEffect = require('./multiPointScaleEffect.js'),
 	segmentHelper = require('./utils/segmentHelper');
 
 
