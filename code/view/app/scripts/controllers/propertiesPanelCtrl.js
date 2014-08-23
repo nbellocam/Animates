@@ -127,9 +127,9 @@ angular.module('animatesApp')
 		$scope.removeGroup = function () {
 			var selectedShapes = localAnimationStateService.getSelectedShape();
 
-			if (selectedElement) {
-				if (selectedElement.isType('group')) {
-					selectedElement.forEachObject(function (obj) {
+			if (selectedShapes) {
+				if (selectedShapes.isType('group')) {
+					selectedShapes.forEachObject(function (obj) {
 						applyOperation('Shape', 'Remove', {
 							mediaObjectId: shapeHelper.getGuidFromView(obj)
 						});

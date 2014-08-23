@@ -2,23 +2,40 @@
 
 angular.module('animatesApp')
 	.service('presentationPlayerService', function canvasService($window, $rootScope, animationService, localAnimationStateService) {
-		var fps = 40,
+		var fps = 30,
 			interval = 1000 / fps,
 			timer = null,
 			play = false,
-			_self = this;
+			_self = this,
+			playStart,
+			frames,
+			now,
+			then = Date.now(),
+			delta,
+			tickDuration = 20; //miliseconds
 
 		this.play = function () {
-			var lastTick = localAnimationStateService.getCurrentTick();
+			var lastTick = localAnimationStateService.getCurrentTick(),
+				startTick = lastTick;
+
+			playStart = Date.now();
+			frames = 0;
+
 			function draw() {
 				if (play) {
-					return setTimeout(function() {
-								if (play) {
-									$window.cancelAnimationFrame(timer);
-									timer = $window.requestAnimationFrame(draw);
-									localAnimationStateService.setCurrentTick(lastTick++);
-								}
-							}, interval);
+					timer = $window.requestAnimationFrame(draw);
+					now = Date.now();
+					delta = now - then;
+					if (delta > interval) {
+						frames++;
+						then = now - (delta % interval);
+						var nextTick = Math.round(((now - playStart) / tickDuration) + startTick);
+
+						if (nextTick !== lastTick) {
+							localAnimationStateService.setCurrentTick(nextTick);
+							lastTick = nextTick;
+						}
+					}
 				}
 			}
 
@@ -47,5 +64,9 @@ angular.module('animatesApp')
 
 		this.stepBackward = function (step) {
 			localAnimationStateService.setCurrentTick(localAnimationStateService.getCurrentTick() - step);
+		};
+
+		this.tickDuration = function () {
+			return tickDuration;
 		};
 	});

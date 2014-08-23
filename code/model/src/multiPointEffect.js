@@ -19,7 +19,8 @@ function MultiPointEffect(options, builder, pointsSchemaBuilder) {
 		defaultOptions = {
 			'points' : {}
 		},
-		currentOptions;
+		currentOptions,
+		cachedPointsArray;
 
 	/**
 	 *  Constructor
@@ -42,7 +43,7 @@ function MultiPointEffect(options, builder, pointsSchemaBuilder) {
 		_self.Effect(currentOptions, propBuilder);
 	}());
 
-	this.getPointsArray = function getPointsArray() {
+	this.refreshPointsArray = function refreshPointsArray () {
 		var pointsArray = [],
 			points = _self.getOption('points');
 
@@ -50,7 +51,11 @@ function MultiPointEffect(options, builder, pointsSchemaBuilder) {
 			pointsArray.push(points[key]);
 		}
 
-		return pointsArray;
+		cachedPointsArray = pointsArray;
+	};
+
+	this.getPointsArray = function getPointsArray() {
+		return cachedPointsArray;
 	};
 
 	this.addPoint = function addPoint(guid, tick, data) {
@@ -61,6 +66,7 @@ function MultiPointEffect(options, builder, pointsSchemaBuilder) {
 		}
 
 		_self.setOption('points.' + guid, newPointData);
+		this.refreshPointsArray();
 	};
 
 	this.base_setOption = this.setOption;
@@ -77,6 +83,8 @@ function MultiPointEffect(options, builder, pointsSchemaBuilder) {
 				}
 			}
 		}
+		
+		_self.refreshPointsArray();
 
 		this.base_setOption(name, value);
 	};
@@ -84,7 +92,9 @@ function MultiPointEffect(options, builder, pointsSchemaBuilder) {
 	/**
 	*  Constructor
 	*/
+	
 	(function postInit() {
+		_self.refreshPointsArray();
 	}());
 }
 
