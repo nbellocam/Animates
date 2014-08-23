@@ -66,6 +66,10 @@ function Text (options, builder) {
 		_self.VisualMediaObject(options, propBuilder); // Call base constructor
 	}());
 
+	this.getScalableProperties = function getScalableProperties() {
+		return ['fontSize'];
+	};
+
 	this.visualMediaObject_toJSON = this.toJSON;
 	this.toJSON = function () {
 		return _self.visualMediaObject_toJSON();
