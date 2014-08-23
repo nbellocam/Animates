@@ -11,7 +11,7 @@ var Timeline = require('../../src/timeline'),
 	should = require("should");
 
 describe('Performance', function() {
-	describe('frames per second', function () {
+	describe.skip('frames per second', function () {
 		it('Should draw above 500 fps with 50 objects with no effects', function() {
 			var timeline = new Timeline(),
 				elementsAmount = 10,
