@@ -5,7 +5,7 @@ var Common = require('animates-common'),
 
 /**
  *  Holds values and constraints and types.
- *  @class Represents a Property. 
+ *  @class Represents a Property.
  */
 function Property (options) {
 	var _self = this,
@@ -18,7 +18,12 @@ function Property (options) {
 		},
 		currentOptions;
 
-	currentOptions = Common.extend(options || {}, defaultOptions);
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+		currentOptions = Common.extend(options || {}, defaultOptions);
+	}());
 
 	this.value = function (val, avoidValidation) {
 		if (arguments.length > 0) {
@@ -86,6 +91,12 @@ function Property (options) {
 
 		return newProp;
 	};
+	
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
+	}());
 }
 
 JsonSerializer.registerType(Property);

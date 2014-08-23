@@ -25,7 +25,7 @@ function MultiPointMoveEffect(options, builder) {
 	/**
 	 *  Constructor
 	 */
-	(function init() {
+	(function preInit() {
 		var pointsSchemaBuilder;
 
 		propBuilder = builder || new CompositePropertyBuilder();
@@ -154,6 +154,12 @@ function MultiPointMoveEffect(options, builder) {
 						}
 					};
 	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
+	}());
 }
 
 Common.inherits(MultiPointMoveEffect, MultiPointEffect, 'MultiPointEffect');

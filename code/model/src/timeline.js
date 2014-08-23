@@ -3,15 +3,60 @@
 var MediaTimeline = require('./mediaTimeline'),
 	MultiPointMoveEffect = require('./effects/multiPointMoveEffect'),
 	MultiPointRotateEffect = require('./effects/multiPointRotateEffect'),
+	MultiPointScaleEffect = require('./effects/multiPointScaleEffect'),
 	JsonSerializer = require('./serialization/jsonSerializer');
 
 /**
  *  Creates a new Timeline
- *  @class Represents a Timeline. 
+ *  @class Represents a Timeline.
  */
 function Timeline (options) {
 	var _self = this,
 		mediaTimelineCollection = [];
+	
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+	}());
+
+	function addDefaultMoveEffect(mediaTimeline, mediaObject) {
+		var defaultMoveEffect = new MultiPointMoveEffect();
+
+		defaultMoveEffect.updateProperties(0, {
+			'position.x' : mediaObject.getProperty('position.x'),
+			'position.y' : mediaObject.getProperty('position.y')
+		});
+
+		mediaTimeline.addEffect(defaultMoveEffect);
+	}
+
+	function addDefaultRotateEffect(mediaTimeline, mediaObject) {
+		var defaultRotateEffect = new MultiPointRotateEffect();
+
+		defaultRotateEffect.updateProperties(0, {
+			'angle' : mediaObject.getProperty('angle')
+		});
+
+		mediaTimeline.addEffect(defaultRotateEffect);
+	}
+
+	function addDefaultScaleEffect(mediaTimeline, mediaObject) {
+		var scalableProperties = mediaObject.getScalableProperties && mediaObject.getScalableProperties(),
+			scalableData = {};
+
+		if (scalableProperties) {
+			for (var i = 0; i < scalableProperties.length; i++) {
+				scalableData[scalableProperties[i]] = mediaObject.getProperty(scalableProperties[i]);
+			}
+
+			if (scalableProperties.length > 0) {
+				var defaultScaleEffect = new MultiPointScaleEffect();
+				defaultScaleEffect.updateProperties(0, scalableData);
+				mediaTimeline.addEffect(defaultScaleEffect);
+			}
+		}
+	}
 
 	/**
 	 * Add a new media timeline element related with the media object passed by parameter
@@ -32,28 +77,18 @@ function Timeline (options) {
 			}
 
 			if (!mediaTimeline) {
-				var defaultMoveEffect = new MultiPointMoveEffect(),
-					defaultRotateEffect = new MultiPointRotateEffect();
-
-				defaultMoveEffect.updateProperties(0, { 
-					'position.x' : mediaObject.getProperty('position.x'), 
-					'position.y' : mediaObject.getProperty('position.y')
-				});
-
-				defaultRotateEffect.updateProperties(0, {
-					'angle' : mediaObject.getProperty('angle')
-				});
-
 				mediaTimeline = new MediaTimeline({ mediaObject : mediaObject });
-				mediaTimelineCollection.push(mediaTimeline);
-				mediaTimeline.addEffect(defaultMoveEffect);
-				mediaTimeline.addEffect(defaultRotateEffect);
 
+				addDefaultMoveEffect(mediaTimeline, mediaObject);
+				addDefaultRotateEffect(mediaTimeline, mediaObject);
+				addDefaultScaleEffect(mediaTimeline, mediaObject);
+
+				mediaTimelineCollection.push(mediaTimeline);
 			}
 
 			return mediaTimeline;
 		}
-		
+
 		return undefined;
 	};
 
@@ -79,7 +114,7 @@ function Timeline (options) {
 
 	/**
 	 * Return the media timeline element related to the media object id passed by parameter
-	 * @param  {string} mediaObjectId the if of the media object 
+	 * @param  {string} mediaObjectId the if of the media object
 	 * @returns {MediaTimeline} the media timeline related to the media object id passed by parameter
 	 */
 	this.getMediaTimeline = function getMediaTimeline(mediaObjectId) {
@@ -117,7 +152,7 @@ function Timeline (options) {
 	 */
 	this.getMediaFrames = function getMediaFrames(currentTick) {
 		var elements = [], i;
-		
+
 		for (i = mediaTimelineCollection.length - 1; i >= 0; i--) {
 			var mediaFrame = mediaTimelineCollection[i].getMediaFrameFor(currentTick);
 			if (mediaFrame) {
@@ -154,7 +189,7 @@ function Timeline (options) {
 	/**
 	 *  Constructor
 	 */
-	(function init() {
+	(function postInit() {
 	}());
 
 }

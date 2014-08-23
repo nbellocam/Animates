@@ -22,7 +22,7 @@ function Sound (options, builder) {
 	/**
 	 *  Constructor
 	 */
-	(function init() {
+	(function preInit() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
 
@@ -36,6 +36,12 @@ function Sound (options, builder) {
 					.add();
 
 		_self.MediaObject(options, propBuilder); // Call base constructor
+	}());
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
 	}());
 }
 

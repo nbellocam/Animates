@@ -17,6 +17,16 @@ function Shape (options, builder) {
 			name: 'Shape'
 		};
 
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+		propBuilder = builder || new CompositePropertyBuilder();
+		options = Common.extend(options || {}, defaultOptions);
+
+		_self.VisualMediaObject(options, propBuilder); // Call base constructor
+	}());
+
 	this.mediaObject_toJSON = this.toJSON;
 	this.toJSON = function () {
 		return _self.mediaObject_toJSON();
@@ -28,13 +38,9 @@ function Shape (options, builder) {
 	};
 
 	/**
-	 *  Constructor
-	 */
-	(function init() {
-		propBuilder = builder || new CompositePropertyBuilder();
-		options = Common.extend(options || {}, defaultOptions);
-
-		_self.VisualMediaObject(options, propBuilder); // Call base constructor
+	*  Constructor
+	*/
+	(function postInit() {
 	}());
 }
 

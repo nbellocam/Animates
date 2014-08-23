@@ -4,7 +4,7 @@ var Common = require('animates-common');
 
 /**
  *  Types have it own constraints and are usefull to validate properties values
- *  @class Represents a property types. 
+ *  @class Represents a property types.
  */
 function Type (options) {
 	var defaultOptions = {
@@ -12,8 +12,15 @@ function Type (options) {
 		'constraints' : [],
 		'parentType' : null,
 		'parse': function (value) { return value; }
-	}, 
+	},
 	currentOptions;
+
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+		currentOptions = Common.extend(options || {}, defaultOptions);
+	}());
 
 	this.name = function name () {
 		return currentOptions.name;
@@ -21,7 +28,7 @@ function Type (options) {
 
 	this.isValid = function isValid(value) {
 		var valid = true;
-		
+
 		if (currentOptions.parentType) {
 			if (!currentOptions.parentType.isValid(value)) {
 				return false;
@@ -42,10 +49,9 @@ function Type (options) {
 	};
 
 	/**
-	 *  Constructor
-	 */
-	(function init() {
-		currentOptions = Common.extend(options || {}, defaultOptions);
+	*  Constructor
+	*/
+	(function postInit() {
 	}());
 }
 

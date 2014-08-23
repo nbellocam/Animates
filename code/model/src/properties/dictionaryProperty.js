@@ -12,7 +12,7 @@ function DictionaryProperty () {
 	/**
 	 *  Constructor
 	 */
-	(function init() {
+	(function preInit() {
 		_self.base();
 		base_add = _self.add;
 	}());
@@ -72,6 +72,12 @@ function DictionaryProperty () {
 
 		return json;
 	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
+	}());
 }
 
 Common.inherits(DictionaryProperty, CompositeProperty);

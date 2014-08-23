@@ -23,6 +23,26 @@ function Circle (options, builder) {
 			name: 'Circle'
 		};
 
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+		propBuilder = builder || new CompositePropertyBuilder();
+		options = Common.extend(options || {}, defaultOptions);
+
+		propBuilder.property('radius', PropertyBuilder)
+						.value(options.radius)
+						.type('float')
+						.constraint(function (val) { return (val >= 0); })
+					.add();
+
+		_self.Shape(options, propBuilder); // Call base constructor
+	}());
+
+	this.getScalableProperties = function getScalableProperties() {
+		return ['radius'];
+	};
+
 	this.shape_toJSON = this.toJSON;
 	this.toJSON = function () {
 		return _self.shape_toJSON();
@@ -34,19 +54,9 @@ function Circle (options, builder) {
 	};
 
 	/**
-	 *  Constructor
-	 */
-	(function init() {
-		propBuilder = builder || new CompositePropertyBuilder();
-		options = Common.extend(options || {}, defaultOptions);
-
-		propBuilder.property('radius', PropertyBuilder)
-						.value(options.radius)
-						.type('float')
-						.constraint(function (val) { return (val >= 0); })
-					.add();
-
-		_self.Shape(options, propBuilder); // Call base constructor
+	*  Constructor
+	*/
+	(function postInit() {
 	}());
 }
 

@@ -16,6 +16,12 @@ function MediaTimeline (options) {
 		effects = {};
 
 	/**
+	*  Constructor
+	*/
+	(function preInit() {
+	}());
+
+	/**
 	 * Calculates the media object based on the original properties and the current tick.
 	 * @param {integer} currentTick The current tick.
 	 */
@@ -242,9 +248,9 @@ function MediaTimeline (options) {
 	};
 
 	/**
-	 *  Constructor
-	 */
-	(function init() {
+	*  Constructor
+	*/
+	(function postInit() {
 	}());
 }
 

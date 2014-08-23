@@ -17,6 +17,12 @@ function Canvas (options) {
 	this.backgroundColor = options.backgroundColor || 'white';
 	this.backgroundImage = options.backgroundImage || '';
 
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+	}());
+
 	this.filterDrawables = function filterDrawables(mediaFrames) {
 		return mediaFrames; //TODO filter media frames
 	};
@@ -42,7 +48,7 @@ function Canvas (options) {
 	/**
 	 *  Constructor
 	 */
-	(function init() {
+	(function postInit() {
 	}());
 }
 

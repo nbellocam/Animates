@@ -16,8 +16,13 @@ function Animation (options) {
 		updateObservers = {},
 		loadCompleteObservers = {};
 
-	_self.canvas = options.canvas || new Canvas();
-	_self.timeline = options.timeline || new Timeline();
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+		_self.canvas = options.canvas || new Canvas();
+		_self.timeline = options.timeline || new Timeline();
+	}());
 
 	function applyShapeCreateOperation(opParams) {
 		var mediaTimeline = _self.timeline.addMediaObject(opParams.mediaObject);
@@ -228,9 +233,9 @@ function Animation (options) {
 	};
 
 	/**
-	 *  Constructor
-	 */
-	(function init() {
+	*  Constructor
+	*/
+	(function postInit() {
 	}());
 }
 

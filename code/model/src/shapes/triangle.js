@@ -23,20 +23,10 @@ function Triangle (options, builder) {
 			name: 'Triangle'
 		};
 
-	this.shape_toJSON = this.toJSON;
-	this.toJSON = function () {
-		return _self.shape_toJSON();
-	};
-
-	this.shape_fromJSON = this.fromJSON;
-	this.fromJSON = function (json) {
-		_self.shape_fromJSON(json);
-	};
-
 	/**
-	 *  Constructor
-	 */
-	(function init() {
+	*  Constructor
+	*/
+	(function preInit() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
 
@@ -52,6 +42,26 @@ function Triangle (options, builder) {
 					.add();
 
 		_self.Shape(options, propBuilder); // Call base constructor
+	}());
+
+	this.getScalableProperties = function getScalableProperties() {
+		return ['height', 'width'];
+	};
+
+	this.shape_toJSON = this.toJSON;
+	this.toJSON = function () {
+		return _self.shape_toJSON();
+	};
+
+	this.shape_fromJSON = this.fromJSON;
+	this.fromJSON = function (json) {
+		_self.shape_fromJSON(json);
+	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
 	}());
 }
 

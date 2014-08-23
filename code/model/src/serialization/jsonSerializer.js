@@ -4,12 +4,18 @@ var Common = require('animates-common');
 
 /**
  *  Helper to serialize objects to json
- *  @class. 
+ *  @class.
  */
 
 function JsonSerializer() {
 	var _self = this,
 		types = {};
+
+	/**
+	*  Constructor
+	*/
+	(function preInit() {
+	}());
 
 	this.serializeArray = function (collection) {
 		var json = [];
@@ -42,7 +48,7 @@ function JsonSerializer() {
 		} else {
 			obj = jsonObject;
 		}
-		
+
 		return obj;
 	};
 
@@ -54,7 +60,7 @@ function JsonSerializer() {
 			data = object.toJSON();
 			json = {
 				'type' : Common.realTypeOf(object),
-				'data' : data 
+				'data' : data
 			};
 		} else {
 			json = JSON.parse(JSON.stringify(object));
@@ -82,6 +88,12 @@ function JsonSerializer() {
 
 		return json;
 	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
+	}());
 }
 
 module.exports = new JsonSerializer();

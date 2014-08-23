@@ -1,6 +1,6 @@
 'use strict';
 
-var segmentHelper = require('./utils/segmentHelper');
+var segmentHelper = require('../utils/segmentHelper');
 
 /**
  *  Straigth path strategy

@@ -24,7 +24,7 @@ function FadeEffect(options, builder) {
 	/**
 	 *  Constructor
 	 */
-	(function init() {
+	(function preInit() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
 
@@ -98,6 +98,12 @@ function FadeEffect(options, builder) {
 
 		return { updatedProperties: changedProperties };
 	};
+
+	/**
+	*  Constructor
+	*/
+	(function postInit() {
+	}());
 }
 
 Common.inherits(FadeEffect, Effect);

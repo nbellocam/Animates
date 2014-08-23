@@ -25,7 +25,7 @@ function MultiPointEffect(options, builder, pointsSchemaBuilder) {
 	/**
 	 *  Constructor
 	 */
-	(function init() {
+	(function preInit() {
 		propBuilder = builder || new CompositePropertyBuilder();
 		pointsSchemaBuilder = pointsSchemaBuilder || new CompositePropertyBuilder();
 
@@ -39,7 +39,7 @@ function MultiPointEffect(options, builder, pointsSchemaBuilder) {
 						.add()
 						.values(currentOptions.points)
 					.add();
-		
+
 		_self.Effect(currentOptions, propBuilder);
 	}());
 
@@ -89,7 +89,13 @@ function MultiPointEffect(options, builder, pointsSchemaBuilder) {
 		this.base_setOption(name, value);
 	};
 
-	_self.refreshPointsArray();
+	/**
+	*  Constructor
+	*/
+	
+	(function postInit() {
+		_self.refreshPointsArray();
+	}());
 }
 
 Common.inherits(MultiPointEffect, Effect, 'Effect');
