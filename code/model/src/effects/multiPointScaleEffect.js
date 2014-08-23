@@ -71,10 +71,10 @@ function MultiPointScaleEffect(options, builder, pointsSchemaBuilder) {
 
 	function getScaleForSegment(tick, segment, scaleType) {
 		if (segment && segment.startPoint) {
-			if (!segment.endPoint) {
-				return segment.startPoint[scaleType];
-			} else {
+			if (segment.endPoint) {
 				return getScaleFor(tick, segment.startPoint, segment.endPoint, scaleType);
+			} else {
+				return segment.startPoint[scaleType];
 			}
 		} else if (segment && segment.endPoint) {
 			return segment.endPoint[scaleType];

@@ -7,13 +7,13 @@
  * @returns {object} The segment's start and end points {startPoint, endPoint} for the current tick
  */
 function getSegment(currentTick, points) {
-  if (points.length < 2) {
-    return undefined;
-  }
-
   var sortedPoints = points.sort(function comparePoints(pointA, pointB) {
     return pointA.tick - pointB.tick;
   });
+
+  if (points.length === 0){
+      return {};
+  }
 
   if (points[0].tick > currentTick) {
     return {

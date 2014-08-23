@@ -91,10 +91,10 @@ function MultiPointRotateEffect(options, builder) {
 			segment = segmentHelper.getSegment(tick, points);
 
 		if (segment && segment.startPoint) {
-			if (!segment.endPoint) {
-				mediaFrameProperties.angle = segment.startPoint.angle;
-			} else {
+			if (segment.endPoint) {
 				mediaFrameProperties.angle = getAngleFor(tick, segment.startPoint, segment.endPoint, segment.endPoint.motion === 'clockwise');
+			} else {
+				mediaFrameProperties.angle = segment.startPoint.angle;
 			}
 		} else if (segment && segment.endPoint) {
 			mediaFrameProperties.angle = segment.endPoint.angle;

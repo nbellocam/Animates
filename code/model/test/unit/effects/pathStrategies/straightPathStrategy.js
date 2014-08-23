@@ -50,7 +50,8 @@ describe('straightPathStrategy', function() {
 				},
 				endPosition = straightPathStrategy(currentTick, [specifiedPoint]);
 
-				endPosition.should.not.have.properties('x', 'y');
+				endPosition.should.have.property('x', specifiedPositionX);
+				endPosition.should.have.property('y', specifiedPositionY);
 		});
 
 		it('Should return an object with no x and y properties if currentTick is less than startTick', function() {
@@ -71,7 +72,8 @@ describe('straightPathStrategy', function() {
 				},
 				endPosition = straightPathStrategy(currentTick, [specifiedStartPoint, specifiedEndPoint]);
 
-			endPosition.should.not.have.properties('x', 'y');
+			endPosition.should.have.property('x', specifiedStartPositionX);
+			endPosition.should.have.property('y', specifiedStartPositionY);
 		});
 
 		it('Should return a copy of the endPosition if currentTick is greater than endTick.', function() {
