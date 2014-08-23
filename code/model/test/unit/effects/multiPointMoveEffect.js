@@ -24,7 +24,6 @@ describe('MultiPointMoveEffect', function() {
 		});
 	});
 
-
 	describe('getAffectedProperties', function() {
 		it('Should return "position"', function() {
 			var effect = new MultiPointMoveEffect();
@@ -60,7 +59,7 @@ describe('MultiPointMoveEffect', function() {
 												'x' : resultX,
 												'y' : resultY
 											}
-										}	
+										}
 								}
 					}),
 				resultMediaFrameProperties = effect.getProperties(tick, mediaFrameProperties);
@@ -103,7 +102,7 @@ describe('MultiPointMoveEffect', function() {
 															'y' : 20
 													}
 												}
-										}	
+										}
 								}),
 				json = effect.toJSON(),
 				effect2 = new MultiPointMoveEffect(),
@@ -144,7 +143,7 @@ describe('MultiPointMoveEffect', function() {
 												'x' : oldValueX,
 												'y' : oldValueY
 											}
-										}	
+										}
 								}
 				}),
 				result = effect.updateProperties(tick, updatedPropertiesDiff),
@@ -179,7 +178,7 @@ describe('MultiPointMoveEffect', function() {
 												'x' : oldValueX,
 												'y' : oldValueY
 											}
-										}	
+										}
 								}
 				}),
 				result = effect.updateProperties(tick, updatedPropertiesDiff),
@@ -216,7 +215,7 @@ describe('MultiPointMoveEffect', function() {
 												'x' : oldValueX,
 												'y' : oldValueY
 											}
-										}	
+										}
 								}
 				}),
 				result = effect.updateProperties(tick, updatedPropertiesDiff),
@@ -254,7 +253,7 @@ describe('MultiPointMoveEffect', function() {
 												'x' : oldValueX,
 												'y' : oldValueY
 											}
-										}	
+										}
 								}
 				}),
 				result = effect.updateProperties(tick, updatedPropertiesDiff),
@@ -292,7 +291,7 @@ describe('MultiPointMoveEffect', function() {
 												'x' : oldValueX,
 												'y' : oldValueY
 											}
-										}	
+										}
 								}
 
 				}),
@@ -335,7 +334,7 @@ describe('MultiPointMoveEffect', function() {
 												'x' : oldValueX,
 												'y' : oldValueY
 											}
-										}	
+										}
 								}
 				}),
 				result = effect.updateProperties(tick, updatedPropertiesDiff),
@@ -379,7 +378,7 @@ describe('MultiPointMoveEffect', function() {
 												'x' : oldValueX,
 												'y' : oldValueY
 											}
-										}	
+										}
 								}
 				}),
 				result = effect.updateProperties(tick, updatedPropertiesDiff),
@@ -417,7 +416,7 @@ describe('MultiPointMoveEffect', function() {
 												'x' : oldValueX,
 												'y' : oldValueY
 											}
-										}	
+										}
 								}
 				}),
 				result = effect.updateProperties(tick, updatedPropertiesDiff),
@@ -454,7 +453,7 @@ describe('MultiPointMoveEffect', function() {
 												'x' : oldValueX,
 												'y' : oldValueY
 											}
-										}	
+										}
 								}
 				}),
 				result = effect.updateProperties(tick, updatedPropertiesDiff),
@@ -495,7 +494,7 @@ describe('MultiPointMoveEffect', function() {
 												'x' : oldValueX,
 												'y' : oldValueY
 											}
-										}	
+										}
 								}
 				}),
 				result = effect.updateProperties(tick, updatedPropertiesDiff),
@@ -538,7 +537,7 @@ describe('MultiPointMoveEffect', function() {
 												'x' : oldValueX,
 												'y' : oldValueY
 											}
-										}	
+										}
 								}
 				}),
 				result = effect.updateProperties(tick, updatedPropertiesDiff),

@@ -13,43 +13,40 @@ var Common = require('animates-common'),
  *  Creates a new MultiPointScaleEffect.
  *  @class Represents an MultiPointScaleEffect .
  */
-function MultiPointScaleEffect(options, builder) {
+function MultiPointScaleEffect(options, builder, pointsSchemaBuilder) {
 	var _self = this,
-		propBuilder,
-		defaultOptions = {
-			'points' : {}
-		},
+		defaultOptions = {},
 		currentOptions;
 
 	/**
 	 *  Constructor
 	 */
 	(function preInit() {
-		var pointsSchemaBuilder;
-
-		propBuilder = builder || new CompositePropertyBuilder();
+		var propBuilder = builder || new CompositePropertyBuilder(),
+			pointsBuilder = pointsSchemaBuilder || new CompositePropertyBuilder();
 
 		currentOptions = Common.extend(options || {}, defaultOptions);
 
-		// Build points schema
-		pointsSchemaBuilder = new CompositePropertyBuilder();
-
-		pointsSchemaBuilder
-			.property('radius', PropertyBuilder)
-					.type('float')
-					.constraint(function (val) { return val === undefined || (val >= 0); })
-				.add()
-			.property('height', PropertyBuilder)
-					.type('float')
-					.constraint(function (val) { return val === undefined || (val >= 0); })
-				.add()
-			.property('width', PropertyBuilder)
-					.type('float')
-					.constraint(function (val) { return val === undefined || (val >= 0); })
-				.add();
-
-		_self.MultiPointEffect(currentOptions, propBuilder, pointsSchemaBuilder);
+		_self.MultiPointEffect(options, propBuilder, pointsBuilder);
 	}());
+
+	function getScalablePropertiesIfExists(scalableProperties) {
+		if (scalableProperties) {
+			return scalableProperties;
+		}
+
+		return (_self.getScalablePropertiesNames) ? _self.getScalablePropertiesNames() : undefined;
+	}
+
+	function applyToScalableProperties(callback, scalableProperties) {
+		var properties = getScalablePropertiesIfExists(scalableProperties);
+
+		if (properties) {
+			for (var i = 0; i < properties.length; i++) {
+				callback(properties[i]);
+			}
+		}
+	}
 
 	function getScaleFor(currentTick, startPoint, endPoint, scaleType) {
 		var startTick = startPoint.tick,
@@ -100,41 +97,32 @@ function MultiPointScaleEffect(options, builder) {
 	 */
 	this.getProperties = function (tick, mediaFrameProperties) {
 		var points = _self.getPointsArray(),
-			segment = segmentHelper.getSegment(tick, points);
+			segment = segmentHelper.getSegment(tick, points),
+			scalableProperties = getScalablePropertiesIfExists();
 
-		updateMediaFrameProperties(tick, segment, 'width', mediaFrameProperties);
-		updateMediaFrameProperties(tick, segment, 'height', mediaFrameProperties);
-		updateMediaFrameProperties(tick, segment, 'radius', mediaFrameProperties);
+		applyToScalableProperties(function(property) {
+			updateMediaFrameProperties(tick, segment, property, mediaFrameProperties);
+		}, scalableProperties);
 
 		return mediaFrameProperties;
 	};
 
 	this.getAffectedProperties = function () {
-		return ['width', 'height', 'radius'];
+		return getScalablePropertiesIfExists() || [];
 	};
 
-	function addPoint(guid, tick, width, height, radius) {
+	function addScalePoint(guid, tick, inputData) {
 		var points = _self.getPointsArray(),
 			segment = segmentHelper.getSegment(tick, points),
-			data;
+			scalableProperties = getScalablePropertiesIfExists(),
+			data = {};
 
-		if (radius === undefined ) {
-			data = {
-				'width': (width === undefined) ? getScaleForSegment(tick, segment, 'width') : width,
-				'height': (height === undefined) ? getScaleForSegment(tick, segment, 'height') : height
-			};
+		applyToScalableProperties(function(property) {
+			data[property] = (inputData[property] === undefined) ? getScaleForSegment(tick, segment, property) : inputData[property];
+		}, scalableProperties);
 
-			_self.addPoint(guid, tick, data);
-
-			return ['width', 'height'];
-		} else {
-			data = {
-				'radius': radius
-			};
-
-			_self.addPoint(guid, tick, data);
-			return ['radius'];
-		}
+		_self.addPoint(guid, tick, data);
+		return scalableProperties;
 	}
 
 	function updatePoint(scaleType, scaleValue, guid, changedProperties) {
@@ -144,14 +132,27 @@ function MultiPointScaleEffect(options, builder) {
 		}
 	}
 
-	this.updateProperties = function (tick, updatedProperties) {
-		var width = updatedProperties.width,
-			height = updatedProperties.height,
-			radius = updatedProperties.radius,
-			changedProperties = [],
-			points;
+	function updatePoints(data, guid, changedProperties, scalableProperties) {
+		applyToScalableProperties(function(property) {
+			updatePoint(property, data[property], guid, changedProperties);
+		}, scalableProperties);
+	}
 
-		if (width === undefined && height === undefined && radius === undefined) {
+	this.updateProperties = function (tick, updatedProperties) {
+		var scalableProperties = getScalablePropertiesIfExists(),
+			changedProperties = [],
+			data = {},
+			points,
+			notFound = true;
+
+		applyToScalableProperties(function(property) {
+			if (updatedProperties[property] !== undefined) {
+				notFound = false;
+				data[property] = updatedProperties[property];
+			}
+		}, scalableProperties);
+
+		if (notFound) {
 			return { 'updatedProperties' : changedProperties };
 		}
 
@@ -159,7 +160,7 @@ function MultiPointScaleEffect(options, builder) {
 		var newPoint = updatedProperties['MultiPointScaleEffect.newPoint'];
 		if(newPoint && newPoint.target === _self.getGuid()) {
 			return	{
-						'updatedProperties' : addPoint(newPoint.guid, tick, width, height, radius)
+						'updatedProperties' : addScalePoint(newPoint.guid, tick, data)
 					};
 		}
 
@@ -168,10 +169,7 @@ function MultiPointScaleEffect(options, builder) {
 		// There is a point at the updated tick
 		for (var guid in points) {
 			if (points[guid].tick == tick) {
-				updatePoint('width', width, guid, changedProperties);
-				updatePoint('height', height, guid, changedProperties);
-				updatePoint('radius', radius, guid, changedProperties);
-
+				updatePoints(data, guid, changedProperties, scalableProperties);
 				return { 'updatedProperties' : changedProperties };
 			}
 		}
@@ -179,11 +177,15 @@ function MultiPointScaleEffect(options, builder) {
 		// A new point must be added
 		var newPointGuid = Common.createGuid();
 			return	{
-						'updatedProperties' : addPoint(newPointGuid, tick, width, height, radius),
+						'updatedProperties' : addScalePoint(newPointGuid, tick, data),
 						'newProperties' : {
 							'MultiPointScaleEffect.newPoint' : { 'guid' : newPointGuid, 'target' : _self.getGuid() }
 						}
 					};
+	};
+
+	this.getScalablePropertiesNames = function () {
+		return [];
 	};
 
 	/**
