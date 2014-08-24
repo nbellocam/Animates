@@ -34,9 +34,9 @@ angular.module('animatesApp')
 			return undefined;
 		};
 
-		this.createShapeFromMediaObject = function createShapeFromMediaObject(mediaObject, canvasPosition) {
+		this.createShapeFromMediaTime = function createShapeFromMediaTime(mediaTimeline, canvasPosition) {
 			var shape = _self.createShapeFromFrame(
-				animationService.getInstance().timeline.getMediaFrameFor(mediaObject.getGuid(), localAnimationStateService.getCurrentTick()),
+				mediaTimeline.getMediaFrameFor(localAnimationStateService.getCurrentTick()),
 				canvasPosition);
 
 			shape.setOriginX('center');

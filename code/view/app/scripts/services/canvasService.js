@@ -81,10 +81,10 @@ angular.module('animatesApp')
 				var allObjects, object, i;
 
 				if (context.sender !== 'CanvasService') {
-					if (target === 'Shape') {
+					if (target === 'MediaTimeline') {
 						switch (operation) {
 							case 'Create':
-								var shape = shapeCreator.createShapeFromMediaObject(params.mediaObject, _self.getCanvasPosition(), true);
+								var shape = shapeCreator.createShapeFromMediaTime(params.mediaTimeline, _self.getCanvasPosition(), true);
 								if (shape) {
 									_self.add(shape);
 									canvasInstance.setActiveObject(shape);
