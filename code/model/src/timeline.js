@@ -23,44 +23,72 @@ function Timeline (options) {
 	(function preInit() {
 	}());
 
-	function addDefaultMoveEffect(mediaTimeline, mediaObject) {
-		var defaultMoveEffect = new MultiPointMoveEffect();
 
-		defaultMoveEffect.updateProperties(0, {
-			'position.x' : mediaObject.getProperty('position.x'),
-			'position.y' : mediaObject.getProperty('position.y')
-		});
+
+	function getDefaultOptions (effect){
+		var json = effect.toJSON();
+		var points = {};
+
+		return {
+			guid : json.guid,
+			points : points
+		};
+	}
+
+	function addDefaultMoveEffect(mediaTimeline, mediaObject, defaultOptions) {
+		var defaultMoveEffect = new MultiPointMoveEffect(defaultOptions),
+			result = defaultOptions;
+
+		if (defaultMoveEffect.getPointsArray().length === 0) {
+			defaultMoveEffect.updateProperties(0, {
+				'position.x' : mediaObject.getProperty('position.x'),
+				'position.y' : mediaObject.getProperty('position.y')
+			});
+
+			result = getDefaultOptions(defaultMoveEffect);
+		}
 
 		mediaTimeline.addEffect(defaultMoveEffect);
+
+		return result;
 	}
 
-	function addDefaultRotateEffect(mediaTimeline, mediaObject) {
-		var defaultRotateEffect = new MultiPointRotateEffect();
+	function addDefaultRotateEffect(mediaTimeline, mediaObject, defaultOptions) {
+		var defaultRotateEffect = new MultiPointRotateEffect(defaultOptions),
+			result = defaultOptions;
 
-		defaultRotateEffect.updateProperties(0, {
-			'angle' : mediaObject.getProperty('angle')
-		});
+
+		if (defaultRotateEffect.getPointsArray().length === 0) {
+			defaultRotateEffect.updateProperties(0, {
+				'angle' : mediaObject.getProperty('angle')
+			});
+
+			result = getDefaultOptions(defaultRotateEffect);
+		}
 
 		mediaTimeline.addEffect(defaultRotateEffect);
+
+		return result;
 	}
 
-	function createMultipointEffectInstance(scalableProperties) {
+	function createMultipointEffectInstance(scalableProperties, defaultOptions) {
 		if (scalableProperties.indexOf('radius') >= 0) {
-			return new MultiPointRadiusScaleEffect();
+			return new MultiPointRadiusScaleEffect(defaultOptions);
 		}
 
 		if (scalableProperties.indexOf('fontSize') >= 0) {
-			return new MultiPointFontSizeScaleEffect();
+			return new MultiPointFontSizeScaleEffect(defaultOptions);
 		}
 
 		if (scalableProperties.indexOf('width') >= 0 && scalableProperties.indexOf('height') >= 0 ) {
-			return new MultiPointWidthAndHeightScaleEffect();
+			return new MultiPointWidthAndHeightScaleEffect(defaultOptions);
 		}
 	}
 
-	function addDefaultScaleEffect(mediaTimeline, mediaObject) {
+	function addDefaultScaleEffect(mediaTimeline, mediaObject, defaultOptions) {
 		var scalableProperties = mediaObject.getScalableProperties && mediaObject.getScalableProperties(),
-			scalableData = {};
+			scalableData = {},
+			result = defaultOptions;
 
 		if (scalableProperties) {
 			for (var i = 0; i < scalableProperties.length; i++) {
@@ -68,13 +96,21 @@ function Timeline (options) {
 			}
 
 			if (scalableProperties.length > 0) {
-				var defaultScaleEffect = createMultipointEffectInstance(scalableProperties);
+				var defaultScaleEffect = createMultipointEffectInstance(scalableProperties, defaultOptions);
 				if (defaultScaleEffect) {
-					defaultScaleEffect.updateProperties(0, scalableData);
+					if (defaultScaleEffect.getPointsArray().length === 0) {
+						defaultScaleEffect.updateProperties(0, scalableData);
+						result = getDefaultOptions(defaultScaleEffect);
+					}
+
 					mediaTimeline.addEffect(defaultScaleEffect);
+
+					return result;
 				}
 			}
 		}
+
+		return undefined;
 	}
 
 	/**
@@ -82,12 +118,14 @@ function Timeline (options) {
 	 * @param {object} mediaObject the media object to be added.
 	 * @return {object} The corresponding mediaTimeline object
 	 */
-	this.addMediaObject = function addMediaObject(mediaObject) {
+	this.addMediaObject = function addMediaObject(mediaObject, defaultEffectsOptions) {
 		// Generate a new MediaTimeline using the mediaObject data.
 		if (mediaObject !== undefined) {
 			var mediaTimeline,
 				i,
 				mediaObjectId = mediaObject.getGuid();
+
+			defaultEffectsOptions = defaultEffectsOptions || {};
 
 			for (i = mediaTimelineCollection.length - 1; i >= 0 && !mediaTimeline; i--) {
 				if (mediaTimelineCollection[i].getMediaObjectId() === mediaObjectId) {
@@ -98,14 +136,14 @@ function Timeline (options) {
 			if (!mediaTimeline) {
 				mediaTimeline = new MediaTimeline({ mediaObject : mediaObject });
 
-				addDefaultMoveEffect(mediaTimeline, mediaObject);
-				addDefaultRotateEffect(mediaTimeline, mediaObject);
-				addDefaultScaleEffect(mediaTimeline, mediaObject);
+				defaultEffectsOptions.MultiPointMoveEffect = addDefaultMoveEffect(mediaTimeline, mediaObject, defaultEffectsOptions.MultiPointMoveEffect);
+				defaultEffectsOptions.MultiPointRotateEffect = addDefaultRotateEffect(mediaTimeline, mediaObject, defaultEffectsOptions.MultiPointRotateEffect);
+				defaultEffectsOptions.MultiPointScaleEffect = addDefaultScaleEffect(mediaTimeline, mediaObject, defaultEffectsOptions.MultiPointScaleEffect);
 
 				mediaTimelineCollection.push(mediaTimeline);
 			}
 
-			return mediaTimeline;
+			return { mediaTimeline : mediaTimeline, defaultEffectsOptions: defaultEffectsOptions };
 		}
 
 		return undefined;

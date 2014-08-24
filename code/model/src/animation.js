@@ -25,8 +25,10 @@ function Animation (options) {
 	}());
 
 	function applyShapeCreateOperation(opParams) {
-		var mediaTimeline = _self.timeline.addMediaObject(opParams.mediaObject);
-		if (mediaTimeline) {
+		var mediaTimeline = _self.timeline.addMediaObject(opParams.mediaObject, opParams.defaultEffectsOptions);
+		opParams.defaultEffectsOptions = mediaTimeline.defaultEffectsOptions;
+		
+		if (mediaTimeline && mediaTimeline.mediaTimeline) {
 			return true;
 		}
 

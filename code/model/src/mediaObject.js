@@ -23,9 +23,9 @@ function MediaObject (options, builder) {
 	*  Constructor
 	*/
 	(function preInit() {
-		guid = Common.createGuid();
 		propBuilder = builder || new CompositePropertyBuilder();
 		options = Common.extend(options || {}, defaultOptions);
+		guid = options.guid || Common.createGuid();
 
 		propBuilder.property('name', PropertyBuilder)
 						.type('string')
