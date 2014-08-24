@@ -54,7 +54,7 @@ function FiniteEffect (options, builder) {
 	this.setOptions = function (options) {
 		var newOptions = {};
 
-		if (options.startTick && options.endTick) {
+		if (options.startTick !== undefined && options.endTick !== undefined) {
 			for(var name in options) {
 				if (name !== 'startTick' && name !== 'endTick') {
 					_self.setOption(name, options[name]);
