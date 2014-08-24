@@ -39,9 +39,14 @@ angular.module('animatesApp')
 		};
 
 		function createMediaObject() {
-			return new shapeSyncHelper.Model.Circle({
-				name : typeId + ' ' + objectNumber++
-			});
+			var options = {
+				fill : '#7fdbe5',
+				height: 100,
+				width: 100,
+				name: typeId + ' ' + objectNumber++
+			};
+
+			return new shapeSyncHelper.Model.Circle(options);
 		};
 
 		toolbarShapeService.registerItem(typeId, getButtonClass, createMediaObject)

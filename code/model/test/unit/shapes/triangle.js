@@ -28,8 +28,9 @@ describe('Triangle', function() {
 			triangle.getProperty('position.y').should.equal(0);
 			triangle.getProperty('position.z').should.equal(0);
 			triangle.getProperty('opacity').should.equal(1);
-			triangle.getProperty('border.type').should.equal('solid');
+			triangle.getProperty('border.type').should.equal('none');
 			triangle.getProperty('border.color').should.equal('#000000');
+			triangle.getProperty('border.width').should.equal(0);
 
 			triangle.getProperty('height').should.equal(100);
 			triangle.getProperty('width').should.equal(100);
@@ -44,6 +45,7 @@ describe('Triangle', function() {
 				specifiedOpacity = 0.8,
 				specifiedBorderType = 'solid',
 				specifiedBorderColor = 'blue',
+				specifiedBorderWidth = 10,
 				specifiedHeight = 32,
 				specifiedWidth = 84,
 				triangle = new Triangle({
@@ -55,7 +57,8 @@ describe('Triangle', function() {
 					opacity: specifiedOpacity,
 					border : {
 						type : specifiedBorderType,
-						color : specifiedBorderColor
+						color : specifiedBorderColor,
+						width : specifiedBorderWidth
 					},
 					height: specifiedHeight,
 					width: specifiedWidth
@@ -67,6 +70,7 @@ describe('Triangle', function() {
 			triangle.getProperty('opacity').should.equal(specifiedOpacity);
 			triangle.getProperty('border.type').should.equal(specifiedBorderType);
 			triangle.getProperty('border.color').should.equal(specifiedBorderColor);
+			triangle.getProperty('border.width').should.equal(specifiedBorderWidth);
 
 			triangle.getProperty('height').should.equal(specifiedHeight);
 			triangle.getProperty('width').should.equal(specifiedWidth);
@@ -90,6 +94,7 @@ describe('Triangle', function() {
 			triangle.getProperty('opacity').should.equal(1);
 			triangle.getProperty('border.type').should.equal(specifiedBorderType);
 			triangle.getProperty('border.color').should.equal(specifiedBorderColor);
+			triangle.getProperty('border.width').should.equal(0);
 
 			triangle.getProperty('height').should.equal(specifiedHeight);
 			triangle.getProperty('width').should.equal(100);

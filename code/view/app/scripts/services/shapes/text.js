@@ -51,9 +51,12 @@ angular.module('animatesApp')
 		};
 
 		function createMediaObject() {
-			return new shapeSyncHelper.Model.Text({
-				name : typeId + ' ' + objectNumber++
-			});
+			var options = {
+				fill : '#000000',
+				name: typeId + ' ' + objectNumber++
+			};
+
+			return new shapeSyncHelper.Model.Text(options);
 		};
 
 		toolbarShapeService.registerItem(typeId, getButtonClass, createMediaObject)

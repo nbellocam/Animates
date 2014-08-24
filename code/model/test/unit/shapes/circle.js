@@ -28,8 +28,10 @@ describe('Circle', function() {
 			circle.getProperty('position.y').should.equal(0);
 			circle.getProperty('position.z').should.equal(0);
 			circle.getProperty('opacity').should.equal(1);
-			circle.getProperty('border.type').should.equal('solid');
+			circle.getProperty('border.type').should.equal('none');
+			circle.getProperty('border.width').should.equal(0);
 			circle.getProperty('border.color').should.equal('#000000');
+			circle.getProperty('border.width').should.equal(0);
 
 			circle.getProperty('radius').should.equal(50);
 
@@ -43,6 +45,7 @@ describe('Circle', function() {
 				specifiedOpacity = 0.8,
 				specifiedBorderType = 'solid',
 				specifiedBorderColor = 'blue',
+				specifiedBorderWidth = 10,
 				specifiedRadius = 32,
 				circle = new Circle({
 					position : {
@@ -53,7 +56,8 @@ describe('Circle', function() {
 					opacity: specifiedOpacity,
 					border : {
 						type : specifiedBorderType,
-						color : specifiedBorderColor
+						color : specifiedBorderColor,
+						width : specifiedBorderWidth
 					},
 					radius: specifiedRadius,
 				});
@@ -64,12 +68,13 @@ describe('Circle', function() {
 			circle.getProperty('opacity').should.equal(specifiedOpacity);
 			circle.getProperty('border.type').should.equal(specifiedBorderType);
 			circle.getProperty('border.color').should.equal(specifiedBorderColor);
+			circle.getProperty('border.width').should.equal(specifiedBorderWidth);
 
 			circle.getProperty('radius').should.equal(specifiedRadius);
 		});
 
 		it('Should set only the properties passed in the constructor and use the default for the rest.', function() {
-			var specifiedBorderType = 'solid',
+			var specifiedBorderType = 'none',
 				specifiedBorderColor = 'blue',
 				specifiedRadius = 32,
 				circle = new Circle({
@@ -86,6 +91,7 @@ describe('Circle', function() {
 			circle.getProperty('opacity').should.equal(1);
 			circle.getProperty('border.type').should.equal(specifiedBorderType);
 			circle.getProperty('border.color').should.equal(specifiedBorderColor);
+			circle.getProperty('border.width').should.equal(0);
 
 			circle.getProperty('radius').should.equal(specifiedRadius);
 		});

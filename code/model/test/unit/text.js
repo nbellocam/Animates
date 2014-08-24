@@ -28,8 +28,9 @@ describe('Text', function() {
 			text.getProperty('position.y').should.equal(0);
 			text.getProperty('position.z').should.equal(0);
 			text.getProperty('opacity').should.equal(1);
-			text.getProperty('border.type').should.equal('solid');
+			text.getProperty('border.type').should.equal('none');
 			text.getProperty('border.color').should.equal('#000000');
+			text.getProperty('border.width').should.equal(0);
 
 			text.getProperty('fontSize').should.equal(30);
 			text.getProperty('fontWeight').should.equal('normal');
@@ -49,6 +50,7 @@ describe('Text', function() {
 				specifiedOpacity = 0.8,
 				specifiedBorderType = 'solid',
 				specifiedBorderColor = 'blue',
+				specifiedBorderWidth = 10,
 				text = new Text({
 					position : {
 						x : specifiedX,
@@ -58,7 +60,8 @@ describe('Text', function() {
 					opacity: specifiedOpacity,
 					border : {
 						type : specifiedBorderType,
-						color : specifiedBorderColor
+						color : specifiedBorderColor,
+						width : specifiedBorderWidth
 					},
 					fontSize : 20,
 					fontWeight : 'bold',
@@ -74,6 +77,7 @@ describe('Text', function() {
 			text.getProperty('opacity').should.equal(specifiedOpacity);
 			text.getProperty('border.type').should.equal(specifiedBorderType);
 			text.getProperty('border.color').should.equal(specifiedBorderColor);
+			text.getProperty('border.width').should.equal(specifiedBorderWidth);
 
 			text.getProperty('fontSize').should.equal(20);
 			text.getProperty('fontWeight').should.equal('bold');
@@ -90,7 +94,7 @@ describe('Text', function() {
 				text = new Text({
 					border : {
 						type : specifiedBorderType,
-						color : specifiedBorderColor
+						color : specifiedBorderColor,
 					}
 				});
 
@@ -100,6 +104,7 @@ describe('Text', function() {
 			text.getProperty('opacity').should.equal(1);
 			text.getProperty('border.type').should.equal(specifiedBorderType);
 			text.getProperty('border.color').should.equal(specifiedBorderColor);
+			text.getProperty('border.width').should.equal(0);
 
 			text.getProperty('fontSize').should.equal(30);
 			text.getProperty('fontWeight').should.equal('normal');

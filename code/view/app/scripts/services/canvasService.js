@@ -18,7 +18,8 @@ angular.module('animatesApp')
 				canvasPosition.left = (left < canvasConfig.canvasMinPosition.left) ? canvasConfig.canvasMinPosition.left : left;
 
 				if (!viewportInstance) {
-					viewportInstance = new fabric.Rect(canvasConfig.viewportInitialConfig);
+					viewportInstance = new fabric.Rect(canvasConfig.viewportInitialConfig.rect);
+					viewportInstance.setShadow(canvasConfig.viewportInitialConfig.shadow);
 					canvasInstance.add(viewportInstance);
 				}
 

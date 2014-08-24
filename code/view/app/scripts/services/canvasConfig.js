@@ -9,13 +9,23 @@ angular.module('animatesApp')
 			centeredScaling: true,
 		},
 		viewportInitialConfig: {
-			fill: '#FFF',
-			evented: false,
-			opacity: 1,
-			selectable: false,
-			strokeWidth: 2,
-			stroke: '#BBB'
+			rect : {
+				fill: '#FFF',
+				evented: false,
+				opacity: 1,
+				selectable: false,
+				strokeWidth: 1,
+				stroke: '#BBB'
+			},
+			shadow : {
+				color: 'rgba(0,0,0,0.6)',
+				blur: 7,
+				opacity: 0.4,
+				fillShadow: true,
+				strokeShadow: true
+			}
 		},
+
 		canvasMinPosition: {
 			top: 100,
 			left: 100
