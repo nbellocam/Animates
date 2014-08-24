@@ -38,7 +38,7 @@ function Animation (options) {
 		if (mediaTimeline) {
 			result.status = true;
 			result.data = opParams;
-			result.data.mediaTimeline = mediaTimeline.toJSON();
+			result.data.mediaTimeline = mediaTimeline;
 			result.target = 'MediaTimeline';
 		}
 
@@ -63,8 +63,7 @@ function Animation (options) {
 		var mediaTimeline = new MediaTimeline(),
 			result = getResultObject();
 
-		mediaTimeline.fromJSON(opParams.mediaTimeline);
-		mediaTimeline = _self.timeline.addMediaTimeline(mediaTimeline);
+		mediaTimeline = _self.timeline.addMediaTimeline(opParams.mediaTimeline);
 
 		if (mediaTimeline) {
 			result.status = true;

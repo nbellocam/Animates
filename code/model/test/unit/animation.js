@@ -23,7 +23,7 @@ describe('Animation', function() {
 			animation.addUpdateObserver('test', function (target, operation, params, context) {
 				target.should.equal('MediaTimeline');
 				operation.should.equal('Create');
-				params.mediaTimeline.mediaObject.should.eql(JsonSerializer.serializeObject(rec));
+				params.mediaTimeline.toJSON().mediaObject.should.eql(JsonSerializer.serializeObject(rec));
 				should.not.exist(context);
 				called = true;
 			});
