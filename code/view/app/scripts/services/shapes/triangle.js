@@ -37,9 +37,13 @@ angular.module('animatesApp')
 		};
 
 		function createMediaObject() {
-			return new shapeSyncHelper.Model.Triangle({
-				name : typeId + ' ' + objectNumber++
-			});
+			var options = {
+				fill : '#b9e57f',
+				height: 100,
+				width: 100,
+				name: typeId + ' ' + objectNumber++
+			};
+			return new shapeSyncHelper.Model.Triangle(options);
 		};
 
 		toolbarShapeService.registerItem(typeId, getButtonClass, createMediaObject)
