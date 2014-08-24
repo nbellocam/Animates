@@ -6,6 +6,7 @@ var Animation = require('../../src/animation'),
 	Rectangle = require('../../src/shapes/rectangle'),
 	MoveEffect = require('../../src/effects/moveEffect'),
 	Timeline = require('../../src/timeline'),
+	MediaTimeline = require('../../src/mediaTimeline'),
 	Canvas = require('../../src/canvas'),
 	JsonSerializer = require('../../src/serialization/jsonSerializer'),
 	should = require("should");
@@ -67,6 +68,64 @@ describe('Animation', function() {
 			should.not.exist(mediaTimeline);
 		});
 	});
+
+	describe('MediaTimeline operations', function() {
+		it('Should call observer with MediaTimeline creation event', function() {
+			var timeline = new Timeline(),
+				canvas = new Canvas(),
+				animation = new Animation({ timeline : timeline, canvas : canvas}),
+				rec = new Rectangle(),
+				mediaTimeline = new MediaTimeline({'mediaObject' : rec}),
+				called = false;
+
+			animation.addUpdateObserver('test', function (target, operation, params, context) {
+				target.should.equal('MediaTimeline');
+				operation.should.equal('Create');
+				params.mediaTimeline.toJSON().mediaObject.should.eql(JsonSerializer.serializeObject(rec));
+				should.not.exist(context);
+				called = true;
+			});
+
+			animation.applyOperation('MediaTimeline', 'Create', { 'mediaTimeline' : mediaTimeline });
+			called.should.be.ok;
+
+			timeline.countMediaTimelines().should.be.equal(1);
+
+			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			should.exist(mediaTimeline);
+		});
+
+		it('Should call observer with MediaTimeline remove event', function() {
+			var timeline = new Timeline(),
+				canvas = new Canvas(),
+				animation = new Animation({ timeline : timeline, canvas : canvas}),
+				rec = new Rectangle(),
+				called = false;
+
+			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec });
+
+			timeline.countMediaTimelines().should.be.equal(1);
+			var mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			should.exist(mediaTimeline);
+
+			animation.addUpdateObserver('test', function (target, operation, params, context) {
+				target.should.equal('MediaTimeline');
+				operation.should.equal('Remove');
+				params.mediaObjectId.should.equal(rec.getGuid());
+				should.not.exist(context);
+				called = true;
+			});
+
+			animation.applyOperation('MediaTimeline', 'Remove', { 'mediaObjectId' : rec.getGuid() });
+			called.should.be.ok;
+
+			timeline.countMediaTimelines().should.be.equal(0);
+
+			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
+			should.not.exist(mediaTimeline);
+		});
+	});
+
 
 	describe('Effects operations', function() {
 		it('Should call observer with MoveEffect effect creation event', function() {
