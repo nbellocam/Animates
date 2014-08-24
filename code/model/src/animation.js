@@ -33,17 +33,6 @@ function Animation (options) {
 		return false;
 	}
 
-	function applyShapeUpdateOperation(opParams) {
-		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
-		if (mediaTimeline) {
-			var mediaObject = mediaTimeline.getMediaObject();
-			mediaObject.setProperties(opParams.properties);
-			return true;
-		}
-
-		return false;
-	}
-
 	function applyShapeRemoveOperation(opParams) {
 		if (_self.timeline.getMediaTimeline(opParams.mediaObjectId)) {
 			_self.timeline.removeMediaObject(opParams.mediaObjectId);
@@ -119,8 +108,6 @@ function Animation (options) {
 		switch (operation) {
 			case 'Create':
 				return applyShapeCreateOperation(opParams);
-			case 'Update':
-				return applyShapeUpdateOperation(opParams);
 			case 'Remove':
 				return applyShapeRemoveOperation(opParams);
 			default:

@@ -65,42 +65,6 @@ describe('Animation', function() {
 			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
 			should.not.exist(mediaTimeline);
 		});
-
-		it('Should call observer with Rectangle Shape update event', function() {
-			var timeline = new Timeline(),
-				canvas = new Canvas(),
-				animation = new Animation({ timeline : timeline, canvas : canvas}),
-				rec = new Rectangle(),
-				called = false,
-				mediaTimeline = null,
-				objectPorperties = null;
-
-			animation.applyOperation('Shape', 'Create', { 'mediaObject' : rec });
-
-			timeline.countMediaTimelines().should.be.equal(1);
-			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
-			should.exist(mediaTimeline);
-
-			animation.addUpdateObserver('test', function (target, operation, params, context) {
-				target.should.equal('Shape');
-				operation.should.equal('Update');
-				params.properties.should.have.property('height',200);
-				params.properties.should.have.property('width',200);
-				should.not.exist(context);
-				called = true;
-			});
-
-			animation.applyOperation('Shape', 'Update', { 'mediaObjectId' : rec.getGuid(), 'properties' : { 'height' : 200, 'width' : 200 }});
-			called.should.be.ok;
-
-			timeline.countMediaTimelines().should.be.equal(1);
-			mediaTimeline = timeline.getMediaTimeline(rec.getGuid());
-			should.exist(mediaTimeline);
-			mediaTimeline.getMediaObject().getGuid().should.equal(rec.getGuid());
-			objectPorperties = mediaTimeline.getMediaObject().getProperties();
-			objectPorperties.should.have.property('height', 200);
-			objectPorperties.should.have.property('width', 200);
-		});
 	});
 
 	describe('Effects operations', function() {
