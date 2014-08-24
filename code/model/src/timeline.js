@@ -78,6 +78,20 @@ function Timeline (options) {
 	}
 
 	/**
+	 * Add a new media timeline element related
+	 * @param {object} mediaTimeline the media timeline to be added.
+	 * @return {object} The corresponding mediaTimeline object
+	 */
+	this.addMediaTimeline =  function addMediaTimeline(mediaTimeline) {
+		if (mediaTimeline !== undefined) {
+			mediaTimelineCollection.push(mediaTimeline);
+			return mediaTimeline;
+		}
+
+		return undefined;
+	};
+
+	/**
 	 * Add a new media timeline element related with the media object passed by parameter
 	 * @param {object} mediaObject the media object to be added.
 	 * @return {object} The corresponding mediaTimeline object
