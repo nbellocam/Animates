@@ -49,7 +49,6 @@ angular.module('animatesApp')
 						syncViewProperty([0,0], viewObject, 'strokeDashArray');
 				}
 				syncViewProperty(model.getProperty('opacity'), viewObject, 'opacity');
-				syncViewProperty(model.getProperty('border.color'), viewObject, 'stroke');
 				syncViewProperty(model.getProperty('angle'), viewObject, 'angle');
 				syncViewProperty(model.getProperty('position.x') + canvasPosition.left, viewObject, 'left');
 				syncViewProperty(model.getProperty('position.y') + canvasPosition.top, viewObject, 'top');

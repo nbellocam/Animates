@@ -62,8 +62,24 @@ angular.module('animatesApp')
 
 			animationService.getInstance().applyOperation('MediaFrame', 'Update', {
 				mediaObjectId :  shape.getGuid(),
-				updatedProperties: { angle: 20, 'position.x': 50, width: 230 },
+				updatedProperties: { angle: 30, 'position.x': 250, width: 230 },
 				tick: 200,
+			}, {
+				sender: 'testLoad'
+			});
+
+			animationService.getInstance().applyOperation('MediaFrame', 'Update', {
+				mediaObjectId :  shape.getGuid(),
+				updatedProperties: { angle: 80, height: 430 },
+				tick: 300,
+			}, {
+				sender: 'testLoad'
+			});
+
+			animationService.getInstance().applyOperation('MediaFrame', 'Update', {
+				mediaObjectId :  shape.getGuid(),
+				updatedProperties: { 'position.y': 350 },
+				tick: 350,
 			}, {
 				sender: 'testLoad'
 			});
