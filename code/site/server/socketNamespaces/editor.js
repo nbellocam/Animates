@@ -12,7 +12,7 @@ var operateWithProject = function (data, socket, operation, callback) {
 		}
 
 		if (!project)  {
-			socket.emit('error-response', { 
+			socket.emit('error-response', {
 				error: new Error('Failed to load project ' + data.projectId)
 			});
 			return;
@@ -21,7 +21,7 @@ var operateWithProject = function (data, socket, operation, callback) {
 		if(project.canOpBeAppliedBy(operation, socket.handshake.user.id)){
 			callback(project, data, socket);
 		} else {
-			socket.emit('error-response', { 
+			socket.emit('error-response', {
 				error: new Error('Not enough permissions on project ' + data.projectId)
 			});
 		}
@@ -33,7 +33,7 @@ module.exports = function(io) {
 	io.of('/editor')
 	.on('connection', function (socket) {
 		socket.on('subscribe', function(data) {
-			operateWithProject(data, socket, 'see', function (project, data, socket){
+			operateWithProject(data, socket, 'see', function (project, data, socket) {
 				socket.join(data.projectId);
 				socket.emit('subscribe:ok', { projectId: data.projectId });
 			});
@@ -42,17 +42,24 @@ module.exports = function(io) {
 		socket.on('unsubscribe', function(data) {
 			socket.leave(data.projectId);
 		});
-		
+
 		socket.on('update', function (data) {
-			operateWithProject(data, socket, 'update', function (project, data, socket){
-				project.applyDiff(data.target, data.operation, Model.JsonSerializer.deserializeDictionary(data.opParams), socket.handshake.user);
+			operateWithProject(data, socket, 'update', function (project, data, socket) {
+				try {
+					project.applyDiff(data.target, data.operation, Model.JsonSerializer.deserializeDictionary(data.opParams), socket.handshake.user);
+				} catch (er) {
+					console.log(er);
+					socket.emit('update:error', data);
+					return;
+				}
+
 				project.save(function(err) {
 					if (err) {
 						socket.emit('update:error', data);
 					} else {
 						socket.broadcast.to(data.projectId).emit('update', data); //emit to 'room' except this socket
 					}
-				});				
+				});
 			});
 		});
 	});
