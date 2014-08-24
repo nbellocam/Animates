@@ -35,7 +35,7 @@ function FiniteEffect (options, builder) {
 		propBuilder.property('endTick', PropertyBuilder)
 						.value(currentOptions.endTick)
 						.type('float')
-						.constraint(function (val) { return (val === -1) || !_self.getOption || (val > _self.getOption('startTick')); })
+						.constraint(function (val) { return (val >= 0) && (!_self.getOption || (val > _self.getOption('startTick'))); })
 					.add()
 					.property('startTick', PropertyBuilder)
 						.value(currentOptions.startTick)
@@ -50,6 +50,30 @@ function FiniteEffect (options, builder) {
 		return false;
 	};
 
+	var baseSetOptions = this.setOptions;
+	this.setOptions = function (options) {
+		var newOptions = {};
+
+		if (options.startTick && options.endTick) {
+			for(var name in options) {
+				if (name !== 'startTick' && name !== 'endTick') {
+					_self.setOption(name, options[name]);
+				} else {
+					newOptions[name] = options[name];
+				}
+			}
+
+			if (newOptions.startTick > _self.getOption('endTick')) {
+				_self.setOption('endTick', newOptions.endTick);
+				_self.setOption('startTick', newOptions.startTick);
+			} else {
+				_self.setOption('startTick', newOptions.startTick);
+				_self.setOption('endTick', newOptions.endTick);
+			}
+		} else {
+			baseSetOptions(options);
+		}
+	};
 
 	/**
 	*  Constructor
