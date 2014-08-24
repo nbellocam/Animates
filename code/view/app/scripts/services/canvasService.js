@@ -46,9 +46,6 @@ angular.module('animatesApp')
 					}
 				}
 			},
-			renderAll = function renderAll() {
-				canvasInstance.renderAll();
-			},
 			updateMediaObjectInCanvas = function updateMediaObjectInCanvas(mediaObjectId) {
 				var allObjects = canvasInstance.getObjects(),
 					founded = false,
@@ -90,7 +87,7 @@ angular.module('animatesApp')
 									canvasInstance.setActiveObject(shape);
 									shape.setCoords();
 								}
-								renderAll();
+								_self.render();
 
 								break;
 							case 'Remove':
@@ -102,7 +99,7 @@ angular.module('animatesApp')
 										_self.remove(object);
 									}
 								}
-								renderAll();
+								_self.render();
 
 								break;
 							default:
@@ -110,7 +107,7 @@ angular.module('animatesApp')
 						}
 					} else if (target === 'Effect' || target === 'MediaFrame') {
 						updateMediaObjectInCanvas(params.mediaObjectId);
-						renderAll();
+						_self.render();
 					}
 				}
 			},
@@ -127,7 +124,7 @@ angular.module('animatesApp')
 					}
 				}
 
-				renderAll();
+				_self.render();
 			};
 
 		this.createCanvas = function createCanvas() {
@@ -221,7 +218,7 @@ angular.module('animatesApp')
 			canvasInstance.forEachObject(function (obj) {
 				obj.setCoords();
 			});
-			renderAll();
+			_self.render();
 		};
 
 		this.add = function add(element) {
@@ -241,6 +238,18 @@ angular.module('animatesApp')
 					canvasInstance.add(viewportInstance);
 				}
 			}
+		};
+
+		this.stopAutomaticRendering = function () {
+			canvasInstance.renderOnAddRemove = false;
+		};
+
+		this.startAutomaticRendering = function () {
+			canvasInstance.renderOnAddRemove = true;
+		};
+
+		this.render = function () {
+			canvasInstance.renderAll();
 		};
 
 		this.getCanvasPosition = function getCanvasPosition() {

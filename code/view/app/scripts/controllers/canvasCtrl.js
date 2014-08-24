@@ -6,9 +6,12 @@ angular.module('animatesApp')
 		function onCurrentTickChanged(currentTick) {
 			var frames = animationService.getInstance().timeline.getMediaFrames(currentTick);
 			canvasService.clear();
+			canvasService.stopAutomaticRendering();
 			angular.forEach(frames, function (frame) {
 				canvasService.add( shapeCreator.createShapeFromFrame(frame, canvasService.getCanvasPosition()));
 			});
+			canvasService.render();
+			canvasService.startAutomaticRendering();
 		}
 
 		function onAnimationLoad() {
