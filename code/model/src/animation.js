@@ -60,7 +60,7 @@ function Animation (options) {
 	}
 
 	function applyMediaTimelineCreateOperation(opParams) {
-		var mediaTimeline = new MediaTimeline(),
+		var mediaTimeline,
 			result = getResultObject();
 
 		mediaTimeline = _self.timeline.addMediaTimeline(opParams.mediaTimeline);
