@@ -117,6 +117,9 @@ describe('MultiPointMoveEffect', function() {
 			deserializedOptions.points.id2.tick.should.equal(100);
 			deserializedOptions.points.id2.position.x.should.equal(20);
 			deserializedOptions.points.id2.position.y.should.equal(20);
+
+			// Cache points array must be refreshed
+			effect2.getPointsArray().should.have.lengthOf(2);
 		});
 	});
 

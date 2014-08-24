@@ -88,6 +88,12 @@ function MultiPointEffect(options, builder, pointsSchemaBuilder) {
 		_self.refreshPointsArray();
 	};
 
+	var baseFromJSON = this.fromJSON;
+	this.fromJSON = function (json) {
+		baseFromJSON(json);
+		_self.refreshPointsArray();
+	};
+
 	/**
 	*  Constructor
 	*/

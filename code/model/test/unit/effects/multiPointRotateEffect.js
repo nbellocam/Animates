@@ -415,6 +415,9 @@ describe('MultiPointRotateEffect', function() {
 			deserializedOptions.points.id2.tick.should.equal(100);
 			deserializedOptions.points.id2.angle.should.equal(10);
 			deserializedOptions.points.id2.motion.should.equal('counter-clockwise');
+
+			// Cache points array must be refreshed
+			effect2.getPointsArray().should.have.lengthOf(2);
 		});
 	});
 
