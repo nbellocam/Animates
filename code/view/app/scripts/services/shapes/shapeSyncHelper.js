@@ -15,8 +15,6 @@ angular.module('animatesApp')
 				var fabricProperty = viewObject.get(propertyName);
 
 				if (modelValue !== fabricProperty) {
-					console.log(propertyName);
-					console.log(modelValue);
 					viewObject.set(propertyName, modelValue);
 				}
 			},
