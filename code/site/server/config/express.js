@@ -11,6 +11,7 @@ var express = require('express'),
     errorHandler = require('errorhandler'),
     path = require('path'),
     config = require('./config'),
+    expressValidator = require('express-validator'),
     appPath = process.cwd(),
     util = require('../utils/util'),
     MongoStore = require('connect-mongo')(session);
@@ -60,6 +61,7 @@ module.exports = function(app, passport, db) {
   app.use(morgan('dev'));
 
   // Request body parsing middleware should be above methodOverride
+  app.use(expressValidator());
   app.use(bodyParser());
   app.use(methodOverride());
 

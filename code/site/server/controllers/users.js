@@ -12,8 +12,9 @@ exports.create = function (req, res, next) {
 
   // because we set our user.provider to local our models/user.js validation will always be true
   req.assert('email', 'You must enter a valid email address').isEmail();
+  req.assert('name', 'Username must be between 1-100 characters long').len(1,100);
   req.assert('password', 'Password must be between 8-20 characters long').len(8, 20);
-  req.assert('username', 'Username cannot be more than 20 characters').len(1,20);
+  req.assert('username', 'Username must be between 1-20 characters long').len(1,20);
   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
 
   var errors = req.validationErrors();
@@ -26,7 +27,7 @@ exports.create = function (req, res, next) {
 
   newUser.save(function(err) {
     if (err) return res.json(400, err);
-    
+
     req.logIn(newUser, function(err) {
       if (err) return next(err);
 
@@ -105,7 +106,7 @@ exports.login = function(req, res) {
         return res.redirect('/');
     }
 
-    res.render('index', { user: 'null' });  
+    res.render('index', { user: 'null' });
 };
 
 /**
@@ -116,7 +117,7 @@ exports.signup = function(req, res) {
         return res.redirect('/');
     }
 
-    res.render('index', { user: 'null' });  
+    res.render('index', { user: 'null' });
 };
 
 /**
