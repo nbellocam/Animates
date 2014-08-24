@@ -24,7 +24,7 @@ angular.module('animatesApp')
 			});
 		};
 
-		var animationUpdateEventHandler = function animationUpdateEventHandler(target, operation) {
+		var animationUpdateEventHandler = function animationUpdateEventHandler() {
 			$scope.adaptMediaTimelines();
 		};
 
