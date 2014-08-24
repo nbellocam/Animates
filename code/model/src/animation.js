@@ -2,6 +2,7 @@
 
 var Canvas = require('./canvas'),
 	Timeline = require('./timeline'),
+	MediaTimeline = require('./mediaTimeline'),
 	JsonSerializer = require('./serialization/jsonSerializer'),
 	Common = require('animates-common');
 
@@ -24,75 +25,114 @@ function Animation (options) {
 		_self.timeline = options.timeline || new Timeline();
 	}());
 
-	function applyShapeCreateOperation(opParams) {
-		var mediaTimeline = _self.timeline.addMediaObject(opParams.mediaObject);
-		if (mediaTimeline) {
-			return true;
-		}
-
-		return false;
+	function getResultObject () {
+		return { status : false, data : {} };
 	}
 
-	function applyShapeUpdateOperation(opParams) {
-		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
+	function applyShapeCreateOperation(opParams) {
+		var mediaTimeline,
+			result = getResultObject();
+
+		mediaTimeline = _self.timeline.addMediaObject(opParams.mediaObject);
+
 		if (mediaTimeline) {
-			var mediaObject = mediaTimeline.getMediaObject();
-			mediaObject.setProperties(opParams.properties);
-			return true;
+			result.status = true;
+			result.data = opParams;
+			result.data.mediaTimeline = mediaTimeline.toJSON();
+			result.target = 'MediaTimeline';
 		}
 
-		return false;
+		return result;
 	}
 
 	function applyShapeRemoveOperation(opParams) {
+		var mediaTimeline = new MediaTimeline(),
+			result = getResultObject();
+
 		if (_self.timeline.getMediaTimeline(opParams.mediaObjectId)) {
 			_self.timeline.removeMediaObject(opParams.mediaObjectId);
-			return true;
+			result.status = true;
+			result.data = opParams;
+			result.target = 'MediaTimeline';
 		}
 
-		return false;
+		return result;
+	}
+
+	function applyMediaTimelineCreateOperation(opParams) {
+		var mediaTimeline = new MediaTimeline(),
+			result = getResultObject();
+
+		mediaTimeline.fromJSON(opParams.mediaTimeline);
+		mediaTimeline = _self.timeline.addMediaTimeline(mediaTimeline);
+
+		if (mediaTimeline) {
+			result.status = true;
+			result.data = opParams;
+		}
+
+		return result;
+	}
+
+	function applyMediaTimelineRemoveOperation(opParams) {
+		var result = getResultObject();
+
+		if (_self.timeline.getMediaTimeline(opParams.mediaObjectId)) {
+			_self.timeline.removeMediaObject(opParams.mediaObjectId);
+			result.status = true;
+			result.data = opParams;
+		}
+
+		return result;
 	}
 
 	function applyEffectCreateOperation(opParams) {
-		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
+		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId),
+			result = getResultObject();
+
 		if (mediaTimeline) {
 			mediaTimeline.addEffect(opParams.effect);
-			return true;
+			result.status = true;
+			result.data = opParams;
 		}
 
 		return false;
 	}
 
 	function applyEffectUpdateOperation(opParams) {
-		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
+		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId),
+			result = getResultObject();
+
 		if (mediaTimeline) {
 			var effect = mediaTimeline.getEffect(opParams.effectId);
 
 			if (effect) {
 				effect.setOptions(opParams.options);
-				return true;
+				result.status = true;
+				result.data = opParams;
 			}
-
-			return false;
 		}
 
-		return false;
+		return result;
 	}
 
 	function applyEffectRemoveOperation(opParams) {
-		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId);
+		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId),
+			result = getResultObject();
+
 		if (mediaTimeline && mediaTimeline.getEffect(opParams.effectId)) {
 			mediaTimeline.removeEffect(opParams.effectId);
-
-			return true;
+			result.status = true;
+			result.data = opParams;
 		}
 
-		return false;
+		return result;
 	}
 
 	function applyMediaFrameUpdateOperation(opParams) {
 		var mediaTimeline = _self.timeline.getMediaTimeline(opParams.mediaObjectId),
-			newProperty, updateResult, notUpdatedProperties;
+			newProperty, updateResult, notUpdatedProperties,
+			result = getResultObject();
 
 		if (mediaTimeline) {
 			updateResult = mediaTimeline.updateEffectsThatMatch(opParams.tick, opParams.updatedProperties);
@@ -109,22 +149,32 @@ function Animation (options) {
 				mediaObject.setProperties(notUpdatedProperties);
 			}
 
-			return true;
+			result.status = true;
+			result.data = opParams;
 		}
 
-		return false;
+		return result;
 	}
 
 	function applyShapeOperation(operation, opParams) {
 		switch (operation) {
 			case 'Create':
 				return applyShapeCreateOperation(opParams);
-			case 'Update':
-				return applyShapeUpdateOperation(opParams);
 			case 'Remove':
 				return applyShapeRemoveOperation(opParams);
 			default:
-				return false;
+				return getResultObject();
+		}
+	}
+
+	function applyMediaTimelineOperation(operation, opParams) {
+		switch (operation) {
+			case 'Create':
+				return applyMediaTimelineCreateOperation(opParams);
+			case 'Remove':
+				return applyMediaTimelineRemoveOperation(opParams);
+			default:
+				return getResultObject();
 		}
 	}
 
@@ -132,12 +182,10 @@ function Animation (options) {
 		switch (operation) {
 			case 'Create':
 				return applyEffectCreateOperation(opParams);
-			case 'Update':
-				return applyEffectUpdateOperation(opParams);
 			case 'Remove':
 				return applyEffectRemoveOperation(opParams);
 			default:
-				return false;
+				return getResultObject();
 		}
 	}
 
@@ -146,16 +194,21 @@ function Animation (options) {
 			case 'Update':
 				return applyMediaFrameUpdateOperation(opParams);
 			default:
-				return false;
+				return getResultObject();
 		}
 	}
 
 	this.applyOperation = function applyOperation(target, operation, opParams, context) {
+		var result = getResultObject(),
+			params;
+
 		if (target && operation && opParams) {
-			var result = false;
 			switch (target) {
 				case 'Shape':
 					result = applyShapeOperation(operation, opParams);
+					break;
+				case 'MediaTimeline':
+					result = applyMediaTimelineOperation(operation, opParams);
 					break;
 				case 'Effect':
 					result = applyEffectOperation(operation, opParams);
@@ -167,11 +220,15 @@ function Animation (options) {
 					return;
 			}
 
-			if (result) {
+			if (result.status) {
+				target = result.target || target;
+				operation = result.operation || operation;
+				params = result.data || opParams;
+
 				for (var observerId in updateObservers) {
 					if (updateObservers.hasOwnProperty(observerId)) {
 						if (!context || !context.sender || context.sender !== observerId) {
-							updateObservers[observerId](target, operation, opParams, context);
+							updateObservers[observerId](target, operation, params, context);
 						}
 					}
 				}
