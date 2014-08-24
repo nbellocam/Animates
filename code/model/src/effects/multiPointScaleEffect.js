@@ -71,10 +71,10 @@ function MultiPointScaleEffect(options, builder, pointsSchemaBuilder) {
 
 	function getScaleForSegment(tick, segment, scaleType) {
 		if (segment && segment.startPoint) {
-			if (!segment.endPoint) {
-				return segment.startPoint[scaleType];
-			} else {
+			if (segment.endPoint) {
 				return getScaleFor(tick, segment.startPoint, segment.endPoint, scaleType);
+			} else {
+				return segment.startPoint[scaleType];
 			}
 		} else if (segment && segment.endPoint) {
 			return segment.endPoint[scaleType];
@@ -159,8 +159,10 @@ function MultiPointScaleEffect(options, builder, pointsSchemaBuilder) {
 		// If a point was added from outside
 		var newPoint = updatedProperties['MultiPointScaleEffect.newPoint'];
 		if(newPoint && newPoint.target === _self.getGuid()) {
+			changedProperties = addScalePoint(newPoint.guid, tick, data);
+			changedProperties.push('MultiPointScaleEffect.newPoint');
 			return	{
-						'updatedProperties' : addScalePoint(newPoint.guid, tick, data)
+						'updatedProperties' : changedProperties
 					};
 		}
 

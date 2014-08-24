@@ -96,7 +96,7 @@ function Animation (options) {
 			result.data = opParams;
 		}
 
-		return false;
+		return result;
 	}
 
 	function applyEffectUpdateOperation(opParams) {
@@ -182,6 +182,8 @@ function Animation (options) {
 		switch (operation) {
 			case 'Create':
 				return applyEffectCreateOperation(opParams);
+			case 'Update':
+				return applyEffectUpdateOperation(opParams);
 			case 'Remove':
 				return applyEffectRemoveOperation(opParams);
 			default:

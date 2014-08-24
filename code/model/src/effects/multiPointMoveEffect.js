@@ -122,7 +122,7 @@ function MultiPointMoveEffect(options, builder) {
 		if(newPoint && newPoint.target === _self.getGuid()) {
 			addPoint(newPoint.guid, tick, positionX, positionY);
 			return	{
-						'updatedProperties' : ['position.y', 'position.x']
+						'updatedProperties' : ['position.y', 'position.x', 'MultiPointMoveEffect.newPoint']
 					};
 		}
 

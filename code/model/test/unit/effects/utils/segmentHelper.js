@@ -7,15 +7,16 @@ var segmentHelper = require('../../../../src/effects/utils/segmentHelper'),
 
 describe('segmentHelper', function() {
   describe('getSegment', function() {
-    it('Should return undefined is there are not enought points (no points)', function() {
+    it('Should return empty object is there are not enought points (no points)', function() {
       var currentTick = 1,
         points = [],
         result = segmentHelper.getSegment(currentTick, points);
 
-      (result === undefined).should.be.true;
+
+      result.should.be.empty;
     });
 
-    it('Should return undefined is there are not enought points (only one point)', function() {
+    it('Should return segment with only start point is there are one point and current tick is after the points tick', function() {
       var currentTick = 1,
         points = [{
           tick:0,
@@ -23,7 +24,21 @@ describe('segmentHelper', function() {
           }],
         result = segmentHelper.getSegment(currentTick, points);
 
-      (result === undefined).should.be.true;
+        result.should.have.property('startPoint');
+        result.startPoint.should.have.property('tick', 0);
+    });
+
+    it('Should return segment with only start point is there are one point and current tick is before the points tick', function() {
+      var currentTick = 0,
+        points = [{
+          tick:2,
+          position: {}
+          }],
+        result = segmentHelper.getSegment(currentTick, points);
+
+
+        result.should.have.property('endPoint');
+        result.endPoint.should.have.property('tick', 2);
     });
 
     it('Should return segment if tick is in middle (only two points)', function() {

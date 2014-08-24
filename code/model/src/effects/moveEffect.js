@@ -80,7 +80,7 @@ function MoveEffect(options, builder) {
 		var	path = _self.getOption('path');
 
 		if (path == 'Straight') {
-			var newPosition = straightPathStrategy(tick, getPointsArray());
+			var newPosition = (tick >= _self.getOption('startTick')) ? straightPathStrategy(tick, getPointsArray()) : {};
 
 			for (var key in newPosition) {
 				if (newPosition.hasOwnProperty(key)) {

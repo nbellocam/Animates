@@ -91,10 +91,10 @@ function MultiPointRotateEffect(options, builder) {
 			segment = segmentHelper.getSegment(tick, points);
 
 		if (segment && segment.startPoint) {
-			if (!segment.endPoint) {
-				mediaFrameProperties.angle = segment.startPoint.angle;
-			} else {
+			if (segment.endPoint) {
 				mediaFrameProperties.angle = getAngleFor(tick, segment.startPoint, segment.endPoint, segment.endPoint.motion === 'clockwise');
+			} else {
+				mediaFrameProperties.angle = segment.startPoint.angle;
 			}
 		} else if (segment && segment.endPoint) {
 			mediaFrameProperties.angle = segment.endPoint.angle;
@@ -127,7 +127,7 @@ function MultiPointRotateEffect(options, builder) {
 		if(newPoint && newPoint.target === _self.getGuid()) {
 			addPoint(newPoint.guid, tick, angle, motion);
 			return	{
-						'updatedProperties' : ['angle', 'motion']
+						'updatedProperties' : ['angle', 'motion', 'MultiPointRotateEffect.newPoint']
 					};
 		}
 

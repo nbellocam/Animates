@@ -71,6 +71,7 @@ function Timeline (options) {
 				var defaultScaleEffect = createMultipointEffectInstance(scalableProperties);
 				if (defaultScaleEffect) {
 					defaultScaleEffect.updateProperties(0, scalableData);
+
 					mediaTimeline.addEffect(defaultScaleEffect);
 				}
 			}

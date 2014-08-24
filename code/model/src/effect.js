@@ -25,7 +25,7 @@ function Effect (options, builder) {
 	(function preInit() {
 		currentOptions = Common.extend(options, defaultOptions);
 
-		guid = Common.createGuid();
+		guid = currentOptions.guid || Common.createGuid();
 		propBuilder = builder || new CompositePropertyBuilder();
 		currentOptions = propBuilder.create();
 	}());

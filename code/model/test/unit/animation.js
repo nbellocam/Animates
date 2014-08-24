@@ -12,7 +12,7 @@ var Animation = require('../../src/animation'),
 
 
 describe('Animation', function() {
-	describe.only('Shapes operations', function() {
+	describe('Shapes operations', function() {
 		it('Should call observer with MediaTimeline creation event', function() {
 			var timeline = new Timeline(),
 				canvas = new Canvas(),
