@@ -44,7 +44,7 @@ angular.module('animatesApp')
 
 			if (effect) {
 				applyOperation('Effect', 'Create', {
-					effect: effectHelper.setDefaltTicks(effect, $scope.selectedShape),
+					effect: effectHelper.setDefaultTicks(effect, $scope.selectedShape),
 					mediaObjectId : shapeHelper.getGuidFromView($scope.selectedShape)
 				});
 			}

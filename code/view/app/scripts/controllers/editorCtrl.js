@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('EditorCtrl', function EditorCtrl($scope, $timeout, canvasService, animationService, serverService) {
+	.controller('EditorCtrl', function EditorCtrl($scope, $timeout, canvasService, animationService, serverService, localAnimationStateService) {
 		function initializeLayout() {
 
 			angular.element(document).ready(function () {
@@ -49,6 +49,33 @@ angular.module('animatesApp')
 				$scope.playing = !animationService.isEditingEnable;
 			});
 
+		function createTestAnimation() {
+			var newAnimation = animationService.getInstance();
+			var shape = new animationService.Model.Rectangle({
+				name : 'Test rectangle'
+			});
+
+			newAnimation.applyOperation('Shape', 'Create', {
+				mediaObject: shape,
+				tick : localAnimationStateService.getCurrentTick()
+			}, { sender: 'testLoad' });
+
+			animationService.getInstance().applyOperation('MediaFrame', 'Update', {
+				mediaObjectId :  shape.getGuid(),
+				updatedProperties: { angle: 20, 'position.x': 50, width: 230 },
+				tick: 200,
+			}, {
+				sender: 'testLoad'
+			});
+
+			newAnimation.applyOperation('Effect', 'Create', {
+				effect: new animationService.Model.FadeEffect(),
+				mediaObjectId : shape.getGuid()
+			}, { sender: 'testLoad' });
+
+			return newAnimation;
+		}
+
 		$scope.initializeAnimation = function initializeAnimation(id) {
 			$scope.loading = true;
 			if (serverService.isAvailable()) {
@@ -57,6 +84,7 @@ angular.module('animatesApp')
 						serverService.joinProject(id);
 						canvasService.createCanvas();
 						initializeLayout();
+						localAnimationStateService.setCurrentTick(0);
 						$scope.loading = false;
 					}, function error(data) {
 						console.log('Error: ' + data);
@@ -65,11 +93,12 @@ angular.module('animatesApp')
 					});
 			} else {
 				$timeout(function() {
-					var newAnimation = animationService.getInstance(),
+					var newAnimation = createTestAnimation(),
 						json = animationService.Model.JsonSerializer.serializeObject(newAnimation);
 					animationService.getInstance().loadProject(json);
 					canvasService.createCanvas();
 					initializeLayout();
+					localAnimationStateService.setCurrentTick(0);
 					$scope.loading = false;
 				}, 600);
 			}

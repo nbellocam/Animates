@@ -11,7 +11,7 @@ angular.module('animatesApp')
 			selectedEffectObservers = {};
 
 		animationService.getInstance().addLoadCompleteObserver('localAnimationStateService', function onAnimationLoad() {
-			currentTick = 0;
+			currentTick = -1;
 		});
 
 		this.addTickObserver = function addTickObserver(observerId, callback) {

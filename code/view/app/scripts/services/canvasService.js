@@ -110,21 +110,6 @@ angular.module('animatesApp')
 						_self.render();
 					}
 				}
-			},
-			animationLoadEventHandler = function animationLoadEventHandler() {
-				var shape, i,
-					animation = animationService.getInstance(),
-					mediaFrames = animation.timeline.getMediaFrames(localAnimationStateService.getCurrentTick());
-
-				_self.clear();
-				for (i = mediaFrames.length - 1; i >= 0; i--) {
-					shape = shapeCreator.createShapeFromFrame(mediaFrames[i], _self.getCanvasPosition());
-					if (shape) {
-						_self.add(shape);
-					}
-				}
-
-				_self.render();
 			};
 
 		this.createCanvas = function createCanvas() {
@@ -134,8 +119,7 @@ angular.module('animatesApp')
 			// TODO: Update Properties
 
 			animationService.getInstance().addUpdateObserver('CanvasService', animationUpdateEventHandler);
-			animationService.getInstance().addLoadCompleteObserver('CanvasService', animationLoadEventHandler);
-
+			
 			function onCanvasObjectChanged(event) {
 				var target = event.target;
 				if (target) {

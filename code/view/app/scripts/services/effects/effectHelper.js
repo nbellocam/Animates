@@ -2,7 +2,7 @@
 
 angular.module('animatesApp')
 	.factory('effectHelper', function effectHelper($window, shapeHelper, localAnimationStateService) {
-		var setDefaltTicks = function (effect, viewObject) {
+		var setDefaultTicks = function (effect, viewObject) {
 			if (!effect.isInfinite()) {
 				var mediaTimeline = shapeHelper.getMediaTimelineFromView(viewObject),
 					endTick = localAnimationStateService.getCurrentTick();
@@ -26,6 +26,6 @@ angular.module('animatesApp')
 
 		return {
 			Model: $window.model,
-			setDefaltTicks : setDefaltTicks
+			setDefaultTicks : setDefaultTicks
 		};
 	});

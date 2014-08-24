@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('CanvasCtrl', function CanvasCtrl($scope, canvasService, localAnimationStateService, shapeCreator, animationService) {
-		
+	.controller('CanvasCtrl', function CanvasCtrl(canvasService, localAnimationStateService, shapeCreator, animationService) {
 		function onCurrentTickChanged(currentTick) {
 			var frames = animationService.getInstance().timeline.getMediaFrames(currentTick);
 			canvasService.clear();
@@ -14,10 +13,5 @@ angular.module('animatesApp')
 			canvasService.startAutomaticRendering();
 		}
 
-		function onAnimationLoad() {
-			
-		}
-
 		localAnimationStateService.addTickObserver('CanvasCtrl', onCurrentTickChanged);
-		animationService.getInstance().addLoadCompleteObserver('CanvasCtrl', onAnimationLoad);
 	});
