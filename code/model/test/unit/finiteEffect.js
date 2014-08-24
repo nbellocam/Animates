@@ -77,6 +77,25 @@ describe('FiniteEffect', function() {
 		});
 	});
 
+	describe('setOptions', function () {
+		it('Should not fail due to endTick and startTick constraints when moving an effect', function () {
+			var effect = new FiniteEffect( {'startTick' : 50, 'endTick' :  100} ),
+				options;
+
+			// Move the effect to the tick 500
+			effect.setOptions({'startTick' : 500, 'endTick' : 550});
+			options = effect.getOptions();
+			options.should.have.property('startTick', 500);
+			options.should.have.property('endTick', 550);
+
+			// Move the effect to the tick 0
+			effect.setOptions({'endTick' : 50, 'startTick' : 0});
+			options = effect.getOptions();
+			options.should.have.property('startTick', 0);
+			options.should.have.property('endTick', 50);
+		});
+	});
+
 	describe('HasConflictWithProperties', function () {
 		it('Should indicate conflict without strict', function() {
 			var effect = new FiniteEffect(),
