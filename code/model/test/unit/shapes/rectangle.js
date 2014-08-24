@@ -28,8 +28,9 @@ describe('Rectangle', function() {
 			rectangle.getProperty('position.y').should.equal(0);
 			rectangle.getProperty('position.z').should.equal(0);
 			rectangle.getProperty('opacity').should.equal(1);
-			rectangle.getProperty('border.type').should.equal('solid');
+			rectangle.getProperty('border.type').should.equal('none');
 			rectangle.getProperty('border.color').should.equal('#000000');
+			rectangle.getProperty('border.width').should.equal(0);
 
 			rectangle.getProperty('height').should.equal(100);
 			rectangle.getProperty('width').should.equal(100);
@@ -44,6 +45,7 @@ describe('Rectangle', function() {
 				specifiedOpacity = 0.8,
 				specifiedBorderType = 'solid',
 				specifiedBorderColor = 'blue',
+				specifiedBorderWidth = 10,
 				specifiedHeight = 32,
 				specifiedWidth = 84,
 				rectangle = new Rectangle({
@@ -55,7 +57,8 @@ describe('Rectangle', function() {
 					opacity: specifiedOpacity,
 					border : {
 						type : specifiedBorderType,
-						color : specifiedBorderColor
+						color : specifiedBorderColor,
+						width : specifiedBorderWidth
 					},
 					height: specifiedHeight,
 					width: specifiedWidth
@@ -67,6 +70,7 @@ describe('Rectangle', function() {
 			rectangle.getProperty('opacity').should.equal(specifiedOpacity);
 			rectangle.getProperty('border.type').should.equal(specifiedBorderType);
 			rectangle.getProperty('border.color').should.equal(specifiedBorderColor);
+			rectangle.getProperty('border.width').should.equal(specifiedBorderWidth);
 
 			rectangle.getProperty('height').should.equal(specifiedHeight);
 			rectangle.getProperty('width').should.equal(specifiedWidth);
@@ -90,6 +94,7 @@ describe('Rectangle', function() {
 			rectangle.getProperty('opacity').should.equal(1);
 			rectangle.getProperty('border.type').should.equal(specifiedBorderType);
 			rectangle.getProperty('border.color').should.equal(specifiedBorderColor);
+			rectangle.getProperty('border.width').should.equal(0);
 
 			rectangle.getProperty('height').should.equal(specifiedHeight);
 			rectangle.getProperty('width').should.equal(100);

@@ -22,8 +22,9 @@ describe('Shape', function() {
 			shape.getProperty('position.y').should.equal(0);
 			shape.getProperty('position.z').should.equal(0);
 			shape.getProperty('opacity').should.equal(1);
-			shape.getProperty('border.type').should.equal('solid');
+			shape.getProperty('border.type').should.equal('none');
 			shape.getProperty('border.color').should.equal('#000000');
+			shape.getProperty('border.width').should.equal(0);
 			
 			shape.getProperty('name').should.equal('Shape');
 		});
@@ -35,6 +36,7 @@ describe('Shape', function() {
 				specifiedOpacity = 0.5,
 				specifiedBorderType = 'solid',
 				specifiedBorderColor = 'blue',
+				specifiedBorderWidth = 10,
 				shape = new Shape({
 					position : {
 						x : specifiedX,
@@ -44,7 +46,8 @@ describe('Shape', function() {
 					opacity: specifiedOpacity,
 					border : {
 						type : specifiedBorderType,
-						color : specifiedBorderColor
+						color : specifiedBorderColor,
+						width : specifiedBorderWidth
 					}
 				});
 
@@ -54,6 +57,7 @@ describe('Shape', function() {
 			shape.getProperty('opacity').should.equal(specifiedOpacity);
 			shape.getProperty('border.type').should.equal(specifiedBorderType);
 			shape.getProperty('border.color').should.equal(specifiedBorderColor);
+			shape.getProperty('border.width').should.equal(specifiedBorderWidth);
 		});
 
 		it('Should set only the properties passed in the constructor and use the default for the rest.', function() {
@@ -72,6 +76,7 @@ describe('Shape', function() {
 			shape.getProperty('opacity').should.equal(1);
 			shape.getProperty('border.type').should.equal(specifiedBorderType);
 			shape.getProperty('border.color').should.equal(specifiedBorderColor);
+			shape.getProperty('border.width').should.equal(0);
 		});
 	});
 

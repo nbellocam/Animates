@@ -24,8 +24,9 @@ function VisualMediaObject (options, builder) {
 			},
 			opacity: 1,
 			border : {
-				type : 'solid',
-				color : '#000000'
+				type : 'none',
+				color : '#000000',
+				width : 0
 			},
 			fill : '#f0f0f0',
 			angle : 0,
@@ -70,8 +71,12 @@ function VisualMediaObject (options, builder) {
 					.property('border', CompositePropertyBuilder)
 						.property('type', PropertyBuilder)
 							.type('string')
-							.strictValues(['dotted', 'dashed', 'solid'])
+							.strictValues(['none', 'dotted', 'dashed', 'solid'])
 							.value(options.border.type)
+						.add()
+						.property('width', PropertyBuilder)
+							.type('float')
+							.value(options.border.width)
 						.add()
 						.property('color', PropertyBuilder)
 							.type('color')

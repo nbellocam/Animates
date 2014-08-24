@@ -22,8 +22,9 @@ describe('VisualMediaObject', function() {
 			visualMediaObject.getProperty('position.y').should.equal(0);
 			visualMediaObject.getProperty('position.z').should.equal(0);
 			visualMediaObject.getProperty('opacity').should.equal(1);
-			visualMediaObject.getProperty('border.type').should.equal('solid');
+			visualMediaObject.getProperty('border.type').should.equal('none');
 			visualMediaObject.getProperty('border.color').should.equal('#000000');
+			visualMediaObject.getProperty('border.width').should.equal(0);
 		});
 
 		it('Should set the properties passed in the constructor.', function() {
@@ -33,6 +34,7 @@ describe('VisualMediaObject', function() {
 				specifiedOpacity = 0.5,
 				specifiedBorderType = 'solid',
 				specifiedBorderColor = 'blue',
+				specifiedBorderWidth = 10,
 				visualMediaObject = new VisualMediaObject({
 					position : {
 						x : specifiedX,
@@ -42,7 +44,8 @@ describe('VisualMediaObject', function() {
 					opacity: specifiedOpacity,
 					border : {
 						type : specifiedBorderType,
-						color : specifiedBorderColor
+						color : specifiedBorderColor,
+						width : specifiedBorderWidth
 					}
 				});
 
@@ -52,6 +55,7 @@ describe('VisualMediaObject', function() {
 			visualMediaObject.getProperty('opacity').should.equal(specifiedOpacity);
 			visualMediaObject.getProperty('border.type').should.equal(specifiedBorderType);
 			visualMediaObject.getProperty('border.color').should.equal(specifiedBorderColor);
+			visualMediaObject.getProperty('border.width').should.equal(specifiedBorderWidth);
 		});
 
 		it('Should set only the properties passed in the constructor and use the default for the rest.', function() {
@@ -70,6 +74,7 @@ describe('VisualMediaObject', function() {
 			visualMediaObject.getProperty('opacity').should.equal(1);
 			visualMediaObject.getProperty('border.type').should.equal(specifiedBorderType);
 			visualMediaObject.getProperty('border.color').should.equal(specifiedBorderColor);
+			visualMediaObject.getProperty('border.width').should.equal(0);
 		});
 	});
 });

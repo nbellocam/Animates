@@ -15,6 +15,8 @@ angular.module('animatesApp')
 				var fabricProperty = viewObject.get(propertyName);
 
 				if (modelValue !== fabricProperty) {
+					console.log(propertyName);
+					console.log(modelValue);
 					viewObject.set(propertyName, modelValue);
 				}
 			},
@@ -35,9 +37,13 @@ angular.module('animatesApp')
 			syncVisualMediaObjectFromModel = function syncVisualMediaObjectFromModel(viewObject, canvasPosition) {
 				var model = shapeHelper.getMediaFrameFromView(viewObject);
 
-				syncViewProperty(model.getProperty('fill'), viewObject, 'fill');
 				syncViewProperty(model.getProperty('border.color'), viewObject, 'stroke');
+				syncViewProperty(model.getProperty('border.width'), viewObject, 'strokeWidth');
+				
 				switch (model.getProperty('border.type')) {
+					case 'none' :
+						syncViewProperty(null, viewObject, 'stroke');
+						break;
 					case 'dashed':
 						syncViewProperty([3,3], viewObject, 'strokeDashArray');
 						break;
@@ -48,6 +54,8 @@ angular.module('animatesApp')
 					default:
 						syncViewProperty([0,0], viewObject, 'strokeDashArray');
 				}
+
+				syncViewProperty(model.getProperty('fill'), viewObject, 'fill');
 				syncViewProperty(model.getProperty('opacity'), viewObject, 'opacity');
 				syncViewProperty(model.getProperty('angle'), viewObject, 'angle');
 				syncViewProperty(model.getProperty('position.x') + canvasPosition.left, viewObject, 'left');
