@@ -25,13 +25,7 @@ angular.module('animatesApp')
 		};
 
 		var animationUpdateEventHandler = function animationUpdateEventHandler(target, operation) {
-			if (target === 'Effect' || target === 'MediaFrame') {
-				$scope.adaptMediaTimelines();
-			} else if (target === 'Shape') {
-				if ( operation === 'Create' || operation === 'Remove') {
-					$scope.adaptMediaTimelines();
-				}
-			}
+			$scope.adaptMediaTimelines();
 		};
 
 		var getMediaTimeline = function getMediaTimeline(timelineId) {

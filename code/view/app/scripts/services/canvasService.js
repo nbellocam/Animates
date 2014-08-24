@@ -93,11 +93,6 @@ angular.module('animatesApp')
 								renderAll();
 
 								break;
-							case 'Update':
-								updateMediaObjectInCanvas(params.mediaObjectId);
-								renderAll();
-
-								break;
 							case 'Remove':
 								allObjects = canvasInstance.getObjects();
 
