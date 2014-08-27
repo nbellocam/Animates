@@ -4,6 +4,7 @@
 'use strict';
 
 var VisualMediaObject = require('./visualMediaObject'),
+	JsonSerializer = require('./serialization/jsonSerializer'),
 	PropertyBuilder = require('./properties/propertyBuilder'),
 	CompositePropertyBuilder = require('./properties/compositePropertyBuilder'),
 	Common = require('animates-common');
@@ -21,7 +22,7 @@ function Photo (options, builder) {
 			source : '',
 			name: 'Photo'
 		};
-		
+
 	/**
 	*  Constructor
 	*/
@@ -44,6 +45,7 @@ function Photo (options, builder) {
 						.value(options.source)
 						.type('imageFile')
 					.add();
+
 		_self.VisualMediaObject(options, propBuilder); // Call base constructor
 	}());
 
@@ -53,8 +55,12 @@ function Photo (options, builder) {
 
 	this.base_toJSON = this.toJSON;
 	this.toJSON = function () {
-		var ser = _self.base_toJSON();
-		return ser;
+		return _self.base_toJSON();
+	};
+
+	this.base_fromJSON = this.fromJSON;
+	this.fromJSON = function (json) {
+		_self.base_fromJSON(json);
 	};
 
 	/**
@@ -65,5 +71,7 @@ function Photo (options, builder) {
 }
 
 Common.inherits(Photo, VisualMediaObject, 'VisualMediaObject');
+
+JsonSerializer.registerType(Photo);
 
 module.exports = Photo;
