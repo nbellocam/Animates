@@ -13,7 +13,7 @@ angular.module('animatesApp')
 			},
 			processImageFile = function (file, scope) {
 				fileToDataURL(file).then(function (dataURL) {
-					if (dataURL) {
+					if (dataURL && dataURL !== '') {
 						scope.prop.parse(dataURL);
 						scope.updatehandler( { 'key' : scope.propkey, 'value':  scope.prop.value() });
 					}
@@ -54,11 +54,13 @@ angular.module('animatesApp')
 					event.target.style.color = 'black';
 
 					if (oldValue !== newValue) {
-						if ($scope.prop.isValid(newValue)) {
-							$scope.prop.parse(newValue);
-							$scope.updatehandler( { 'key' : $scope.propkey, 'value':  $scope.prop.value() });
-						} else {
-							event.target.style.color = 'red';
+						if ($scope.prop.type().name() !== 'imageFile') {
+							if ($scope.prop.isValid(newValue)) {
+								$scope.prop.parse(newValue);
+								$scope.updatehandler( { 'key' : $scope.propkey, 'value':  $scope.prop.value() });
+							} else {
+								event.target.style.color = 'red';
+							}
 						}
 					}
 				};
