@@ -75,6 +75,12 @@ function FiniteEffect (options, builder) {
 		}
 	};
 
+	var baseFromJSON = this.fromJSON;
+	this.fromJSON = function (json) {
+		_self.setOption('endTick', Number.MAX_VALUE);
+		baseFromJSON(json);
+	};
+
 	/**
 	*  Constructor
 	*/
