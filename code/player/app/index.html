@@ -1,0 +1,176 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css styles/common-vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/jquery-minicolors/jquery.minicolors.css" />
+    <!-- endbower -->
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
+    <!-- endbuild -->
+
+    <!-- build:css styles/editor-vendor.css -->
+    <link rel="stylesheet" href="bower_components/timeline/dist/styles/timeline.css" />
+    <!-- endbuild -->
+
+    <!-- build:css({.tmp,app}) styles/editor-main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/layout-default.css">
+    <link rel="stylesheet" href="styles/ui.layout.style.css">
+    <link rel="stylesheet" href="styles/ui.layout.default.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="animatesApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Animates</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <div class="form-group">
+              <input type="text" placeholder="Email" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+<!-- <div class="outer-layout-north">
+    This is my Fixed Header
+</div>  -->
+
+    <div class="outer-layout-center" ng-controller="EditorCtrl" ng-init="initializeAnimation('projectId');">
+      <!-- Add your site or application content here -->
+      <div class="ui-layout-center" ng-hide="loading">
+        <canvas id="mainCanvas" ng-controller="CanvasCtrl"></canvas>
+      </div>
+      <div class="ui-layout-south timelinePane" ng-hide="loading">
+          <div class="btn-group player-btns" ng-controller="PlayerCtrl" ng-hide="loading">
+            <button type="button" class="btn btn-default" ng-click="stepBackward();"><span class="glyphicon glyphicon-step-backward"></span></button>
+            <button type="button" class="btn btn-default" ng-disabled="playing" ng-click="play();"><span class="glyphicon glyphicon-play"></span></button>
+            <button type="button" class="btn btn-default" ng-click="stepForward();"><span class="glyphicon glyphicon-step-forward"></span></button>
+            <button type="button" class="btn btn-default" ng-click="pause();"><span class="glyphicon glyphicon-pause"></span></button>
+            <button type="button" class="btn btn-default" ng-click="stop();"><span class="glyphicon glyphicon-stop"></span></button>
+          </div>
+          <div ng-include="'views/timelinePanel.html'"></div></div>
+      <div class="loading" ng-show="loading">
+        <div class="loading-message">
+          <div class="progress progress-striped active">
+            <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="50">
+              <span>loading ...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-XXXXX-X');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- build:js scripts/common-vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
+    <script src="bower_components/jquery-minicolors/jquery.minicolors.js"></script>
+    <script src="bower_components/angular-minicolors/angular-minicolors.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js scripts/editor-vendor.js -->
+    <script src="bower_components/fabric/dist/fabric.min.js"></script>
+    <script src="bower_components/timeline/dist/js/timeline.js"></script>
+    <script src="scripts/vendors/jquery.layout.min-1.3.0.js"></script>
+    <script src="scripts/vendors/requestAnimationFrame.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/editor-model.js -->
+    <script src="scripts/model.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/editor-scripts.js -->
+    <script src="scripts/app.js"></script>
+
+    <script src="scripts/controllers/editorCtrl.js"></script>
+    <script src="scripts/controllers/canvasCtrl.js"></script>
+    <script src="scripts/controllers/timelinePanelCtrl.js"></script>
+    <script src="scripts/controllers/playerCtrl.js"></script>
+
+    <script src="scripts/services/connectionService.js"></script>
+    <script src="scripts/services/serverService.js"></script>
+
+    <script src="scripts/services/animationService.js"></script>
+    <script src="scripts/services/localAnimationStateService.js"></script>
+    <script src="scripts/services/canvasConfig.js"></script>
+    <script src="scripts/services/presentationPlayerService.js"></script>
+
+    <script src="scripts/services/canvasService.js"></script>
+
+    <script src="scripts/services/shapeCreator.js"></script>
+    <script src="scripts/services/shapeSync.js"></script>
+    <script src="scripts/services/shapeHelper.js"></script>
+    <script src="scripts/services/shapes/shapeSyncHelper.js"></script>
+    <script src="scripts/services/shapes/rectangle.js"></script>
+    <script src="scripts/services/shapes/triangle.js"></script>
+    <script src="scripts/services/shapes/circle.js"></script>
+    <script src="scripts/services/shapes/text.js"></script>
+    <script src="scripts/services/shapes/photo.js"></script>
+    <!-- endbuild -->
+
+  </body>
+</html>

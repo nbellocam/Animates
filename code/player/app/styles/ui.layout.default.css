@@ -1,0 +1,34 @@
+﻿.outer-layout-center
+{
+    padding: 0;
+}
+
+.ui-layout-toggler
+{
+    background-color: transparent;
+    background-image: url(../images/sizers-layout.png);
+    background-repeat: no-repeat;
+    opacity: 0.4;
+    border-width: 1px;
+    border-color: transparent;
+    border-style: solid;
+}
+
+.ui-layout-resizer:hover 
+{
+    border-color: #CCC;
+}
+
+.ui-layout-resizer:hover .ui-layout-toggler
+{
+    opacity: 0.6;
+    background-color: #999;
+}
+
+.ui-layout-toggler-north { background-position: center top;    -moz-border-radius: 0 0 3px 3px; width: 62px; }
+.ui-layout-toggler-south { background-position: center bottom; -moz-border-radius: 3px 3px 0 0; width: 62px; }
+.ui-layout-toggler-west  { background-position: left center;   -moz-border-radius: 0 3px 3px 0; height: 62px; }
+.ui-layout-toggler-east  { background-position: right center;  -moz-border-radius: 3px 0 0 3px; height: 62px; }
+
+.ui-layout-toggler-north, .ui-layout-resizer-south	 { cursor : ns-resize; }
+.ui-layout-toggler-west, .ui-layout-resizer-east	 { cursor : ew-resize; }
