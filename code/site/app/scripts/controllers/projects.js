@@ -40,8 +40,6 @@ angular.module('animatesApp')
       if (!project.updated) {
         project.updated = [];
       }
-      
-      ProjectService.updated.push(new Date().getTime());
 
       project.$update(function() {
         recentProjectsService.updateRecentProjectList(project.title, project._id);
