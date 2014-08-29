@@ -9,9 +9,9 @@ angular.module('animatesApp', [
   .config(function ($routeProvider, $locationProvider, $httpProvider, localStorageServiceProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'partials/main',
-        controller: 'MainCtrl',
-        authenticate: true
+        redirectTo: function () {
+          return "/projects";
+        }
       })
       .when('/login', {
         templateUrl: 'partials/login',
