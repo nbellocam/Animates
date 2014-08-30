@@ -16,6 +16,10 @@ var ProjectSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
+	modified: {
+		type: Date,
+		default: Date.now
+	},
 	title: {
 		type: String,
 		default: '',
@@ -77,6 +81,15 @@ ProjectSchema.statics.load = function(id, cb) {
 	}).populate('user', 'name username').exec(cb);
 };
 
+
+ProjectSchema.pre('save', function (next) {
+  var now = Date.now();
+  this.modified = now;
+  if ( !this.created ) {
+    this.created = now;
+  }
+  next();
+});
 
 /**
  * Methods

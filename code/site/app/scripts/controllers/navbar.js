@@ -3,9 +3,6 @@
 angular.module('animatesApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.menu = [{
-      'title': 'Home',
-      'link': '/'
-    }, {
       'title': 'Settings',
       'link': '/settings',
       'requireAuth' : true
