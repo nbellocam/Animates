@@ -28,7 +28,7 @@ angular.module('animatesApp')
 					}
 				});
 				innerLayout.resizeAll();
-				canvasService.updateSize();
+				//canvasService.updateSize();
 				//canvasService.updateSize(innerLayout.state.center.innerHeight, innerLayout.state.center.innerWidth);
 			});
 		}

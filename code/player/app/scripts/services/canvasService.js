@@ -75,6 +75,9 @@ angular.module('animatesApp')
 			var canvas = new fabric.StaticCanvas('mainCanvas', canvasConfig.canvasInitialConfig);
 			canvas.model = animationService.getInstance().canvas;
 
+			canvas.setHeight(canvas.model.height);
+			canvas.setWidth(canvas.model.width);
+
 			// TODO: Update Properties
 
 			animationService.getInstance().addUpdateObserver('CanvasService', animationUpdateEventHandler);
@@ -91,9 +94,6 @@ angular.module('animatesApp')
 		};
 
 		this.updateSize = function updateSize() {
-			canvasInstance.setHeight(canvasInstance.model.height);
-			canvasInstance.setWidth(canvasInstance.model.width);
-
 			canvasInstance.forEachObject(function (obj) {
 				obj.setCoords();
 			});

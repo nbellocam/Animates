@@ -30,8 +30,4 @@ angular.module('animatesApp')
 		};
 
 		shapeSync.registerShape(typeId, syncFromModel, syncFromView);
-
-		function getButtonClass() {
-			return 'fa fa-play fa-rotate-270';
-		};
 	});
