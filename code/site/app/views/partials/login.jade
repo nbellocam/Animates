@@ -28,7 +28,9 @@ include navbar
             | Please enter your email and password.
           p.help-block {{ errors.other }}
 
-        button.btn.btn-lg.btn-primary(type='submit')  Sign in 
+        button.btn.btn-lg.btn-primary(type='submit' ng-disabled="waiting") Sign in 
+          span.spinner
+            i.fa.fa-spinner.fa-spin(ng-show="waiting")
         span.clearfix
 
   .row

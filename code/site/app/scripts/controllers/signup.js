@@ -4,10 +4,11 @@ angular.module('animatesApp')
   .controller('SignupCtrl', function ($scope, Auth, $location) {
     $scope.user = {};
     $scope.errors = {};
+    $scope.waiting = false;
 
     $scope.register = function(form) {
       $scope.submitted = true;
-
+      
       if ($scope.user.password !== $scope.user.confirmPassword) {
         form.confirmPassword.$setValidity('local', false);
         $scope.errors.confirmPassword = 'Passwords do not match';
@@ -21,6 +22,7 @@ angular.module('animatesApp')
       });
 
       if(form.$valid) {
+        $scope.waiting = true;
         Auth.createUser({
           name: $scope.user.name,
           username: $scope.user.username,
@@ -41,6 +43,8 @@ angular.module('animatesApp')
             form[error.param].$setValidity('mongoose', false);
             $scope.errors[error.param] = error.msg;
           });
+        }).finally(function () {
+          $scope.waiting = false;
         });
       }
     };
