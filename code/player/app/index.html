@@ -80,13 +80,13 @@
     This is my Fixed Header
 </div>  -->
 
-    <div class="outer-layout-center" ng-controller="EditorCtrl" ng-init="initializeAnimation('projectId');">
+    <div class="outer-layout-center" ng-controller="PlayerCtrl" ng-init="initializeAnimation('projectId');">
       <!-- Add your site or application content here -->
       <div class="ui-layout-center" ng-hide="loading">
         <canvas id="mainCanvas" ng-controller="CanvasCtrl"></canvas>
       </div>
       <div class="ui-layout-south timelinePane" ng-hide="loading">
-          <div class="btn-group player-btns" ng-controller="PlayerCtrl" ng-hide="loading">
+          <div class="btn-group player-btns" ng-hide="loading">
             <button type="button" class="btn btn-default" ng-click="stepBackward();"><span class="glyphicon glyphicon-step-backward"></span></button>
             <button type="button" class="btn btn-default" ng-disabled="playing" ng-click="play();"><span class="glyphicon glyphicon-play"></span></button>
             <button type="button" class="btn btn-default" ng-click="stepForward();"><span class="glyphicon glyphicon-step-forward"></span></button>
@@ -146,7 +146,6 @@
     <!-- build:js({.tmp,app}) scripts/editor-scripts.js -->
     <script src="scripts/app.js"></script>
 
-    <script src="scripts/controllers/editorCtrl.js"></script>
     <script src="scripts/controllers/canvasCtrl.js"></script>
     <script src="scripts/controllers/timelinePanelCtrl.js"></script>
     <script src="scripts/controllers/playerCtrl.js"></script>
