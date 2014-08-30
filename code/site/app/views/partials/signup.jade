@@ -5,7 +5,7 @@ include navbar
     .col-sm-12
       h1 Sign up
 
-    .col-sm-12
+    .col-sm-4
       form.form(name='form', ng-submit='register(form)', novalidate='')
         .form-group(ng-class='{ \'has-success\': form.name.$valid && submitted, \'has-error\': form.name.$invalid && submitted }')
           label Name
@@ -51,9 +51,18 @@ include navbar
           p.help-block(ng-show='form.confirmPassword.$error.mongoose')
             | {{ errors.confirmPassword }}
 
-        button.btn.btn-lg.btn-primary(type='submit' ng-disabled="waiting") Sign up
-          span.spinner
-            i.fa.fa-spinner.fa-spin(ng-show="waiting")
+        .col-md-4
+            button.btn.btn-lg.btn-primary(type='submit' ng-disabled="waiting") Sign up
+              span.spinner
+                i.fa.fa-spinner.fa-spin(ng-show="waiting")
+        .col-md-3
+            p.text-center
+                | - or -
+        .col-md-4
+            a.btn.btn-lg.btn-primary(href='/auth/facebook/')
+                i.fa.fa-facebook
+                |  Facebook
+
   .row
     .col-sm-12
       hr

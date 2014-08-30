@@ -4,15 +4,8 @@ include navbar
   .row
     .col-sm-12
       h1 Login
-      p
-        | Accounts are reset on server restart from
-        code dummydata.js
-        | . Default account is
-        code test@test.com
-        | /
-        code test
-        
-    .col-sm-12
+
+    .col-sm-4
       form.form(name='form', ng-submit='login(form)', novalidate='novalidate')
 
         .form-group
@@ -28,13 +21,21 @@ include navbar
             | Please enter your email and password.
           p.help-block {{ errors.other }}
 
-        button.btn.btn-lg.btn-primary(type='submit' ng-disabled="waiting") Sign in 
-          span.spinner
-            i.fa.fa-spinner.fa-spin(ng-show="waiting")
-        span.clearfix
+        .col-md-4
+            button.btn.btn-lg.btn-primary(type='submit' ng-disabled="waiting") Sign in
+              span.spinner
+                i.fa.fa-spinner.fa-spin(ng-show="waiting")
+            span.clearfix
+        .col-md-3
+            p.text-center
+                | - or -
+        .col-md-4
+            a.btn.btn-lg.btn-primary(href='/auth/facebook/')
+                i.fa.fa-facebook
+                |  Facebook
 
   .row
     .col-sm-12
       hr
-      | Not registered? 
+      | Not registered?
       a.text-center.new-account(href='/signup') Create an account.
