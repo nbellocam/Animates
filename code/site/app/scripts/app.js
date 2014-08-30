@@ -10,7 +10,7 @@ angular.module('animatesApp', [
     $routeProvider
       .when('/', {
         redirectTo: function () {
-          return "/projects";
+          return '/projects';
         }
       })
       .when('/login', {

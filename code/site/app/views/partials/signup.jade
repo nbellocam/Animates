@@ -51,7 +51,9 @@ include navbar
           p.help-block(ng-show='form.confirmPassword.$error.mongoose')
             | {{ errors.confirmPassword }}
 
-        button.btn.btn-lg.btn-primary(type='submit') Sign up
+        button.btn.btn-lg.btn-primary(type='submit' ng-disabled="waiting") Sign up
+          span.spinner
+            i.fa.fa-spinner.fa-spin(ng-show="waiting")
   .row
     .col-sm-12
       hr
