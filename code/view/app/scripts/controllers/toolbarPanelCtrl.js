@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService, shapeHelper, toolbarShapeService, effectHelper, toolbarEffectService, presentationPlayerService) {
+	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService, shapeHelper, toolbarShapeService, effectHelper, toolbarEffectService, presentationPlayerService, dialogs) {
 		function applyOperation(target, operation, params) {
 			animationService.getInstance().applyOperation(target, operation, params, { sender: 'toolbar' });
 		}
@@ -56,6 +56,17 @@ angular.module('animatesApp')
 
 		$scope.registeredEffectTypes = toolbarEffectService.getRegisteredTypes();
 
+		$scope.openSettings = function () {
+			var dlg = null;
+			dlg = dialogs.create('/views/dialogs/settings.html','settingsDialogCtrl',{},'lg');
+			
+			dlg.result.then(function(data){
+				window.alert('Confirmed data: ' + JSON.stringify(data));
+			},function(){
+				window.alert('Closed');
+			});
+		};
+		
 		// Other methods
 
 		$scope.play = function () {
