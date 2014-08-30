@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('animatesApp')
-	.controller('EditorCtrl', function EditorCtrl($scope, $timeout, canvasService, animationService, serverService, localAnimationStateService) {
+	.controller('EditorCtrl', function EditorCtrl($scope, $timeout, $window, canvasService, animationService, serverService, localAnimationStateService) {
 		function initializeLayout() {
 
 			angular.element(document).ready(function () {
@@ -15,21 +15,14 @@ angular.module('animatesApp')
 				var innerLayout = angular.element('div.outer-layout-center').layout({
 					applyDefaultStyles: false,
 					south:{
-						size: 150,
+						size: 100,
 						onresize : function (panelName, element) {
 							var pane = $(element);
 							$('animates-timelines').css('height', pane.height() - (pane.outerHeight() - pane.height()) + 'px');
 						}
-					},
-					center: {
-						//onresize : function (panelName, element, state) {
-							//canvasService.updateSize(state.innerHeight, state.innerWidth);
-						//}
 					}
 				});
 				innerLayout.resizeAll();
-				//canvasService.updateSize();
-				//canvasService.updateSize(innerLayout.state.center.innerHeight, innerLayout.state.center.innerWidth);
 			});
 		}
 
@@ -43,74 +36,19 @@ angular.module('animatesApp')
 				$scope.playing = !animationService.isEditingEnable;
 			});
 
-		function createTestAnimation() {
-			var newAnimation = animationService.getInstance();
-			var shape = new animationService.Model.Rectangle({
-				name : 'Test rectangle'
-			});
-
-			newAnimation.applyOperation('Shape', 'Create', {
-				mediaObject: shape,
-				tick : localAnimationStateService.getCurrentTick()
-			}, { sender: 'testLoad' });
-
-			animationService.getInstance().applyOperation('MediaFrame', 'Update', {
-				mediaObjectId :  shape.getGuid(),
-				updatedProperties: { angle: 30, 'position.x': 250, width: 230 },
-				tick: 200,
-			}, {
-				sender: 'testLoad'
-			});
-
-			animationService.getInstance().applyOperation('MediaFrame', 'Update', {
-				mediaObjectId :  shape.getGuid(),
-				updatedProperties: { angle: 80, height: 430 },
-				tick: 300,
-			}, {
-				sender: 'testLoad'
-			});
-
-			animationService.getInstance().applyOperation('MediaFrame', 'Update', {
-				mediaObjectId :  shape.getGuid(),
-				updatedProperties: { 'position.y': 350 },
-				tick: 350,
-			}, {
-				sender: 'testLoad'
-			});
-
-			newAnimation.applyOperation('Effect', 'Create', {
-				effect: new animationService.Model.FadeEffect(),
-				mediaObjectId : shape.getGuid()
-			}, { sender: 'testLoad' });
-
-			return newAnimation;
-		}
-
 		$scope.initializeAnimation = function initializeAnimation(id) {
 			$scope.loading = true;
-			if (serverService.isAvailable()) {
-				serverService.loadProject(id, function success(data) {
-						animationService.getInstance().loadProject(data.animation);
-						serverService.joinProject(id);
-						canvasService.createCanvas();
-						initializeLayout();
-						localAnimationStateService.setCurrentTick(0);
-						$scope.loading = false;
-					}, function error(data) {
-						console.log('Error: ' + data);
-						$scope.errorMessage = data || 'An error occurs.';
-						$scope.loading = false;
-					});
-			} else {
-				$timeout(function() {
-					var newAnimation = createTestAnimation(),
-						json = animationService.Model.JsonSerializer.serializeObject(newAnimation);
-					animationService.getInstance().loadProject(json);
+
+			serverService.loadProject(id, function success(data) {
+					animationService.getInstance().loadProject(data.animation);
 					canvasService.createCanvas();
 					initializeLayout();
 					localAnimationStateService.setCurrentTick(0);
 					$scope.loading = false;
-				}, 600);
-			}
+				}, function error(data) {
+					console.log('Error: ' + data);
+					$scope.errorMessage = data || 'An error occurs.';
+					$scope.loading = false;
+				});
 		};
 	});

@@ -15,7 +15,7 @@ angular.module('animatesApp')
 			}
 		};
 
-		this.createShapeFromFrame = function createShapeFromFrame(mediaFrame, canvasPosition) {
+		this.createShapeFromFrame = function createShapeFromFrame(mediaFrame) {
 			if (mediaFrame) {
 				var type = mediaFrame.getMediaObjectType();
 
@@ -26,7 +26,7 @@ angular.module('animatesApp')
 					shape.setOriginY('center');
 
 					shapeHelper.setModelInView(mediaFrame, shape);
-					shapeSync.syncFromModel(shape, canvasPosition);
+					shapeSync.syncFromModel(shape);
 					return shape;
 				}
 			}
@@ -34,10 +34,9 @@ angular.module('animatesApp')
 			return undefined;
 		};
 
-		this.createShapeFromMediaTime = function createShapeFromMediaTime(mediaTimeline, canvasPosition) {
+		this.createShapeFromMediaTime = function createShapeFromMediaTime(mediaTimeline) {
 			var shape = _self.createShapeFromFrame(
-				mediaTimeline.getMediaFrameFor(localAnimationStateService.getCurrentTick()),
-				canvasPosition);
+				mediaTimeline.getMediaFrameFor(localAnimationStateService.getCurrentTick()));
 
 			shape.setOriginX('center');
 			shape.setOriginY('center');

@@ -2,16 +2,7 @@
 
 angular.module('animatesApp')
 	.factory('shapeSyncHelper', function shapeSyncHelper($window, animationService, shapeHelper) {
-		var syncModelProperty = function syncModelProperty(fabricValue, model, propertyName, diff, round) {
-				var modelProperty = model.getProperty(propertyName),
-					value = (round) ? $window.Math.round(fabricValue) : fabricValue;
-
-				modelProperty = (round) ? $window.Math.round(modelProperty) : modelProperty;
-				if (value !== modelProperty) {
-					diff[propertyName] = value;
-				}
-			},
-			syncViewProperty = function syncViewProperty(modelValue, viewObject, propertyName) {
+		var syncViewProperty = function syncViewProperty(modelValue, viewObject, propertyName) {
 				var fabricProperty = viewObject.get(propertyName);
 
 				if (modelValue !== fabricProperty) {
@@ -19,20 +10,7 @@ angular.module('animatesApp')
 				}
 			},
 
-			syncVisualMediaObjectFromView = function syncVisualMediaObjectFromView(viewObject, canvasPosition) {
-				var diff = {},
-					mediaObject = shapeHelper.getMediaFrameFromView(viewObject),
-					top = canvasPosition ? viewObject.top - canvasPosition.top : 0,
-					left = canvasPosition ? viewObject.left - canvasPosition.left : 0,
-					angle = viewObject.angle > 360 ? viewObject.angle - 360 : viewObject.angle;
-
-				syncModelProperty(angle, mediaObject, 'angle', diff, true);
-				syncModelProperty(left, mediaObject, 'position.x', diff, true);
-				syncModelProperty(top, mediaObject, 'position.y', diff, true);
-
-				return diff;
-			},
-			syncVisualMediaObjectFromModel = function syncVisualMediaObjectFromModel(viewObject, canvasPosition) {
+			syncVisualMediaObjectFromModel = function syncVisualMediaObjectFromModel(viewObject) {
 				var model = shapeHelper.getMediaFrameFromView(viewObject);
 
 				syncViewProperty(model.getProperty('border.color'), viewObject, 'stroke');
@@ -56,19 +34,14 @@ angular.module('animatesApp')
 				syncViewProperty(model.getProperty('fill'), viewObject, 'fill');
 				syncViewProperty(model.getProperty('opacity'), viewObject, 'opacity');
 				syncViewProperty(model.getProperty('angle'), viewObject, 'angle');
-				syncViewProperty(model.getProperty('position.x') + canvasPosition ? canvasPosition.left : 0, viewObject, 'left');
-				syncViewProperty(model.getProperty('position.y') + canvasPosition ? canvasPosition.top : 0, viewObject, 'top');
+				syncViewProperty(model.getProperty('position.x'), viewObject, 'left');
+				syncViewProperty(model.getProperty('position.y'), viewObject, 'top');
 				viewObject.zindex = model.getProperty('position.z') + 1;
 			};
 
 		return {
 			Fabric: $window.fabric,
-			Model: $window.model,
-
-			syncModelProperty: syncModelProperty,
 			syncViewProperty: syncViewProperty,
-
-			syncVisualMediaObjectFromModel: syncVisualMediaObjectFromModel,
-			syncVisualMediaObjectFromView: syncVisualMediaObjectFromView
+			syncVisualMediaObjectFromModel: syncVisualMediaObjectFromModel
 		};
 	});
