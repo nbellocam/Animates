@@ -13,8 +13,8 @@ module.exports = {
     callbackURL: "http://animates.azurewebsites.net/auth/facebook/callback"
   },
   twitter: {
-    clientID: "CONSUMER_KEY",
-    clientSecret: "CONSUMER_SECRET",
+    clientID: "T2tk3otVJwstqXL8kd1BBAHuR",
+    clientSecret: "uHmoNRQ7dpvjBaTorNQGPzVKZCKqH28IqcBi1eBb9YatQE4B7V",
     callbackURL: "http://animates.azurewebsites.net/auth/twitter/callback"
   },
   github: {
