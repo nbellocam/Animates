@@ -166,6 +166,10 @@ function Animation (options) {
 			_self.canvas.width = opParams.width;
 		}
 
+		if (opParams.backgroundColor) {
+			_self.canvas.backgroundColor = opParams.backgroundColor;
+		}
+
 		result.status = true;
 		result.data = opParams;
 

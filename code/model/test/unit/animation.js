@@ -133,7 +133,8 @@ describe('Animation', function() {
 				animation = new Animation({ timeline : timeline, canvas : canvas}),
 				called = false,
 				sepcifiedHeight = 833,
-				sepcifiedWidth = 400;
+				sepcifiedWidth = 400,
+				sepcifiedColor = 'blue';
 
 			animation.addUpdateObserver('test', function (target, operation, params, context) {
 				target.should.equal('Canvas');
@@ -166,6 +167,25 @@ describe('Animation', function() {
 
 			canvas.height.should.equal(sepcifiedHeight);
 			canvas.width.should.equal(sepcifiedWidth);
+
+			animation.removeUpdateObserver('test');
+			called = false;
+
+			animation.addUpdateObserver('test', function (target, operation, params, context) {
+				target.should.equal('Canvas');
+				operation.should.equal('Update');
+				
+				params.should.have.keys(['backgroundColor']);
+				params.backgroundColor.should.equal(sepcifiedColor);
+				called = true;
+			});
+
+			animation.applyOperation('Canvas', 'Update', { 'backgroundColor' : sepcifiedColor });
+			called.should.be.ok;
+
+			canvas.height.should.equal(sepcifiedHeight);
+			canvas.width.should.equal(sepcifiedWidth);
+			canvas.backgroundColor.should.equal(sepcifiedColor);
 		});
 	});
 
