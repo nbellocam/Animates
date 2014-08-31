@@ -10,108 +10,118 @@ angular.module('animatesApp')
 			},
 			canvasInstance,
 			viewportInstance,
-			updateCanvasPosition = function updateCanvasPosition(height, width) {
-				var top = (height - canvasInstance.model.height) / 2,
-					left = (width - canvasInstance.model.width) / 2;
-
-				canvasPosition.top = (top < canvasConfig.canvasMinPosition.top) ? canvasConfig.canvasMinPosition.top : top;
-				canvasPosition.left = (left < canvasConfig.canvasMinPosition.left) ? canvasConfig.canvasMinPosition.left : left;
-
-				if (!viewportInstance) {
-					viewportInstance = new fabric.Rect(canvasConfig.viewportInitialConfig.rect);
-					viewportInstance.setShadow(canvasConfig.viewportInitialConfig.shadow);
-					canvasInstance.add(viewportInstance);
-				}
-
-				viewportInstance.set({
-					left: canvasPosition.left,
-					top: canvasPosition.top,
-					width: canvasInstance.model.width,
-					height: canvasInstance.model.height
-				});
-			},
-			updateAllObjects = function updateAllObjects(viewport, oldViewport) {
-				var diffTop = viewport.top - oldViewport.top,
-					diffLeft = viewport.left - oldViewport.left,
-					allObjects = canvasInstance.getObjects(),
-					object;
-
-				for (var i = 0; i < allObjects.length; i++) {
-					object = allObjects[i];
-					if (object !== viewportInstance) {
-						object.set({
-							left: diffLeft + object.left,
-							top: diffTop + object.top
-						});
-						//TODO review what to do with the model
-					}
-				}
-			},
-			updateMediaObjectInCanvas = function updateMediaObjectInCanvas(mediaObjectId) {
-				var allObjects = canvasInstance.getObjects(),
-					founded = false,
-					newMediaFrame = animationService.getInstance().timeline.getMediaFrameFor(mediaObjectId, localAnimationStateService.getCurrentTick()),
-					object;
-
-				for (var i = 0; i < allObjects.length; i++) {
-					object = allObjects[i];
-					if (shapeHelper.getGuidFromView(object) === mediaObjectId) {
-						founded = true;
-
-						if (newMediaFrame) {
-							shapeSync.syncFromModel(object, _self.getCanvasPosition());
-							object.setCoords();
-						} else {
-							_self.remove(object);
-						}
-					}
-				}
-
-				if (!founded && newMediaFrame) {
-					var shape = shapeCreator.createShapeFromFrame(newMediaFrame, _self.getCanvasPosition(), true);
-					if (shape) {
-						_self.add(shape);
-						shape.setCoords();
-					}
-				}
-			},
-			animationUpdateEventHandler = function animationUpdateEventHandler(target, operation, params, context) {
-				var allObjects, object, i;
-
-				if (context.sender !== 'CanvasService') {
-					if (target === 'MediaTimeline') {
-						switch (operation) {
-							case 'Create':
-								var shape = shapeCreator.createShapeFromMediaTime(params.mediaTimeline, _self.getCanvasPosition(), true);
-								if (shape) {
-									_self.add(shape);
-									canvasInstance.setActiveObject(shape);
-									shape.setCoords();
-								}
-								_self.render();
-
-								break;
-							case 'Remove':
-								allObjects = canvasInstance.getObjects();
-
-								for (i = 0; i < allObjects.length; i++) {
-									object = allObjects[i];
-									if ( shapeHelper.getGuidFromView(object) === params.mediaObjectId) {
-										_self.remove(object);
-									}
-								}
-								_self.render();
-
-								break;
-							default:
-								break;
-						}
-					} else if (target === 'Effect' || target === 'MediaFrame') {
-						updateMediaObjectInCanvas(params.mediaObjectId);
-						_self.render();
-					}
-				}
+			currentSize = {
+				width: 800,
+				height : 600
 			};
+		
+		function updateCanvasPosition(top, left) {
+			canvasPosition.top = (top < canvasConfig.canvasMinPosition.top) ? canvasConfig.canvasMinPosition.top : top;
+			canvasPosition.left = (left < canvasConfig.canvasMinPosition.left) ? canvasConfig.canvasMinPosition.left : left;
+				
+			viewportInstance.set({
+				left: canvasPosition.left,
+				top: canvasPosition.top
+			});
+		}
+
+		function centerCanvas(height, width) {
+			var top = (height - canvasInstance.model.height) / 2,
+				left = (width - canvasInstance.model.width) / 2;
+
+			var oldCanvasPosition = _self.getCanvasPosition();
+
+			updateCanvasPosition(top, left);
+
+			updateAllObjects(canvasPosition, oldCanvasPosition);
+		}
+
+		function updateAllObjects(viewport, oldViewport) {
+			var diffTop = viewport.top - oldViewport.top,
+				diffLeft = viewport.left - oldViewport.left,
+				allObjects = canvasInstance.getObjects(),
+				object;
+
+			for (var i = 0; i < allObjects.length; i++) {
+				object = allObjects[i];
+				if (object !== viewportInstance) {
+					object.set({
+						left: diffLeft + object.left,
+						top: diffTop + object.top
+					});
+					//TODO review what to do with the model
+				}
+			}
+		}
+		
+		function updateMediaObjectInCanvas(mediaObjectId) {
+			var allObjects = canvasInstance.getObjects(),
+				founded = false,
+				newMediaFrame = animationService.getInstance().timeline.getMediaFrameFor(mediaObjectId, localAnimationStateService.getCurrentTick()),
+				object;
+
+			for (var i = 0; i < allObjects.length; i++) {
+				object = allObjects[i];
+				if (shapeHelper.getGuidFromView(object) === mediaObjectId) {
+					founded = true;
+
+					if (newMediaFrame) {
+						shapeSync.syncFromModel(object, _self.getCanvasPosition());
+						object.setCoords();
+					} else {
+						_self.remove(object);
+					}
+				}
+			}
+
+			if (!founded && newMediaFrame) {
+				var shape = shapeCreator.createShapeFromFrame(newMediaFrame, _self.getCanvasPosition(), true);
+				if (shape) {
+					_self.add(shape);
+					shape.setCoords();
+				}
+			}
+		}
+		
+		function animationUpdateEventHandler(target, operation, params, context) {
+			var allObjects, object, i;
+
+			if (context.sender !== 'CanvasService') {
+				if (target === 'MediaTimeline') {
+					switch (operation) {
+						case 'Create':
+							var shape = shapeCreator.createShapeFromMediaTime(params.mediaTimeline, _self.getCanvasPosition(), true);
+							if (shape) {
+								_self.add(shape);
+								canvasInstance.setActiveObject(shape);
+								shape.setCoords();
+							}
+							_self.render();
+
+							break;
+						case 'Remove':
+							allObjects = canvasInstance.getObjects();
+
+							for (i = 0; i < allObjects.length; i++) {
+								object = allObjects[i];
+								if ( shapeHelper.getGuidFromView(object) === params.mediaObjectId) {
+									_self.remove(object);
+								}
+							}
+							_self.render();
+
+							break;
+						default:
+							break;
+					}
+				} else if (target === 'Effect' || target === 'MediaFrame') {
+					updateMediaObjectInCanvas(params.mediaObjectId);
+					_self.render();
+				} else if ((target === 'Canvas') && (operation === 'Update')) {
+					_self.updateViewport(params);
+				}
+			}
+		}
 
 		this.createCanvas = function createCanvas() {
 			var canvas = new fabric.Canvas('mainCanvas', canvasConfig.canvasInitialConfig);
@@ -177,28 +187,44 @@ angular.module('animatesApp')
 			});
 
 			canvasInstance = canvas;
+
+			viewportInstance = new fabric.Rect(canvasConfig.viewportInitialConfig.rect);
+			viewportInstance.setShadow(canvasConfig.viewportInitialConfig.shadow);
+			canvasInstance.add(viewportInstance);
+			updateCanvasPosition(0, 0);
 		};
 
 		this.getInstance = function getInstance() {
 			return canvasInstance;
 		};
 
-		this.updateSize = function updateSize(height, width) {
+		this.updateViewport = function (params) {
+			var viewportOptions = {
+				height : params.height || viewportInstance.getHeight(),
+				width : params.width || viewportInstance.getWidth(),
+				fill : params.backgroundColor || viewportInstance.get('fill')
+			};
+
+			viewportInstance.set(viewportOptions);
+
+			_self.updateSize(currentSize.height, currentSize.width);
+
+			_self.render();
+		};
+
+		this.updateSize = function (height, width) {
 			var getNewValue = function getNewValue(newValue, originalValue, minMargin) {
 				var minValue = originalValue + (minMargin * 2);
 				return (minValue > newValue) ? minValue : newValue;
 			};
 
+			currentSize.height = height;
+			currentSize.width = width;
+
 			canvasInstance.setHeight(getNewValue(height, canvasInstance.model.height, canvasConfig.canvasMinPosition.top));
 			canvasInstance.setWidth(getNewValue(width, canvasInstance.model.width, canvasConfig.canvasMinPosition.left));
 
-			var oldCanvasPosition = {
-				left : canvasPosition.left,
-				top : canvasPosition.top
-			};
-
-			updateCanvasPosition(height, width);
-			updateAllObjects(canvasPosition, oldCanvasPosition);
+			centerCanvas(height, width);
 
 			canvasInstance.forEachObject(function (obj) {
 				obj.setCoords();
@@ -206,15 +232,15 @@ angular.module('animatesApp')
 			_self.render();
 		};
 
-		this.add = function add(element) {
+		this.add = function (element) {
 			canvasInstance.add(element);
 		};
 
-		this.remove = function remove(element) {
+		this.remove = function (element) {
 			canvasInstance.remove(element);
 		};
 
-		this.clear = function clear() {
+		this.clear = function () {
 			if(canvasInstance) {
 				canvasInstance.clear();
 
@@ -237,7 +263,7 @@ angular.module('animatesApp')
 			canvasInstance.renderAll();
 		};
 
-		this.getCanvasPosition = function getCanvasPosition() {
+		this.getCanvasPosition = function () {
 			return {
 				left : canvasPosition.left,
 				top : canvasPosition.top

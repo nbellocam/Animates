@@ -3,6 +3,8 @@
 
 angular.module('animatesApp')
 	.controller('EditorCtrl', function EditorCtrl($scope, $timeout, canvasService, animationService, serverService, localAnimationStateService) {
+		var innerLayout;
+
 		function initializeLayout() {
 
 			angular.element(document).ready(function () {
@@ -12,7 +14,7 @@ angular.module('animatesApp')
 					'center__paneSelector': '.outer-layout-center'
 				});
 
-				var innerLayout = angular.element('div.outer-layout-center').layout({
+				innerLayout = angular.element('div.outer-layout-center').layout({
 					applyDefaultStyles: false,
 					east:{
 						size: 280
@@ -94,11 +96,12 @@ angular.module('animatesApp')
 
 		$scope.initializeAnimation = function initializeAnimation(id) {
 			$scope.loading = true;
+
 			if (serverService.isAvailable()) {
 				serverService.loadProject(id, function success(data) {
+						canvasService.createCanvas();
 						animationService.getInstance().loadProject(data.animation);
 						serverService.joinProject(id);
-						canvasService.createCanvas();
 						initializeLayout();
 						localAnimationStateService.setCurrentTick(0);
 						$scope.loading = false;
@@ -111,8 +114,8 @@ angular.module('animatesApp')
 				$timeout(function() {
 					var newAnimation = createTestAnimation(),
 						json = animationService.Model.JsonSerializer.serializeObject(newAnimation);
-					animationService.getInstance().loadProject(json);
 					canvasService.createCanvas();
+					animationService.getInstance().loadProject(json);
 					initializeLayout();
 					localAnimationStateService.setCurrentTick(0);
 					$scope.loading = false;

@@ -90,9 +90,9 @@ angular.module('animatesApp')
 			$scope.loading = true;
 			if (serverService.isAvailable()) {
 				serverService.loadProject(id, function success(data) {
+						canvasService.createCanvas();
 						animationService.getInstance().loadProject(data.animation);
 						serverService.joinProject(id);
-						canvasService.createCanvas();
 						initializeLayout();
 						localAnimationStateService.setCurrentTick(0);
 						$scope.loading = false;
@@ -105,8 +105,8 @@ angular.module('animatesApp')
 				$timeout(function() {
 					var newAnimation = createTestAnimation(),
 						json = animationService.Model.JsonSerializer.serializeObject(newAnimation);
-					animationService.getInstance().loadProject(json);
 					canvasService.createCanvas();
+					animationService.getInstance().loadProject(json);
 					initializeLayout();
 					localAnimationStateService.setCurrentTick(0);
 					$scope.loading = false;

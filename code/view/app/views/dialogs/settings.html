@@ -4,17 +4,23 @@
 	<h4 class="modal-title">Canvas Settings</h4>
 	</div>
 	<div class="modal-body">
-		<div class="form-group">
-			<label for="height">Height</label>
-			<input type="number" ng-model="canvas.height" class="form-control" id="height" placeholder="Height">
-		</div>
-		<div class="form-group">
-		<label for="width">Width</label>
-			<input type="number" ng-model="canvas.width" class="form-control" id="width" placeholder="Width">
-		</div>
+		<form role="form" id="canvasSettings" ng-submit="save();">
+			<div class="form-group" ng-class="{ 'has-error' : !validateHeight() }">
+				<label class="control-label" for="height">Height</label>
+				<input type="number" ng-model="canvas.height"  class="form-control" id="height" placeholder="Height" >
+			</div>
+			<div class="form-group" ng-class="{ 'has-error' : !validateWidth() }">
+			<label class="control-label" for="width">Width</label>
+				<input type="number" ng-model="canvas.width" pattern="\d+" class="form-control" id="width" placeholder="Width">
+			</div>
+			<div class="form-group">
+			<label class="control-label" for="width">Background color</label>
+				<input type="color" ng-model="canvas.backgroundColor" class="form-control" id="backgroundColor" placeholder="Background Color">
+			</div>
+		</form>
 	</div>
 		<div class="modal-footer">
 		<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close();">Close</button>
-		<button type="button" ng-click="save();" class="btn btn-primary">Save</button>
+		<button type="submit" form="canvasSettings" class="btn btn-primary">Save</button>
 	</div>
 </div>

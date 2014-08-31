@@ -13,5 +13,10 @@ angular.module('animatesApp')
 			canvasService.startAutomaticRendering();
 		}
 
+		function onAnimationLoad() {
+			canvasService.updateViewport(animationService.getInstance().canvas);
+		}
+
 		localAnimationStateService.addTickObserver('CanvasCtrl', onCurrentTickChanged);
+		animationService.getInstance().addLoadCompleteObserver('CanvasCtrl', onAnimationLoad);
 	});
