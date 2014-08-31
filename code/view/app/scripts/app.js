@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('animatesApp', ['animates.angular-timeline', 'ui.bootstrap','dialogs.main']);
+angular.module('animatesApp', ['minicolors', 'animates.angular-timeline', 'ui.bootstrap','dialogs.main']);

@@ -7,15 +7,15 @@
 		<form role="form" id="canvasSettings" ng-submit="save();">
 			<div class="form-group" ng-class="{ 'has-error' : !validateHeight() }">
 				<label class="control-label" for="height">Height</label>
-				<input type="number" ng-model="canvas.height"  class="form-control" id="height" placeholder="Height" >
+				<input type="number" ng-model="canvas.height"  class="form-control" id="height" placeholder="Height" required>
 			</div>
 			<div class="form-group" ng-class="{ 'has-error' : !validateWidth() }">
 			<label class="control-label" for="width">Width</label>
-				<input type="number" ng-model="canvas.width" pattern="\d+" class="form-control" id="width" placeholder="Width">
+				<input type="number" ng-model="canvas.width" pattern="\d+" class="form-control" id="width" placeholder="Width" required>
 			</div>
 			<div class="form-group">
 			<label class="control-label" for="width">Background color</label>
-				<input type="color" ng-model="canvas.backgroundColor" class="form-control" id="backgroundColor" placeholder="Background Color">
+				<input minicolors type="text" ng-model="canvas.backgroundColor" class="form-control" id="backgroundColor" placeholder="Background Color" required>
 			</div>
 		</form>
 	</div>
