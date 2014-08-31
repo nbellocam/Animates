@@ -11,7 +11,8 @@ angular.module('animatesApp')
 		function createAnimation() {
 			var canvas = new _self.Model.Canvas({
 					height: canvasConfig.canvasDefaultSize.height,
-					width: canvasConfig.canvasDefaultSize.width
+					width: canvasConfig.canvasDefaultSize.width,
+					backgroundColor: '#FFFFFF'
 				}),
 				timeline = new _self.Model.Timeline();
 

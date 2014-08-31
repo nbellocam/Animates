@@ -124,10 +124,9 @@ angular.module('animatesApp')
 		}
 
 		this.createCanvas = function createCanvas() {
-			var canvas = new fabric.Canvas('mainCanvas', canvasConfig.canvasInitialConfig);
-			canvas.model = animationService.getInstance().canvas;
-
-			// TODO: Update Properties
+			var model = animationService.getInstance().canvas,
+				canvas = new fabric.Canvas('mainCanvas', canvasConfig.canvasInitialConfig);
+			canvas.model = model;
 
 			animationService.getInstance().addUpdateObserver('CanvasService', animationUpdateEventHandler);
 			
@@ -191,7 +190,7 @@ angular.module('animatesApp')
 			viewportInstance = new fabric.Rect(canvasConfig.viewportInitialConfig.rect);
 			viewportInstance.setShadow(canvasConfig.viewportInitialConfig.shadow);
 			canvasInstance.add(viewportInstance);
-			updateCanvasPosition(0, 0);
+			_self.updateViewport(model.toJSON());
 		};
 
 		this.getInstance = function getInstance() {
