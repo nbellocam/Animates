@@ -1,6 +1,14 @@
+
+  <div class="btn-group player-btns" ng-hide="loading">
+    <button type="button" class="btn btn-default" ng-click="stepBackward();"><span class="glyphicon glyphicon-step-backward"></span></button>
+    <button type="button" class="btn btn-default" ng-disabled="playing" ng-click="play();"><span class="glyphicon glyphicon-play"></span></button>
+    <button type="button" class="btn btn-default" ng-click="stepForward();"><span class="glyphicon glyphicon-step-forward"></span></button>
+    <button type="button" class="btn btn-default" ng-click="pause();"><span class="glyphicon glyphicon-pause"></span></button>
+    <button type="button" class="btn btn-default" ng-click="stop();"><span class="glyphicon glyphicon-stop"></span></button>
+  </div>
   <div ng-controller="TimelinePanelCtrl" class="layout-panel timelinePanel">
-    <animates-timelines data="timelines" tick="tick" is-disable="disable"
+    <animates-playertimeline tick="tick"
       tick-change="onTimelineTickChange(tick);"
       tick-ratio="tickRatio"
-    ></animates-timelines>
+      width="500"></animates-playertimeline>
   </div>

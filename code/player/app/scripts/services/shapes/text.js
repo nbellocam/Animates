@@ -18,10 +18,10 @@ angular.module('animatesApp')
 
 		shapeCreator.registerShape(typeId, createShape);
 
-		function syncFromModel(viewObject, canvasPosition) {
+		function syncFromModel(viewObject) {
 			var model = shapeHelper.getMediaFrameFromView(viewObject);
 
-			shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject, canvasPosition);
+			shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject);
 
 			shapeSyncHelper.syncViewProperty(model.getProperty('fontSize'), viewObject, 'fontSize');
 			shapeSyncHelper.syncViewProperty(model.getProperty('fontFamily'), viewObject, 'fontFamily');
@@ -30,18 +30,5 @@ angular.module('animatesApp')
 			shapeSyncHelper.syncViewProperty(model.getProperty('text'), viewObject, 'text');
 		};
 
-		function syncFromView(viewObject, canvasPosition) {
-			var diff = shapeSyncHelper.syncVisualMediaObjectFromView(viewObject, canvasPosition),
-				mediaObject = shapeHelper.getMediaFrameFromView(viewObject);
-
-			shapeSyncHelper.syncModelProperty(viewObject.fontSize || viewObject.fontSize, mediaObject, 'fontSize', diff, true);
-			shapeSyncHelper.syncModelProperty(viewObject.fontFamily || viewObject.fontFamily, mediaObject, 'fontFamily', diff, false);
-			shapeSyncHelper.syncModelProperty(viewObject.fontStyle || viewObject.fontStyle, mediaObject, 'fontStyle', diff, false);
-			shapeSyncHelper.syncModelProperty(viewObject.textDecoration || viewObject.textDecoration, mediaObject, 'textDecoration', diff, false);
-			shapeSyncHelper.syncModelProperty(viewObject.text || viewObject.text, mediaObject, 'text', diff, false);
-
-			return diff;
-		};
-
-		shapeSync.registerShape(typeId, syncFromModel, syncFromView);
+		shapeSync.registerShape(typeId, syncFromModel);
 	});

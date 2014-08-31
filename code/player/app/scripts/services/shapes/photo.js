@@ -20,7 +20,7 @@ angular.module('animatesApp')
 
 		shapeCreator.registerShape(typeId, createShape);
 
-		function syncFromModel(viewObject, canvasPosition) {
+		function syncFromModel(viewObject) {
 			var model = shapeHelper.getMediaFrameFromView(viewObject);
 			if (model) {
 				var source = model.getProperty('source');
@@ -32,7 +32,7 @@ angular.module('animatesApp')
 						imagesCache[shapeHelper.getGuidFromView(viewObject)] = newImageElement;
 						viewObject.setElement(newImageElement);
 
-						shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject, canvasPosition);
+						shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject);
 
 						shapeSyncHelper.syncViewProperty(model.getProperty('height'), viewObject, 'height');
 						shapeSyncHelper.syncViewProperty(model.getProperty('width'), viewObject, 'width');
@@ -49,15 +49,5 @@ angular.module('animatesApp')
 			}
 		};
 
-		function syncFromView(viewObject, canvasPosition) {
-			var diff = shapeSyncHelper.syncVisualMediaObjectFromView(viewObject, canvasPosition),
-				mediaObject = shapeHelper.getMediaFrameFromView(viewObject);
-
-			shapeSyncHelper.syncModelProperty(viewObject.currentHeight || viewObject.height, mediaObject, 'height', diff, true);
-			shapeSyncHelper.syncModelProperty(viewObject.currentWidth || viewObject.width, mediaObject, 'width', diff, true);
-
-			return diff;
-		};
-
-		shapeSync.registerShape(typeId, syncFromModel, syncFromView);
+		shapeSync.registerShape(typeId, syncFromModel);
 	});
