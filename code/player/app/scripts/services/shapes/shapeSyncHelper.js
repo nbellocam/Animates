@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesPlayer')
 	.factory('shapeSyncHelper', function shapeSyncHelper($window, animationService, shapeHelper) {
 		var syncViewProperty = function syncViewProperty(modelValue, viewObject, propertyName) {
 				var fabricProperty = viewObject.get(propertyName);

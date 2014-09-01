@@ -3,7 +3,7 @@
 describe('Service: shapeSync', function () {
 
   // load the service's module
-  beforeEach(module('animatesApp'));
+  beforeEach(module('animatesPlayer'));
 
   // instantiate service
   var shapeSync;

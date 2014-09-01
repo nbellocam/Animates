@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesPlayer')
 	.service('canvasService', function canvasService(shapeSync, $window, $rootScope, canvasConfig, animationService) {
 		var fabric = $window.fabric,
 			canvasInstance;

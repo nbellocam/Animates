@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesPlayer')
 	.service('shapeSync', function shapeSync(localAnimationStateService, animationService, shapeHelper) {
 		var registeredShapes = {};
 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesPlayer')
 	.service('shapeCreator', function shapeCreator(animationService, localAnimationStateService, shapeSync, shapeHelper) {
 		var registeredShapes = {},
 			_self = this;

@@ -1,66 +1,26 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesPlayer')
 	.controller('PlayerCtrl', function ToolbarPanelCtrl($scope, animationService, presentationPlayerService, canvasService, serverService, localAnimationStateService) {
 		$scope.loading = true;
-		$scope.playing = false;
 		$scope.errorMessage = undefined;
+		$scope.maxTick = 5000;
+		$scope.tick = 0;
+		$scope.tickRatio = presentationPlayerService.tickDuration();
 
-		$scope.$watch(function() {
-				return animationService.isEditingEnable;
-			}, function() {
-				$scope.playing = !animationService.isEditingEnable;
-			});
+		$scope.onTogglePlaying = function(playing) {
+			if (playing) {
+				presentationPlayerService.play();
+			} else {
+				presentationPlayerService.pause();
+			}
+		};
 
 		function initializeLayout() {
 			angular.element(document).ready(function () {
-				angular.element('body').layout({
-					spacing: 0,
-					'north__paneSelector': '.outer-layout-north',
-					'center__paneSelector': '.outer-layout-center'
-				});
-
-				var innerLayout = angular.element('div.outer-layout-center').layout({
-					applyDefaultStyles: false,
-					south:{
-						size: 100,
-						onresize : function (panelName, element) {
-							var pane = angular.element(element);
-							angular.element('animates-timelines').css('height', pane.height() - (pane.outerHeight() - pane.height()) + 'px');
-						}
-					}
-				});
-				innerLayout.resizeAll();
+				
 			});
 		}
-
-		// Other methods
-
-		$scope.play = function () {
-			presentationPlayerService.play();
-		};
-
-		$scope.pause = function () {
-			presentationPlayerService.pause();
-		};
-
-		$scope.stop = function () {
-			presentationPlayerService.stop();
-		};
-
-		$scope.stepForward = function () {
-			presentationPlayerService.stepForward(50);
-		};
-
-		$scope.stepBackward = function () {
-			presentationPlayerService.stepBackward(50);
-		};
-
-		$scope.$watch(function() {
-				return animationService.isEditingEnable;
-			}, function() {
-				$scope.playing = !animationService.isEditingEnable;
-			});
 
 		$scope.initializeAnimation = function (id) {
 			$scope.loading = true;
@@ -77,4 +37,20 @@ angular.module('animatesApp')
 					$scope.loading = false;
 				});
 		};
+
+		$scope.onTimelineTickChange = function(tick) {
+			localAnimationStateService.setCurrentTick(tick);
+		};
+
+		$scope.onLocalStateTickChange = function(newVal) {
+			if ($scope.tick !== newVal) {
+				$scope.tick = newVal;
+
+				if ($scope.$root.$$phase !== '$apply' && $scope.$root.$$phase !== '$digest') {
+					$scope.$apply();
+				}
+			}
+		};
+
+		localAnimationStateService.addTickObserver('PlayerCtrl', $scope.onLocalStateTickChange);
 	});

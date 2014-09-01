@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesPlayer')
 	.service('animationService', function animationService($window, canvasConfig) {
 		var animationInstance,
 			_self = this;

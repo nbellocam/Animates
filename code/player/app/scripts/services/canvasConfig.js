@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesPlayer')
 	.constant('canvasConfig', {
 		canvasInitialConfig: {
 			backgroundColor: '#FFFFFF',

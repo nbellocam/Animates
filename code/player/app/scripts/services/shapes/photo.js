@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesPlayer')
 	.run(function triangle(shapeCreator, shapeSync, shapeSyncHelper, shapeHelper, canvasService) {
 		var typeId = 'Photo';
 

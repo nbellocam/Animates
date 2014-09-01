@@ -3,15 +3,17 @@
    ========================================================================== */
 
 body {
-    padding-top: 50px;
+    background-color: #111111;
 }
 
-.ui-layout-center #mainCanvas {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+#mainCanvas {
     box-shadow: 0 0 10px 1px rgba(255,255,255,0.75);
+}
+
+animates-playertimeline {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 
 .player-btns {

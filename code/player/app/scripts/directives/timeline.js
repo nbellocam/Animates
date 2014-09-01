@@ -1,15 +1,16 @@
 'use strict';
 
-angular.module('animatesApp')
-	.directive('animatesPlayertimeline', function ($timeout, $document) {
+angular.module('animatesPlayer')
+	.directive('animatesPlayertimeline', function ($timeout, $document, $window) {
 		return {
 			restrict: 'E',
-			template:
-						'<span class="timetooltip"></span>' +
-						'<div class="timelines-tick-navigator">' +
-							'<div class="tickHandlerHeader" ></div>' +
-							'<div class="tickHandlerScrollerContainer" >' +
-								'<div class="tickHandlerContainer" style="width:{{maxTick}}px;">' +
+			template:	'<span class="timetooltip"></span>' +
+						'<div class="timelines-tick-navigator" style="width:{{width}}px;" >' +
+							'<div class="timeline-controls" >' +
+								'<button type="button" class="btn btn-default" ng-click="tooglePlay()"><span class="glyphicon" ng-class="{\'glyphicon-pause\': playing, \'glyphicon-play\': !playing}"></span></button>' +
+							'</div>' +
+							'<div class="tickHandlerScrollerContainer" style="width:{{rulerWidth}}px;" >' +
+								'<div class="tickHandlerContainer" style="width:{{rulerWidth}}px;">' +
 									'<div class="ruler"></div>' +
 									'<div class="tickHandler" style="left:{{tick-5}}px;"></div>' +
 								'</div>' +
@@ -18,20 +19,26 @@ angular.module('animatesApp')
 			scope: {
 				externalTick: '=tick',
 				tickChange: '&',
+				onToggleplaying: '&',
 				tickRatio: '=',
-				width: '='
+				width: '=',
+				maxTick: '='
 			},
 			controller : function ($scope, $element) {
 				var ruleElement = angular.element($element[0].querySelector('.ruler'));
+				var timelineControls = angular.element($element[0].querySelector('.timeline-controls'));
 
+				$scope.playing = $scope.playing || false;
 				$scope.tick = $scope.externalTick;
-				$scope.maxTick = 5000;
+				$scope.maxTick = $scope.maxTick || 5000;
 				$scope.width = $scope.width || 500;
+				$scope.rulerWidth = $scope.width - timelineControls.width() - 3;
+				$scope.tickRate = $window.Math.round($scope.maxTick / $scope.rulerWidth);
 
 				$scope.drawRule =  function () {
 					// Horizontal ruler ticks
 					var tickLabelPos = 0,
-						width = $scope.maxTick,
+						width = $scope.rulerWidth,
 						newTickLabel = '',
 						interval = 5;
 
@@ -52,17 +59,17 @@ angular.module('animatesApp')
 					}//hz ticks
 				};
 
-				$scope.$watch('externalTick', function() {
+				$scope.tooglePlay = function() {
+					$scope.playing = !$scope.playing;
+					$scope.onToggleplaying({ playing: $scope.playing });
+				};
 
-					$scope.tick = $scope.externalTick;
+				$scope.$watch('externalTick', function() {
+					$scope.tick = $scope.externalTick / $scope.tickRate;
 
 					if ($scope.tickChange) {
-						$scope.tickChange( { tick: $scope.tick });
+						$scope.tickChange( { tick: $scope.externalTick });
 					}
-				});
-
-				$scope.$watch('maxTick', function () {
-					$scope.drawRule();
 				});
 
 				$scope.getTime = function (tick) {
@@ -89,10 +96,10 @@ angular.module('animatesApp')
 				};
 
 				$scope.internalTickChange = function () {
-					$scope.$apply(function (){ $scope.externalTick = $scope.tick;});
+					$scope.$apply(function (){ $scope.externalTick = $scope.tick * $scope.tickRate;});
 
 					if ($scope.tickChange) {
-						$scope.tickChange( { tick: $scope.tick });
+						$scope.tickChange( { tick: $scope.externalTick });
 					}
 				};
 			},
@@ -105,7 +112,6 @@ angular.module('animatesApp')
 						tooltipElement = angular.element(element[0].querySelector('.timetooltip')),
 						bodyElement = angular.element($document[0].querySelector('body'));
 
-
 					// append the tooltip to the body so it can be display above any element.
 					tooltipElement.remove();
 					bodyElement.append(tooltipElement);
@@ -116,7 +122,6 @@ angular.module('animatesApp')
 								$scope.tick = 0;
 							} else if (newTick >= $scope.maxTick) {
 								$scope.tick = $scope.maxTick;
-								$scope.maxTick += 100;
 							} else {
 								$scope.tick = newTick;
 							}
@@ -125,7 +130,7 @@ angular.module('animatesApp')
 						originalTick = newTick;
 						$scope.internalTickChange();
 					}
-					
+
 					tickHandlerElement.on('mousedown', function(event) {
 						if (!$scope.isDisable) {
 							tickHandlerElement.addClass('moving');
@@ -144,7 +149,7 @@ angular.module('animatesApp')
 
 					function tickHandlerMove(event) {
 						// Move the tick to the new position
-						setTick(event.pageX);
+						setTick(event.pageX - x);
 					}
 
 					function tickHandlerMoveEnd() {

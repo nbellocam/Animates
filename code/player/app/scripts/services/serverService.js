@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesPlayer')
 	.service('serverService', function serverService($http, $window, $timeout) {
 		this.loadProject = function (id, success, error) {
 			$http.get('./data.json')

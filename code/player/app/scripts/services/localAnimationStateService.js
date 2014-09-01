@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesPlayer')
 	.service('localAnimationStateService', function localAnimationStateService($window, animationService) {
 		var currentTick = 0,
 			tickObservers = {};
