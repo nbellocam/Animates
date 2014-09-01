@@ -30,14 +30,16 @@
 
     <div ng-controller="PlayerCtrl" ng-init="initializeAnimation('projectId');">
       <!-- Add your site or application content here -->
-      <div ng-hide="loading">
-        <canvas id="mainCanvas" ng-controller="CanvasCtrl"></canvas>
-        <animates-playertimeline tick="tick"
-          tick-change="onTimelineTickChange(tick)"
-          tick-ratio="tickRatio"
-          width="500"
-          on-toggleplaying="onTogglePlaying(playing)"
-          max-tick="maxTick"></animates-playertimeline>
+      <div class="main-container" ng-hide="loading">
+        <div class="player">
+            <canvas id="mainCanvas" ng-controller="CanvasCtrl"></canvas>
+            <animates-playertimeline tick="tick"
+              tick-change="onTimelineTickChange(tick)"
+              tick-ratio="tickRatio"
+              width="500"
+              on-toggleplaying="onTogglePlaying(playing)"
+              max-tick="maxTick"></animates-playertimeline>
+        </div>
       </div>
       <div class="loading" ng-show="loading">
         <div class="loading-message">

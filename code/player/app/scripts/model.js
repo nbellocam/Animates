@@ -419,6 +419,27 @@ function Animation (options) {
 		return result;
 	}
 
+	function applyCanvasUpdateOperation(opParams) {
+		var result = getResultObject();
+
+		if (opParams.height) {
+			_self.canvas.height = opParams.height;
+		}
+
+		if (opParams.width) {
+			_self.canvas.width = opParams.width;
+		}
+
+		if (opParams.backgroundColor) {
+			_self.canvas.backgroundColor = opParams.backgroundColor;
+		}
+
+		result.status = true;
+		result.data = opParams;
+
+		return result;
+	}
+
 	function applyShapeOperation(operation, opParams) {
 		switch (operation) {
 			case 'Create':
@@ -463,6 +484,15 @@ function Animation (options) {
 		}
 	}
 
+	function applyCanvasOperation(operation, opParams) {
+		switch (operation) {
+			case 'Update':
+				return applyCanvasUpdateOperation(opParams);
+			default:
+				return getResultObject();
+		}
+	}
+
 	this.applyOperation = function applyOperation(target, operation, opParams, context) {
 		var result = getResultObject(),
 			params;
@@ -480,6 +510,9 @@ function Animation (options) {
 					break;
 				case 'MediaFrame':
 					result = applyMediaFrameOperation(operation, opParams);
+					break;
+				case 'Canvas':
+					result = applyCanvasOperation(operation, opParams);
 					break;
 				default:
 					return;

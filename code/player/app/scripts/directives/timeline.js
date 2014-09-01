@@ -112,6 +112,7 @@ angular.module('animatesPlayer')
 						tooltipElement = angular.element(element[0].querySelector('.timetooltip')),
 						bodyElement = angular.element($document[0].querySelector('body'));
 
+					element.css('width', $scope.width);
 					// append the tooltip to the body so it can be display above any element.
 					tooltipElement.remove();
 					bodyElement.append(tooltipElement);
