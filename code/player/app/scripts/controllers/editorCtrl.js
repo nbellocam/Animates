@@ -3,8 +3,6 @@
 
 angular.module('animatesApp')
 	.controller('EditorCtrl', function EditorCtrl($scope, $timeout, canvasService, animationService, serverService, localAnimationStateService) {
-		var innerLayout;
-
 		function initializeLayout() {
 
 			angular.element(document).ready(function () {
@@ -14,15 +12,8 @@ angular.module('animatesApp')
 					'center__paneSelector': '.outer-layout-center'
 				});
 
-				innerLayout = angular.element('div.outer-layout-center').layout({
+				var innerLayout = angular.element('div.outer-layout-center').layout({
 					applyDefaultStyles: false,
-					east:{
-						size: 280
-					},
-					west:{
-						size: 60,
-						resizable:false
-					},
 					south:{
 						size: 150,
 						onresize : function (panelName, element) {
@@ -31,13 +22,14 @@ angular.module('animatesApp')
 						}
 					},
 					center: {
-						onresize : function (panelName, element, state) {
-							canvasService.updateSize(state.innerHeight, state.innerWidth);
-						}
+						//onresize : function (panelName, element, state) {
+							//canvasService.updateSize(state.innerHeight, state.innerWidth);
+						//}
 					}
 				});
 				innerLayout.resizeAll();
-				canvasService.updateSize(innerLayout.state.center.innerHeight, innerLayout.state.center.innerWidth);
+				canvasService.updateSize();
+				//canvasService.updateSize(innerLayout.state.center.innerHeight, innerLayout.state.center.innerWidth);
 			});
 		}
 
@@ -96,7 +88,6 @@ angular.module('animatesApp')
 
 		$scope.initializeAnimation = function initializeAnimation(id) {
 			$scope.loading = true;
-
 			if (serverService.isAvailable()) {
 				serverService.loadProject(id, function success(data) {
 						canvasService.createCanvas();

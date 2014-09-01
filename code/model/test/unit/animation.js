@@ -126,6 +126,68 @@ describe('Animation', function() {
 		});
 	});
 
+	describe('Canvas operations', function() {
+		it('Should call observer with Canvas update event', function() {
+			var timeline = new Timeline(),
+				canvas = new Canvas(),
+				animation = new Animation({ timeline : timeline, canvas : canvas}),
+				called = false,
+				sepcifiedHeight = 833,
+				sepcifiedWidth = 400,
+				sepcifiedColor = 'blue';
+
+			animation.addUpdateObserver('test', function (target, operation, params, context) {
+				target.should.equal('Canvas');
+				operation.should.equal('Update');
+				
+				params.should.have.keys(['height']);
+				params.height.should.equal(sepcifiedHeight);
+				called = true;
+			});
+
+			animation.applyOperation('Canvas', 'Update', { 'height' : sepcifiedHeight });
+			called.should.be.ok;
+
+			canvas.height.should.equal(sepcifiedHeight);
+
+			animation.removeUpdateObserver('test');
+			called = false;
+
+			animation.addUpdateObserver('test', function (target, operation, params, context) {
+				target.should.equal('Canvas');
+				operation.should.equal('Update');
+				
+				params.should.have.keys(['width']);
+				params.width.should.equal(sepcifiedWidth);
+				called = true;
+			});
+
+			animation.applyOperation('Canvas', 'Update', { 'width' : sepcifiedWidth });
+			called.should.be.ok;
+
+			canvas.height.should.equal(sepcifiedHeight);
+			canvas.width.should.equal(sepcifiedWidth);
+
+			animation.removeUpdateObserver('test');
+			called = false;
+
+			animation.addUpdateObserver('test', function (target, operation, params, context) {
+				target.should.equal('Canvas');
+				operation.should.equal('Update');
+				
+				params.should.have.keys(['backgroundColor']);
+				params.backgroundColor.should.equal(sepcifiedColor);
+				called = true;
+			});
+
+			animation.applyOperation('Canvas', 'Update', { 'backgroundColor' : sepcifiedColor });
+			called.should.be.ok;
+
+			canvas.height.should.equal(sepcifiedHeight);
+			canvas.width.should.equal(sepcifiedWidth);
+			canvas.backgroundColor.should.equal(sepcifiedColor);
+		});
+	});
 
 	describe('Effects operations', function() {
 		it('Should call observer with MoveEffect effect creation event', function() {

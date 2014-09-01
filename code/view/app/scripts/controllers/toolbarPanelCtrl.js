@@ -57,13 +57,13 @@ angular.module('animatesApp')
 		$scope.registeredEffectTypes = toolbarEffectService.getRegisteredTypes();
 
 		$scope.openSettings = function () {
-			var dlg = null;
-			dlg = dialogs.create('/views/dialogs/settings.html','settingsDialogCtrl',{},'lg');
+			var dlg = dialogs.create('/views/dialogs/settings.html','settingsDialogCtrl',{},'lg');
 			
 			dlg.result.then(function(data){
-				window.alert('Confirmed data: ' + JSON.stringify(data));
-			},function(){
-				window.alert('Closed');
+				// Send changes only if there was any
+				if (Object.keys(data).length !== 0) {
+					animationService.getInstance().applyOperation('Canvas', 'Update', data, { sender: 'toolbar' });
+				}
 			});
 		};
 		

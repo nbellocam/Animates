@@ -10,7 +10,7 @@
     "fabric": "<=1.4.5 || ~1.4.7",
     "jquery-ui": "~1.10.4",
     "font-awesome": "~4.0.3",
-    "angular-minicolors": "~0.0.3",
+    "angular-minicolors": "~0.0.4",
     "angular-bootstrap": "~0.11.0",
     "angular-dialogs-service": "~4.1.0"
   },

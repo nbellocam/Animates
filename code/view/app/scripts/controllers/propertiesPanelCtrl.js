@@ -101,15 +101,17 @@ angular.module('animatesApp')
 		};
 
 		var animationUpdateEventHandler = function animationUpdateEventHandler (target, operation, params) {
-			var selectedShapes = localAnimationStateService.getSelectedShape(),
-				mediaObjectId = params.mediaObjectId || params.mediaObject.getGuid();
+			if (target !== 'Canvas') {
+				var selectedShapes = localAnimationStateService.getSelectedShape(),
+					mediaObjectId = params.mediaObjectId || params.mediaObject.getGuid();
 
-			if (selectedShapes !== null) {
-				if (shapeHelper.getGuidFromView(selectedShapes) === mediaObjectId) {
-					var mediaFrame = shapeHelper.getMediaFrameFromView(selectedShapes);
+				if (selectedShapes !== null) {
+					if (shapeHelper.getGuidFromView(selectedShapes) === mediaObjectId) {
+						var mediaFrame = shapeHelper.getMediaFrameFromView(selectedShapes);
 
-					$scope.shapeProperties = mediaFrame ? mediaFrame.getPropertiesSchema() : null;
-					safeApply();
+						$scope.shapeProperties = mediaFrame ? mediaFrame.getPropertiesSchema() : null;
+						safeApply();
+					}
 				}
 			}
 		};
