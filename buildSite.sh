@@ -10,6 +10,12 @@ mv build/view/site/styles/editor-* src/public/styles/
 mv build/view/site/scripts/editor-* src/public/scripts/
 mv build/view/site/images/* src/public/images/
 
+mkdir -p src/views/partials/player
+mv build/player/site/views/* src/views/partials/player/
+mv build/player/site/styles/player-* src/public/styles/
+mv build/player/site/scripts/player-* src/public/scripts/
+mv build/player/site/images/* src/public/images/
+
 mkdir -p src/node_modules/animates-model
 mv build/model/modelNpm/* src/node_modules/animates-model/
 
@@ -17,6 +23,6 @@ rm -rf build/
 
 git add . --all
 
-if [ -n "$(git status --porcelain)" ]; then 
+if [ -n "$(git status --porcelain)" ]; then
      git commit -m "$BUILD_TAG"
 fi

@@ -43,7 +43,7 @@ function replacePathInPaths {
 function cpBuildOutput {
 	mkdir -p "../../build/$1"
 	cp -r build/output/. "../../build/$1/"
-	
+
 	pushd "../../build/$1/"
 	replacePathInPaths "$1"
 	popd
@@ -60,7 +60,7 @@ function buildProject {
 	$GRUNT_CMD ci-build
 	cpBuildOutput $1
 	popd
-	
+
 	echo
 	echo -e "\e[1;4;33m=============="
 	echo -e "\e[1;4;33mCompleted running build task $1..."
@@ -83,6 +83,9 @@ buildProject "timeline"
 
 # view project
 buildProject "view"
+
+# view project
+buildProject "player"
 
 # site project
 buildProject "site"

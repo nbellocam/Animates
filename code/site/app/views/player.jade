@@ -1,0 +1,13 @@
+extends layouts/player-layout
+
+block content
+    div(ng-controller='PlayerCtrl', ng-init='initializeAnimation("projectId");'')
+      .main-container(ng-hide='loading')
+        .player
+            canvas#mainCanvas(ng-controller='CanvasCtrl')
+            animates-playertimeline(tick='tick', tick-change='onTimelineTickChange(tick)', tick-ratio='tickRatio', width='500', on-toggleplaying='onTogglePlaying(playing)', max-tick='maxTick')
+      .loading(ng-show='loading')
+          .loading-message
+            .progress.progress-striped.active
+              .progress-bar(role='progressbar', aria-valuenow='100', aria-valuemin='0', aria-valuemax='100')
+                span loading ...
