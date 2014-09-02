@@ -1,7 +1,7 @@
 extends layouts/player-layout
 
 block content
-    div(ng-controller='PlayerCtrl', ng-init='initializeAnimation("projectId");'')
+    div(ng-controller='PlayerCtrl', ng-init='initializeAnimation("projectId");')
       .main-container(ng-hide='loading')
         .player
             canvas#mainCanvas(ng-controller='CanvasCtrl')
