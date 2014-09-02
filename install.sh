@@ -59,6 +59,15 @@ $GRUNT_CMD install-dep
 cd ..
 echo "Completed installing view..."
 
+# player project
+echo "Installing player..."
+cd player
+npm install
+bower install
+$GRUNT_CMD install-dep
+cd ..
+echo "Completed installing player..."
+
 # site project
 echo "Installing site..."
 cd site
