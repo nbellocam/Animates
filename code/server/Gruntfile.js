@@ -540,6 +540,11 @@ module.exports = function (grunt) {
     this.async();
   });
 
+  grunt.registerTask('install-dep', function () {
+    grunt.task.run('bower-install');
+    //grunt.task.run('copy:view');
+  });
+  
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'env:all', 'env:prod', 'express:prod', 'wait', 'open', 'express-keepalive']);

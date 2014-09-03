@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "main": "server/app.js",
   "dependencies": {
+    "animates-model": "0.0.1",
     "express": "~4.0.0",
     "morgan": "~1.0.0",
     "body-parser": "~1.5.0",
@@ -29,6 +30,7 @@
     "socketio-jwt": "^2.0.2"
   },
   "devDependencies": {
+    "animates-model": "0.0.1",
     "grunt": "~0.4.4",
     "grunt-autoprefixer": "~0.7.2",
     "grunt-wiredep": "~1.8.0",

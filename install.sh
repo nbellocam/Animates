@@ -78,4 +78,14 @@ $GRUNT_CMD install-dep
 cd ..
 echo "Completed installing site..."
 
+# site project
+echo "Installing server..."
+cd server
+npm link animates-model
+npm install
+bower install
+$GRUNT_CMD install-dep
+cd ..
+echo "Completed installing server..."
+
 cd ..
