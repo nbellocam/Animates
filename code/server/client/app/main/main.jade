@@ -20,7 +20,7 @@ header#banner.hero-unit
             | {{project.name}}
             span.close.glyphicon.glyphicon-trash(ng-click='deleteProject(project)')
             p.preview
-              img(src='assets/images/yeoman.png', alt='I\'m Yeoman')
+              img(src='assets/images/yeoman.png', alt='{{project.name}}')
             p.description
               {{project.info}}
           p.description
