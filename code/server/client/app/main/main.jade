@@ -14,12 +14,17 @@ header#banner.hero-unit
         button.btn.btn-primary(type='submit', ng-click='addProject()') Add New
   .row
     .col-lg-12
-      h1.page-header Features:
       ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='project in projects')
-        li
+        li.project
           a(href='#', tooltip='{{project.info}}')
             | {{project.name}}
-            button.close(type='button', ng-click='deleteProject(project)') ×
+            span.close.glyphicon.glyphicon-trash(ng-click='deleteProject(project)')
+            p.preview
+              img(src='assets/images/yeoman.png', alt='I\'m Yeoman')
+            p.description
+              {{project.info}}
+          p.description
+            | Last Modified: {{project.modified | date:'medium'}}
 
 footer.footer
   .container

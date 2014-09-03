@@ -28,3 +28,23 @@
     margin-top: 70px;
     border-top: 1px solid #E5E5E5;
 }
+
+p.description {
+  font-size: 10px;
+  color: black;
+  float: right;
+}
+
+.project {
+  font-size: 30px;
+}
+
+.project .preview {
+    text-align: center;
+}
+
+.project img {
+  margin-left: auto;
+  margin-right: auto;
+  width: 6em
+}
