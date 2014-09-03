@@ -2,26 +2,26 @@
 
 angular.module('animatesApp')
   .controller('MainCtrl', function ($scope, $http, socket) {
-    $scope.awesomeThings = [];
+    $scope.projects = [];
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-      socket.syncUpdates('thing', $scope.awesomeThings);
+    $http.get('/api/projects').success(function(projects) {
+      $scope.projects = projects;
+      socket.syncUpdates('project', $scope.projects);
     });
 
-    $scope.addThing = function() {
-      if($scope.newThing === '') {
+    $scope.addProject = function() {
+      if($scope.newProject === '') {
         return;
       }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
+      $http.post('/api/projects', { name: $scope.newProject });
+      $scope.newProject = '';
     };
 
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
+    $scope.deleteProject = function(project) {
+      $http.delete('/api/projects/' + project._id);
     };
 
     $scope.$on('$destroy', function () {
-      socket.unsyncUpdates('thing');
+      socket.unsyncUpdates('project');
     });
   });
