@@ -6,21 +6,22 @@ header#banner.hero-unit
     p.lead Collaborative animations from your web browser
 
 .container
-  form.thing-form
-    label Syncs in realtime across clients
-    p.input-group
-      input.form-control(type='text', placeholder='Add a new project here.', ng-model='newProject')
-      span.input-group-btn
-        button.btn.btn-primary(type='submit', ng-click='addProject()') Add New
+  .row
+    .col-lg-8.col-lg-offset-2
+      form.thing-form
+        p.input-group
+          input.form-control(type='text', placeholder='Add a new project here.', ng-model='newProject')
+          span.input-group-btn
+            button.btn.btn-primary(type='submit', ng-click='addProject()') Create
   .row
     .col-lg-12
-      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='project in projects')
+      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat="project in projects | filter:newProject")
         li.project
-          a(href='#', tooltip='{{project.info}}')
             | {{project.name}}
             span.close.glyphicon.glyphicon-trash(ng-click='deleteProject(project)')
             p.preview
-              img(src='assets/images/yeoman.png', alt='{{project.name}}')
+              a(href='/projects/{{project._id}}', tooltip='{{project.info}}')
+                img(src='assets/images/video.png', alt='{{project.name}}')
             p.description
               {{project.info}}
           p.description

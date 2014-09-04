@@ -37,10 +37,16 @@ p.description {
 
 .project {
   font-size: 30px;
+  padding: 10px;
+  color: #428bca;
 }
 
 .project .preview {
     text-align: center;
+}
+
+li.project:hover {
+    background-color: rgba(67,147,185,0.3);
 }
 
 .project img {
