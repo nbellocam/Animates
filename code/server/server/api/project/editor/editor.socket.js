@@ -27,7 +27,7 @@ var operateWithProject = function (data, socket, operation, callback) {
 	});
 };
 
-module.exports = function(socket) {
+exports.register = function(socket) {
 	socket.on('subscribe', function(data) {
 		operateWithProject(data, socket, 'see', function (project, data, socket) {
 			socket.join(data.projectId);
