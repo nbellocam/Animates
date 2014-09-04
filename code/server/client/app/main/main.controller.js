@@ -16,13 +16,9 @@ angular.module('animatesApp')
     });
 
     $scope.addProject = function() {
-      if($scope.newProject === '') {
-        return;
-      }
-      $http.post('/api/projects', { name: $scope.newProject }).success( function (project) {
+      $http.post('/api/projects', { name: 'New Project' }).success( function (project) {
         $location.path('/projects/' + project._id);
       });
-      $scope.newProject = '';
     };
 
     $scope.deleteProject = function(project) {

@@ -35,10 +35,19 @@ p.description {
   float: right;
 }
 
+.projects {
+  border: none;
+}
+
 .project {
+  margin:10px;
+  line-height: 30px;
   font-size: 30px;
   padding: 10px;
-  color: #428bca;
+  margin-bottom: 10px;
+  color: #ffffff;
+  border-radius: 10px;
+  background-color: #428bca;
 }
 
 .project .preview {
@@ -46,11 +55,23 @@ p.description {
 }
 
 li.project:hover {
-    background-color: rgba(67,147,185,0.3);
+    background-color: rgba(67,147,185,0.4);
+    color: #428bca;
 }
 
 .project img {
   margin-left: auto;
   margin-right: auto;
   width: 6em
+}
+
+.project .modified {
+  font-size: 10px;
+  padding: 0px;
+  margin: 0px;
+  text-align: right;
+}
+
+.project .delete:hover {
+  cursor:pointer;
 }
