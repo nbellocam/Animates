@@ -346,7 +346,7 @@ module.exports = function (grunt) {
           expand: true,
           dot: true,
           cwd: '<%= yeoman.dist %>',
-          dest: 'build/output/site',
+          dest: 'build/output/player',
           src: [
             '**/*'
           ]
