@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.factory('shapeSyncHelper', function shapeSyncHelper($window, animationService, shapeHelper) {
 		var syncModelProperty = function syncModelProperty(fabricValue, model, propertyName, diff, round) {
 				var modelProperty = model.getProperty(propertyName),

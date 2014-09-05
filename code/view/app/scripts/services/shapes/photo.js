@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.run(function triangle(shapeCreator, shapeSync, toolbarShapeService, shapeSyncHelper, shapeHelper, canvasService) {
 		var typeId = 'Photo',
 			objectNumber = 1;

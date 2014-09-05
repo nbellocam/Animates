@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
   .service('propertyUpdateManagerService', function propertyUpdateManagerService(localAnimationStateService, animationService) {
 
     var applyMediaFrameUpdateOperation = function applyMediaFrameUpdateOperation(mediaObjectId, updatedProperties, sender) {

@@ -3,7 +3,7 @@
 describe('Controller: LayoutctrlCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('animatesApp'));
+  beforeEach(module('animatesEditor'));
 
   var LayoutctrlCtrl,
     scope;

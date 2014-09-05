@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.run(function rectangle(shapeCreator, shapeSync, toolbarShapeService, shapeSyncHelper, shapeHelper) {
 		var typeId = 'Rectangle',
 			objectNumber = 1;

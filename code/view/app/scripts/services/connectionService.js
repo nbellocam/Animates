@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.service('connectionService', function connectionService($window, $rootScope, $http) {
 		var io = $window.io,
 			_self = this,

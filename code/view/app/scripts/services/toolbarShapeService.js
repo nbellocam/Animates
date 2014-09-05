@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
   .service('toolbarShapeService', function toolbarShapeService() {
     var registeredItems = {};
 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.service('serverService', function serverService(connectionService, animationService) {
 		var connectedTo,
 			applyOperation = function applyOperation (target, operation, opParams) {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.factory('shapeHelper', function shapeHelper(animationService, localAnimationStateService) {
 		var getGuidFromView = function getGuidFromView(viewObject) {
 				return viewObject && viewObject.model && viewObject.model.guid;

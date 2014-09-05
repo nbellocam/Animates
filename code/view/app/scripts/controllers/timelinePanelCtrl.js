@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.controller('TimelinePanelCtrl', function($scope, localAnimationStateService, animationService, presentationPlayerService) {
 		$scope.timelines = [];
 		$scope.tick = 0;

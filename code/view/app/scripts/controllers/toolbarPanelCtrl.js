@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.controller('ToolbarPanelCtrl', function ToolbarPanelCtrl($scope, canvasService, localAnimationStateService, animationService, shapeHelper, toolbarShapeService, effectHelper, toolbarEffectService, presentationPlayerService, dialogs) {
 		function applyOperation(target, operation, params) {
 			animationService.getInstance().applyOperation(target, operation, params, { sender: 'toolbar' });

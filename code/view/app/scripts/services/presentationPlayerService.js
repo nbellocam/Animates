@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.service('presentationPlayerService', function canvasService($window, $rootScope, animationService, localAnimationStateService) {
 		var fps = 30,
 			interval = 1000 / fps,

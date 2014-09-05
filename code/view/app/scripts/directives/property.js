@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.directive('animatesProperty', function ($window, $q) {
 		var fileToDataURL = function (file) {
 				var deferred = $q.defer();

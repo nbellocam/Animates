@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
   .run(function fade(toolbarEffectService, effectHelper) {
     var typeId = 'fade';
 

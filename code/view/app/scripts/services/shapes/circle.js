@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.run(function circle(shapeCreator, shapeSync, toolbarShapeService, shapeSyncHelper, shapeHelper) {
 		var typeId = 'Circle',
 			objectNumber = 1;

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
   .service('toolbarEffectService', function toolbarEffectService() {
     var registeredItems = {};
 

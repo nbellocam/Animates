@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 
 .controller('settingsDialogCtrl', function ($scope, $modalInstance, animationService) {
 	$scope.canvas = animationService.getInstance().toJSON().canvas.data;

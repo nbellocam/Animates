@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.controller('PropertiesPanelCtrl', function PropertiesPanelCtrl($scope, $rootScope, canvasService, animationService, propertyUpdateManagerService, localAnimationStateService, shapeHelper) {
 		function applyOperation(target, operation, params) {
 			animationService.getInstance().applyOperation(target, operation, params, { sender: 'PropertiesPanelCtrl' });

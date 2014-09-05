@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.factory('effectHelper', function effectHelper($window, shapeHelper, localAnimationStateService) {
 		var setDefaultTicks = function (effect, viewObject) {
 			if (!effect.isInfinite()) {

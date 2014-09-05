@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.directive('animatesEffectproperties', function () {
 		return {
 			restrict: 'E',

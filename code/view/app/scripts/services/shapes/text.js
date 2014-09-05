@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.run(function text(shapeCreator, shapeSync, toolbarShapeService, shapeSyncHelper, shapeHelper) {
 		var typeId = 'Text',
 			objectNumber = 1;

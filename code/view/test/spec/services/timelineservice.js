@@ -3,7 +3,7 @@
 describe('Service: Timelineservice', function () {
 
   // load the service's module
-  beforeEach(module('animatesApp'));
+  beforeEach(module('animatesEditor'));
 
   // instantiate service
   var Timelineservice;

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.controller('CanvasCtrl', function CanvasCtrl(canvasService, localAnimationStateService, shapeCreator, animationService) {
 		function onCurrentTickChanged(currentTick) {
 			var frames = animationService.getInstance().timeline.getMediaFrames(currentTick);

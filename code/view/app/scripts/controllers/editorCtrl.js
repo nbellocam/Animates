@@ -1,7 +1,7 @@
 /*global $*/
 'use strict';
 
-angular.module('animatesApp')
+angular.module('animatesEditor')
 	.controller('EditorCtrl', function EditorCtrl($scope, $timeout, canvasService, animationService, serverService, localAnimationStateService) {
 		var innerLayout;
 
