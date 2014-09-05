@@ -62,6 +62,7 @@ echo "Completed installing view..."
 # player project
 echo "Installing player..."
 cd player
+npm link animates-model
 npm install
 bower install
 $GRUNT_CMD install-dep
