@@ -90,6 +90,8 @@ ProjectSchema.methods = {
      * @api public
      */
 	canOpBeAppliedBy : function(op, userId) {
+
+    console.log(this.user);
 		if (this.user.id === userId || this.user._id === userId ||
 			this.user._id.equals && this.user._id.equals(userId)) {
 			return true;
