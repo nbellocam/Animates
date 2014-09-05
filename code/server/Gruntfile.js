@@ -372,6 +372,18 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.client %>',
         dest: '.tmp/',
         src: ['{app,components}/**/*.css']
+      },
+      player: {
+        expand : true,
+        cwd: '../player/build/output/player',
+        src: ['scripts/*', 'styles/*', 'fonts/*'],
+        dest : '<%= yeoman.client %>/app/player/assets/'
+      },
+      editor: {
+        expand: true,
+        cwd: '../view/build/output/site',
+        src: ['scripts/editor-*', 'styles/editor-*', 'images/*', 'views/*'],
+        dest : '<%= yeoman.client %>/app/editor/assets/'
       }
     },
 
@@ -540,11 +552,39 @@ module.exports = function (grunt) {
     this.async();
   });
 
-  grunt.registerTask('install-dep', function () {
-    grunt.task.run('bower-install');
-    //grunt.task.run('copy:view');
+  grunt.registerTask('run-player-grunt', function () {
+    var done = this.async();
+    grunt.util.spawn({
+      grunt: true,
+      args: ['ci-build'],
+      opts: {
+          cwd: '../player'
+        }
+      }, function () {
+        done();
+      });
   });
-  
+
+  grunt.registerTask('run-editor-grunt', function () {
+    var done = this.async();
+    grunt.util.spawn({
+      grunt: true,
+      args: ['ci-build'],
+      opts: {
+          cwd: '../view'
+        }
+      }, function () {
+        done();
+      });
+  });
+
+  grunt.registerTask('install-dep', function () {
+    grunt.task.run('run-player-grunt');
+    grunt.task.run('copy:player');
+    grunt.task.run('run-editor-grunt');
+    grunt.task.run('copy:editor');
+  });
+
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'env:all', 'env:prod', 'express:prod', 'wait', 'open', 'express-keepalive']);
@@ -564,6 +604,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'install-dep',
       'env:all',
       'concurrent:server',
       'injector',

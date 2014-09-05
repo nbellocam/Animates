@@ -3,5 +3,7 @@ public
 .tmp
 .idea
 client/bower_components
+client/app/editor/assets
+client/app/player/assets
 dist
 /server/config/local.env.js
