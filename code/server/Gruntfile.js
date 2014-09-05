@@ -509,6 +509,7 @@ module.exports = function (grunt) {
         files: {
           '<%= yeoman.client %>/index.html': [
               ['{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
+               '!{.tmp,<%= yeoman.client %>}/app/player/**/*.js',
                '!{.tmp,<%= yeoman.client %>}/app/app.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.spec.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js']
@@ -529,7 +530,8 @@ module.exports = function (grunt) {
         },
         files: {
           '<%= yeoman.client %>/index.html': [
-            '<%= yeoman.client %>/{app,components}/**/*.css'
+            '<%= yeoman.client %>/{app,components}/**/*.css',
+            '!{.tmp,<%= yeoman.client %>}/app/player/**/*.css'
           ]
         }
       }
@@ -602,9 +604,36 @@ module.exports = function (grunt) {
       ]);
     }
 
+    if (target === 'debug') {
+      return grunt.task.run([
+        'clean:server',
+        'env:all',
+        'concurrent:server',
+        'injector',
+        'wiredep',
+        'autoprefixer',
+        'concurrent:debug'
+      ]);
+    }
+
+    if (target === 'new') {
+        grunt.task.run([
+          'clean:server',
+          'install-dep',
+          'env:all',
+          'concurrent:server',
+          'injector',
+          'wiredep',
+          'autoprefixer',
+          'express:dev',
+          'wait',
+          'open',
+          'watch'
+        ]);
+    }
+
     grunt.task.run([
       'clean:server',
-      'install-dep',
       'env:all',
       'concurrent:server',
       'injector',
