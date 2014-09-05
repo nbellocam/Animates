@@ -94,27 +94,40 @@ angular.module('animatesEditor')
 			return newAnimation;
 		}
 
-		$scope.initializeAnimation = function initializeAnimation(project, socket) {
-			$scope.loading = true;
-
-			if (project !== undefined && socket !== undefined) {
-				serverService.connect(socket);
+		function loadProject(animation, projectId) {
+			if (animation !== undefined) {
 				canvasService.createCanvas();
-				animationService.getInstance().loadProject(project.animation);
-				serverService.joinProject(project.id);
+				animationService.getInstance().loadProject(animation);
+				if (projectId !== undefined) {
+					serverService.joinProject(projectId);
+				}
+
 				initializeLayout();
 				localAnimationStateService.setCurrentTick(0);
 				$scope.loading = false;
+			}
+		}
+
+		$scope.initializeAnimation = function initializeAnimation(project, socket) {
+			$scope.loading = true;
+
+			if (socket !== undefined) {
+				serverService.connect(socket);
+				if (project !== undefined) {
+					loadProject(project.animation, project.id);
+				} else {
+					$scope.$on('projectLoaded', function (event, project) {
+						loadProject(project.animation, project.id);
+					});
+				}
 			} else {
-				$timeout(function() {
+				$timeout(function () {
 					var newAnimation = createTestAnimation(),
 						json = animationService.Model.JsonSerializer.serializeObject(newAnimation);
-					canvasService.createCanvas();
-					animationService.getInstance().loadProject(json);
-					initializeLayout();
-					localAnimationStateService.setCurrentTick(0);
-					$scope.loading = false;
+					loadProject(json);
 				}, 600);
 			}
 		};
+
+
 	});
