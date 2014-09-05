@@ -1,16 +1,16 @@
 'use strict';
 
-describe('Controller: EditorCtrl', function () {
+describe('Controller: EditorViewCtrl', function () {
 
   // load the controller's module
   beforeEach(module('animatesApp'));
 
-  var EditorCtrl, scope;
+  var EditorViewCtrl, scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    EditorCtrl = $controller('EditorCtrl', {
+    EditorViewCtrl = $controller('EditorViewCtrl', {
       $scope: scope
     });
   }));

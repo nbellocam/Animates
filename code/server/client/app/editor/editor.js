@@ -5,6 +5,6 @@ angular.module('animatesApp')
     $routeProvider
       .when('/projects/:id', {
         templateUrl: 'app/editor/editor.html',
-        controller: 'EditorCtrl'
+        controller: 'EditorViewCtrl'
       });
   });
