@@ -18,13 +18,7 @@ header#banner.hero-unit
     .col-lg-12
       ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat="project in projects | filter:newProject")
         li.project
-            span.pull-right.delete.glyphicon.glyphicon-trash(ng-click='deleteProject(project)')
-            editable(value='project.name' on-change="titleChange")
-            p.preview
-              a(href='/projects/{{project._id}}', tooltip='{{project.info}}')
-                img(src='assets/images/video.png', alt='{{project.name}}')
-            p.modified
-                | Last Modified: {{project.modified | date:'medium'}}
+          project(project="project")
 
 footer.footer
   .container

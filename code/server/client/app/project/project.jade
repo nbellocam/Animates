@@ -1,0 +1,8 @@
+div
+  span.pull-right.delete.glyphicon.glyphicon-trash(ng-click='delete()')
+  editable(value='project.name' on-change="titleChange")
+  p.preview
+    a(href='/projects/{{project._id}}', tooltip='{{project.info}}')
+      img(src='assets/images/video.png', alt='{{project.name}}')
+  p.modified
+      | Last Modified: {{project.modified | date:'medium'}}

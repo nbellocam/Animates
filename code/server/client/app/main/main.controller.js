@@ -15,19 +15,12 @@ angular.module('animatesApp')
       socket.syncUpdates('project', $scope.projects, onSave);
     });
 
-    $scope.titleChange = function (newValue, oldValue) {
-      console.log('new value: ' + newValue);
-    };
-
     $scope.addProject = function() {
       $http.post('/api/projects', { name: 'New Project' }).success( function (project) {
         $location.path('/projects/' + project._id);
       });
     };
 
-    $scope.deleteProject = function(project) {
-      $http.delete('/api/projects/' + project._id);
-    };
 
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('project');
