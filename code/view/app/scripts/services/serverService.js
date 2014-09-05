@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('animatesEditor')
-	.service('serverService', function serverService(connectionService, animationService) {
+	.service('serverService', function serverService(animationService) {
 		var connectedTo,
+			socket,
 			applyOperation = function applyOperation (target, operation, opParams) {
 				animationService.getInstance().applyOperation(target, operation, animationService.Model.JsonSerializer.deserializeDictionary(opParams), {
 					sender: 'serverService'
@@ -10,7 +11,7 @@ angular.module('animatesEditor')
 			},
 			animationUpdateEventHandler = function animationUpdateEventHandler(target, operation, params, context) {
 				if (connectedTo && context.sender !== 'serverService') {
-					connectionService.emit('editor', 'update', {
+					socket.emit('editor:update', {
 						target: target,
 						operation: operation,
 						opParams: animationService.Model.JsonSerializer.serializeDictionary(params),
@@ -19,25 +20,25 @@ angular.module('animatesEditor')
 				}
 			};
 
-		if (connectionService.isAvailable()) {
-			connectionService.addConection('editor', '/editor');
+		this.connect = function (socket) {
+			if (socket !== undefined) {
+				socket.on('editor:error-response', function (data) {
+					//TODO review errors
+					console.log(data);
+				});
 
-			connectionService.on('editor','error-response', function (data) {
-				//TODO review errors
-				console.log(data);
-			});
+				socket.on('editor:update', function (data) {
+					applyOperation(data.target, data.operation, data.opParams);
+				});
 
-			connectionService.on('editor','update', function (data) {
-				applyOperation(data.target, data.operation, data.opParams);
-			});
-
-			connectionService.on('editor','subscribe:ok', function (data) {
-				connectedTo = data.projectId;
-			});
-		}
+				socket.on('editor:subscribe:ok', function (data) {
+					connectedTo = data.projectId;
+				});
+			}
+		};
 
 		this.joinProject = function (projectId) {
-			connectionService.emit('editor', 'subscribe', {
+			socket.emit('editor:subscribe', {
 					projectId: projectId
 				});
 
@@ -45,10 +46,6 @@ angular.module('animatesEditor')
 		};
 
 		this.isAvailable = function () {
-			return connectionService.isAvailable();
-		};
-		
-		this.loadProject = function (id, success, error) {
-			return connectionService.loadProject(id, success, error);
+			return socket !== undefined;
 		};
 	});

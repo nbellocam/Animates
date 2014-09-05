@@ -42,7 +42,7 @@
     This is my Fixed Header
 </div>  -->
     <div id="editorContainer">
-        <div class="outer-layout-center" ng-controller="EditorCtrl" ng-init="initializeAnimation('projectId');">
+        <div class="outer-layout-center" ng-controller="EditorCtrl" ng-init="initializeAnimation();">
           <!-- Add your site or application content here -->
           <div class="ui-layout-center" ng-hide="loading">
             <canvas id="mainCanvas" ng-controller="CanvasCtrl"></canvas>
@@ -119,7 +119,6 @@
     <script src="scripts/directives/property.js"></script>
     <script src="scripts/directives/effectProperties.js"></script>
 
-    <script src="scripts/services/connectionService.js"></script>
     <script src="scripts/services/serverService.js"></script>
 
     <script src="scripts/services/animationService.js"></script>

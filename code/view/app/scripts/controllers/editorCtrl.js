@@ -94,22 +94,17 @@ angular.module('animatesEditor')
 			return newAnimation;
 		}
 
-		$scope.initializeAnimation = function initializeAnimation(id) {
+		$scope.initializeAnimation = function initializeAnimation(project, socket) {
 			$scope.loading = true;
 
-			if (serverService.isAvailable()) {
-				serverService.loadProject(id, function success(data) {
-						canvasService.createCanvas();
-						animationService.getInstance().loadProject(data.animation);
-						serverService.joinProject(id);
-						initializeLayout();
-						localAnimationStateService.setCurrentTick(0);
-						$scope.loading = false;
-					}, function error(data) {
-						console.log('Error: ' + data);
-						$scope.errorMessage = data || 'An error occurs.';
-						$scope.loading = false;
-					});
+			if (project !== undefined && socket !== undefined) {
+				serverService.connect(socket);
+				canvasService.createCanvas();
+				animationService.getInstance().loadProject(project.animation);
+				serverService.joinProject(project.id);
+				initializeLayout();
+				localAnimationStateService.setCurrentTick(0);
+				$scope.loading = false;
 			} else {
 				$timeout(function() {
 					var newAnimation = createTestAnimation(),
