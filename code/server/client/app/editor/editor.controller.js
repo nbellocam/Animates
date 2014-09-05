@@ -6,6 +6,7 @@ angular.module('animatesApp')
     $scope.socket = socket.socket;
 
     $http.get('/api/projects/' +  $routeParams.id).success(function(project) {
+      project.id = project._id;
       $scope.project = project;
       $scope.$broadcast('projectLoaded', project);
     });
