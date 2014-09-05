@@ -11,14 +11,16 @@ header#banner.hero-unit
       .container
         .row
           .col-md-6.col-md-offset-2
-            input.form-control(type='text', placeholder='Search your projects here.', ng-model='newProject')
+            input.form-control(type='text', placeholder='Search your projects here.', ng-model='searchProject')
           .col-md-4
-            button.btn.btn-primary(type='submit', ng-click='addProject()') Create New
+            a.btn.btn-primary(ng-click='addProject()') Create New
   .row
     .col-lg-12
-      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat="project in projects | filter:newProject")
+      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat="project in filteredProjects = (projects | filter:{name: searchProject })")
         li.project
           project(project="project")
+      span.text-center(ng-hide="filteredProjects.length")
+        h2 No projects were found
 
 footer.footer
   .container
