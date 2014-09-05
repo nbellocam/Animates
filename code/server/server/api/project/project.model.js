@@ -137,13 +137,13 @@ ProjectSchema.methods = {
      * @return {Boolean}
      * @api public
      */
-	applyDiff : function(target, operation, opParams, userId){
+	applyDiff : function(target, operation, opParams, userId) {
 		if (!this.canOpBeAppliedBy('update', userId)) {
 			return null;
 		}
 
 		this.history.push({
-			user: new mongoose.Types.ObjectID(userId),
+			user: mongoose.Types.ObjectId(userId),
 			change: {
 				target: target,
 				operation: operation,
