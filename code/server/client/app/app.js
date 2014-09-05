@@ -6,7 +6,8 @@ angular.module('animatesApp', [
   'ngSanitize',
   'ngRoute',
   'btford.socket-io',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'animatesEditor'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
