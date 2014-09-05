@@ -11,15 +11,15 @@ var Project = require('../api/project/project.model');
 User.find({}).remove(function() {
   User.create({
     provider: 'local',
-    name: 'Test User',
-    email: 'test@test.com',
-    password: 'test'
-  }, {
-    provider: 'local',
     role: 'admin',
     name: 'Admin',
     email: 'admin@admin.com',
     password: 'admin'
+  }, {
+    provider: 'local',
+    name: 'Test User',
+    email: 'test@test.com',
+    password: 'test'
   }, function(err, newUser) {
       if (err){
         console.log('An error occurs while creating the users');
@@ -31,12 +31,12 @@ User.find({}).remove(function() {
       //Clear old projects, then add projects in
       Project.find({}).remove(function() {
         Project.create({
-          title: 'Animation test',
-          description: 'This is an incredible animation test.',
+          name: 'Animation test',
+          info: 'This is an incredible animation test.',
           user: newUser._id
         }, {
-          title: 'Animation: The movie',
-          description: 'You should see the second part, it is incredible.',
+          name: 'Animation: The movie',
+          info: 'You should see the second part, it is incredible.',
           user: newUser._id
         }, function() {
              console.log('finished populating projects');
