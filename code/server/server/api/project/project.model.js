@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
     Model = require('animates-model');
 
 var ProjectSchema = new Schema({
-  name: String,
+    name: String,
 	created: {
 		type: Date,
 		default: Date.now
@@ -14,13 +14,13 @@ var ProjectSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-  info: String,
-  active: Boolean,
+    info: String,
+    active: Boolean,
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: 'User'
 	},
-  animation : {
+    animation : {
 		type: Schema.Types.Mixed,
 		default: Model.JsonSerializer.serializeObject(new Model.Animation())
 	},
@@ -64,7 +64,7 @@ ProjectSchema.path('name').validate(function(name) {
 ProjectSchema.statics.load = function(id, cb) {
 	this.findOne({
 		_id: id
-	}).populate('owner', 'user').exec(cb);
+	}).populate('user', 'name').exec(cb);
 };
 
 ProjectSchema.pre('save', function (next) {
@@ -89,7 +89,7 @@ ProjectSchema.methods = {
      * @return {Boolean}
      * @api public
      */
-	canOpBeAppliedBy : function(op, userId){
+	canOpBeAppliedBy : function(op, userId) {
 		if (this.user.id === userId || this.user._id === userId ||
 			this.user._id.equals && this.user._id.equals(userId)) {
 			return true;
@@ -137,13 +137,13 @@ ProjectSchema.methods = {
      * @return {Boolean}
      * @api public
      */
-	applyDiff : function(target, operation, opParams, user){
-		if (!this.canOpBeAppliedBy('update', user.id)) {
+	applyDiff : function(target, operation, opParams, userId){
+		if (!this.canOpBeAppliedBy('update', userId)) {
 			return null;
 		}
 
 		this.history.push({
-			user: user,
+			user: new mongoose.Types.ObjectID(userId),
 			change: {
 				target: target,
 				operation: operation,

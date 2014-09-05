@@ -17,7 +17,7 @@ var operateWithProject = function (data, socket, operation, callback) {
 			return;
 		}
 
-		if(project.canOpBeAppliedBy(operation, socket.handshake.user.id)){
+		if(project.canOpBeAppliedBy(operation, socket.decoded_token._id)){
 			callback(project, data, socket);
 		} else {
 			socket.emit('editor:error-response', {
@@ -42,7 +42,7 @@ exports.register = function(socket) {
 	socket.on('editor:update', function (data) {
 		operateWithProject(data, socket, 'update', function (project, data, socket) {
 			try {
-				project.applyDiff(data.target, data.operation, Model.JsonSerializer.deserializeDictionary(data.opParams), socket.handshake.user);
+				project.applyDiff(data.target, data.operation, Model.JsonSerializer.deserializeDictionary(data.opParams), socket.decoded_token._id);
 			} catch (er) {
 				console.log(er);
 				socket.emit('editor:update:error', data);
