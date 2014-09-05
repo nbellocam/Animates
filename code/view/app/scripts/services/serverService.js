@@ -20,8 +20,9 @@ angular.module('animatesEditor')
 				}
 			};
 
-		this.connect = function (socket) {
-			if (socket !== undefined) {
+		this.connect = function (channel) {
+			if (channel !== undefined) {
+				socket = channel;
 				socket.on('editor:error-response', function (data) {
 					//TODO review errors
 					console.log(data);
