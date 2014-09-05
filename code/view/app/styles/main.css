@@ -2,10 +2,6 @@
    Author's custom styles
    ========================================================================== */
 
-body {
-    padding-top: 50px;
-}
-
 .canvas-blocker {
   position: fixed;
   top:0;
