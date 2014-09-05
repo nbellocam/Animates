@@ -431,6 +431,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'jshint',
       'install-dep',
       'concurrent:server',
       'autoprefixer',
@@ -487,13 +488,13 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('ci-build', [
-    'newer:jshint:build',
+    'jshint:build',
     //'test',
     'simple-build'
   ]);
 
   grunt.registerTask('default', [
-    'newer:jshint',
+    'jshint',
     'test',
     'build'
   ]);
