@@ -1,4 +1,4 @@
-.thing-form {
+.project-form {
     margin: 20px 0;
 }
 
@@ -54,6 +54,10 @@ p.description {
     text-align: center;
 }
 
+.project input {
+    width: 80%;
+}
+
 li.project:hover {
     background-color: rgba(67,147,185,0.4);
     color: #428bca;
@@ -74,4 +78,5 @@ li.project:hover {
 
 .project .delete:hover {
   cursor:pointer;
+  font-weight: bold;
 }

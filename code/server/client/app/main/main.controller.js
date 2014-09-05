@@ -15,6 +15,10 @@ angular.module('animatesApp')
       socket.syncUpdates('project', $scope.projects, onSave);
     });
 
+    $scope.titleChange = function (newValue, oldValue) {
+      console.log('new value: ' + newValue);
+    };
+
     $scope.addProject = function() {
       $http.post('/api/projects', { name: 'New Project' }).success( function (project) {
         $location.path('/projects/' + project._id);
