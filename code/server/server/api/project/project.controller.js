@@ -5,7 +5,7 @@ var Project = require('./project.model');
 
 // Get list of projects
 exports.index = function(req, res) {
-  Project.find(function (err, projects) {
+  Project.find({ user : req.user._id}, function (err, projects) {
     if(err) { return handleError(res, err); }
     return res.json(200, projects);
   });
@@ -22,7 +22,12 @@ exports.show = function(req, res) {
 
 // Creates a new project in the DB.
 exports.create = function(req, res) {
-  Project.create(req.body, function(err, project) {
+  var project = req.body;
+
+  console.log(req.user._id);
+  project.user = req.user._id;
+
+  Project.create(project, function(err, project) {
     if(err) { return handleError(res, err); }
     return res.json(201, project);
   });
