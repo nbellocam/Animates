@@ -16,7 +16,7 @@ describe('Directive: editable', function () {
     element = angular.element('<editable value="valueText"></editable>');
     element = $compile(element)(scope);
     var input = element[0].querySelector('input'),
-        span = element[0].querySelector('span')
+        span = element[0].querySelector('span');
 
     expect(span.text()).toBe('valueText');
     expect(input[0].value).toBe('valueText');

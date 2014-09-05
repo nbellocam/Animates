@@ -137,6 +137,8 @@ module.exports = function (grunt) {
       },
       all: [
         '<%= yeoman.client %>/{app,components}/**/*.js',
+        '!<%= yeoman.client %>/app/player/assets/**/*.js',
+        '!<%= yeoman.client %>/app/editor/assets/**/*.js',
         '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
         '!<%= yeoman.client %>/{app,components}/**/*.mock.js'
       ],

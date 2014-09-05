@@ -6,7 +6,7 @@ angular.module('animatesApp')
 
     function onSave (event, item, array) {
       $scope.$apply(function () {
-        array.sort(function(a, b){return a.modified < b.modified });
+        array.sort(function (a, b) { return a.modified < b.modified; });
       });
     }
 

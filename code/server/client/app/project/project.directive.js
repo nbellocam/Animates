@@ -8,8 +8,8 @@ angular.module('animatesApp')
       scope: {
         project: '='
       },
-      link: function (scope, element, attrs) {
-        scope.titleChange = function (newValue, oldValue) {
+      link: function (scope) {
+        scope.titleChange = function (newValue) {
           console.log('new value: ' + newValue);
         };
 
