@@ -41,26 +41,27 @@
 <!-- <div class="outer-layout-north">
     This is my Fixed Header
 </div>  -->
+    <div id="editorContainer">
+        <div class="outer-layout-center" ng-controller="EditorCtrl" ng-init="initializeAnimation('projectId');">
+          <!-- Add your site or application content here -->
+          <div class="ui-layout-center" ng-hide="loading">
+            <canvas id="mainCanvas" ng-controller="CanvasCtrl"></canvas>
+            <div class="canvas-blocker" ng-show="playing"></div>
+          </div>
+          <div class="ui-layout-west" ng-hide="loading"><div ng-include="'views/toolbarPanel.html'"></div></div>
+          <div class="ui-layout-south timelinePane" ng-hide="loading"><div ng-include="'views/timelinePanel.html'"></div></div>
+          <div class="ui-layout-east" ng-hide="loading"><div ng-include="'views/propertiesPanel.html'"></div></div>
 
-    <div class="outer-layout-center" ng-controller="EditorCtrl" ng-init="initializeAnimation('projectId');">
-      <!-- Add your site or application content here -->
-      <div class="ui-layout-center" ng-hide="loading">
-        <canvas id="mainCanvas" ng-controller="CanvasCtrl"></canvas>
-        <div class="canvas-blocker" ng-show="playing"></div>
-      </div>
-      <div class="ui-layout-west" ng-hide="loading"><div ng-include="'views/toolbarPanel.html'"></div></div>
-      <div class="ui-layout-south timelinePane" ng-hide="loading"><div ng-include="'views/timelinePanel.html'"></div></div>
-      <div class="ui-layout-east" ng-hide="loading"><div ng-include="'views/propertiesPanel.html'"></div></div>
-
-      <div class="loading" ng-show="loading">
-        <div class="loading-message">
-          <div class="progress progress-striped active">
-            <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="50">
-              <span>loading ...</span>
+          <div class="loading" ng-show="loading">
+            <div class="loading-message">
+              <div class="progress progress-striped active">
+                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="50">
+                  <span>loading ...</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
     </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->

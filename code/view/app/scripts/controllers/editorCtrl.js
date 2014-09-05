@@ -8,7 +8,7 @@ angular.module('animatesEditor')
 		function initializeLayout() {
 
 			angular.element(document).ready(function () {
-				angular.element('body').layout({
+				angular.element('#editorContainer').layout({
 					spacing: 0,
 					'north__paneSelector': '.outer-layout-north',
 					'center__paneSelector': '.outer-layout-center'
