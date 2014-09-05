@@ -1,7 +1,7 @@
 div(ng-include='"components/navbar/navbar.html"')
 
 #editorContainer
-    .outer-layout-center(ng-controller='EditorCtrl', ng-init='initializeAnimation("{project}", "{socket}");')
+    .outer-layout-center(ng-controller='EditorCtrl', ng-init='initializeAnimation(project, socket);')
       .ui-layout-center(ng-hide='loading')
         canvas#mainCanvas(ng-controller='CanvasCtrl')
 
