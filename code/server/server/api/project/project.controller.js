@@ -13,10 +13,15 @@ exports.index = function(req, res) {
 
 // Get a single project
 exports.show = function(req, res) {
-  Project.findById(req.params.id, function (err, project) {
+  Project.load(req.params.id, function (err, project) {
     if(err) { return handleError(res, err); }
-    if(!project) { return res.send(404); }
-    return res.json(project);
+    if(project) {
+      if (project.canOpBeAppliedBy('view', req.user._id)) {
+        return res.json(project);
+      } else {
+        return res.send(404);
+      }
+    } else { return res.send(404); }
   });
 };
 
@@ -24,7 +29,6 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   var project = req.body;
 
-  console.log(req.user._id);
   project.user = req.user._id;
 
   Project.create(project, function(err, project) {
