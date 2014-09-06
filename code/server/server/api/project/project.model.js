@@ -20,7 +20,7 @@ var ProjectSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'User'
 	},
-    animation : {
+  animation : {
 		type: Schema.Types.Mixed,
 		default: Model.JsonSerializer.serializeObject(new Model.Animation())
 	},
@@ -39,7 +39,10 @@ var ProjectSchema = new Schema({
 		permission: {
 			type: String,
 			default: '',
-			trim: true
+			trim: true,
+      validate : function(permission) {
+                  	return /play|edit/i.test(permission);
+                  }
 		}
 	}],
 	history: [{
@@ -91,7 +94,6 @@ ProjectSchema.methods = {
      */
 	canOpBeAppliedBy : function(op, userId) {
 
-    console.log(this.user);
 		if (this.user.id === userId || this.user._id === userId ||
 			this.user._id.equals && this.user._id.equals(userId)) {
 			return true;
