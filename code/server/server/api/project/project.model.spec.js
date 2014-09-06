@@ -83,4 +83,77 @@ describe('Project Model', function() {
       });
     });
   });
+
+  it('should retrieve project from on which the user is the author', function(done) {
+    project.save(function() {
+
+      var userIdprimary = new mongoose.Types.ObjectId,
+          userIdsecondary = new mongoose.Types.ObjectId,
+          updated,
+          created;
+
+      Project.create(
+        {
+          name : 'test',
+          user :  userIdprimary
+        },
+        {
+          name : 'test2',
+          user :  userIdsecondary
+        },
+      function (err, proj) {
+        Project.find({}, function(err, projects) {
+          projects.should.have.length(2);
+
+          Project.list(userIdprimary, function(err, projects) {
+            projects.should.have.lengthOf(1);
+            projects[0].name.should.eql('test');
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  it('should retrieve project from on which the user is on its workgroup with view permissions', function(done) {
+    project.save(function() {
+
+      var userIdprimary = new mongoose.Types.ObjectId,
+          userIdsecondary = new mongoose.Types.ObjectId,
+          updated,
+          created;
+
+      Project.create(
+        {
+          name : 'test',
+          user :  userIdprimary,
+          workgroup : [
+           {
+             user : userIdsecondary,
+             permission : 'play'
+           }
+          ]
+        },
+        {
+          name : 'test2',
+          user :  userIdsecondary
+        },
+        {
+          name : 'test3',
+          user :  userIdprimary
+        },
+      function (err, proj) {
+        Project.find({}, function(err, projects) {
+          projects.should.have.length(3);
+
+          Project.list(userIdsecondary, function(err, projects) {
+            projects.should.have.lengthOf(2);
+            projects[0].name.should.not.eql('test3');
+            projects[1].name.should.not.eql('test3');
+            done();
+          });
+        });
+      });
+    });
+  });
 });

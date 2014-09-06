@@ -70,6 +70,16 @@ ProjectSchema.statics.load = function(id, cb) {
 	}).populate('user', 'name').exec(cb);
 };
 
+/**
+ * Statics
+ */
+ProjectSchema.statics.list = function(userId, cb) {
+  this
+    .find()
+      .or([{ 'user' : userId }, { 'workgroup.user' : userId }])
+    .populate('user', 'name').exec(cb);
+};
+
 ProjectSchema.pre('save', function (next) {
   var now = Date.now();
   this.modified = now;
@@ -93,7 +103,6 @@ ProjectSchema.methods = {
      * @api public
      */
 	canOpBeAppliedBy : function(op, userId) {
-
 		if (this.user.id === userId || this.user._id === userId ||
 			this.user._id.equals && this.user._id.equals(userId)) {
 			return true;
