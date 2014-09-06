@@ -9,9 +9,9 @@ module.exports = {
   },
 
   facebook: {
-    clientID:     '706836949406562',
-    clientSecret: '7ea17bdc211b7d48b77a28ec2600febe',
-    callbackURL:  'http://localhost:9000/auth/facebook/callback'
+    clientID:     process.env.FACEBOOK_ID || '706836949406562',
+    clientSecret: process.env.FACEBOOK_SECRET || '7ea17bdc211b7d48b77a28ec2600febe',
+    callbackURL:  (process.env.DOMAIN || 'http://localhost:9000') + '/auth/facebook/callback'
   },
 
   twitter: {
