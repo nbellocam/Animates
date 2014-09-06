@@ -17,7 +17,8 @@ module.exports = function (grunt) {
     cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
     injector: 'grunt-asset-injector',
-    buildcontrol: 'grunt-build-control'
+    buildcontrol: 'grunt-build-control',
+    replace: 'grunt-text-replace'
   });
 
   // Time how long tasks take. Can help when optimizing build times
@@ -238,6 +239,12 @@ module.exports = function (grunt) {
         }
       }
     },
+    uglify : {
+        options: {
+            mangle: false,
+            beautify: true
+          }
+    },
 
     // Reads HTML for usemin blocks to enable smart builds that automatically
     // concat, minify and revision files. Creates configurations in memory so
@@ -248,7 +255,6 @@ module.exports = function (grunt) {
         dest: '<%= yeoman.dist %>/public'
       }
     },
-
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
       html: ['<%= yeoman.dist %>/public/{,*/}*.html'],
@@ -538,6 +544,16 @@ module.exports = function (grunt) {
         }
       }
     },
+    replace: {
+        prod: {
+          src: ['<%= yeoman.dist %>/public/app/*.js'],
+          dest: '<%= yeoman.dist %>/public/app/',
+          replacements: [{
+            from: '"use strict";',
+            to: ''
+          }]
+        }
+      }
   });
 
   // Used for delaying livereload until after server has restarted
@@ -695,6 +711,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'copy:player',
+    'copy:editor',
     'concurrent:dist',
     'injector',
     'wiredep',
@@ -707,6 +725,7 @@ module.exports = function (grunt) {
     'cdnify',
     'cssmin',
     'uglify',
+    'replace:prod',
     'rev',
     'usemin'
   ]);
