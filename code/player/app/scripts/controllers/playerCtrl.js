@@ -16,26 +16,35 @@ angular.module('animatesPlayer')
 			}
 		};
 
-		function initializeLayout() {
-			angular.element(document).ready(function () {
-				
-			});
+		function loadProject(animation) {
+			if (animation !== undefined) {
+				animationService.getInstance().loadProject(animation);
+				canvasService.createCanvas();
+				localAnimationStateService.setCurrentTick(0);
+				$scope.loading = false;
+			}
 		}
 
-		$scope.initializeAnimation = function (id) {
+		$scope.initializeAnimation = function (projectId, project) {
 			$scope.loading = true;
 
-			serverService.loadProject(id, function success(data) {
-					animationService.getInstance().loadProject(data.animation);
-					canvasService.createCanvas();
-					initializeLayout();
-					localAnimationStateService.setCurrentTick(0);
-					$scope.loading = false;
-				}, function error(data) {
-					console.log('Error: ' + data);
-					$scope.errorMessage = data || 'An error occurs.';
-					$scope.loading = false;
-				});
+			if (projectId !== undefined) {
+				serverService.loadProject(projectId, function success(data) {
+						loadProject(data.animation);
+					}, function error(data) {
+						console.log('Error: ' + data);
+						$scope.errorMessage = data || 'An error occurs.';
+						$scope.loading = false;
+					});
+			} else {
+				if (project !== undefined) {
+					loadProject(project.animation);
+				} else {
+					$scope.$on('projectLoaded', function (event, project) {
+						loadProject(project.animation);
+					});
+				}
+			}
 		};
 
 		$scope.onTimelineTickChange = function(tick) {
