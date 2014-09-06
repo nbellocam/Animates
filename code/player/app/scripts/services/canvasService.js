@@ -6,7 +6,7 @@ angular.module('animatesPlayer')
 			canvasInstance;
 
 		this.createCanvas = function createCanvas() {
-			var canvas = new fabric.StaticCanvas('mainCanvas', canvasConfig.canvasInitialConfig);
+			var canvas = new fabric.StaticCanvas('playerCanvas', canvasConfig.canvasInitialConfig);
 			canvas.model = animationService.getInstance().canvas;
 
 			canvas.setHeight(canvas.model.height);

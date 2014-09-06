@@ -19,8 +19,8 @@
     <!-- endbuild -->
 
     <!-- build:css styles/player-main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/timeline.css">
+    <link rel="stylesheet" href="styles/player-main.css">
+    <link rel="stylesheet" href="styles/player-timeline.css">
     <!-- endbuild -->
   </head>
   <body ng-app="animatesPlayer">
@@ -28,11 +28,11 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div ng-controller="PlayerCtrl" ng-init="initializeAnimation('projectId');">
+    <div class='animates-player' ng-controller="PlayerCtrl" ng-init="initializeAnimation('projectId');">
       <!-- Add your site or application content here -->
       <div class="main-container" ng-hide="loading">
         <div class="player">
-            <canvas id="mainCanvas" ng-controller="CanvasCtrl"></canvas>
+            <canvas id="playerCanvas" ng-controller="CanvasCtrl"></canvas>
             <animates-playertimeline tick="tick"
               tick-change="onTimelineTickChange(tick)"
               tick-ratio="tickRatio"
