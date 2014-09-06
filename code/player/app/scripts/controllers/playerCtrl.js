@@ -1,26 +1,26 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.controller('PlayerCtrl', function ToolbarPanelCtrl($scope, animationService, presentationPlayerService, canvasService, serverService, localAnimationStateService) {
+	.controller('PlayerCtrl', function ToolbarPanelCtrl($scope, playerAnimationService, playerPresentationPlayerService, playerCanvasService, playerServerService, playerLocalAnimationStateService) {
 		$scope.loading = true;
 		$scope.errorMessage = undefined;
 		$scope.maxTick = 5000;
 		$scope.tick = 0;
-		$scope.tickRatio = presentationPlayerService.tickDuration();
+		$scope.tickRatio = playerPresentationPlayerService.tickDuration();
 
 		$scope.onTogglePlaying = function(playing) {
 			if (playing) {
-				presentationPlayerService.play();
+				playerPresentationPlayerService.play();
 			} else {
-				presentationPlayerService.pause();
+				playerPresentationPlayerService.pause();
 			}
 		};
 
 		function loadProject(animation) {
 			if (animation !== undefined) {
-				animationService.getInstance().loadProject(animation);
-				canvasService.createCanvas();
-				localAnimationStateService.setCurrentTick(0);
+				playerAnimationService.getInstance().loadProject(animation);
+				playerCanvasService.createCanvas();
+				playerLocalAnimationStateService.setCurrentTick(0);
 				$scope.loading = false;
 			}
 		}
@@ -29,7 +29,7 @@ angular.module('animatesPlayer')
 			$scope.loading = true;
 
 			if (projectId !== undefined) {
-				serverService.loadProject(projectId, function success(data) {
+				playerServerService.loadProject(projectId, function success(data) {
 						loadProject(data.animation);
 					}, function error(data) {
 						console.log('Error: ' + data);
@@ -48,7 +48,7 @@ angular.module('animatesPlayer')
 		};
 
 		$scope.onTimelineTickChange = function(tick) {
-			localAnimationStateService.setCurrentTick(tick);
+			playerLocalAnimationStateService.setCurrentTick(tick);
 		};
 
 		$scope.onLocalStateTickChange = function(newVal) {
@@ -61,5 +61,5 @@ angular.module('animatesPlayer')
 			}
 		};
 
-		localAnimationStateService.addTickObserver('PlayerCtrl', $scope.onLocalStateTickChange);
+		playerLocalAnimationStateService.addTickObserver('PlayerCtrl', $scope.onLocalStateTickChange);
 	});

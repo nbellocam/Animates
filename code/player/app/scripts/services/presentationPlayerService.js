@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.service('presentationPlayerService', function canvasService($window, $rootScope, animationService, localAnimationStateService) {
+	.service('playerPresentationPlayerService', function playerCanvasService($window, $rootScope, playerAnimationService, playerLocalAnimationStateService) {
 		var fps = 30,
 			interval = 1000 / fps,
 			timer = null,
@@ -15,7 +15,7 @@ angular.module('animatesPlayer')
 			tickDuration = 20; //miliseconds
 
 		this.play = function () {
-			var lastTick = localAnimationStateService.getCurrentTick(),
+			var lastTick = playerLocalAnimationStateService.getCurrentTick(),
 				startTick = lastTick;
 
 			playStart = Date.now();
@@ -32,7 +32,7 @@ angular.module('animatesPlayer')
 						var nextTick = Math.round(((now - playStart) / tickDuration) + startTick);
 
 						if (nextTick !== lastTick) {
-							localAnimationStateService.setCurrentTick(nextTick);
+							playerLocalAnimationStateService.setCurrentTick(nextTick);
 							lastTick = nextTick;
 						}
 					}
@@ -41,7 +41,7 @@ angular.module('animatesPlayer')
 
 			if (!play) {
 				play = true;
-				animationService.isEditingEnable = false;
+				playerAnimationService.isEditingEnable = false;
 				draw();
 			}
 		};
@@ -50,20 +50,20 @@ angular.module('animatesPlayer')
 			play = false;
 			$window.cancelAnimationFrame(timer);
 			timer = null;
-			animationService.isEditingEnable = true;
+			playerAnimationService.isEditingEnable = true;
 		};
 
 		this.stop = function () {
 			_self.pause();
-			localAnimationStateService.setCurrentTick(0);
+			playerLocalAnimationStateService.setCurrentTick(0);
 		};
 
 		this.stepForward = function (step) {
-			localAnimationStateService.setCurrentTick(localAnimationStateService.getCurrentTick() + step);
+			playerLocalAnimationStateService.setCurrentTick(playerLocalAnimationStateService.getCurrentTick() + step);
 		};
 
 		this.stepBackward = function (step) {
-			localAnimationStateService.setCurrentTick(localAnimationStateService.getCurrentTick() - step);
+			playerLocalAnimationStateService.setCurrentTick(playerLocalAnimationStateService.getCurrentTick() - step);
 		};
 
 		this.tickDuration = function () {

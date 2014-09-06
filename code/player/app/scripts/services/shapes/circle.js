@@ -1,24 +1,24 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.run(function circle(shapeCreator, shapeSync, shapeSyncHelper, shapeHelper) {
+	.run(function circle(playerShapeCreator, playerShapeSync, playerShapeSyncHelper, playerShapeHelper) {
 		var typeId = 'Circle';
 
 		function createShape() {
-			var shape = new shapeSyncHelper.Fabric.Circle();
+			var shape = new playerShapeSyncHelper.Fabric.Circle();
 			shape.setOptions({ 'lockUniScaling' : true });
 			return shape;
 		}
 
-		shapeCreator.registerShape(typeId, createShape);
+		playerShapeCreator.registerShape(typeId, createShape);
 
 		function syncFromModel(viewObject) {
-			var model = shapeHelper.getMediaFrameFromView(viewObject);
+			var model = playerShapeHelper.getMediaFrameFromView(viewObject);
 
-			shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject);
+			playerShapeSyncHelper.syncVisualMediaObjectFromModel(viewObject);
 
-			shapeSyncHelper.syncViewProperty(model.getProperty('radius'), viewObject, 'radius');
+			playerShapeSyncHelper.syncViewProperty(model.getProperty('radius'), viewObject, 'radius');
 		};
 
-		shapeSync.registerShape(typeId, syncFromModel);
+		playerShapeSync.registerShape(typeId, syncFromModel);
 	});

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.service('animationService', function animationService($window, canvasConfig) {
+	.service('playerAnimationService', function playerAnimationService($window, playerCanvasConfig) {
 		var animationInstance,
 			_self = this;
 
@@ -10,8 +10,8 @@ angular.module('animatesPlayer')
 
 		function createAnimation() {
 			var canvas = new _self.Model.Canvas({
-					height: canvasConfig.canvasDefaultSize.height,
-					width: canvasConfig.canvasDefaultSize.width
+					height: playerCanvasConfig.canvasDefaultSize.height,
+					width: playerCanvasConfig.canvasDefaultSize.width
 				}),
 				timeline = new _self.Model.Timeline();
 

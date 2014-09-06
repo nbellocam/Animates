@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.run(function text(shapeCreator, shapeSync, shapeSyncHelper, shapeHelper) {
+	.run(function text(playerShapeCreator, playerShapeSync, playerShapeSyncHelper, playerShapeHelper) {
 		var typeId = 'Text';
 
 		function createShape() {
-			var text = new shapeSyncHelper.Fabric.IText('Text');
+			var text = new playerShapeSyncHelper.Fabric.IText('Text');
 
 			// lock x and y scaling to be consistent with the font type
 			// fabric does not allow to change the height and width
@@ -16,19 +16,19 @@ angular.module('animatesPlayer')
 			return text;
 		}
 
-		shapeCreator.registerShape(typeId, createShape);
+		playerShapeCreator.registerShape(typeId, createShape);
 
 		function syncFromModel(viewObject) {
-			var model = shapeHelper.getMediaFrameFromView(viewObject);
+			var model = playerShapeHelper.getMediaFrameFromView(viewObject);
 
-			shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject);
+			playerShapeSyncHelper.syncVisualMediaObjectFromModel(viewObject);
 
-			shapeSyncHelper.syncViewProperty(model.getProperty('fontSize'), viewObject, 'fontSize');
-			shapeSyncHelper.syncViewProperty(model.getProperty('fontFamily'), viewObject, 'fontFamily');
-			shapeSyncHelper.syncViewProperty(model.getProperty('fontStyle'), viewObject, 'fontStyle');
-			shapeSyncHelper.syncViewProperty(model.getProperty('textDecoration'), viewObject, 'textDecoration');
-			shapeSyncHelper.syncViewProperty(model.getProperty('text'), viewObject, 'text');
+			playerShapeSyncHelper.syncViewProperty(model.getProperty('fontSize'), viewObject, 'fontSize');
+			playerShapeSyncHelper.syncViewProperty(model.getProperty('fontFamily'), viewObject, 'fontFamily');
+			playerShapeSyncHelper.syncViewProperty(model.getProperty('fontStyle'), viewObject, 'fontStyle');
+			playerShapeSyncHelper.syncViewProperty(model.getProperty('textDecoration'), viewObject, 'textDecoration');
+			playerShapeSyncHelper.syncViewProperty(model.getProperty('text'), viewObject, 'text');
 		};
 
-		shapeSync.registerShape(typeId, syncFromModel);
+		playerShapeSync.registerShape(typeId, syncFromModel);
 	});

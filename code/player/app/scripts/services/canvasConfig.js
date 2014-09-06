@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.constant('canvasConfig', {
+	.constant('playerCanvasConfig', {
 		canvasInitialConfig: {
 			backgroundColor: '#FFFFFF',
 			selection : false,

@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.controller('CanvasCtrl', function CanvasCtrl(canvasService, localAnimationStateService, shapeCreator, animationService) {
+	.controller('PlayerCanvasCtrl', function CanvasCtrl(playerCanvasService, playerLocalAnimationStateService, playerShapeCreator, playerAnimationService) {
 		function onCurrentTickChanged(currentTick) {
-			var frames = animationService.getInstance().timeline.getMediaFrames(currentTick);
-			canvasService.clear();
-			canvasService.stopAutomaticRendering();
+			var frames = playerAnimationService.getInstance().timeline.getMediaFrames(currentTick);
+			playerCanvasService.clear();
+			playerCanvasService.stopAutomaticRendering();
 			angular.forEach(frames, function (frame) {
-				canvasService.add( shapeCreator.createShapeFromFrame(frame));
+				playerCanvasService.add( playerShapeCreator.createShapeFromFrame(frame));
 			});
-			canvasService.render();
-			canvasService.startAutomaticRendering();
+			playerCanvasService.render();
+			playerCanvasService.startAutomaticRendering();
 		}
 
-		localAnimationStateService.addTickObserver('CanvasCtrl', onCurrentTickChanged);
+		playerLocalAnimationStateService.addTickObserver('CanvasCtrl', onCurrentTickChanged);
 	});

@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.service('canvasService', function canvasService(shapeSync, $window, $rootScope, canvasConfig, animationService) {
+	.service('playerCanvasService', function playerCanvasService($window, $rootScope, playerCanvasConfig, playerAnimationService) {
 		var fabric = $window.fabric,
 			canvasInstance;
 
 		this.createCanvas = function createCanvas() {
-			var canvas = new fabric.StaticCanvas('playerCanvas', canvasConfig.canvasInitialConfig);
-			canvas.model = animationService.getInstance().canvas;
+			var canvas = new fabric.StaticCanvas('playerCanvas', playerCanvasConfig.canvasInitialConfig);
+			canvas.model = playerAnimationService.getInstance().canvas;
 
 			canvas.setHeight(canvas.model.height);
 			canvas.setWidth(canvas.model.width);

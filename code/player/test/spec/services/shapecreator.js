@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: shapeCreator', function () {
+describe('Service: playerShapeCreator', function () {
 
   // load the service's module
   beforeEach(module('animatesPlayer'));
 
   // instantiate service
-  var shapeCreator;
-  beforeEach(inject(function (_shapeCreator_) {
-    shapeCreator = _shapeCreator_;
+  var playerShapeCreator;
+  beforeEach(inject(function (_playerShapeCreator_) {
+    playerShapeCreator = _playerShapeCreator_;
   }));
 
   it('should do something', function () {
-    expect(!!shapeCreator).toBe(true);
+    expect(!!playerShapeCreator).toBe(true);
   });
 
 });
