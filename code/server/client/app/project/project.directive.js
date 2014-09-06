@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-  .directive('project', function ($http) {
+  .directive('project', function ($http, Modal) {
     return {
       templateUrl: 'app/project/project.html',
       restrict: 'E',
@@ -14,7 +14,11 @@ angular.module('animatesApp')
         };
 
         scope.delete = function() {
-          $http.delete('/api/projects/' + scope.project._id);
+          var modal = Modal.confirm.delete(function () {
+            $http.delete('/api/projects/' + scope.project._id);
+          });
+
+          modal(scope.project.name);
         };
       }
     };
