@@ -136,6 +136,22 @@ module.exports = function (grunt) {
         },
         src: ['server/**/*.spec.js']
       },
+      build:{
+        options: {
+          reporter: 'jslint',
+          reporterOutput: 'build/output/jshint-result.xml',
+          force: true
+        },
+        files: {
+          src: [
+            '<%= yeoman.client %>/{app,components}/**/*.js',
+            '!<%= yeoman.client %>/app/player/assets/**/*.js',
+            '!<%= yeoman.client %>/app/editor/assets/**/*.js',
+            '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
+            '!<%= yeoman.client %>/{app,components}/**/*.mock.js'
+          ]
+        }
+      },
       all: [
         '<%= yeoman.client %>/{app,components}/**/*.js',
         '!<%= yeoman.client %>/app/player/assets/**/*.js',
@@ -392,7 +408,18 @@ module.exports = function (grunt) {
         cwd: '../view/build/output/site',
         src: ['scripts/editor-*', 'styles/editor-*', 'images/*', 'views/*'],
         dest : '<%= yeoman.client %>/app/editor/assets/'
-      }
+      },
+      build: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.dist %>',
+          dest: 'build/output/site',
+          src: [
+            '**/*'
+          ]
+        }]
+      },
     },
 
     buildcontrol: {
@@ -735,4 +762,12 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.registerTask('ci-build', [
+    'jshint:build',
+    //'test',
+    'build',
+    'copy:build'
+  ]);
+
 };
