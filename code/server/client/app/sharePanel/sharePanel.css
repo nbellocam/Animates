@@ -1,0 +1,21 @@
+share-panel .url {
+  background-color: #f5f5f5;
+}
+
+share-panel .collaborators .users td.middle {
+  vertical-align: middle;
+}
+
+share-panel .collaborators .users td.center {
+  text-align: center;
+}
+
+share-panel .users img {
+  height: 50px;
+}
+
+share-panel .collaborators {
+  max-height: 200px;
+  overflow: auto;
+  border: 1px solid #f5f5f5;
+}

@@ -1,0 +1,47 @@
+form(role="form")
+  .form-group
+    label(for="url")
+      | Url
+    input.form-control.url(type="text" id="url" onclick="this.select();" onkeydown="this.select(); return false" value="http://localhost:9000/projects/540b4ced2f65c3ac2988cdfd")
+  #checkbox
+    label
+      input(type="checkbox")
+      |  Make this animation available for everyone
+  br
+
+  label
+    | Add a new collaborator
+
+  .collaborator
+    table.user.table.table-striped
+      tr
+        td.middle
+          input.form-control(ng-model="newUser")
+        td.middle
+          select.form-control(ng-model="newPermission")
+            option(ng-selected="item.permission=='edit'")
+              | Edit
+            option(ng-selected="item.permission=='play'")
+              | Play
+        td.middle
+          button.btn.btn-primary
+            | Add
+  label
+    | Collaborators
+
+  .collaborators
+    table.users.table.table-striped
+      tr(ng-repeat="item in workgroup")
+        td.middle
+          img(src='assets/images/video.png', alt='item.user.name')
+        td.middle
+          {{item.user.name}}
+        td.middle
+          select.form-control
+            option(ng-selected="item.permission=='edit'")
+              | Edit
+            option(ng-selected="item.permission=='play'")
+              | Play
+        td.middle.center
+          button.btn.btn-danger
+            | Remove
