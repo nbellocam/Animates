@@ -32,7 +32,8 @@ module.exports = function (grunt) {
     yeoman: {
       // configurable paths
       client: require('./bower.json').appPath || 'client',
-      dist: 'dist'
+      dist: 'dist',
+      server: 'server'
     },
     express: {
       options: {
@@ -194,7 +195,8 @@ module.exports = function (grunt) {
           files: [{
             dot: true,
             src: [
-              '<%= yeoman.client %>/app/player/assets/'
+              '<%= yeoman.client %>/app/player/assets/',
+              '<%= yeoman.server %>/playerAssets/'
             ]
           }]
       },
@@ -422,10 +424,17 @@ module.exports = function (grunt) {
         src: ['{app,components}/**/*.css']
       },
       player: {
-        expand : true,
-        cwd: '../player/build/output/player',
-        src: ['scripts/player-scripts.js', 'styles/player-*'],
-        dest : '<%= yeoman.client %>/app/player/assets/'
+          files: [{
+            expand: true,
+            cwd: '../player/build/output/player',
+            dest: '<%= yeoman.server %>/playerAssets/',
+            src: ['**/*']
+          }, {
+            expand : true,
+            cwd: '../player/build/output/player',
+            src: ['scripts/player-scripts.js', 'styles/player-*'],
+            dest : '<%= yeoman.client %>/app/player/assets/'
+          }]
       },
       editor: {
         expand: true,
