@@ -24,7 +24,22 @@ angular.module('animatesApp')
             data : data
           })
           .success(function(collaborator) {
-            scope.collaborators.push(collaborator);
+            var found = false;
+
+            for (var x=0; x < scope.collaborators.length; x++) {
+                if (scope.collaborators[x].user._id.toString() === collaborator.user._id.toString()) {
+                  scope.collaborators[x] = collaborator;
+                  found = true;
+                  break;
+                }
+            }
+
+            if (!found) {
+              scope.collaborators.push(collaborator);
+            }
+
+            scope.newCollaborator = '';
+            scope.newCollaboratorPermission = 'play';
           })
           .error(function() {
             var errorModal = Modal.alerts.error();
