@@ -3,7 +3,7 @@ div(ng-include='"components/navbar/navbar.html"')
 .animates-player(ng-controller='PlayerCtrl', ng-init='initializeAnimation(projectId, project);')
   .main-container(ng-hide='loading')
     .player
-      canvas#playerCanvas(ng-controller='CanvasCtrl')
+      canvas#playerCanvas(ng-controller='PlayerCanvasCtrl')
       animates-playertimeline(tick='tick', tick-change='onTimelineTickChange(tick)', tick-ratio='tickRatio', width='500', on-toggleplaying='onTogglePlaying(playing)', max-tick='maxTick')
   .loading(ng-show='loading')
     .loading-message

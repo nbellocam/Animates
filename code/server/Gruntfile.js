@@ -190,6 +190,22 @@ module.exports = function (grunt) {
           ]
         }]
       },
+      player : {
+          files: [{
+            dot: true,
+            src: [
+              '<%= yeoman.client %>/app/player/assets/'
+            ]
+          }]
+      },
+      editor: {
+          files: [{
+            dot: true,
+            src: [
+              '<%= yeoman.client %>/app/editor/assets/'
+            ]
+          }]
+      }
     },
 
     // Add vendor prefixed styles
@@ -631,11 +647,22 @@ module.exports = function (grunt) {
       });
   });
 
-  grunt.registerTask('install-dep', function () {
-    grunt.task.run('run-player-grunt');
-    grunt.task.run('copy:player');
-    grunt.task.run('run-editor-grunt');
-    grunt.task.run('copy:editor');
+  grunt.registerTask('install-dep', function (target) {
+      if (target === 'new') {
+        return grunt.task.run([
+            'clean:player',
+            'run-player-grunt',
+            'copy:player',
+            'clean:editor',
+            'run-editor-grunt',
+            'copy:editor']);
+      } else {
+          return grunt.task.run([
+              'clean:player',
+              'copy:player',
+              'clean:editor',
+              'copy:editor']);
+      }
   });
 
   grunt.registerTask('serve', function (target) {
@@ -670,7 +697,7 @@ module.exports = function (grunt) {
     if (target === 'new') {
         grunt.task.run([
           'clean:server',
-          'install-dep',
+          'install-dep:new',
           'env:all',
           'concurrent:server',
           'injector',
@@ -744,8 +771,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'copy:player',
-    'copy:editor',
+    'install-dep',
     'concurrent:dist',
     'injector',
     'wiredep',
@@ -755,7 +781,7 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'copy:dist',
-    'cdnify',
+    //'cdnify',
     'cssmin',
     'uglify',
     'replace:prod',

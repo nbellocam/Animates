@@ -11,16 +11,15 @@ var Project = require('../api/project/project.model');
 User.find({}).remove(function() {
     User.create({
         provider: 'local',
-        role: 'admin',
-        name: 'Admin',
-        email: 'admin@admin.com',
-        password: 'admin'
+        name: 'John Doe',
+        email: 'jdoe@gmail.com',
+        password: 'pass'
     }, {
         provider: 'local',
         name: 'Test User',
         email: 'test@test.com',
         password: 'test'
-    }, function(err, adminUser, testUser) {
+    }, function(err, jdoeUser, testUser) {
         if (err) {
             console.log('An error occurs while creating the users');
             return;
