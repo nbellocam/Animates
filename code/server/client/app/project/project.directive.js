@@ -33,11 +33,15 @@ angular.module('animatesApp')
         };
 
         scope.delete = function() {
-          var modal = Modal.confirm.delete(function () {
+          var deleteConfirm = Modal.confirm.delete(function () {
             $http.delete('/api/projects/' + scope.project._id);
+          })
+          .error(function () {
+            var errorModal = Modal.alerts.error();
+            errorModal();
           });
 
-          modal(scope.project.name);
+          deleteConfirm(scope.project.name);
         };
       }
     };
