@@ -31,6 +31,8 @@ require('./routes')(app);
 // Start server
 server.listen(config.port, config.ip, function () {
   console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
+  console.log('Running in domain: %s ', process.env.DOMAIN);
+  console.log('Running in host: %s ', config.domain);
 });
 
 // Expose app

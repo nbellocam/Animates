@@ -10,16 +10,20 @@ function requiredProcessEnv(name) {
   return process.env[name];
 }
 
+var domain = process.env.DOMAIN || 'http://' + process.env.WEBSITE_HOSTNAME;
+
 // All configurations will extend these options
 // ============================================
 var all = {
   env: process.env.NODE_ENV,
 
+  domain: domain,
+
   // Root path of server
   root: path.normalize(__dirname + '/../../..'),
 
   // Server port
-  port: process.env.PORT || 9000,
+  port: parseInt(process.env.PORT) || 9000,
 
   // Should we populate the DB with sample data?
   seedDB: false,
@@ -44,19 +48,19 @@ var all = {
   facebook: {
     clientID:     process.env.FACEBOOK_ID || 'id',
     clientSecret: process.env.FACEBOOK_SECRET || 'secret',
-    callbackURL:  (process.env.DOMAIN || '') + '/auth/facebook/callback'
+    callbackURL:  (domain || '') + '/auth/facebook/callback'
   },
 
   twitter: {
     clientID:     process.env.TWITTER_ID || 'id',
     clientSecret: process.env.TWITTER_SECRET || 'secret',
-    callbackURL:  (process.env.DOMAIN || '') + '/auth/twitter/callback'
+    callbackURL:  (domain || '') + '/auth/twitter/callback'
   },
 
   google: {
     clientID:     process.env.GOOGLE_ID || 'id',
     clientSecret: process.env.GOOGLE_SECRET || 'secret',
-    callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
+    callbackURL:  (domain || '') + '/auth/google/callback'
   }
 };
 
