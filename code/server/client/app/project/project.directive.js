@@ -9,8 +9,22 @@ angular.module('animatesApp')
         project: '='
       },
       link: function (scope) {
+
         scope.titleChange = function (newValue) {
-          console.log('new value: ' + newValue);
+          var jsonPatch = { name : newValue };
+
+          $http({
+            method: 'PATCH',
+            url: '/api/projects/' + scope.project._id,
+            data : jsonPatch
+          })
+          .success(function(project) {
+            scope.project = project;
+          })
+          .error(function(data, status, headers, config) {
+            var errorModal = Modal.alerts.error();
+            errorModal();
+          });
         };
 
         scope.share = function () {
