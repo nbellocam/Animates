@@ -47,7 +47,23 @@ var ProjectSchema = new Schema({
 			type: Schema.Types.ObjectId,
 			ref: 'User'
 		},
-		change : Schema.Types.Mixed
+		change : {
+            target: {
+                type: String,
+                default: '',
+                trim: true
+            },
+            operation: {
+                type: String,
+                default: '',
+                trim: true
+            },
+            opParams: {
+                type: String,
+                default: '',
+                trim: true
+            }
+        }
 	}]
 });
 
@@ -90,8 +106,6 @@ ProjectSchema.methods = {
      * @api public
      */
 	canOpBeAppliedBy : function(op, userId) {
-
-    console.log(this.user);
 		if (this.user.id === userId || this.user._id === userId ||
 			this.user._id.equals && this.user._id.equals(userId)) {
 			return true;
@@ -156,7 +170,6 @@ ProjectSchema.methods = {
 		var animation = this.getAnimation();
 
 		animation.applyOperation(target, operation, opParams);
-
 		this.setAnimation(animation);
 
 		return this;
