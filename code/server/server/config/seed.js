@@ -35,7 +35,7 @@ User.find({}).remove(function() {
             user: testUser._id,
             workgroup: [
              {
-               user : adminUser._id,
+               user : jdoeUser._id,
                permission : 'play'
              }
             ]
