@@ -23,6 +23,8 @@ echo "Using grunt from: $GRUNT_CMD"
 
 cd code
 
+npm cache clean
+
 # common project
 echo "Installing common..."
 cd common
