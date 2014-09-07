@@ -10,17 +10,6 @@ var validationError = function(res, err) {
 };
 
 /**
- * Get list of users
- * restriction: 'admin'
- */
-exports.index = function(req, res) {
-  User.find({}, '-salt -hashedPassword', function (err, users) {
-    if(err) return res.send(500, err);
-    res.json(200, users);
-  });
-};
-
-/**
  * Creates a new user
  */
 exports.create = function (req, res, next) {
@@ -44,17 +33,6 @@ exports.show = function (req, res, next) {
     if (err) return next(err);
     if (!user) return res.send(401);
     res.json(user.profile);
-  });
-};
-
-/**
- * Deletes a user
- * restriction: 'admin'
- */
-exports.destroy = function(req, res) {
-  User.findByIdAndRemove(req.params.id, function(err, user) {
-    if(err) return res.send(500, err);
-    return res.send(204);
   });
 };
 
