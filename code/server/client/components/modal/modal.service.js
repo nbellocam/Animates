@@ -31,20 +31,19 @@ angular.module('animatesApp')
          * @param  {Function} share - callback, run when share is saved
          * @return {Function}     - the function to open the modal (ex. myModalFn)
          */
-        share: function(share) {
-          share = share || angular.noop;
+        share: function(close, projectId) {
+          close = close || angular.noop;
 
           /**
-           * Open a delete confirmation modal
-           * @param  {String} name   - name or info to show on modal
-           * @param  {All}           - any additional args are passed staight to del callback
+           * Open a share modal
+           * @param  {All}            - any additional args are passed staight to del callback
            */
           return function () {
             var args = Array.prototype.slice.call(arguments),
-                name = args.shift(),
                 shareModal;
 
             shareModal = openModal({
+              projectId: projectId,
               modal: {
                 dismissable: true,
                 title: 'Sharing options',
@@ -52,14 +51,14 @@ angular.module('animatesApp')
                   classes: 'btn-submit',
                   text: 'Close',
                   click: function(e) {
-                    shareModal.close(e);
+                    shareModal.dismiss(e);
                   }
                 }]
               }
             }, 'modal-info', 'components/modal/share/share.html');
 
             shareModal.result.then(function(event) {
-              del.apply(event, args);
+              close.apply(event, args);
             });
           }
         }
