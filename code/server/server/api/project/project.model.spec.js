@@ -3,6 +3,7 @@
 var should = require('should');
 var app = require('../../app');
 var Project = require('./project.model');
+var User = require('../user/user.model');
 var mongoose = require('mongoose');
 
 var project = new Project({
@@ -15,12 +16,24 @@ describe('Project Model', function() {
     Project.remove().exec().then(function() {
       done();
     });
+
+    // Clear users before testing
+    User.remove().exec().then(function() {
+      done();
+    });
+
   });
 
   afterEach(function(done) {
     Project.remove().exec().then(function() {
       done();
     });
+
+    // Clear users before testing
+    User.remove().exec().then(function() {
+      done();
+    });
+
   });
 
   it('should begin with no projects', function(done) {
@@ -145,58 +158,81 @@ describe('Project Model', function() {
   });
 
   it('should add an inexistant collaborator', function(done) {
-    var userIdprimary = new mongoose.Types.ObjectId,
-        userIdsecondary = new mongoose.Types.ObjectId,
-        updated,
-        created;
-
-    Project.create(
+    User.create(
       {
-        name : 'test',
-        user :  userIdprimary
+        provider: 'local',
+        name: 'Test User',
+        email: 'test@test.com',
+        password: 'test'
       },
-    function (err, proj) {
-      proj.addCollaborator( userIdsecondary, 'play', function (err) {
-        should.not.exists(err);
-
-      	Project.findById(proj._id, function (err, found) {
+      {
+        provider: 'local',
+        name: 'Test2 User',
+        email: 'test2@test.com',
+        password: 'test2'
+      }, function (err, first, second) {
+        Project.create(
+          {
+            name : 'test',
+            user :  first._id
+          },
+        function (err, proj) {
+          proj.addCollaborator( second._id, 'play', function (err, collaborator) {
             should.not.exists(err);
-            should.exist(found);
-            found.workgroup[0].permission.should.eql('play');
-            done();
+            should.exists(collaborator);
+          	Project.findById(proj._id, function (err, found) {
+                should.not.exists(err);
+                should.exist(found);
+                collaborator.user._id.should.eql(second._id);
+                collaborator.permission.should.eql('play');
+                found.workgroup[0].permission.should.eql('play');
+                done();
+            });
+          });
         });
       });
-    });
   });
 
   it('should update the collaborator it is already added', function(done) {
-    var userIdprimary = new mongoose.Types.ObjectId,
-        userIdsecondary = new mongoose.Types.ObjectId;
-
-    Project.create(
+    User.create(
       {
-        name : 'test',
-        user :  userIdprimary,
-        workgroup : [
-         {
-           user : userIdsecondary,
-           permission : 'edit'
-         }
-        ]
+        provider: 'local',
+        name: 'Test User',
+        email: 'test@test.com',
+        password: 'test'
       },
-    function (err, proj) {
-      proj.addCollaborator( userIdsecondary, 'play', function (err) {
-        should.not.exists(err);
-
-      	Project.findById(proj._id, function (err, found) {
+      {
+        provider: 'local',
+        name: 'Test2 User',
+        email: 'test2@test.com',
+        password: 'test2'
+      }, function (err, first, second) {
+        Project.create(
+          {
+            name : 'test',
+            user :  first._id,
+            workgroup : [
+             {
+               user : second._id,
+               permission : 'edit'
+             }
+            ]
+          },
+        function (err, proj) {
+          proj.addCollaborator( second._id, 'play', function (err, collaborator) {
             should.not.exists(err);
-            should.exist(found);
-            found.workgroup.should.have.lengthOf(1);
-            found.workgroup[0].permission.should.eql('play');
-            done();
+            should.exists(collaborator);
+          	Project.findById(proj._id, function (err, found) {
+                should.not.exists(err);
+                should.exist(found);
+                collaborator.permission.should.eql('play');
+                collaborator.user._id.should.eql(second._id);
+                found.workgroup[0].permission.should.eql('play');
+                done();
+            });
+          });
         });
       });
-    });
   });
 
   it('should remove an existant collaborator', function(done) {

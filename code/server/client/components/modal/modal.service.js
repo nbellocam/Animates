@@ -60,7 +60,7 @@ angular.module('animatesApp')
             shareModal.result.then(function(event) {
               close.apply(event, args);
             });
-          }
+          };
         }
       },
 
@@ -78,8 +78,8 @@ angular.module('animatesApp')
               modal: {
                 dismissable: true,
                 title: 'Oops!',
-                html: '<p>Some error has occurred. We are sorry.</p>'
-                      + (message ? '<p>' + message + '</p>' : ''),
+                html: '<p>Some error has occurred. We are sorry.</p>' +
+                      (message ? '<p>' + message + '</p>' : ''),
                 buttons: [{
                   classes: 'btn-default',
                   text: 'I forgive you',

@@ -213,7 +213,21 @@ ProjectSchema.methods = {
       this.workgroup.push(newcolab);
     }
 
-    this.save(cb);
+    this.save(function (err, project) {
+      if (err) cb(err, null);
+
+      mongoose.model('Project', ProjectSchema)
+        .findById(project._id)
+        .select('workgroup')
+        .populate('workgroup.user', 'name')
+        .exec(function (err, project) {
+          for (var index = 0; index < project.workgroup.length; index++) {
+            if (project.workgroup[index].user._id.toString() === userId.toString()) {
+              cb(err, project.workgroup[index]);
+            }
+          }
+        });
+    });
   },
 
   removeCollaborator : function (userId, cb) {
@@ -231,11 +245,6 @@ ProjectSchema.methods = {
       cb(null, null);
     }
   },
-
-  makePublic : function (isPublic, cb) {
-    this.public = true;
-    this.save(cb);
-  }
 };
 
 

@@ -21,7 +21,7 @@ angular.module('animatesApp')
           .success(function(project) {
             scope.project = project;
           })
-          .error(function(data, status, headers, config) {
+          .error(function() {
             var errorModal = Modal.alerts.error();
             errorModal();
           });
@@ -39,7 +39,7 @@ angular.module('animatesApp')
                 var errorModal = Modal.alerts.error();
                 errorModal();
               });
-          })
+          });
 
           deleteConfirm(scope.project.name);
         };
