@@ -408,7 +408,7 @@ module.exports = function (grunt) {
       player: {
         expand : true,
         cwd: '../player/build/output/player',
-        src: ['scripts/*', 'styles/*', 'fonts/*'],
+        src: ['scripts/player-scripts.js', 'styles/player-*'],
         dest : '<%= yeoman.client %>/app/player/assets/'
       },
       editor: {
@@ -552,7 +552,6 @@ module.exports = function (grunt) {
         files: {
           '<%= yeoman.client %>/index.html': [
               ['{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
-               '!{.tmp,<%= yeoman.client %>}/app/player/**/*.js',
                '!{.tmp,<%= yeoman.client %>}/app/app.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.spec.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js']
@@ -573,8 +572,7 @@ module.exports = function (grunt) {
         },
         files: {
           '<%= yeoman.client %>/index.html': [
-            '<%= yeoman.client %>/{app,components}/**/*.css',
-            '!{.tmp,<%= yeoman.client %>}/app/player/**/*.css'
+            '<%= yeoman.client %>/{app,components}/**/*.css'
           ]
         }
       }

@@ -7,7 +7,8 @@ angular.module('animatesApp', [
   'ngRoute',
   'btford.socket-io',
   'ui.bootstrap',
-  'animatesEditor'
+  'animatesEditor',
+  'animatesPlayer'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
