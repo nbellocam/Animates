@@ -31,6 +31,10 @@ var ProjectSchema = new Schema({
 			trim: true
 		}
 	}],
+  public : {
+    type: Boolean,
+    default: false
+  },
 	workgroup: [{
 		user: {
 			type: Schema.Types.ObjectId,
@@ -210,6 +214,11 @@ ProjectSchema.methods = {
     if (!exists) {
       cb(null, null);
     }
+  },
+
+  makePublic : function (isPublic, cb) {
+    this.public = true;
+    this.save(cb);
   }
 };
 
