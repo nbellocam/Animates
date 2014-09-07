@@ -138,7 +138,16 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
+      server: '.tmp',
+      model: '<%= yeoman.app %>/scripts/model.js',
+      timeline: {
+        files: [{
+          dot: true,
+          src: [
+            '<%= yeoman.app %>/bower_components/timeline/'
+          ]
+        }]
+      }
     },
 
     // Add vendor prefixed styles
@@ -417,11 +426,39 @@ module.exports = function (grunt) {
       });
   });
 
-  grunt.registerTask('install-dep', function () {
-    grunt.task.run('bower-install');
-    grunt.task.run('copy:timeline');
-    grunt.task.run('run-model-grunt');
-    grunt.task.run('copy:model');
+  grunt.registerTask('run-timeline-grunt', function () {
+    var done = this.async();
+    grunt.util.spawn({
+      grunt: true,
+      args: ['package'],
+      opts: {
+          cwd: '../timeline'
+        }
+      }, function () {
+        done();
+      });
+  });
+
+  grunt.registerTask('install-dep', function (target) {
+    if (target === 'new') {
+      return grunt.task.run([
+        'bower-install',
+        'clean:timeline',
+        'run-timeline-grunt',
+        'copy:timeline',
+        'clean:model',
+        'run-model-grunt',
+        'copy:model'
+      ]);
+    } else {
+      return grunt.task.run([
+        'bower-install',
+        'clean:timeline',
+        'copy:timeline',
+        'clean:model',
+        'copy:model'
+      ]);
+    }
   });
 
   grunt.registerTask('serve', function (target) {
@@ -431,8 +468,8 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'jshint',
-      'install-dep',
+      'jshint:all',
+      'install-dep:new',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
