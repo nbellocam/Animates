@@ -63,18 +63,6 @@ exports.destroy = function(req, res) {
   });
 };
 
-// Defines if a project is for public access.
-exports.destroy = function(req, res) {
-  Project.findById(req.params.id, function (err, project) {
-    if(err) { return handleError(res, err); }
-    if(!project) { return res.send(404); }
-    project.makePublic(req.params.public, function(err) {
-      if(err) { return handleError(res, err); }
-      return res.send(204);
-    });
-  });
-};
-
 function handleError(res, err) {
   return res.send(500, err);
 }
