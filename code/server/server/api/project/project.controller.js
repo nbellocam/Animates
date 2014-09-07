@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Project = require('./project.model');
+var User = require('../user/user.model');
 
 // Get list of projects
 exports.index = function(req, res) {
@@ -17,20 +18,6 @@ exports.show = function(req, res) {
     if(err) { return handleError(res, err); }
     if(project) {
       if (project.canOpBeAppliedBy('view', req.user._id)) {
-        return res.json(project);
-      } else {
-        return res.send(404);
-      }
-    } else { return res.send(404); }
-  });
-};
-
-// Get a single project
-exports.workgroup = function(req, res) {
-  Project.load(req.params.id, function (err, project) {
-    if(err) { return handleError(res, err); }
-    if(project) {
-      if (project.canOpBeAppliedBy('share', req.user._id)) {
         return res.json(project);
       } else {
         return res.send(404);
@@ -57,11 +44,50 @@ exports.update = function(req, res) {
   Project.findById(req.params.id, function (err, project) {
     if (err) { return handleError(res, err); }
     if(!project) { return res.send(404); }
+    console.log(req.body);
     var updated = _.merge(project, req.body);
+    console.log(updated);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, project);
     });
+  });
+};
+
+// Add / update a collaborator to a project
+exports.addCollaborator = function(req, res) {
+  if(req.body._id) { delete req.body._id; }
+  var params = req.body;
+
+  Project.findById(req.params.id, function (err, project) {
+    if (err) { return handleError(res, err); }
+    if(!project) { return res.send(404); }
+
+      User.findOne({ email : params.email }, function (err, user){
+        if (err) { return handleError(res, err); }
+        if(!user) { return res.send(500, 'User was not found.'); }
+
+        project.addCollaborator(user._id, params.permission, function (err, collaborator) {
+          if (err) { return handleError(res, err); }
+          return res.json(200, collaborator);
+        });
+      });
+  });
+};
+
+// Remove a collaborator from a project
+exports.removeCollaborator = function(req, res) {
+  if(req.body._id) { delete req.body._id; }
+  var params = req.params;
+
+  Project.findById(params.id, function (err, project) {
+    if (err) { return handleError(res, err); }
+    if(!project) { return res.send(404); }
+
+      project.removeCollaborator(params.userId, function (err) {
+        if (err) { return handleError(res, err); }
+        return res.json(200, project);
+      });
   });
 };
 

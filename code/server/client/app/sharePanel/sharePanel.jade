@@ -31,11 +31,11 @@ form(role="form")
 
   .collaborators
     table.users.table.table-striped
-      tr(ng-repeat="item in project.workgroup")
+      tr(ng-repeat="item in project.workgroup" rel="{{ item.user._id }}")
         td.middle
           img(src='assets/images/video.png', alt='item.user.name')
         td.middle
-          {{item.user.name}}
+          | {{item.user.name}}
         td.middle
           select.form-control
             option(ng-selected="item.permission=='edit'")
@@ -43,5 +43,5 @@ form(role="form")
             option(ng-selected="item.permission=='play'")
               | Play
         td.middle.center
-          button.btn.btn-danger
+          button.btn.btn-danger(ng-click="removeCollaborator($index)")
             | Remove
