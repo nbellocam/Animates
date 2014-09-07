@@ -3,6 +3,7 @@
 var should = require('should');
 var app = require('../../app');
 var Project = require('./project.model');
+var mongoose = require('mongoose');
 
 var project = new Project({
   name: 'Fake Project'
@@ -48,110 +49,210 @@ describe('Project Model', function() {
   });
 
   it('should update modified date on save and created should remain unchanged', function(done) {
-    project.save(function() {
-      var proj = new Project({name : 'test'}),
-          updated,
-          created;
+    var proj = new Project({name : 'test'}),
+        updated,
+        created;
 
-      proj.save(function(err) {
-        should.not.exist(err);
-        updated = proj.modified;
-        created = proj.created;
+    proj.save(function(err) {
+      should.not.exist(err);
+      updated = proj.modified;
+      created = proj.created;
 
-        proj.save(function (err){
-            should.not.exist(err);
-            proj.created.should.eql(created);
-            proj.modified.should.not.eql(updated);
-            proj.modified.should.greaterThan(proj.created);
-            done();
-        });
+      proj.save(function (err){
+          should.not.exist(err);
+          proj.created.should.eql(created);
+          proj.modified.should.not.eql(updated);
+          proj.modified.should.greaterThan(proj.created);
+          done();
       });
     });
   });
 
   it('should create a default Animation', function(done) {
-    project.save(function() {
-      var proj = new Project({name : 'test'});
+    var proj = new Project({name : 'test'});
 
-      proj.save(function(err) {
-        should.not.exist(err);
-        var animation = proj.getAnimation();
+    proj.save(function(err) {
+      should.not.exist(err);
+      var animation = proj.getAnimation();
 
-        should.exists(animation.canvas);
-        should.exists(animation.timeline);
-        done();
-      });
+      should.exists(animation.canvas);
+      should.exists(animation.timeline);
+      done();
     });
   });
 
   it('should retrieve project from on which the user is the author', function(done) {
-    project.save(function() {
+    var userIdprimary = new mongoose.Types.ObjectId,
+        userIdsecondary = new mongoose.Types.ObjectId;
 
-      var userIdprimary = new mongoose.Types.ObjectId,
-          userIdsecondary = new mongoose.Types.ObjectId,
-          updated,
-          created;
+    Project.create(
+      {
+        name : 'test',
+        user :  userIdprimary
+      },
+      {
+        name : 'test2',
+        user :  userIdsecondary
+      },
+    function (err, proj) {
+      Project.find({}, function(err, projects) {
+        projects.should.have.length(2);
 
-      Project.create(
-        {
-          name : 'test',
-          user :  userIdprimary
-        },
-        {
-          name : 'test2',
-          user :  userIdsecondary
-        },
-      function (err, proj) {
-        Project.find({}, function(err, projects) {
-          projects.should.have.length(2);
-
-          Project.list(userIdprimary, function(err, projects) {
-            projects.should.have.lengthOf(1);
-            projects[0].name.should.eql('test');
-            done();
-          });
+        Project.list(userIdprimary, function(err, projects) {
+          projects.should.have.lengthOf(1);
+          projects[0].name.should.eql('test');
+          done();
         });
       });
     });
   });
 
   it('should retrieve project from on which the user is on its workgroup with view permissions', function(done) {
-    project.save(function() {
+    var userIdprimary = new mongoose.Types.ObjectId,
+        userIdsecondary = new mongoose.Types.ObjectId;
 
-      var userIdprimary = new mongoose.Types.ObjectId,
-          userIdsecondary = new mongoose.Types.ObjectId,
-          updated,
-          created;
+    Project.create(
+      {
+        name : 'test',
+        user :  userIdprimary,
+        workgroup : [
+         {
+           user : userIdsecondary,
+           permission : 'play'
+         }
+        ]
+      },
+      {
+        name : 'test2',
+        user :  userIdsecondary
+      },
+      {
+        name : 'test3',
+        user :  userIdprimary
+      },
+    function (err, proj) {
+      Project.find({}, function(err, projects) {
+        projects.should.have.length(3);
 
-      Project.create(
-        {
-          name : 'test',
-          user :  userIdprimary,
-          workgroup : [
-           {
-             user : userIdsecondary,
-             permission : 'play'
-           }
-          ]
-        },
-        {
-          name : 'test2',
-          user :  userIdsecondary
-        },
-        {
-          name : 'test3',
-          user :  userIdprimary
-        },
-      function (err, proj) {
-        Project.find({}, function(err, projects) {
-          projects.should.have.length(3);
+        Project.list(userIdsecondary, function(err, projects) {
+          projects.should.have.lengthOf(2);
+          projects[0].name.should.not.eql('test3');
+          projects[1].name.should.not.eql('test3');
+          done();
+        });
+      });
+    });
+  });
 
-          Project.list(userIdsecondary, function(err, projects) {
-            projects.should.have.lengthOf(2);
-            projects[0].name.should.not.eql('test3');
-            projects[1].name.should.not.eql('test3');
+  it('should add an inexistant collaborator', function(done) {
+    var userIdprimary = new mongoose.Types.ObjectId,
+        userIdsecondary = new mongoose.Types.ObjectId,
+        updated,
+        created;
+
+    Project.create(
+      {
+        name : 'test',
+        user :  userIdprimary
+      },
+    function (err, proj) {
+      proj.addCollaborator( userIdsecondary, 'play', function (err) {
+        should.not.exists(err);
+
+      	Project.findById(proj._id, function (err, found) {
+            should.not.exists(err);
+            should.exist(found);
+            found.workgroup[0].permission.should.eql('play');
             done();
-          });
+        });
+      });
+    });
+  });
+
+  it('should update the collaborator it is already added', function(done) {
+    var userIdprimary = new mongoose.Types.ObjectId,
+        userIdsecondary = new mongoose.Types.ObjectId;
+
+    Project.create(
+      {
+        name : 'test',
+        user :  userIdprimary,
+        workgroup : [
+         {
+           user : userIdsecondary,
+           permission : 'edit'
+         }
+        ]
+      },
+    function (err, proj) {
+      proj.addCollaborator( userIdsecondary, 'play', function (err) {
+        should.not.exists(err);
+
+      	Project.findById(proj._id, function (err, found) {
+            should.not.exists(err);
+            should.exist(found);
+            found.workgroup.should.have.lengthOf(1);
+            found.workgroup[0].permission.should.eql('play');
+            done();
+        });
+      });
+    });
+  });
+
+  it('should remove an existant collaborator', function(done) {
+    var userIdprimary = new mongoose.Types.ObjectId,
+        userIdsecondary = new mongoose.Types.ObjectId;
+
+    Project.create(
+      {
+        name : 'test',
+        user :  userIdprimary,
+        workgroup : [
+         {
+           user : userIdsecondary,
+           permission : 'edit'
+         }
+        ]
+      },
+    function (err, proj) {
+      proj.removeCollaborator( userIdsecondary, function (err) {
+        should.not.exists(err);
+
+      	Project.findById(proj._id, function (err, found) {
+            should.not.exists(err);
+            should.exist(found);
+            found.workgroup.should.have.lengthOf(0);
+            done();
+        });
+      });
+    });
+  });
+
+  it('should not fail when trying to remove a non existant collaborator', function(done) {
+    var userIdprimary = new mongoose.Types.ObjectId,
+        userIdsecondary = new mongoose.Types.ObjectId,
+        userIdunknown = new mongoose.Types.ObjectId;
+
+    Project.create(
+      {
+        name : 'test',
+        user :  userIdprimary,
+        workgroup : [
+         {
+           user : userIdsecondary,
+           permission : 'edit'
+         }
+        ]
+      },
+    function (err, proj) {
+      proj.removeCollaborator( userIdunknown, function (err) {
+        should.not.exists(err);
+
+      	Project.findById(proj._id, function (err, found) {
+            should.not.exists(err);
+            should.exist(found);
+            found.workgroup.should.have.lengthOf(1);
+            done();
         });
       });
     });

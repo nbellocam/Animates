@@ -81,6 +81,7 @@ ProjectSchema.statics.list = function(userId, cb) {
 };
 
 ProjectSchema.pre('save', function (next) {
+  //console.log(this._id);
   var now = Date.now();
   this.modified = now;
   if ( !this.created ) {
@@ -171,7 +172,45 @@ ProjectSchema.methods = {
 		this.setAnimation(animation);
 
 		return this;
-	}
+	},
+
+  addCollaborator : function (userId, permission, cb) {
+    var exists = false;
+
+    this.workgroup.forEach(function (item){
+      if (item.user.toString() == userId.toString()) {
+        exists = true;
+        item.permission = permission;
+      }
+    });
+
+    if (!exists) {
+      var newcolab = {
+        user :  mongoose.Types.ObjectId(userId),
+        permission : permission
+      };
+
+      this.workgroup.push(newcolab);
+    }
+
+    this.save(cb);
+  },
+
+  removeCollaborator : function (userId, cb) {
+    var exists = false;
+
+    for (var x=0; x < this.workgroup.length; x++) {
+      if (this.workgroup[x].user.toString() == userId.toString()) {
+        this.workgroup.splice(x, 1);
+        exists = true;
+        this.save(cb);
+      }
+    }
+
+    if (!exists) {
+      cb(null, null);
+    }
+  }
 };
 
 
