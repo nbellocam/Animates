@@ -1,45 +1,54 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.controller('PlayerCtrl', function ToolbarPanelCtrl($scope, animationService, presentationPlayerService, canvasService, serverService, localAnimationStateService) {
+	.controller('PlayerCtrl', function ToolbarPanelCtrl($scope, playerAnimationService, playerPresentationPlayerService, playerCanvasService, playerServerService, playerLocalAnimationStateService) {
 		$scope.loading = true;
 		$scope.errorMessage = undefined;
 		$scope.maxTick = 5000;
 		$scope.tick = 0;
-		$scope.tickRatio = presentationPlayerService.tickDuration();
+		$scope.tickRatio = playerPresentationPlayerService.tickDuration();
 
 		$scope.onTogglePlaying = function(playing) {
 			if (playing) {
-				presentationPlayerService.play();
+				playerPresentationPlayerService.play();
 			} else {
-				presentationPlayerService.pause();
+				playerPresentationPlayerService.pause();
 			}
 		};
 
-		function initializeLayout() {
-			angular.element(document).ready(function () {
-				
-			});
+		function loadProject(animation) {
+			if (animation !== undefined) {
+				playerAnimationService.getInstance().loadProject(animation);
+				playerCanvasService.createCanvas();
+				playerLocalAnimationStateService.setCurrentTick(0);
+				$scope.loading = false;
+			}
 		}
 
-		$scope.initializeAnimation = function (id) {
+		$scope.initializeAnimation = function (projectId, project) {
 			$scope.loading = true;
 
-			serverService.loadProject(id, function success(data) {
-					animationService.getInstance().loadProject(data.animation);
-					canvasService.createCanvas();
-					initializeLayout();
-					localAnimationStateService.setCurrentTick(0);
-					$scope.loading = false;
-				}, function error(data) {
-					console.log('Error: ' + data);
-					$scope.errorMessage = data || 'An error occurs.';
-					$scope.loading = false;
-				});
+			if (projectId !== undefined) {
+				playerServerService.loadProject(projectId, function success(data) {
+						loadProject(data.animation);
+					}, function error(data) {
+						console.log('Error: ' + data);
+						$scope.errorMessage = data || 'An error occurs.';
+						$scope.loading = false;
+					});
+			} else {
+				if (project !== undefined) {
+					loadProject(project.animation);
+				} else {
+					$scope.$on('projectLoaded', function (event, project) {
+						loadProject(project.animation);
+					});
+				}
+			}
 		};
 
 		$scope.onTimelineTickChange = function(tick) {
-			localAnimationStateService.setCurrentTick(tick);
+			playerLocalAnimationStateService.setCurrentTick(tick);
 		};
 
 		$scope.onLocalStateTickChange = function(newVal) {
@@ -52,5 +61,5 @@ angular.module('animatesPlayer')
 			}
 		};
 
-		localAnimationStateService.addTickObserver('PlayerCtrl', $scope.onLocalStateTickChange);
+		playerLocalAnimationStateService.addTickObserver('PlayerCtrl', $scope.onLocalStateTickChange);
 	});

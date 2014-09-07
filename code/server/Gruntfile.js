@@ -17,7 +17,8 @@ module.exports = function (grunt) {
     cdnify: 'grunt-google-cdn',
     protractor: 'grunt-protractor-runner',
     injector: 'grunt-asset-injector',
-    buildcontrol: 'grunt-build-control'
+    buildcontrol: 'grunt-build-control',
+    replace: 'grunt-text-replace'
   });
 
   // Time how long tasks take. Can help when optimizing build times
@@ -135,6 +136,22 @@ module.exports = function (grunt) {
         },
         src: ['server/**/*.spec.js']
       },
+      build:{
+        options: {
+          reporter: 'jslint',
+          reporterOutput: 'build/output/jshint-result.xml',
+          force: true
+        },
+        files: {
+          src: [
+            '<%= yeoman.client %>/{app,components}/**/*.js',
+            '!<%= yeoman.client %>/app/player/assets/**/*.js',
+            '!<%= yeoman.client %>/app/editor/assets/**/*.js',
+            '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
+            '!<%= yeoman.client %>/{app,components}/**/*.mock.js'
+          ]
+        }
+      },
       all: [
         '<%= yeoman.client %>/{app,components}/**/*.js',
         '!<%= yeoman.client %>/app/player/assets/**/*.js',
@@ -164,7 +181,15 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
+      server: '.tmp',
+      build: {
+        files: [{
+          dot: true,
+          src: [
+            'build'
+          ]
+        }]
+      },
     },
 
     // Add vendor prefixed styles
@@ -238,6 +263,12 @@ module.exports = function (grunt) {
         }
       }
     },
+    uglify : {
+        options: {
+            mangle: false,
+            beautify: true
+          }
+    },
 
     // Reads HTML for usemin blocks to enable smart builds that automatically
     // concat, minify and revision files. Creates configurations in memory so
@@ -248,7 +279,6 @@ module.exports = function (grunt) {
         dest: '<%= yeoman.dist %>/public'
       }
     },
-
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
       html: ['<%= yeoman.dist %>/public/{,*/}*.html'],
@@ -378,7 +408,7 @@ module.exports = function (grunt) {
       player: {
         expand : true,
         cwd: '../player/build/output/player',
-        src: ['scripts/*', 'styles/*', 'fonts/*'],
+        src: ['scripts/player-scripts.js', 'styles/player-*'],
         dest : '<%= yeoman.client %>/app/player/assets/'
       },
       editor: {
@@ -386,7 +416,18 @@ module.exports = function (grunt) {
         cwd: '../view/build/output/site',
         src: ['scripts/editor-*', 'styles/editor-*', 'images/*', 'views/*'],
         dest : '<%= yeoman.client %>/app/editor/assets/'
-      }
+      },
+      build: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.dist %>',
+          dest: 'build/output/site',
+          src: [
+            '**/*'
+          ]
+        }]
+      },
     },
 
     buildcontrol: {
@@ -511,7 +552,6 @@ module.exports = function (grunt) {
         files: {
           '<%= yeoman.client %>/index.html': [
               ['{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js',
-               '!{.tmp,<%= yeoman.client %>}/app/player/**/*.js',
                '!{.tmp,<%= yeoman.client %>}/app/app.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.spec.js',
                '!{.tmp,<%= yeoman.client %>}/{app,components}/**/*.mock.js']
@@ -532,12 +572,21 @@ module.exports = function (grunt) {
         },
         files: {
           '<%= yeoman.client %>/index.html': [
-            '<%= yeoman.client %>/{app,components}/**/*.css',
-            '!{.tmp,<%= yeoman.client %>}/app/player/**/*.css'
+            '<%= yeoman.client %>/{app,components}/**/*.css'
           ]
         }
       }
     },
+    replace: {
+        prod: {
+          src: ['<%= yeoman.dist %>/public/app/*.js'],
+          dest: '<%= yeoman.dist %>/public/app/',
+          replacements: [{
+            from: '"use strict";',
+            to: ''
+          }]
+        }
+      }
   });
 
   // Used for delaying livereload until after server has restarted
@@ -695,6 +744,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'copy:player',
+    'copy:editor',
     'concurrent:dist',
     'injector',
     'wiredep',
@@ -707,6 +758,7 @@ module.exports = function (grunt) {
     'cdnify',
     'cssmin',
     'uglify',
+    'replace:prod',
     'rev',
     'usemin'
   ]);
@@ -716,4 +768,13 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.registerTask('ci-build', [
+    'clean:build',
+    'jshint:build',
+    //'test',
+    'build',
+    'copy:build'
+  ]);
+
 };

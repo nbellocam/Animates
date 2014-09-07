@@ -1,4 +1,4 @@
-.timetooltip {
+animates-playertimeline .timetooltip {
   visibility: hidden;
   white-space: nowrap;
   position: fixed;
@@ -10,7 +10,7 @@
   padding: 3px;
   z-index: 2003;
 }
-.timetooltip.active {
+animates-playertimeline .timetooltip.active {
   visibility: visible;
 }
 animates-playertimeline {

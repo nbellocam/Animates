@@ -2,10 +2,8 @@
    Author's custom styles
    ========================================================================== */
 
-body {
-}
 
-.main-container {
+.animates-player .main-container {
     position: fixed;
     top:0;
     left:0;
@@ -14,13 +12,13 @@ body {
     background-color: #111111;
 }
 
-.main-container .player {
+.animates-player .main-container .player {
     position: relative;
     top: 50%;
     transform: translate(0, -50%);
 }
 
-#mainCanvas {
+#playerCanvas {
     box-shadow: 0 0 10px 1px rgba(255,255,255,0.75);
     position: relative;
     left: 50%;
@@ -40,16 +38,7 @@ animates-playertimeline {
     margin: 4px;
 }
 
-.canvas-blocker {
-  position: fixed;
-  top:0;
-  left:0;
-  width: 100%;
-  height: 100%;
-  z-index: 1024;
-}
-
-.loading {
+.animates-player .loading {
 	position: fixed;
 	top:0;
 	left:0;
@@ -59,7 +48,7 @@ animates-playertimeline {
 	z-index: 1024;
 }
 
-.loading .loading-message {
+.animates-player .loading .loading-message {
 	border-radius: 15px 15px 15px 15px;
 	-moz-border-radius: 15px 15px 15px 15px;
 	-webkit-border-radius: 15px 15px 15px 15px;
@@ -78,22 +67,6 @@ animates-playertimeline {
     padding: 40px 20px;
 }
 
-.loading .loading-message .progress-bar{
+.animates-player .loading .loading-message .progress-bar {
 	width: 100%;
-}
-
-.property.form-control {
-	height: 27px;
-	padding-bottom: 3px;
-	padding-top: 3px;
-	width: 100%;
-}
-
-.property.form-control.text {
-	height: auto;
-}
-
-.layout-panel.timelinePane {
-	padding: 3px;
-	margin: 0px;
 }

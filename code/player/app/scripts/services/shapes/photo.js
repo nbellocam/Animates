@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.run(function triangle(shapeCreator, shapeSync, shapeSyncHelper, shapeHelper, canvasService) {
+	.run(function triangle(playerShapeCreator, playerShapeSync, playerShapeSyncHelper, playerShapeHelper, playerCanvasService) {
 		var typeId = 'Photo';
 
 		var oImg=document.createElement("img");
@@ -12,16 +12,16 @@ angular.module('animatesPlayer')
 		function createShape(mediaObjectGuid) {
 			var element = imagesCache[mediaObjectGuid];
 			if (element){
-				return new shapeSyncHelper.Fabric.Image(element);
+				return new playerShapeSyncHelper.Fabric.Image(element);
 			}
 
-			return new shapeSyncHelper.Fabric.Image(oImg);
+			return new playerShapeSyncHelper.Fabric.Image(oImg);
 		}
 
-		shapeCreator.registerShape(typeId, createShape);
+		playerShapeCreator.registerShape(typeId, createShape);
 
 		function syncFromModel(viewObject) {
-			var model = shapeHelper.getMediaFrameFromView(viewObject);
+			var model = playerShapeHelper.getMediaFrameFromView(viewObject);
 			if (model) {
 				var source = model.getProperty('source');
 
@@ -29,25 +29,25 @@ angular.module('animatesPlayer')
 				if (source && element.src !== source) {
 					var newImageElement = document.createElement("img");
 					newImageElement.onload = function () {
-						imagesCache[shapeHelper.getGuidFromView(viewObject)] = newImageElement;
+						imagesCache[playerShapeHelper.getGuidFromView(viewObject)] = newImageElement;
 						viewObject.setElement(newImageElement);
 
-						shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject);
+						playerShapeSyncHelper.syncVisualMediaObjectFromModel(viewObject);
 
-						shapeSyncHelper.syncViewProperty(model.getProperty('height'), viewObject, 'height');
-						shapeSyncHelper.syncViewProperty(model.getProperty('width'), viewObject, 'width');
+						playerShapeSyncHelper.syncViewProperty(model.getProperty('height'), viewObject, 'height');
+						playerShapeSyncHelper.syncViewProperty(model.getProperty('width'), viewObject, 'width');
 						viewObject.setCoords();
-						canvasService.getInstance().renderAll();
+						playerCanvasService.getInstance().renderAll();
 					};
 					newImageElement.setAttribute('src', source);
 				} else {
-					shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject, canvasPosition);
+					playerShapeSyncHelper.syncVisualMediaObjectFromModel(viewObject, canvasPosition);
 
-					shapeSyncHelper.syncViewProperty(model.getProperty('height'), viewObject, 'height');
-					shapeSyncHelper.syncViewProperty(model.getProperty('width'), viewObject, 'width');
+					playerShapeSyncHelper.syncViewProperty(model.getProperty('height'), viewObject, 'height');
+					playerShapeSyncHelper.syncViewProperty(model.getProperty('width'), viewObject, 'width');
 				}
 			}
 		};
 
-		shapeSync.registerShape(typeId, syncFromModel);
+		playerShapeSync.registerShape(typeId, syncFromModel);
 	});

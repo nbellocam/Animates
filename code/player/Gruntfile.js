@@ -479,7 +479,7 @@ module.exports = function (grunt) {
     'install-dep',
     'useminPrepare',
     'copy:styles',
-    'autoprefixer',
+    'autoprefixer:dist',
     'concat',
     'ngmin',
     'copy:simple-build',

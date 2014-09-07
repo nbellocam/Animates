@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.service('localAnimationStateService', function localAnimationStateService($window, animationService) {
+	.service('playerLocalAnimationStateService', function playerLocalAnimationStateService($window, playerAnimationService) {
 		var currentTick = 0,
 			tickObservers = {};
 
-		animationService.getInstance().addLoadCompleteObserver('localAnimationStateService', function onAnimationLoad() {
+		playerAnimationService.getInstance().addLoadCompleteObserver('playerLocalAnimationStateService', function onAnimationLoad() {
 			currentTick = -1;
 		});
 

@@ -44,7 +44,7 @@ exports.register = function(socket) {
 			try {
 				project.applyDiff(data.target, data.operation, Model.JsonSerializer.deserializeDictionary(data.opParams), socket.decoded_token._id);
 			} catch (er) {
-				console.log(er);
+				console.error(er);
 				socket.emit('editor:update:error', data);
 				return;
 			}

@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: shapeSync', function () {
+describe('Service: playerShapeSync', function () {
 
   // load the service's module
   beforeEach(module('animatesPlayer'));
 
   // instantiate service
-  var shapeSync;
-  beforeEach(inject(function (_shapeSync_) {
-    shapeSync = _shapeSync_;
+  var playerShapeSync;
+  beforeEach(inject(function (_playerShapeSync_) {
+    playerShapeSync = _playerShapeSync_;
   }));
 
   it('should do something', function () {
-    expect(!!shapeSync).toBe(true);
+    expect(!!playerShapeSync).toBe(true);
   });
 
 });

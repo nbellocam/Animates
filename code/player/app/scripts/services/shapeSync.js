@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.service('shapeSync', function shapeSync(localAnimationStateService, animationService, shapeHelper) {
+	.service('playerShapeSync', function playerShapeSync(playerShapeHelper) {
 		var registeredShapes = {};
 
 		function isTypeRegistered(type) {
@@ -18,7 +18,7 @@ angular.module('animatesPlayer')
 		};
 
 		this.syncFromModel = function syncFromModel(fabricObject) {
-			var type = shapeHelper.getTypeFromView(fabricObject);
+			var type = playerShapeHelper.getTypeFromView(fabricObject);
 			if (isTypeRegistered(type)) {
 				registeredShapes[type].syncFromModel(fabricObject);
 			}

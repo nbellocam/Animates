@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.factory('shapeSyncHelper', function shapeSyncHelper($window, animationService, shapeHelper) {
+	.factory('playerShapeSyncHelper', function playerShapeSyncHelper($window, playerShapeHelper) {
 		var syncViewProperty = function syncViewProperty(modelValue, viewObject, propertyName) {
 				var fabricProperty = viewObject.get(propertyName);
 
@@ -11,7 +11,7 @@ angular.module('animatesPlayer')
 			},
 
 			syncVisualMediaObjectFromModel = function syncVisualMediaObjectFromModel(viewObject) {
-				var model = shapeHelper.getMediaFrameFromView(viewObject);
+				var model = playerShapeHelper.getMediaFrameFromView(viewObject);
 
 				syncViewProperty(model.getProperty('border.color'), viewObject, 'stroke');
 				syncViewProperty(model.getProperty('border.width'), viewObject, 'strokeWidth');

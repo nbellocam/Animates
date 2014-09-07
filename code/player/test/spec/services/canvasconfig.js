@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: canvasConfig', function () {
+describe('Service: playerCanvasConfig', function () {
 
   // load the service's module
   beforeEach(module('animatesPlayer'));
 
   // instantiate service
-  var canvasConfig;
-  beforeEach(inject(function (_canvasConfig_) {
-    canvasConfig = _canvasConfig_;
+  var playerCanvasConfig;
+  beforeEach(inject(function (_playerCanvasConfig_) {
+    playerCanvasConfig = _playerCanvasConfig_;
   }));
 
   it('should do something', function () {
-    expect(!!canvasConfig).toBe(true);
+    expect(!!playerCanvasConfig).toBe(true);
   });
 
 });

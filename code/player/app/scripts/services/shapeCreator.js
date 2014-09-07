@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.service('shapeCreator', function shapeCreator(animationService, localAnimationStateService, shapeSync, shapeHelper) {
+	.service('playerShapeCreator', function playerShapeCreator(playerLocalAnimationStateService, playerShapeSync, playerShapeHelper) {
 		var registeredShapes = {},
 			_self = this;
 
@@ -25,8 +25,8 @@ angular.module('animatesPlayer')
 					shape.setOriginX('center');
 					shape.setOriginY('center');
 
-					shapeHelper.setModelInView(mediaFrame, shape);
-					shapeSync.syncFromModel(shape);
+					playerShapeHelper.setModelInView(mediaFrame, shape);
+					playerShapeSync.syncFromModel(shape);
 					return shape;
 				}
 			}
@@ -36,7 +36,7 @@ angular.module('animatesPlayer')
 
 		this.createShapeFromMediaTime = function createShapeFromMediaTime(mediaTimeline) {
 			var shape = _self.createShapeFromFrame(
-				mediaTimeline.getMediaFrameFor(localAnimationStateService.getCurrentTick()));
+				mediaTimeline.getMediaFrameFor(playerLocalAnimationStateService.getCurrentTick()));
 
 			shape.setOriginX('center');
 			shape.setOriginY('center');

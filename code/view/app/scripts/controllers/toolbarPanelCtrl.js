@@ -58,7 +58,7 @@ angular.module('animatesEditor')
 
 		$scope.openSettings = function () {
 			var dlg = dialogs.create('/views/dialogs/settings.html','settingsDialogCtrl',{},'lg');
-			
+
 			dlg.result.then(function(data){
 				// Send changes only if there was any
 				if (Object.keys(data).length !== 0) {
@@ -66,26 +66,18 @@ angular.module('animatesEditor')
 				}
 			});
 		};
-		
+
 		// Other methods
 
-		$scope.play = function () {
-			presentationPlayerService.play();
-		};
-
-		$scope.pause = function () {
-			presentationPlayerService.pause();
+		$scope.tooglePlay = function () {
+			if ($scope.playing) {
+				presentationPlayerService.pause();
+			} else {
+				presentationPlayerService.play();
+			}
 		};
 
 		$scope.stop = function () {
 			presentationPlayerService.stop();
-		};
-
-		$scope.stepForward = function () {
-			presentationPlayerService.stepForward(50);
-		};
-
-		$scope.stepBackward = function () {
-			presentationPlayerService.stepBackward(50);
 		};
 	});

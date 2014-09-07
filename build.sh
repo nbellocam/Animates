@@ -88,4 +88,4 @@ buildProject "view"
 buildProject "player"
 
 # site project
-buildProject "site"
+buildProject "server"

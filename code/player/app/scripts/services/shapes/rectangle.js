@@ -1,23 +1,23 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.run(function rectangle(shapeCreator, shapeSync, shapeSyncHelper, shapeHelper) {
+	.run(function rectangle(playerShapeCreator, playerShapeSync, playerShapeSyncHelper, playerShapeHelper) {
 		var typeId = 'Rectangle';
 
 		function createShape() {
-			return new shapeSyncHelper.Fabric.Rect();
+			return new playerShapeSyncHelper.Fabric.Rect();
 		}
 
-		shapeCreator.registerShape(typeId, createShape);
+		playerShapeCreator.registerShape(typeId, createShape);
 
 		function syncFromModel(viewObject) {
-			var model = shapeHelper.getMediaFrameFromView(viewObject);
+			var model = playerShapeHelper.getMediaFrameFromView(viewObject);
 
-			shapeSyncHelper.syncVisualMediaObjectFromModel(viewObject);
+			playerShapeSyncHelper.syncVisualMediaObjectFromModel(viewObject);
 
-			shapeSyncHelper.syncViewProperty(model.getProperty('height'), viewObject, 'height');
-			shapeSyncHelper.syncViewProperty(model.getProperty('width'), viewObject, 'width');
+			playerShapeSyncHelper.syncViewProperty(model.getProperty('height'), viewObject, 'height');
+			playerShapeSyncHelper.syncViewProperty(model.getProperty('width'), viewObject, 'width');
 		};
 
-		shapeSync.registerShape(typeId, syncFromModel);
+		playerShapeSync.registerShape(typeId, syncFromModel);
 	});

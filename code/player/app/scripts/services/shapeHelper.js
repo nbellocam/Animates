@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesPlayer')
-	.factory('shapeHelper', function shapeHelper(animationService, localAnimationStateService) {
+	.factory('playerShapeHelper', function playerShapeHelper(playerAnimationService, playerLocalAnimationStateService) {
 		var getGuidFromView = function getGuidFromView(viewObject) {
 				return viewObject && viewObject.model && viewObject.model.guid;
 			},
@@ -17,7 +17,7 @@ angular.module('animatesPlayer')
 
 			getMediaTimelineFromView = function getMediaTimelineFromView(viewObject) {
 				var guid = getGuidFromView(viewObject);
-				return guid ? animationService.getInstance().timeline.getMediaTimeline(guid) : undefined;
+				return guid ? playerAnimationService.getInstance().timeline.getMediaTimeline(guid) : undefined;
 			},
 			getMediaObjectFromView = function getMediaObjectFromView(viewObject) {
 				var mediaTimeline = getMediaTimelineFromView(viewObject);
@@ -27,7 +27,7 @@ angular.module('animatesPlayer')
 				var mediaTimeline = getMediaTimelineFromView(viewObject);
 
 				if (mediaTimeline) {
-					return mediaTimeline.getMediaFrameFor(localAnimationStateService.getCurrentTick());
+					return mediaTimeline.getMediaFrameFor(playerLocalAnimationStateService.getCurrentTick());
 				}
 
 				return undefined;

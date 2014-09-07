@@ -70,16 +70,6 @@ cd ..
 echo "Completed installing player..."
 
 # site project
-echo "Installing site..."
-cd site
-npm link animates-model
-npm install
-bower install
-$GRUNT_CMD install-dep
-cd ..
-echo "Completed installing site..."
-
-# site project
 echo "Installing server..."
 cd server
 npm link animates-model
