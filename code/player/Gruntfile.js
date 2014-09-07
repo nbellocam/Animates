@@ -149,9 +149,17 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '.tmp/styles/',
+          cwd: '.tmp/',
+          src: '{,*/,**/}*.css',
+          dest: '.tmp/'
+        }]
+      },
+      build: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.dist %>/styles/',
           src: '{,*/}*.css',
-          dest: '.tmp/styles/'
+          dest: '<%= yeoman.dist %>/styles/'
         }]
       }
     },
@@ -484,6 +492,7 @@ module.exports = function (grunt) {
     'ngmin',
     'copy:simple-build',
     'usemin',
+    'autoprefixer:build',
     'copy:build'
   ]);
 
