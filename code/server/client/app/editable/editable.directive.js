@@ -19,9 +19,6 @@ angular.module('animatesApp')
 
             $scope.oldValue = $scope.value;
 
-
-            console.log($scope.value);
-
             $scope.keypress = function ($event) {
               if ($event.keyCode === 13) {
                 $scope.stopEdit();
