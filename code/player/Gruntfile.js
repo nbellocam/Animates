@@ -138,7 +138,15 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
+      server: '.tmp',
+      build: {
+        files: [{
+          dot: true,
+          src: [
+            'build'
+          ]
+        }]
+      }
     },
 
     // Add vendor prefixed styles
@@ -497,6 +505,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('ci-build', [
+    'clean:build',
     'jshint:build',
     //'test',
     'simple-build'
