@@ -229,6 +229,9 @@ ProjectSchema.methods = {
         });
     });
   },
+  updateCollaborator : function (userId, permission, cb) {
+    addCollaborator(userId, permission, cb);
+  },
 
   removeCollaborator : function (userId, cb) {
     var exists = false;

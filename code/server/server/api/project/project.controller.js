@@ -73,6 +73,21 @@ exports.addCollaborator = function(req, res) {
   });
 };
 
+// Add / update a collaborator to a project
+exports.updateCollaborator = function(req, res) {
+  if(req.body._id) { delete req.body._id; }
+  var params = req.body;
+
+  Project.findById(req.params.id, function (err, project) {
+    if (err) { return handleError(res, err); }
+    if(!project) { return res.send(404); }
+      project.addCollaborator(req.params.userId, params.permission, function (err, collaborator) {
+        if (err) { return handleError(res, err); }
+        return res.json(200, collaborator);
+      });
+  });
+};
+
 // Remove a collaborator from a project
 exports.removeCollaborator = function(req, res) {
   if(req.body._id) { delete req.body._id; }

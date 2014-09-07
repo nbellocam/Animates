@@ -14,4 +14,5 @@ router.patch('/:id', auth.isAuthenticated(), controller.update);
 router.delete('/:id', auth.isAuthenticated(), controller.destroy);
 router.put('/:id/collaborators', auth.isAuthenticated(), controller.addCollaborator);
 router.delete('/:id/collaborators/:userId', auth.isAuthenticated(), controller.removeCollaborator);
+router.put('/:id/collaborators/:userId', auth.isAuthenticated(), controller.updateCollaborator);
 module.exports = router;
