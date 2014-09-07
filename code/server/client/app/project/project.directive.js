@@ -28,18 +28,18 @@ angular.module('animatesApp')
         };
 
         scope.share = function () {
-          var modal = Modal.form.share();
-          modal(scope.project.name);
+          var modal = Modal.form.share(angular.noop, scope.project._id);
+          modal();
         };
 
         scope.delete = function() {
           var deleteConfirm = Modal.confirm.delete(function () {
-            $http.delete('/api/projects/' + scope.project._id);
+            $http.delete('/api/projects/' + scope.project._id)
+              .error(function () {
+                var errorModal = Modal.alerts.error();
+                errorModal();
+              });
           })
-          .error(function () {
-            var errorModal = Modal.alerts.error();
-            errorModal();
-          });
 
           deleteConfirm(scope.project.name);
         };

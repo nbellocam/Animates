@@ -2,10 +2,10 @@ form(role="form")
   .form-group
     label(for="url")
       | Url
-    input.form-control.url(type="text" id="url" onclick="this.select();" onkeydown="this.select(); return false" value="http://localhost:9000/projects/540b4ced2f65c3ac2988cdfd")
+    input.form-control.url(type="text" id="url" onclick="this.select();" onkeydown="this.select(); return false" value="{{url}}")
   #checkbox
     label
-      input(type="checkbox")
+      input(type="checkbox" ng-model="project.public" ng-change="makePublic()")
       |  Make this animation available for everyone
   br
 
@@ -16,22 +16,22 @@ form(role="form")
     table.user.table.table-striped
       tr
         td.middle
-          input.form-control(ng-model="newUser")
+          input.form-control(ng-model="newCollaborator")
         td.middle
-          select.form-control(ng-model="newPermission")
-            option(ng-selected="item.permission=='edit'")
+          select.form-control(ng-model="newCollaboratorPermission")
+            option(ng-selected="newCollaboratorPermission=='edit'")
               | Edit
-            option(ng-selected="item.permission=='play'")
+            option(ng-selected="newCollaboratorPermission=='play'")
               | Play
         td.middle
-          button.btn.btn-primary
+          button.btn.btn-primary(ng-click="addCollaborator()")
             | Add
   label
     | Collaborators
 
   .collaborators
     table.users.table.table-striped
-      tr(ng-repeat="item in workgroup")
+      tr(ng-repeat="item in project.workgroup")
         td.middle
           img(src='assets/images/video.png', alt='item.user.name')
         td.middle

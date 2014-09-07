@@ -87,7 +87,9 @@ ProjectSchema.path('name').validate(function(name) {
 ProjectSchema.statics.load = function(id, cb) {
 	this.findOne({
 		_id: id
-	}).populate('user', 'name').exec(cb);
+	})
+  .populate('user', 'name')
+  .populate('workgroup.user', 'name').exec(cb);
 };
 
 /**
@@ -101,7 +103,6 @@ ProjectSchema.statics.list = function(userId, cb) {
 };
 
 ProjectSchema.pre('save', function (next) {
-  //console.log(this._id);
   var now = Date.now();
   this.modified = now;
   if ( !this.created ) {
