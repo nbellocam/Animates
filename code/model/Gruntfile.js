@@ -25,16 +25,16 @@ module.exports = function (grunt) {
 		}
 	});
 
-	grunt.registerTask('doc', 
+	grunt.registerTask('doc',
 		function () {
-			
+
 			grunt.config.requires('meta.output');
 			grunt.config.requires('meta.src');
 
 			var output = grunt.config.get('meta.output'),
 				src = grunt.config.get('meta.src'),
 				jsdocConfig =	{
-									src: [src], 
+									src: [src],
 									dest: path.join(output, 'doc')
 								};
 
@@ -46,7 +46,7 @@ module.exports = function (grunt) {
 		}
 	);
 
-	grunt.registerTask('lint', 
+	grunt.registerTask('lint',
 		function (target) {
 			var src = grunt.config.get('meta.src'),
 				output = grunt.config.get('meta.output'),
@@ -99,7 +99,7 @@ module.exports = function (grunt) {
 		}
 	);
 
-	grunt.registerTask('tests', 
+	grunt.registerTask('tests',
 		function (target) {
 
 			var src = grunt.config.get('meta.src'),
@@ -111,7 +111,7 @@ module.exports = function (grunt) {
 						options: {
 							reporter: 'spec',
 							// Require blanket wrapper here to instrument other required
-							// files on the fly. 
+							// files on the fly.
 							//
 							// NB. We cannot require blanket directly as it
 							// detects that we are not running mocha cli and loads differently.
@@ -157,7 +157,7 @@ module.exports = function (grunt) {
 		}
 	);
 
-	grunt.registerTask('watch', 
+	grunt.registerTask('watch',
 		function (target) {
 
 			var src = grunt.config.get('meta.src'),
@@ -203,7 +203,7 @@ module.exports = function (grunt) {
 		}
 	);
 
-	grunt.registerTask('package-model', 
+	grunt.registerTask('package-model',
 		function () {
 			grunt.config.requires('meta.output');
 			grunt.config.requires('meta.packageEntryName');
@@ -215,7 +215,7 @@ module.exports = function (grunt) {
 				packageOutputFileName = grunt.config.get('meta.packageOutputFileName'),
 				packageEntryPoint = grunt.config.get('meta.packageEntryPoint'),
 				browserifyConfig =	{
-									src: [packageEntryPoint], 
+									src: [packageEntryPoint],
 									dest: path.join(output, packageOutputFileName),
 									options: {
 										standalone: packageEntryName
@@ -230,7 +230,7 @@ module.exports = function (grunt) {
 		}
 	);
 
-	grunt.registerTask('resetOutput', 
+	grunt.registerTask('resetOutput',
 		function () {
 			grunt.config.requires('meta.output');
 
@@ -244,7 +244,7 @@ module.exports = function (grunt) {
 		}
 	);
 
-	grunt.registerTask('package-npm-module', 
+	grunt.registerTask('package-npm-module',
 		function () {
 			grunt.config.requires('meta.output');
 			grunt.config.requires('meta.srcDir');
@@ -257,7 +257,7 @@ module.exports = function (grunt) {
 			var nodeModulesDir = grunt.config.get('meta.nodeModulesDir');
 			var modelNpmDir = grunt.config.get('meta.modelNpmDir');
 			var pkg = grunt.config.get('pkg');
-			
+
 			var modelNpmPath = path.join(output, modelNpmDir);
 			grunt.file.mkdir(modelNpmPath);
 
@@ -270,6 +270,8 @@ module.exports = function (grunt) {
 					dependenciesPaths.push(prop + '/**/*');
 				}
 			}
+
+			dependenciesPaths.push('!**/build/**');
 
 			var copyConfig = {
 				dependencies : {
