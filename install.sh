@@ -21,6 +21,8 @@ echo "Using grunt from: $GRUNT_CMD"
 
 # This file install all packages for each project.
 
+npm cache clean
+
 cd code
 
 # common project
@@ -72,6 +74,7 @@ echo "Completed installing player..."
 # site project
 echo "Installing server..."
 cd server
+rm -rf node_modules
 npm link animates-model
 npm install
 bower install
