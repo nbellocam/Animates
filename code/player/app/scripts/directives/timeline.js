@@ -53,7 +53,7 @@ angular.module('animatesPlayer')
 
 				$scope.formatTime = function (tick) {
 					if ($scope.tickRatio) {
-						var totalSeconds = $scope.getTime(tick),
+						var totalSeconds = $scope.getTime(tick * $scope.tickRate),
 							hours   = Math.floor(totalSeconds / 3600),
 							minutes = Math.floor((totalSeconds - (hours * 3600)) / 60),
 							seconds = totalSeconds - (hours * 3600) - (minutes * 60);
