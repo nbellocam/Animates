@@ -65,6 +65,37 @@ angular.module('animatesApp')
         }
       },
 
+      alerts: {
+        error : function () {
+          /**
+           * Open a delete confirmation modal
+           * @param  {String} message - message to show on modal
+           * @param  {All}            - any additional args are passed staight to del callback
+           */
+          return function(message) {
+            var errorModal;
+
+            errorModal = openModal({
+              modal: {
+                dismissable: true,
+                title: 'Oops!',
+                html: '<p>Some error has occurred. We are sorry.</p>'
+                      + (message ? '<p>' + message + '</p>' : ''),
+                buttons: [{
+                  classes: 'btn-default',
+                  text: 'I forgive you',
+                  click: function(e) {
+                    errorModal.dismiss(e);
+                  }
+                }]
+              }
+            }, 'modal-danger');
+
+            errorModal.result.then(function() { });
+          };
+        }
+      },
+
       /* Confirmation modals */
       confirm: {
 
