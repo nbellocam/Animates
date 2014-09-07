@@ -8,7 +8,7 @@ angular.module('animatesApp')
      * @param  {String} modalClass - (optional) class(es) to be applied to the modal
      * @return {Object}            - the instance $modal.open() returns
      */
-    function openModal(scope, modalClass) {
+    function openModal(scope, modalClass, template) {
       var modalScope = $rootScope.$new();
       scope = scope || {};
       modalClass = modalClass || 'modal-default';
@@ -16,7 +16,7 @@ angular.module('animatesApp')
       angular.extend(modalScope, scope);
 
       return $modal.open({
-        templateUrl: 'components/modal/modal.html',
+        templateUrl: template || 'components/modal/modal.html',
         windowClass: modalClass,
         scope: modalScope
       });
@@ -24,6 +24,76 @@ angular.module('animatesApp')
 
     // Public API here
     return {
+
+      form: {
+        /**
+         * Create a function to open a share modal (ex. ng-click='myModalFn(name, arg1, arg2...)')
+         * @param  {Function} share - callback, run when share is saved
+         * @return {Function}     - the function to open the modal (ex. myModalFn)
+         */
+        share: function(close, projectId) {
+          close = close || angular.noop;
+
+          /**
+           * Open a share modal
+           * @param  {All}            - any additional args are passed staight to del callback
+           */
+          return function () {
+            var args = Array.prototype.slice.call(arguments),
+                shareModal;
+
+            shareModal = openModal({
+              projectId: projectId,
+              modal: {
+                dismissable: true,
+                title: 'Sharing options',
+                buttons: [{
+                  classes: 'btn-submit',
+                  text: 'Close',
+                  click: function(e) {
+                    shareModal.dismiss(e);
+                  }
+                }]
+              }
+            }, 'modal-info', 'components/modal/share/share.html');
+
+            shareModal.result.then(function(event) {
+              close.apply(event, args);
+            });
+          }
+        }
+      },
+
+      alerts: {
+        error : function () {
+          /**
+           * Open a delete confirmation modal
+           * @param  {String} message - message to show on modal
+           * @param  {All}            - any additional args are passed staight to del callback
+           */
+          return function(message) {
+            var errorModal;
+
+            errorModal = openModal({
+              modal: {
+                dismissable: true,
+                title: 'Oops!',
+                html: '<p>Some error has occurred. We are sorry.</p>'
+                      + (message ? '<p>' + message + '</p>' : ''),
+                buttons: [{
+                  classes: 'btn-default',
+                  text: 'I forgive you',
+                  click: function(e) {
+                    errorModal.dismiss(e);
+                  }
+                }]
+              }
+            }, 'modal-danger');
+
+            errorModal.result.then(function() { });
+          };
+        }
+      },
 
       /* Confirmation modals */
       confirm: {

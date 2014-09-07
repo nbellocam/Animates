@@ -1,13 +1,35 @@
 
 .project {
-  margin:10px;
+  /*margin:10px;
   line-height: 30px;
   font-size: 30px;
   padding: 10px;
   margin-bottom: 10px;
   color: #ffffff;
   border-radius: 10px;
-  background-color: #F7572A;
+  background-color: #F7572A;*/
+
+	font: 12px/18px Arial, sans-serif;
+	color: #333;
+	margin: 0;
+
+	display: inline-block;
+	background: #FEFEFE;
+	border: 2px solid #FAFAFA;
+	box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+	margin: 0 2px 15px;
+	-webkit-column-break-inside: avoid;
+	-moz-column-break-inside: avoid;
+	column-break-inside: avoid;
+	padding: 15px;
+	padding-bottom: 5px;
+	background: -webkit-linear-gradient(45deg, #FFF, #F9F9F9);
+	opacity: 1;
+
+	-webkit-transition: all .2s ease;
+	-moz-transition: all .2s ease;
+	-o-transition: all .2s ease;
+	transition: all .2s ease;
 }
 
 .project .preview {
@@ -33,10 +55,19 @@
     color: #428bca;
 }
 
+.project .title {
+  font: 18px/24px Arial, sans-serif;
+}
+
 .project img {
   margin-left: auto;
   margin-right: auto;
-  width: 6em
+  width: 6em;
+
+	width: 100%;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 15px;
+	margin-bottom: 5px;
 }
 
 .project .modified {
@@ -46,7 +77,12 @@
   text-align: right;
 }
 
-.project .delete:hover {
+.project .action {
+  padding: 3px;
+  border-radius: 8px;
+}
+
+.project .action:hover {
   cursor:pointer;
-  font-weight: bold;
+  background-color: #ccc;
 }

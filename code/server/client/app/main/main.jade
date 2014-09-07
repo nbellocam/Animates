@@ -16,8 +16,8 @@ header#banner.hero-unit
             a.btn.btn-primary(ng-click='addProject()') Create New
   .row
     .col-lg-12
-      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6.projects(ng-repeat="project in filteredProjects = (projects | filter:{name: searchProject })")
-        li.project
+      .projects
+        .project(ng-repeat="project in filteredProjects = (projects | filter:{name: searchProject }) " project="project")
           project(project="project")
       span.text-center(ng-hide="filteredProjects.length")
         h2 No projects were found

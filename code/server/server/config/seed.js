@@ -32,7 +32,13 @@ User.find({}).remove(function() {
         Project.create({
             name: 'Animation test',
             info: 'This is an incredible animation test.',
-            user: testUser._id
+            user: testUser._id,
+            workgroup: [
+             {
+               user : adminUser._id,
+               permission : 'play'
+             }
+            ]
         }, {
             name: 'Animation: The movie',
             info: 'You should see the second part, it is incredible.',

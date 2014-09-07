@@ -20,7 +20,7 @@ var ProjectSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'User'
 	},
-    animation : {
+  animation : {
 		type: Schema.Types.Mixed,
 		default: Model.JsonSerializer.serializeObject(new Model.Animation())
 	},
@@ -31,6 +31,10 @@ var ProjectSchema = new Schema({
 			trim: true
 		}
 	}],
+  public : {
+    type: Boolean,
+    default: false
+  },
 	workgroup: [{
 		user: {
 			type: Schema.Types.ObjectId,
@@ -39,7 +43,10 @@ var ProjectSchema = new Schema({
 		permission: {
 			type: String,
 			default: '',
-			trim: true
+			trim: true,
+      validate : function(permission) {
+                  	return /play|edit/i.test(permission);
+                  }
 		}
 	}],
 	history: [{
@@ -80,7 +87,19 @@ ProjectSchema.path('name').validate(function(name) {
 ProjectSchema.statics.load = function(id, cb) {
 	this.findOne({
 		_id: id
-	}).populate('user', 'name').exec(cb);
+	})
+  .populate('user', 'name')
+  .populate('workgroup.user', 'name').exec(cb);
+};
+
+/**
+ * Statics
+ */
+ProjectSchema.statics.list = function(userId, cb) {
+  this
+    .find()
+      .or([{ 'user' : userId }, { 'workgroup.user' : userId }])
+    .populate('user', 'name').exec(cb);
 };
 
 ProjectSchema.pre('save', function (next) {
@@ -173,7 +192,50 @@ ProjectSchema.methods = {
 		this.setAnimation(animation);
 
 		return this;
-	}
+	},
+
+  addCollaborator : function (userId, permission, cb) {
+    var exists = false;
+
+    this.workgroup.forEach(function (item){
+      if (item.user.toString() == userId.toString()) {
+        exists = true;
+        item.permission = permission;
+      }
+    });
+
+    if (!exists) {
+      var newcolab = {
+        user :  mongoose.Types.ObjectId(userId),
+        permission : permission
+      };
+
+      this.workgroup.push(newcolab);
+    }
+
+    this.save(cb);
+  },
+
+  removeCollaborator : function (userId, cb) {
+    var exists = false;
+
+    for (var x=0; x < this.workgroup.length; x++) {
+      if (this.workgroup[x].user.toString() == userId.toString()) {
+        this.workgroup.splice(x, 1);
+        exists = true;
+        this.save(cb);
+      }
+    }
+
+    if (!exists) {
+      cb(null, null);
+    }
+  },
+
+  makePublic : function (isPublic, cb) {
+    this.public = true;
+    this.save(cb);
+  }
 };
 
 

@@ -5,7 +5,7 @@ var Project = require('./project.model');
 
 // Get list of projects
 exports.index = function(req, res) {
-  Project.find({ user : req.user._id}, function (err, projects) {
+  Project.find({ user : req.user._id},'-animation -history', function (err, projects) {
     if(err) { return handleError(res, err); }
     return res.json(200, projects);
   });
@@ -17,6 +17,20 @@ exports.show = function(req, res) {
     if(err) { return handleError(res, err); }
     if(project) {
       if (project.canOpBeAppliedBy('view', req.user._id)) {
+        return res.json(project);
+      } else {
+        return res.send(404);
+      }
+    } else { return res.send(404); }
+  });
+};
+
+// Get a single project
+exports.workgroup = function(req, res) {
+  Project.load(req.params.id, function (err, project) {
+    if(err) { return handleError(res, err); }
+    if(project) {
+      if (project.canOpBeAppliedBy('share', req.user._id)) {
         return res.json(project);
       } else {
         return res.send(404);
