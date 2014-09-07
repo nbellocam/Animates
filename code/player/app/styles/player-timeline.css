@@ -1,16 +1,16 @@
-animates-playertimeline .timetooltip {
+.timetooltip {
   visibility: hidden;
   white-space: nowrap;
   position: fixed;
-  background-color: lightgreen;
+  background-color: lightgray;
   border-radius: 5px;
-  border: 1px solid green;
+  border: 1px solid gray;
   font-size: 10px;
   font-weight: bold;
   padding: 3px;
   z-index: 2003;
 }
-animates-playertimeline .timetooltip.active {
+.timetooltip.active {
   visibility: visible;
 }
 animates-playertimeline {
@@ -18,7 +18,7 @@ animates-playertimeline {
 }
 animates-playertimeline .timelines-tick-navigator {
   width: 100%;
-  height: 40px;
+  height: 21px;
   border: 1px solid black;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -27,71 +27,65 @@ animates-playertimeline .timelines-tick-navigator {
   background-color: #F0F0F5;
 }
 animates-playertimeline .timelines-tick-navigator .timeline-controls {
-  height: 40px;
-  width: 40px;
+  height: 100%;
+  width: 30px;
   border-right: 1px solid black;
   float: left;
 }
-animates-playertimeline .timelines-tick-navigator .timeline-controls button {
+animates-playertimeline .timelines-tick-navigator .timeline-controls .player-button {
   position: relative;
-  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0);
 }
 animates-playertimeline .timelines-tick-navigator .tickHandlerScrollerContainer {
   height: 100%;
   width: auto;
   position: relative;
   overflow-x: hidden;
+  background-color: #C2CBCC;
 }
 animates-playertimeline .timelines-tick-navigator .tickHandlerScrollerContainer:hover {
   cursor: pointer;
 }
 animates-playertimeline .timelines-tick-navigator .tickHandlerScrollerContainer .tickHandlerContainer {
-  height: 40px;
+  height: 100%;
   width: 100%;
   position: relative;
   display: block;
 }
 animates-playertimeline .timelines-tick-navigator .tickHandlerScrollerContainer .tickHandlerContainer .ruler {
-  background: #ffffff;
-  color: #444;
-  font-family: source code pro, "Arial Narrow", "Helvetica Neue", Helvetica, Arial, Veranda, sans-serif;
-  font-size: 12px;
-  line-height: 14px;
-  overflow: hidden;
-}
-animates-playertimeline .timelines-tick-navigator .tickHandlerScrollerContainer .tickHandlerContainer .ruler div {
-  background: #444;
-}
-animates-playertimeline .timelines-tick-navigator .tickHandlerScrollerContainer .tickHandlerContainer .ruler .tickLabel {
-  position: absolute;
-  top: 0px;
-  width: 1px;
-  height: 100%;
-  text-indent: 1px;
-}
-animates-playertimeline .timelines-tick-navigator .tickHandlerScrollerContainer .tickHandlerContainer .ruler .tickMajor {
-  position: absolute;
-  bottom: 0px;
-  width: 1px;
-  height: 6px;
-}
-animates-playertimeline .timelines-tick-navigator .tickHandlerScrollerContainer .tickHandlerContainer .ruler .tickMinor {
-  position: absolute;
-  bottom: 0px;
-  width: 1px;
-  height: 4px;
+    position: absolute;
+    display: inline-block;
+    height: 100%;
+    left:0;
+    background-color: #535A5C;
+    border-right: 1px solid #000000;
 }
 animates-playertimeline .timelines-tick-navigator .tickHandlerScrollerContainer .tickHandlerContainer .tickHandler {
-  position: absolute;
-  top: 12px;
+  position: relative;
+  top: 50%;
+  transform: translate(-50%, -50%);
   z-index: 2001;
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 20px solid blue;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #3A3A3A;
+  background: #e8482c; /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover, #aaaaaa 30%, #535A5C 45%); /* FF3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(30%,#aaaaaa), color-stop(45%,#535A5C)); /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center, ellipse cover, #aaaaaa 30%,#535A5C 45%); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover, #aaaaaa 30%,#535A5C 45%); /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover, #aaaaaa 30%,#535A5C 45%); /* IE10+ */
+  background: radial-gradient(ellipse at center, #aaaaaa 30%,#535A5C 45%); /* W3C */
+}
+animates-playertimeline .timelines-tick-navigator .tickHandlerScrollerContainer .tickHandlerContainer .tickHandler:hover {
+  background: #e8482c; /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover, #aaaaaa 30%, #e8482c 45%); /* FF3.6+ */
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(30%,#aaaaaa), color-stop(45%,#e8482c)); /* Chrome,Safari4+ */
+  background: -webkit-radial-gradient(center, ellipse cover, #aaaaaa 30%,#e8482c 45%); /* Chrome10+,Safari5.1+ */
+  background: -o-radial-gradient(center, ellipse cover, #aaaaaa 30%,#e8482c 45%); /* Opera 12+ */
+  background: -ms-radial-gradient(center, ellipse cover, #aaaaaa 30%,#e8482c 45%); /* IE10+ */
+  background: radial-gradient(ellipse at center, #aaaaaa 30%,#e8482c 45%); /* W3C */
 }
 animates-playertimeline .timelines-tick-navigator .tickHandlerScrollerContainer .tickHandlerContainer .tickHandler.cursor {
   cursor: move;

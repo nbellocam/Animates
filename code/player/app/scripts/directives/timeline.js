@@ -6,13 +6,13 @@ angular.module('animatesPlayer')
 			restrict: 'E',
 			template:	'<span class="timetooltip"></span>' +
 						'<div class="timelines-tick-navigator" style="width:{{width}}px;" >' +
-							'<div class="timeline-controls" >' +
-								'<button type="button" class="btn btn-default" ng-click="tooglePlay()"><span class="glyphicon" ng-class="{\'glyphicon-pause\': playing, \'glyphicon-play\': !playing}"></span></button>' +
+							'<div class="timeline-controls" ng-click="tooglePlay()" >' +
+								'<span class="glyphicon player-button" ng-class="{\'glyphicon-pause\': playing, \'glyphicon-play\': !playing}"></span>' +
 							'</div>' +
 							'<div class="tickHandlerScrollerContainer" style="width:{{rulerWidth}}px;" >' +
 								'<div class="tickHandlerContainer" style="width:{{rulerWidth}}px;">' +
-									'<div class="ruler"></div>' +
-									'<div class="tickHandler" style="left:{{tick-5}}px;"></div>' +
+									'<div class="ruler" style="width:{{tick}}px;"></div>' +
+									'<div class="tickHandler" style="left:{{tick}}px;"></div>' +
 								'</div>' +
 							'</div>' +
 						'</div>',
@@ -25,7 +25,6 @@ angular.module('animatesPlayer')
 				maxTick: '='
 			},
 			controller : function ($scope, $element) {
-				var ruleElement = angular.element($element[0].querySelector('.ruler'));
 				var timelineControls = angular.element($element[0].querySelector('.timeline-controls'));
 
 				$scope.playing = $scope.playing || false;
@@ -34,30 +33,6 @@ angular.module('animatesPlayer')
 				$scope.width = $scope.width || 500;
 				$scope.rulerWidth = $scope.width - timelineControls.width() - 3;
 				$scope.tickRate = $window.Math.round($scope.maxTick / $scope.rulerWidth);
-
-				$scope.drawRule =  function () {
-					// Horizontal ruler ticks
-					var tickLabelPos = 0,
-						width = $scope.rulerWidth,
-						newTickLabel = '',
-						interval = 5;
-
-					ruleElement[0].innerHTML = '';
-
-					while ( tickLabelPos <= width ) {
-						if ((( tickLabelPos ) %50 ) === 0 ) {
-							newTickLabel = '<div class="tickLabel"></div>';
-							ruleElement.append(angular.element(newTickLabel).css( 'left', tickLabelPos+'px' ));
-						} else if ((( tickLabelPos) %10 ) === 0 ) {
-							newTickLabel = '<div class="tickMajor"></div>';
-							ruleElement.append(angular.element(newTickLabel).css('left',tickLabelPos+'px'));
-						} else if ((( tickLabelPos) %5 ) === 0 ) {
-							newTickLabel = '<div class="tickMinor"></div>';
-							ruleElement.append(angular.element(newTickLabel).css( 'left', tickLabelPos+'px' ));
-						}
-						tickLabelPos = (tickLabelPos + interval);
-					}//hz ticks
-				};
 
 				$scope.tooglePlay = function() {
 					$scope.playing = !$scope.playing;
@@ -105,11 +80,10 @@ angular.module('animatesPlayer')
 			},
 			link : {
 				post : function ($scope, element) {
-					$scope.drawRule();
-
 					var x, originalTick,
 						tickHandlerElement = angular.element(element[0].querySelector('.tickHandler')),
 						tooltipElement = angular.element(element[0].querySelector('.timetooltip')),
+						tickHandlerScrollerContainerElement = angular.element(element[0].querySelector('.tickHandlerScrollerContainer')),
 						bodyElement = angular.element($document[0].querySelector('body'));
 
 					element.css('width', $scope.width);
@@ -132,8 +106,44 @@ angular.module('animatesPlayer')
 						$scope.internalTickChange();
 					}
 
-					tickHandlerElement.on('mousedown', function(event) {
+					function getRect(element) {
+						return element[0].getBoundingClientRect();
+					}
+
+					function followMouse (evt) {
+						var rect = getRect(tickHandlerScrollerContainerElement),
+							currentTick = evt.pageX - rect.left;
+
+						tooltipElement.html($scope.formatTime(currentTick));
+						tooltipElement.css({
+								'left' : (evt.pageX - (tooltipElement.prop('offsetWidth') / 2)) + 'px',
+								'top': (evt.pageY - 5 - tooltipElement.prop('offsetHeight')) + 'px'
+							});
+
+						tooltipElement.addClass('active');
+					}
+
+					tickHandlerScrollerContainerElement.on('mousedown', function () {
 						if (!$scope.isDisable) {
+							var rect = getRect(tickHandlerScrollerContainerElement);
+
+							setTick(event.pageX - rect.left);
+						}
+					});
+
+					tickHandlerScrollerContainerElement.on('mouseover', function (event) {
+						followMouse(event);
+						$document.on('mousemove', followMouse);
+					});
+
+					tickHandlerScrollerContainerElement.on('mouseout', function () {
+						$document.unbind('mousemove', followMouse);
+
+						tooltipElement.removeClass('active');
+					});
+
+					tickHandlerElement.on('mousedown', function(event) {
+						if (!$scope.playing) {
 							tickHandlerElement.addClass('moving');
 
 							// Prevent default dragging of selected content
