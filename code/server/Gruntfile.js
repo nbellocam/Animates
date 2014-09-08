@@ -439,7 +439,7 @@ module.exports = function (grunt) {
       editor: {
         expand: true,
         cwd: '../view/build/output/site',
-        src: ['scripts/editor-*', 'styles/editor-*', 'images/*', 'views/*'],
+        src: ['scripts/editor-*', 'styles/editor-*', 'images/*', 'views/**/*'],
         dest : '<%= yeoman.client %>/app/editor/assets/'
       },
       build: {
