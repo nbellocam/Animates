@@ -43,6 +43,23 @@ angular.module('animatesApp')
 
           deleteConfirm(scope.project.name);
         };
+
+        scope.download = function() {
+            $http.get('/api/projects/' + scope.project._id + '/download', {responseType: "arraybuffer"})
+              .success(function(projectZip) {
+                var hiddenElement = document.createElement('a');
+                var blob = new Blob([projectZip], {type: 'application/zip'});
+                hiddenElement.href = window.URL.createObjectURL(blob);
+                //hiddenElement.href = 'data:attachment/zip,' + encodeURI(project);
+                hiddenElement.target = '_blank';
+                hiddenElement.download = 'animation.zip';
+                hiddenElement.click();
+              })
+              .error(function () {
+                var errorModal = Modal.alerts.error();
+                errorModal();
+              });
+        };
       }
     };
   });

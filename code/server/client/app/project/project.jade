@@ -1,6 +1,7 @@
 div
   span.pull-right.action.delete.glyphicon.glyphicon-trash(ng-click='delete()')
   span.pull-right.action.share.fa.fa-share(ng-click='share()')
+  span.pull-right.action.share.glyphicon.glyphicon-download-alt(ng-click='download()')
   editable.title(value='project.name' on-change="titleChange")
   p.preview
     a(href='/projects/{{project._id}}', tooltip='{{project.info}}')
