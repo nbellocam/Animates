@@ -45,12 +45,12 @@ angular.module('animatesApp')
         };
 
         scope.download = function() {
-            $http.get('/api/projects/' + scope.project._id + '/download', {responseType: "arraybuffer"})
+            $http.get('/api/projects/' + scope.project._id + '/download', {responseType: 'arraybuffer'})
               .success(function(projectZip) {
                 var hiddenElement = document.createElement('a');
+                hiddenElement.setAttribute('id', 'hiddenDownloadElement');
                 var blob = new Blob([projectZip], {type: 'application/zip'});
                 hiddenElement.href = window.URL.createObjectURL(blob);
-                //hiddenElement.href = 'data:attachment/zip,' + encodeURI(project);
                 hiddenElement.target = '_blank';
                 hiddenElement.download = 'animation.zip';
                 hiddenElement.click();

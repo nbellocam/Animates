@@ -4,7 +4,6 @@ var _ = require('lodash');
 var path = require('path');
 var Project = require('./project.model');
 var User = require('../user/user.model');
-//var file_system = require('fs');
 var archiver = require('archiver');
 
 // Get list of projects
@@ -31,15 +30,10 @@ exports.show = function(req, res) {
 
 // Download a single project
 exports.download = function(req, res) {
-console.log('download file');
   Project.load(req.params.id, function (err, project) {
-console.log('download file: load project');
     if(err) { return handleError(res, err); }
     if(project) {
       if (project.canOpBeAppliedBy('view', req.user._id)) {
-console.log('download file: user can view');
-
-        //var output = file_system.createWriteStream('target.zip');
         var archive = archiver('zip');
 
         res.set({
@@ -51,24 +45,13 @@ console.log('download file: user can view');
             throw err;
         });
 
-        //archive.pipe(output);
         archive.pipe(res);
-        archive.append(new Buffer(JSON.stringify(project.animation)), { name:'data.json' });
+        archive.append(new Buffer('var animationData = { "animation": ' + JSON.stringify(project.animation) + '};'), { name:'data.js' });
         archive.bulk([
             { expand: true, cwd: path.normalize(__dirname + '/../../playerAssets'), src: ['**']}
         ]);
 
         return archive.finalize();
-
-
-        // add animation information
-        //zip.addFile("data.json", new Buffer(JSON.stringify(project.animation)), 'Animation information');
-        // add player assets
-        //zip.addLocalFolder(path.normalize(__dirname + '/../../playerAssets'));
-        //var animationZipBuffer = zip.toBuffer();
-        //zip.writeZip(__dirname + "/files.zip");
-
-        //return res.send(animationZipBuffer);
       } else {
         return res.send(404);
       }
