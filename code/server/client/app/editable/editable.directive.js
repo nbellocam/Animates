@@ -6,11 +6,11 @@ angular.module('animatesApp')
         restrict: 'E',
         scope: {
             value: '=',
-            onChange: '='
+            onChange: '=',
+            enabled: '='
         },
         template: '<span asd asd ng-click="edit()" ng-show="!editing" ng-bind="value"></span><input ng-show="editing" ng-blur="stopEdit()" ng-keypress="keypress($event)" ng-model="value"></input>',
         link: function ($scope, element) {
-
             // Let's get a reference to the input element, as we'll want to reference it.
             var inputElement = angular.element(element.children()[1]);
 
@@ -30,15 +30,17 @@ angular.module('animatesApp')
 
             // ng-click handler to activate edit-in-place
             $scope.edit = function () {
-                $scope.editing = true;
+                if ($scope.enabled) {
+                  $scope.editing = true;
 
-                // We control display through a class on the directive itself. See the CSS.
-                element.addClass('active');
+                  // We control display through a class on the directive itself. See the CSS.
+                  element.addClass('active');
 
-                // And we must focus the element.
-                // `angular.element()` provides a chainable array, like jQuery so to access a native DOM function,
-                // we have to reference the first element in the array.
-                $timeout(function () { inputElement[0].focus(); });
+                  // And we must focus the element.
+                  // `angular.element()` provides a chainable array, like jQuery so to access a native DOM function,
+                  // we have to reference the first element in the array.
+                  $timeout(function () { inputElement[0].focus(); });
+                }
             };
 
             $scope.stopEdit = function () {

@@ -98,8 +98,10 @@ ProjectSchema.statics.load = function(id, cb) {
 ProjectSchema.statics.list = function(userId, cb) {
   this
     .find()
-      .or([{ 'user' : userId }, { 'workgroup.user' : userId }])
-    .populate('user', 'name').exec(cb);
+      .or([{ 'user' : userId }, { 'workgroup.user' : userId }, { 'public' : true }])
+    .populate('user', 'name')
+    .select('-animation -history')
+    .exec(cb);
 };
 
 ProjectSchema.pre('save', function (next) {
@@ -125,16 +127,21 @@ ProjectSchema.methods = {
      * @api public
      */
 	canOpBeAppliedBy : function(op, userId) {
-		if (this.user.id === userId || this.user._id === userId ||
+    if (this.user.id === userId || this.user._id === userId ||
 			this.user._id.equals && this.user._id.equals(userId)) {
 			return true;
 		}
 
 		var workgroupMember;
+    if ((op === 'play') && (this.public)) {
+      return true;
+    }
+
 		for (var i = this.workgroup.length - 1; i >= 0; i--) {
 			workgroupMember = this.workgroup[i];
-
-			if (workgroupMember.user.id  === userId &&
+      console.log(workgroupMember);
+      console.log(userId);
+			if (workgroupMember.user.id.toString()  === userId.toString() &&
 				workgroupMember.permission === op){
 				return true;
 			}
