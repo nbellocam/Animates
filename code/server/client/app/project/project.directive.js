@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('animatesApp')
-  .directive('project', function ($http, Modal) {
+  .directive('project', function ($http, Modal, Auth) {
     return {
       templateUrl: 'app/project/project.html',
       restrict: 'E',
@@ -9,6 +9,33 @@ angular.module('animatesApp')
         project: '='
       },
       link: function (scope) {
+        scope.hasPrivilege = function (p) {
+          var user = Auth.getCurrentUser();
+
+          if (user._id === scope.project.user._id) {
+            return true;
+          }
+
+          var wks = scope.project.workgroup;
+
+          for (var x = 0; x < scope.project.workgroup.length; x++ ) {
+            if (user._id === wks[x].user) {
+              if (wks[x].permission === p) {
+                  return true;
+              }
+            }
+          }
+
+          return false;
+        };
+
+        function buildDefaultLink () {
+            if (scope.hasPrivilege('edit')) {
+              return '/projects/' + scope.project._id;
+            } else {
+              return '/projects/' + scope.project._id + '/play';
+            }
+        }
 
         scope.titleChange = function (newValue) {
           var jsonPatch = { name : newValue };
@@ -60,6 +87,11 @@ angular.module('animatesApp')
                 errorModal();
               });
         };
+
+        scope.defaultLink = buildDefaultLink();
+        scope.titleEnabled = scope.hasPrivilege('edit');
+        scope.deleteEnabled = scope.hasPrivilege('delete');
+        scope.shareEnabled = scope.hasPrivilege('editCollaborator');
       }
     };
   });

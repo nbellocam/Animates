@@ -8,7 +8,7 @@ var archiver = require('archiver');
 
 // Get list of projects
 exports.index = function(req, res) {
-  Project.find({ user : req.user._id},'-animation -history', function (err, projects) {
+  Project.list(req.user._id, function (err, projects) {
     if(err) { return handleError(res, err); }
     return res.json(200, projects);
   });
@@ -19,10 +19,10 @@ exports.show = function(req, res) {
   Project.load(req.params.id, function (err, project) {
     if(err) { return handleError(res, err); }
     if(project) {
-      if (project.canOpBeAppliedBy('view', req.user._id)) {
+      if (project.canOpBeAppliedBy('play', req.user._id)) {
         return res.json(project);
       } else {
-        return res.send(404);
+        return res.send(401);
       }
     } else { return res.send(404); }
   });
@@ -74,16 +74,20 @@ exports.create = function(req, res) {
 // Updates an existing project in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
-  Project.findById(req.params.id, function (err, project) {
+  Project.load(req.params.id, function (err, project) {
     if (err) { return handleError(res, err); }
     if(!project) { return res.send(404); }
     console.log(req.body);
-    var updated = _.merge(project, req.body);
-    console.log(updated);
-    updated.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.json(200, project);
-    });
+    console.log(req.user._id);
+    if (project.canOpBeAppliedBy('edit', req.user._id)) {
+      var updated = _.merge(project, req.body);
+      updated.save(function (err) {
+        if (err) { return handleError(res, err); }
+        return res.json(200, project);
+      });
+    } else {
+      return res.send(401);
+    }
   });
 };
 
@@ -108,6 +112,21 @@ exports.addCollaborator = function(req, res) {
   });
 };
 
+// Add / update a collaborator to a project
+exports.updateCollaborator = function(req, res) {
+  if(req.body._id) { delete req.body._id; }
+  var params = req.body;
+
+  Project.findById(req.params.id, function (err, project) {
+    if (err) { return handleError(res, err); }
+    if(!project) { return res.send(404); }
+      project.addCollaborator(req.params.userId, params.permission, function (err, collaborator) {
+        if (err) { return handleError(res, err); }
+        return res.json(200, collaborator);
+      });
+  });
+};
+
 // Remove a collaborator from a project
 exports.removeCollaborator = function(req, res) {
   if(req.body._id) { delete req.body._id; }
@@ -126,13 +145,19 @@ exports.removeCollaborator = function(req, res) {
 
 // Deletes a project from the DB.
 exports.destroy = function(req, res) {
+
   Project.findById(req.params.id, function (err, project) {
     if(err) { return handleError(res, err); }
     if(!project) { return res.send(404); }
-    project.remove(function(err) {
-      if(err) { return handleError(res, err); }
-      return res.send(204);
-    });
+
+    if (project.canOpBeAppliedBy('delete', req.user._id)) {
+      project.remove(function(err) {
+        if(err) { return handleError(res, err); }
+        return res.send(204);
+      });
+    } else {
+      return res.send(401);
+    }
   });
 };
 

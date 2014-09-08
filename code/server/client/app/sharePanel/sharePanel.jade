@@ -18,11 +18,7 @@ form(role="form")
         td.middle
           input.form-control(ng-model="newCollaborator")
         td.middle
-          select.form-control(ng-model="newCollaboratorPermission")
-            option(ng-selected="newCollaboratorPermission=='edit'")
-              | Edit
-            option(ng-selected="newCollaboratorPermission=='play'")
-              | Play
+          select.form-control(ng-model="newCollaboratorPermission" ng-options="opt.text for opt in options track by opt.value")
         td.middle
           button.btn.btn-primary(ng-click="addCollaborator()")
             | Add
@@ -37,11 +33,7 @@ form(role="form")
         td.middle
           | {{item.user.name}}
         td.middle
-          select.form-control
-            option(ng-selected="item.permission=='edit'")
-              | Edit
-            option(ng-selected="item.permission=='play'")
-              | Play
+          select.form-control(ng-model="item.extendedPermission" ng-change="changePermission($index)" ng-options="opt.text for opt in options track by opt.value")
         td.middle.center
           button.btn.btn-danger(ng-click="removeCollaborator($index)")
             | Remove

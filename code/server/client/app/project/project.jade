@@ -1,10 +1,14 @@
 div
-  span.pull-right.action.delete.glyphicon.glyphicon-trash(ng-click='delete()')
-  span.pull-right.action.share.fa.fa-share(ng-click='share()')
+  span.pull-right.action.delete.glyphicon.glyphicon-trash(ng-click='delete()' ng-show="deleteEnabled")
+  span.pull-right.action.share.fa.fa-share(ng-click='share()' ng-show="shareEnabled")
   span.pull-right.action.share.glyphicon.glyphicon-download-alt(ng-click='download()')
-  editable.title(value='project.name' on-change="titleChange")
+  editable.title(value='project.name' on-change="titleChange" enabled="titleEnabled")
+  p
+    | {{hasPrivilege('edit')}}
   p.preview
-    a(href='/projects/{{project._id}}', tooltip='{{project.info}}')
+    a(href='{{defaultLink}}')
       img(src='assets/images/video.png', alt='{{project.name}}')
+  p.description
+      | {{project.info}}
   p.modified
       | Last Modified: {{project.modified | date:'medium'}}

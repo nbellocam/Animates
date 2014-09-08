@@ -293,26 +293,4 @@ describe('Project Model', function() {
       });
     });
   });
-
-  it('should make a project public', function(done) {
-    var userIdprimary = new mongoose.Types.ObjectId;
-
-    Project.create(
-      {
-        name : 'test',
-        user :  userIdprimary
-      },
-    function (err, proj) {
-      proj.makePublic(true, function (err) {
-        should.not.exists(err);
-
-      	Project.findById(proj._id, function (err, found) {
-            should.not.exists(err);
-            should.exist(found);
-            found.public.should.be.ok;
-            done();
-        });
-      });
-    });
-  });
 });

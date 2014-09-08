@@ -40,6 +40,11 @@ User.find({}).remove(function() {
              }
             ]
         }, {
+            name: 'Public Animation test',
+            info: 'This is an incredible public animation test.',
+            user: testUser._id,
+            public: true
+        }, {
             name: 'Animation: The movie',
             info: 'You should see the second part, it is incredible.',
             user: testUser._id
