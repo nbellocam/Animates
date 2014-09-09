@@ -8,18 +8,18 @@ editable.title {
 	font-weight: bold;
 	font-size: 1.5em;
   line-height: 1.2em;
-  width : 500px;
+  width : 400px;
   display : inline-block;
 }
 
 @media (min-width: 960px) {
   editable.title {
-    width : 500px;
+    width : 400px;
   }
 }
 
 @media (min-width: 1100px) {
   editable.title {
-    width : 650px;
+    width : 550px;
   }
 }

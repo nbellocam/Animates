@@ -14,7 +14,7 @@ div.navbar.navbar-default.navbar-static-top(ng-controller='NavbarCtrl')
         li(ng-repeat='item in menu', ng-class='{active: isActive(item.link)}')
           a(ng-href='{{item.link}}') {{item.title}}
 
-      ul.nav.navbar-nav.navbar-left(ng-if ="project")
+      ul.nav.navbar-nav.navbar-left(ng-if="project")
         li
           a
             editable.title.editable.truncate(value='project.name' on-change="titleChange" enabled="true" accept-empty="false")
@@ -28,6 +28,19 @@ div.navbar.navbar-default.navbar-static-top(ng-controller='NavbarCtrl')
 
         li(ng-show='isLoggedIn()')
           p.navbar-text Hello {{ getCurrentUser().name }}
+
+        li.dropdown(ng-if="project")
+          a.dropdown-toggle(href='', data-toggle='dropdown')
+            | Options
+            span.caret
+          ul.dropdown-menu(role='menu')
+            li
+                a(href='', ng-click='shareProject()') Share
+            li.divider
+            li
+                a(ng-href='{{playUrl}}', target='_blank') Play
+            li
+                a(href='', ng-click='downloadProject()') Download
 
         li(ng-show='isLoggedIn()', ng-class='{active: isActive("/settings")}')
           a(href='/settings')
