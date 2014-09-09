@@ -18,6 +18,12 @@ module.exports = function(app) {
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
    .get(errors[404]);
 
+  // fix for an editor dialog
+  app.route('/views/dialogs/settings.html')
+    .get(function(req, res) {
+      res.sendfile(app.get('appPath') + '/app/editor/assets/views/dialogs/settings.html');
+  });
+
   // All other routes should redirect to the index.html
   app.route('/*')
     .get(function(req, res) {
