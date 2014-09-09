@@ -22,7 +22,7 @@ var mongoose = require('mongoose');
 module.exports = function(app) {
   var env = app.get('env');
 
-  app.set('views', config.root + '/server/views');
+  app.set('views', path.join(config.root, 'server' , 'views'));
   app.set('view engine', 'jade');
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -43,7 +43,7 @@ module.exports = function(app) {
   if ('production' === env) {
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(express.static(path.join(config.root, 'public')));
-    app.set('appPath', config.root + '/public');
+    app.set('appPath', path.join(config.root, 'public'));
     app.use(morgan('dev'));
   }
 
