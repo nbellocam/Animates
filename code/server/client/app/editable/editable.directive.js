@@ -7,30 +7,51 @@ angular.module('animatesApp')
         scope: {
             value: '=',
             onChange: '=',
-            enabled: '='
+            enabled: '=',
+            acceptEmpty: '='
         },
-        template: '<span asd asd ng-click="edit()" ng-show="!editing" ng-bind="value"></span><input ng-show="editing" ng-blur="stopEdit()" ng-keyup="keypress($event)" ng-model="value"></input>',
+        template: '<p ng-click="edit()" ng-show="!editing" ng-bind="value"></p><input ng-show="editing" ng-blur="stopEdit()" ng-keyup="keypress($event)" ng-model="value"></input>',
         link: function ($scope, element) {
             // Let's get a reference to the input element, as we'll want to reference it.
             var inputElement = angular.element(element.children()[1]);
+            $scope.validation = !!$scope.acceptEmpty;
 
             // Initially, we're not editing.
             $scope.editing = false;
-
             $scope.oldValue = $scope.value;
 
+            function validate() {
+              if (!$scope.acceptEmpty) {
+                return ($scope.value !== '');
+              }
+
+              return true;
+            }
+
             $scope.keypress = function ($event) {
+              if (validate()) {
+                element.removeClass('invalid');
+              } else {
+                element.addClass('invalid');
+              }
+
               switch ($event.keyCode) {
                 case 13:
-                  $scope.stopEdit();
-                  if ($scope.value !== $scope.oldValue) {
-                    $scope.onChange($scope.value, $scope.oldValue);
+                  if (validate()){
+                    $scope.stopEdit();
+                    if ($scope.value !== $scope.oldValue) {
+                      $scope.onChange($scope.value, $scope.oldValue);
+                    }
                   }
                   break;
                 case 27:
-                  $scope.stopEdit();
-                  $scope.value = $scope.oldValue;
+                  $scope.cancelEdit();
               }
+            };
+
+            $scope.cancelEdit = function () {
+              $scope.value = $scope.oldValue;
+              $scope.stopEdit();
             };
 
             // ng-click handler to activate edit-in-place
