@@ -5,17 +5,17 @@ angular.module('animatesEditor')
     var registeredItems = {};
 
     function isTypeRegistered(type) {
-      return (type && registeredItems[type] &&
-        registeredItems[type].getButtonClass &&
-        registeredItems[type].createMediaObject);
+      return (type && registeredItems[type.trim()] &&
+        registeredItems[type.trim()].getButtonClass &&
+        registeredItems[type.trim()].createMediaObject);
     }
 
     this.registerItem = function registerItem(type, getButtonClassFunction, createMediaObjectFunction) {
-      if (type && !isTypeRegistered(type) &&
+      if (type && !isTypeRegistered(type.trim()) &&
           (typeof(getButtonClassFunction) === 'function') &&
           (typeof(createMediaObjectFunction) === 'function')) {
 
-        registeredItems[type] = {
+        registeredItems[type.trim()] = {
           getButtonClass: getButtonClassFunction,
           createMediaObject: createMediaObjectFunction
         };
@@ -35,16 +35,16 @@ angular.module('animatesEditor')
     };
 
     this.getButtonClass = function getButtonClass(type) {
-      if (isTypeRegistered(type)) {
-        return registeredItems[type].getButtonClass();
+      if (isTypeRegistered(type.trim())) {
+        return registeredItems[type.trim()].getButtonClass();
       }
 
       return '';
     };
 
     this.createMediaObject = function createMediaObject(type) {
-      if (isTypeRegistered(type)) {
-        return registeredItems[type].createMediaObject();
+      if (isTypeRegistered(type.trim())) {
+        return registeredItems[type.trim()].createMediaObject();
       }
 
       return undefined;
