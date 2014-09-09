@@ -36,14 +36,10 @@
     text-align: center;
 }
 
-.project input {
+.project .title {
     font-size: 18px;
-    width: 80%;
+    width: 100%;
     height: 25px;
-}
-
-.project input {
-    color: #F7572A;
 }
 
 .project:hover {
@@ -51,7 +47,7 @@
     color: #428bca;
 }
 
-.project:hover input {
+.project:hover .title {
     color: #428bca;
 }
 
