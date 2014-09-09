@@ -5,6 +5,7 @@
 'use strict';
 
 var errors = require('./components/errors');
+var path = require('path');
 
 module.exports = function(app) {
 
@@ -21,12 +22,12 @@ module.exports = function(app) {
   // fix for an editor dialog
   app.route('/views/dialogs/settings.html')
     .get(function(req, res) {
-      res.sendfile(app.get('appPath') + '/app/editor/assets/views/dialogs/settings.html');
-  });
+        res.sendfile(path.join(app.get('appPath'), 'app', 'editor', 'assets', 'views', 'dialogs', 'settings.html'));
+    });
 
   // All other routes should redirect to the index.html
   app.route('/*')
     .get(function(req, res) {
-      res.sendfile(app.get('appPath') + '/index.html');
+      res.sendfile(path.join(app.get('appPath'), 'index.html'));
     });
 };

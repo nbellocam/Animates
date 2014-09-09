@@ -25,9 +25,8 @@ angular.module('animatesEditor')
 					},
 					south:{
 						size: 150,
-						onresize : function (panelName, element) {
-							var pane = $(element);
-							$('animates-timelines').css('height', pane.height() - (pane.outerHeight() - pane.height()) + 'px');
+						onresize : function (panelName, element, state) {
+							$('animates-timelines').css('height', state.innerHeight + 'px');
 						}
 					},
 					center: {
@@ -37,7 +36,9 @@ angular.module('animatesEditor')
 					}
 				});
 				innerLayout.resizeAll();
+
 				canvasService.updateSize(innerLayout.state.center.innerHeight, innerLayout.state.center.innerWidth);
+				$('animates-timelines').css('height', innerLayout.state.south.innerHeight + 'px');
 			});
 		}
 
@@ -117,7 +118,9 @@ angular.module('animatesEditor')
 					loadProject(project.animation, project.id);
 				} else {
 					$scope.$on('projectLoaded', function (event, project) {
-						loadProject(project.animation, project.id);
+						$timeout(function () {
+							loadProject(project.animation, project.id);
+						}, 0);
 					});
 				}
 			} else {

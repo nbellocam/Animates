@@ -6,18 +6,18 @@ angular.module('animatesEditor')
 			_self = this;
 
 		function isTypeRegistered(type) {
-			return type && registeredShapes[type] && (typeof(registeredShapes[type]) === 'function');
+			return type && registeredShapes[type.trim()] && (typeof(registeredShapes[type.trim()]) === 'function');
 		}
 
 		this.registerShape = function registerShape(type, creationFunction) {
-			if (type && !isTypeRegistered(type) && (typeof(creationFunction) === 'function')) {
-				registeredShapes[type] = creationFunction;
+			if (type && !isTypeRegistered(type.trim()) && (typeof(creationFunction) === 'function')) {
+				registeredShapes[type.trim()] = creationFunction;
 			}
 		};
 
 		this.createShapeFromFrame = function createShapeFromFrame(mediaFrame, canvasPosition) {
 			if (mediaFrame) {
-				var type = mediaFrame.getMediaObjectType();
+				var type = mediaFrame.getMediaObjectType().trim();
 
 				if (isTypeRegistered(type)) {
 					var shape = registeredShapes[type](mediaFrame.getMediaObjectGuid());
