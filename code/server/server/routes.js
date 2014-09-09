@@ -22,8 +22,8 @@ module.exports = function(app) {
   // fix for an editor dialog
   app.route('/views/dialogs/settings.html')
     .get(function(req, res) {
-      res.sendfile(path.join(app.get('appPath'), 'app', 'editor', 'assets', 'views', 'dialogs', 'settings.html'));
-  });
+        res.sendfile(path.join(app.get('appPath'), 'app', 'editor', 'assets', 'views', 'dialogs', 'settings.html'));
+    });
 
   // All other routes should redirect to the index.html
   app.route('/*')
