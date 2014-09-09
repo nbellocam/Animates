@@ -25,9 +25,8 @@ angular.module('animatesEditor')
 					},
 					south:{
 						size: 150,
-						onresize : function (panelName, element) {
-							var pane = $(element);
-							$('animates-timelines').css('height', pane.height() - (pane.outerHeight() - pane.height()) + 'px');
+						onresize : function (panelName, element, state) {
+							$('animates-timelines').css('height', state.innerHeight + 'px');
 						}
 					},
 					center: {
@@ -38,6 +37,7 @@ angular.module('animatesEditor')
 				});
 				innerLayout.resizeAll();
 				canvasService.updateSize(innerLayout.state.center.innerHeight, innerLayout.state.center.innerWidth);
+				$('animates-timelines').css('height', innerLayout.state.south.innerHeight + 'px');
 			});
 		}
 
