@@ -10,7 +10,7 @@ angular.module('animatesApp')
             enabled: '=',
             acceptEmpty: '='
         },
-        template: '<p ng-click="edit()" ng-show="!editing" ng-bind="value"></p><input ng-show="editing" ng-blur="stopEdit()" ng-keyup="keypress($event)" ng-model="value"></input>',
+        template: '<span ng-click="edit()" ng-show="!editing" ng-bind="value"></span><input ng-show="editing" ng-blur="stopEdit()" ng-keyup="keypress($event)" ng-model="value"></input>',
         link: function ($scope, element) {
             // Let's get a reference to the input element, as we'll want to reference it.
             var inputElement = angular.element(element.children()[1]);
