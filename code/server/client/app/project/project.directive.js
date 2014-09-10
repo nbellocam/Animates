@@ -91,7 +91,7 @@ angular.module('animatesApp')
         scope.defaultLink = buildDefaultLink();
         scope.titleEnabled = scope.hasPrivilege('edit');
         scope.deleteEnabled = scope.hasPrivilege('delete');
-        scope.shareEnabled = scope.hasPrivilege('editCollaborator');
+        scope.shareEnabled = scope.hasPrivilege('editCollaborators');
       }
     };
   });

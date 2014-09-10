@@ -18,13 +18,13 @@ exports.index = function(req, res) {
 exports.show = function(req, res) {
   Project.load(req.params.id, function (err, project) {
     if(err) { return handleError(res, err); }
-    if(project) {
-      if (project.canOpBeAppliedBy('play', req.user._id)) {
-        return res.json(project);
-      } else {
-        return res.send(401);
-      }
-    } else { return res.send(404); }
+    if(!project) { return res.send(404); }
+
+    if (project.canOpBeAppliedBy('play', req.user._id)) {
+      return res.json(project);
+    } else {
+      return res.send(401);
+    }
   });
 };
 
@@ -32,30 +32,30 @@ exports.show = function(req, res) {
 exports.download = function(req, res) {
   Project.load(req.params.id, function (err, project) {
     if(err) { return handleError(res, err); }
-    if(project) {
-      if (project.canOpBeAppliedBy('view', req.user._id)) {
-        var archive = archiver('zip');
+    if(!project) { return res.send(404); }
 
-        res.set({
-            'Content-Type': 'application/zip',
-            'Content-Disposition': 'attachment; filename="animation.zip"',
-        });
+    if (project.canOpBeAppliedBy('play', req.user._id)) {
+      var archive = archiver('zip');
 
-        archive.on('error', function(err){
-            throw err;
-        });
+      res.set({
+          'Content-Type': 'application/zip',
+          'Content-Disposition': 'attachment; filename="animation.zip"',
+      });
 
-        archive.pipe(res);
-        archive.append(new Buffer('var animationData = { "animation": ' + JSON.stringify(project.animation) + '};'), { name:'data.js' });
-        archive.bulk([
-            { expand: true, cwd: path.normalize(__dirname + '/../../playerAssets'), src: ['**']}
-        ]);
+      archive.on('error', function(err){
+          throw err;
+      });
 
-        return archive.finalize();
-      } else {
-        return res.send(404);
-      }
-    } else { return res.send(404); }
+      archive.pipe(res);
+      archive.append(new Buffer('var animationData = { "animation": ' + JSON.stringify(project.animation) + '};'), { name:'data.js' });
+      archive.bulk([
+          { expand: true, cwd: path.normalize(__dirname + '/../../playerAssets'), src: ['**']}
+      ]);
+
+      return archive.finalize();
+    } else {
+      return res.send(401);
+    }
   });
 };
 
@@ -77,8 +77,7 @@ exports.update = function(req, res) {
   Project.load(req.params.id, function (err, project) {
     if (err) { return handleError(res, err); }
     if(!project) { return res.send(404); }
-    console.log(req.body);
-    console.log(req.user._id);
+
     if (project.canOpBeAppliedBy('edit', req.user._id)) {
       var updated = _.merge(project, req.body);
       updated.save(function (err) {
@@ -96,19 +95,23 @@ exports.addCollaborator = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   var params = req.body;
 
-  Project.findById(req.params.id, function (err, project) {
+  Project.load(req.params.id, function (err, project) {
     if (err) { return handleError(res, err); }
     if(!project) { return res.send(404); }
 
-      User.findOne({ email : params.email }, function (err, user){
-        if (err) { return handleError(res, err); }
-        if(!user) { return res.send(500, 'User was not found.'); }
-
-        project.addCollaborator(user._id, params.permission, function (err, collaborator) {
+      if (project.canOpBeAppliedBy('editCollaborators', req.user._id)) {
+        User.findOne({ email : params.email }, function (err, user){
           if (err) { return handleError(res, err); }
-          return res.json(200, collaborator);
+          if(!user) { return res.send(404, 'User was not found.'); }
+
+          project.addCollaborator(user._id, params.permission, function (err, collaborator) {
+            if (err) { return handleError(res, err); }
+            return res.json(200, collaborator);
+          });
         });
-      });
+      } else {
+        return res.send(401);
+      }
   });
 };
 
@@ -117,13 +120,17 @@ exports.updateCollaborator = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   var params = req.body;
 
-  Project.findById(req.params.id, function (err, project) {
+  Project.load(req.params.id, function (err, project) {
     if (err) { return handleError(res, err); }
     if(!project) { return res.send(404); }
-      project.addCollaborator(req.params.userId, params.permission, function (err, collaborator) {
-        if (err) { return handleError(res, err); }
-        return res.json(200, collaborator);
-      });
+      if (project.canOpBeAppliedBy('editCollaborators', req.user._id)) {
+        project.addCollaborator(req.params.userId, params.permission, function (err, collaborator) {
+          if (err) { return handleError(res, err); }
+          return res.json(200, collaborator);
+        });
+      } else {
+        return res.send(401);
+      }
   });
 };
 
@@ -132,21 +139,24 @@ exports.removeCollaborator = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   var params = req.params;
 
-  Project.findById(params.id, function (err, project) {
+  Project.load(params.id, function (err, project) {
     if (err) { return handleError(res, err); }
     if(!project) { return res.send(404); }
 
-      project.removeCollaborator(params.userId, function (err) {
-        if (err) { return handleError(res, err); }
-        return res.json(200, project);
-      });
+      if (project.canOpBeAppliedBy('editCollaborators', req.user._id)) {
+        project.removeCollaborator(params.userId, function (err) {
+          if (err) { return handleError(res, err); }
+            return res.json(200, project);
+        });
+      } else {
+        return res.send(401);
+      }
   });
 };
 
 // Deletes a project from the DB.
 exports.destroy = function(req, res) {
-
-  Project.findById(req.params.id, function (err, project) {
+  Project.load(req.params.id, function (err, project) {
     if(err) { return handleError(res, err); }
     if(!project) { return res.send(404); }
 

@@ -127,8 +127,14 @@ ProjectSchema.methods = {
      * @api public
      */
 	canOpBeAppliedBy : function(op, userId) {
-    if (this.user.id === userId || this.user._id === userId ||
-			this.user._id.equals && this.user._id.equals(userId)) {
+    var currentUserId = this.user._id.toString(),
+        requestedUserId = userId.toString(),
+        inferredOp = {
+            edit : ['edit', 'play'],
+            play : ['play']
+        };
+
+    if (currentUserId === requestedUserId) {
 			return true;
 		}
 
@@ -139,11 +145,12 @@ ProjectSchema.methods = {
 
 		for (var i = this.workgroup.length - 1; i >= 0; i--) {
 			workgroupMember = this.workgroup[i];
-      console.log(workgroupMember);
-      console.log(userId);
-			if (workgroupMember.user.id.toString()  === userId.toString() &&
-				workgroupMember.permission === op){
-				return true;
+
+			if (workgroupMember.user.id.toString() === requestedUserId) {
+        // inferred ops such as edit => play
+        if (inferredOp[workgroupMember.permission].indexOf(op) !== -1) {
+            return true;
+        }
 			}
 		}
 
@@ -202,10 +209,11 @@ ProjectSchema.methods = {
 	},
 
   addCollaborator : function (userId, permission, cb) {
-    var exists = false;
+    var exists = false,
+        requestedUserId = userId.toString();
 
     this.workgroup.forEach(function (item){
-      if (item.user.toString() == userId.toString()) {
+      if (item.user._id.toString() == requestedUserId) {
         exists = true;
         item.permission = permission;
       }
@@ -241,10 +249,11 @@ ProjectSchema.methods = {
   },
 
   removeCollaborator : function (userId, cb) {
-    var exists = false;
+    var exists = false,
+        requestedUserId = userId.toString();
 
     for (var x=0; x < this.workgroup.length; x++) {
-      if (this.workgroup[x].user.toString() == userId.toString()) {
+      if (this.workgroup[x].user._id.toString() === requestedUserId) {
         this.workgroup.splice(x, 1);
         exists = true;
         this.save(cb);
