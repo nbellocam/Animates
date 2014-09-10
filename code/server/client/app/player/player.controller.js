@@ -5,7 +5,7 @@ angular.module('animatesApp')
     $scope.project = undefined;
     $scope.projectId = undefined;
 
-    $http.get('/api/projects/' + $routeParams.id).success(function(project) {
+    $http.get('/api/projects/' + $routeParams.id + '/play').success(function(project) {
       project.id = project._id;
       $scope.project = project;
       $scope.projectId = project._id;

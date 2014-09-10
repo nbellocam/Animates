@@ -5,6 +5,7 @@ var path = require('path');
 var Project = require('./project.model');
 var User = require('../user/user.model');
 var archiver = require('archiver');
+var auth = require('../../auth/auth.service');
 
 // Get list of projects
 exports.index = function(req, res) {
@@ -19,8 +20,21 @@ exports.show = function(req, res) {
   Project.load(req.params.id, function (err, project) {
     if(err) { return handleError(res, err); }
     if(!project) { return res.send(404); }
+    if (project.public) {
+      return res.json(project);
+    } else {
+      return res.send(401);
+    }
+  });
+};
 
-    if (project.canOpBeAppliedBy('play', req.user._id)) {
+// Get a single project
+exports.edit = function(req, res) {
+  Project.load(req.params.id, function (err, project) {
+    if(err) { return handleError(res, err); }
+    if(!project) { return res.send(404); }
+
+    if (auth.isAuthenticated() && project.canOpBeAppliedBy('play', req.user._id)) {
       return res.json(project);
     } else {
       return res.send(401);
