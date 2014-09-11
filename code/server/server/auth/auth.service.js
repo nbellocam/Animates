@@ -13,25 +13,43 @@ var validateJwt = expressJwt({ secret: config.secrets.session });
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
  */
-function isAuthenticated() {
+function isAuthenticated(allowAnonymous) {
   return compose()
     // Validate jwt
     .use(function(req, res, next) {
+      // By default user are expected to be logged in
+      req.isAnonymous = false;
       // allow access_token to be passed through query parameter as well
       if(req.query && req.query.hasOwnProperty('access_token')) {
         req.headers.authorization = 'Bearer ' + req.query.access_token;
       }
       validateJwt(req, res, next);
     })
+    .use(function (err, req, res, next) {
+      if (err.name === 'UnauthorizedError') {
+        // If no jwt token is found or it is invalid set anonymous request in true
+        if (allowAnonymous) {
+          req.isAnonymous = true;
+          next();
+        } else {
+          res.send(401, 'Invalid token.');
+        }
+      }
+    })
     // Attach user to request
     .use(function(req, res, next) {
-      User.findById(req.user._id, function (err, user) {
-        if (err) return next(err);
-        if (!user) return res.send(401);
+      // if this is an anonymous request we cannot get the user info
+      if (!req.isAnonymous) {
+        User.findById(req.user._id, function (err, user) {
+          if (err) return next(err);
+          if (!user) return res.send(401);
 
-        req.user = user;
+          req.user = user;
+          next();
+        });
+      } else {
         next();
-      });
+      }
     });
 }
 
