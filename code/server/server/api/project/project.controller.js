@@ -23,12 +23,8 @@ exports.show = function(req, res) {
 
     if (project.public) {
       return res.json(project);
-    } else if (!req.isAnonymous) {
-      if (project.canOpBeAppliedBy('play', req.user._id)) {
+    } else if ((!req.isAnonymous) && (project.canOpBeAppliedBy('play', req.user._id))) {
         return res.json(project);
-      } else {
-        return res.send(401);
-      }
     } else {
       return res.send(401);
     }
@@ -55,7 +51,7 @@ exports.download = function(req, res) {
     if(err) { return handleError(res, err); }
     if(!project) { return res.send(404); }
 
-    if (project.canOpBeAppliedBy('play', req.user._id)) {
+    function download () {
       var archive = archiver('zip');
 
       res.set({
@@ -74,6 +70,12 @@ exports.download = function(req, res) {
       ]);
 
       return archive.finalize();
+    }
+
+    if (project.public) {
+      return download();
+    } else if (!req.isAnonymous && project.canOpBeAppliedBy('play', req.user._id)) {
+      return download();
     } else {
       return res.send(401);
     }
