@@ -1,0 +1,61 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <link rel="stylesheet" href="styles/common-vendor.css"/>
+
+    <link rel="stylesheet" href="styles/player-main.css"/>
+  </head>
+  <body ng-app="animatesPlayer">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class='animates-player' ng-controller="PlayerCtrl" ng-init="initializeAnimation('projectId');">
+      <!-- Add your site or application content here -->
+      <div class="main-container" ng-hide="loading">
+        <div class="player">
+            <canvas id="playerCanvas" ng-controller="PlayerCanvasCtrl"></canvas>
+            <animates-playertimeline tick="tick"
+              tick-change="onTimelineTickChange(tick)"
+              tick-ratio="tickRatio"
+              width="500"
+              on-toggleplaying="onTogglePlaying(playing)"
+              max-tick="maxTick"></animates-playertimeline>
+        </div>
+      </div>
+      <div class="loading" ng-show="loading">
+        <div class="loading-message">
+          <div class="progress progress-striped active">
+            <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="50">
+              <span>loading ...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <script src="scripts/common-vendor.js"></script>
+
+    <script src="scripts/player-vendor.js"></script>
+
+    <script src="scripts/player-model.js"></script>
+
+    <script src="scripts/player-scripts.js"></script>
+
+  </body>
+</html>
