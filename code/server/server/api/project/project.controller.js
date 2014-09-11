@@ -34,7 +34,7 @@ exports.edit = function(req, res) {
     if(err) { return handleError(res, err); }
     if(!project) { return res.send(404); }
 
-    if (auth.isAuthenticated() && project.canOpBeAppliedBy('play', req.user._id)) {
+    if (project.canOpBeAppliedBy('edit', req.user._id)) {
       return res.json(project);
     } else {
       return res.send(401);
