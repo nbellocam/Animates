@@ -58,14 +58,6 @@ angular.module('animatesPlayer')
 			playerLocalAnimationStateService.setCurrentTick(0);
 		};
 
-		this.stepForward = function (step) {
-			playerLocalAnimationStateService.setCurrentTick(playerLocalAnimationStateService.getCurrentTick() + step);
-		};
-
-		this.stepBackward = function (step) {
-			playerLocalAnimationStateService.setCurrentTick(playerLocalAnimationStateService.getCurrentTick() - step);
-		};
-
 		this.tickDuration = function () {
 			return tickDuration;
 		};

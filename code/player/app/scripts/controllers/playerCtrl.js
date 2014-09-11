@@ -49,6 +49,9 @@ angular.module('animatesPlayer')
 
 		$scope.onTimelineTickChange = function(tick) {
 			playerLocalAnimationStateService.setCurrentTick(tick);
+			if (tick >= $scope.maxTick) {
+				playerPresentationPlayerService.stop();
+			}
 		};
 
 		$scope.onLocalStateTickChange = function(newVal) {

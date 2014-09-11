@@ -31,7 +31,7 @@ angular.module('animatesPlayer')
 				$scope.tick = $scope.externalTick;
 				$scope.maxTick = $scope.maxTick || 5000;
 				$scope.width = $scope.width || 500;
-				$scope.rulerWidth = $scope.width - timelineControls.width() - 3;
+				$scope.rulerWidth = $scope.width - timelineControls.width() - 4;
 				$scope.tickRate = $window.Math.round($scope.maxTick / $scope.rulerWidth);
 
 				$scope.tooglePlay = function() {
