@@ -6,7 +6,7 @@
 
 editable.title {
   font-size : 1em;
-  width : 400px;
+  width : 100px;
   display: block;
 }
 
@@ -21,14 +21,14 @@ editable.title input {
   font-size: 1em;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1000px) {
   editable.title {
-    width : 400px;
+    width : 200px;
   }
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1200px) {
   editable.title {
-    width : 550px;
+    width : 300px;
   }
 }
