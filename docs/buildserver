@@ -1,0 +1,154 @@
+Animates Bot <animates.bot@gmail.com>
+
+
+if [ -d "build" ]; then
+    rm -r build
+fi
+
+mkdir build
+
+if [ -e "./build.sh" ]; then
+    if [ ! -x "./build.sh" ]; then
+        chmod a+x build.sh
+    fi
+
+    ./build.sh
+fi
+
+
+--
+
+
+
+
+Enabled   
+Name  ↓
+Version   
+Previously installed version   
+Pinned   
+Uninstall   
+	
+AnsiColor
+This plugin adds support for ANSI escape sequences, including color, to Console Output.
+0.3.1			
+
+	
+Ant Plugin
+This plugin adds Apache Ant support to Jenkins.
+1.2			
+	
+Box UK - JSLint
+JSLint plugin that allows you to run a sensible subset of jslint rules against your project. You can include and exclude files and specify an output file.
+
+Outputs in the CheckStyle format so you can integrate the JSLint results right into your build! You should probably use the Checkstyle plugin to include the jslint results in your Jenkins project,
+
+Produced by Box UK
+
+0.8.2			
+
+	
+Credentials Plugin
+This plugin allows you to store credentials in Jenkins.
+1.7.4	
+Downgrade to 1.7.3
+Unpin
+	
+	
+Git Client Plugin
+Shared library plugin for other Git related Jenkins plugins.
+1.1.2			
+
+	
+Git Plugin
+This plugin integrates GIT with Jenkins.
+1.4.0			
+
+	
+GitHub API Plugin
+This plugin provides GitHub API for other plugins.
+1.43			
+
+	
+GitHub Plugin
+This plugin integrates GitHub to Jenkins.
+1.7			
+
+	
+GitHub Pull Request Builder
+This plugin builds pull requests in github and report results.
+1.9			
+
+	
+Javadoc Plugin
+This plugin adds Javadoc support to Jenkins.
+1.1			
+	
+Jenkins CVS Plug-in
+Integrates Jenkins with CVS version control system using a modified version of the Netbeans cvsclient.
+2.9	
+Downgrade to 2.8
+Unpin
+	
+	
+Jenkins Mailer Plugin
+This plugin allows you to configure email notifications. This is a break-out of the original core based email component.
+1.5			
+	
+Jenkins Translation Assistance plugin
+This plugin adds an additional dialog box in every page, which enables people to contribute localizations for the messages they are seeing in the current page.
+1.10			
+	
+Jenkins Violations plugin
+This plugin does reports on checkstyle, csslint, pmd, cpd, fxcop, pylint, jcReport, findbugs, and perlcritic violations.
+0.7.11			
+
+	
+LDAP Plugin
+Security realm based on LDAP authentication.
+1.6	
+Downgrade to 1.2
+Unpin
+	
+	
+Maven Project Plugin
+Special project type for Maven projects.
+1.524			
+	
+Monitoring external jobs
+Adds the ability to monitor the result of externally executed jobs.
+1.1			
+	
+NodeJS Plugin
+NodeJS Plugin executes NodeJS script as a build step.
+0.2	
+Downgrade to 0.1
+
+	
+PAM Authentication plugin
+Adds Unix Pluggable Authentication Module (PAM) support to Jenkins.
+1.1	
+Downgrade to 1.0
+Unpin
+	
+	
+SSH Credentials Plugin
+This plugin allows you to store SSH credentials in Jenkins.
+1.3	
+Downgrade to 0.3
+Unpin
+	
+	
+SSH Slaves plugin
+This plugin allows you to manage slaves running on \*nix machines over SSH.
+0.25			
+	
+Subversion Plugin
+This plugin adds the Subversion support (via SVNKit) to Jenkins.
+1.50	
+Downgrade to 1.45
+Unpin
+	
+	
+Windows Azure Storage plugin
+Windows Azure Blob Storage Plugin enables uploading build 
+artifacts to Windows Azure Blob storage

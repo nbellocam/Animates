@@ -1,0 +1,29 @@
+- Create a VM using Bitnami Jenkins VM
+- Navigate to the VM and change the user password
+	- Navigate to the url
+	- login with user/bitnami
+	- click UserName at the top
+	- go to configure
+	- update the password field
+
+- Integrate with github: http://fourkitchens.com/blog/2011/09/20/trigger-jenkins-builds-pushing-github
+
+- Install Violation plugin: https://wiki.jenkins-ci.org/display/JENKINS/Violations
+
+- install node.js plugin: https://wiki.jenkins-ci.org/display/JENKINS/NodeJS+Plugin
+
+- Setup "E-mail Notification" using gmail
+	- smtp server: smtp.gmail.com
+	- use smtp authentication
+	- username: your email
+	- password: your password
+	- use ssl true
+	smtp: 465
+	test the email configuration
+
+More information:
+http://www.portlandwebworks.com/blog/jenkins-configuration-yeoman-based-angularjs-web-application
+http://www.appsaloon.be/blog/jenkins-with-nodejs-and-grunt/
+http://blog.martinhujer.cz/integrating-javascript-nodejs-jenkins/
+http://karma-runner.github.io/0.8/plus/Jenkins-CI.html
+http://programmaticponderings.wordpress.com/2013/11/13/building-a-deployment-pipeline-using-git-maven-jenkins-and-glassfish-part-2-of-2/
