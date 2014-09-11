@@ -20,8 +20,15 @@ exports.show = function(req, res) {
   Project.load(req.params.id, function (err, project) {
     if(err) { return handleError(res, err); }
     if(!project) { return res.send(404); }
+
     if (project.public) {
       return res.json(project);
+    } else if (!req.isAnonymous) {
+      if (project.canOpBeAppliedBy('play', req.user._id)) {
+        return res.json(project);
+      } else {
+        return res.send(401);
+      }
     } else {
       return res.send(401);
     }
@@ -34,7 +41,7 @@ exports.edit = function(req, res) {
     if(err) { return handleError(res, err); }
     if(!project) { return res.send(404); }
 
-    if (auth.isAuthenticated() && project.canOpBeAppliedBy('play', req.user._id)) {
+    if (project.canOpBeAppliedBy('edit', req.user._id)) {
       return res.json(project);
     } else {
       return res.send(401);
