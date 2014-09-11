@@ -3,7 +3,7 @@ div
   span.pull-right.action.share.fa.fa-share(ng-click='share()' ng-show="shareEnabled")
   span.pull-right.action.share.glyphicon.glyphicon-download-alt(ng-click='download()')
   br
-  editable.title.editable.truncate(value='project.name' title='{{project.name}}' on-change="titleChange" enabled="titleEnabled" accept-empty="false")
+  editable.title.editable.truncate(value='project.name' title='{{project.name}}' on-change="titleChange" is-enabled="titleEnabled" accept-empty="false")
   p.preview
     a(href='{{defaultLink}}')
       img(src='assets/images/video.png')
