@@ -8,17 +8,17 @@ var Canvas = require('../../src/canvas'),
 
 describe('Canvas', function () {
 	describe('Serialization', function() {
-		it('toJSON should return json', function() { 
+		it('toJSON should return json', function() {
 			var canvas = new Canvas(),
 				json = canvas.toJSON();
 
-			json.should.have.property('height', 600);
+			json.should.have.property('height', 400);
 			json.should.have.property('width', 600);
-			json.should.have.property('backgroundColor', 'white');
+			json.should.have.property('backgroundColor', '#FFFFFF');
 			json.should.have.property('backgroundImage', '');
 		});
 
-		it('fromJSON should load the object', function() { 
+		it('fromJSON should load the object', function() {
 			var canvas = new Canvas( {'height':500, 'width': 500, 'backgroundColor':'red'}),
 				json = canvas.toJSON(),
 				canvas2 = new Canvas();

@@ -15,7 +15,7 @@ var JsonSerializer = require('../../src/serialization/jsonSerializer'),
 
 describe('Serialization', function () {
 	describe('MediaObject', function() {
-		it('Should serialize the json object', function() { 
+		it('Should serialize the json object', function() {
 			var mediaObject = new MediaObject(),
 				json = JsonSerializer.serializeObject(mediaObject);
 
@@ -24,19 +24,19 @@ describe('Serialization', function () {
 			json.data.should.have.property('properties');
 		});
 
-		it('Should deserialize from json object', function() { 
+		it('Should deserialize from json object', function() {
 			var mediaObject = new MediaObject(),
 				json = JsonSerializer.serializeObject(mediaObject),
 				mediaObject2 = JsonSerializer.deserializeObject(json),
 				properties;
-				
+
 
 			mediaObject2.getGuid().should.equal(mediaObject.getGuid());
 		});
 	});
 
 	describe('Shape', function() {
-		it('Should serialize the json object', function() { 
+		it('Should serialize the json object', function() {
 			var shape = new Shape(),
 				json = JsonSerializer.serializeObject(shape);
 
@@ -50,7 +50,7 @@ describe('Serialization', function () {
 			json.data.properties.should.have.property('angle');
 		});
 
-		it('Should deserialize from json object', function() { 
+		it('Should deserialize from json object', function() {
 			var shape = new Shape(),
 				json,
 				shape2;
@@ -65,7 +65,7 @@ describe('Serialization', function () {
 	});
 
 	describe('Rectangle', function() {
-		it('Should serialize the json object', function() { 
+		it('Should serialize the json object', function() {
 			var rec = new Rectangle(),
 				json = JsonSerializer.serializeObject(rec);
 
@@ -79,7 +79,7 @@ describe('Serialization', function () {
 			json.data.properties.should.have.property('angle');
 		});
 
-		it('Should deserialize from json object', function() { 
+		it('Should deserialize from json object', function() {
 			var rectangle = new Rectangle(),
 				json,
 				rectangle2;
@@ -96,7 +96,7 @@ describe('Serialization', function () {
 	});
 
 	describe('FiniteEffect', function() {
-		it('Should serialize the json object', function() { 
+		it('Should serialize the json object', function() {
 			var effect = new FiniteEffect(),
 				json = JsonSerializer.serializeObject(effect);
 
@@ -106,7 +106,7 @@ describe('Serialization', function () {
 			json.data.options.should.have.keys('startTick', 'endTick');
 		});
 
-		it('Should deserialize from json object', function() { 
+		it('Should deserialize from json object', function() {
 			var effect = new FiniteEffect(),
 				json = JsonSerializer.serializeObject(effect),
 				effect2 = JsonSerializer.deserializeObject(json);
@@ -116,7 +116,7 @@ describe('Serialization', function () {
 	});
 
 	describe('MediaTimeline', function() {
-		it('Should serialize the json object', function() { 
+		it('Should serialize the json object', function() {
 			var mediaObject = new MediaObject(),
 				mediaTimeline = new MediaTimeline({'mediaObject' : mediaObject}),
 				json = JsonSerializer.serializeObject(mediaTimeline);
@@ -126,7 +126,7 @@ describe('Serialization', function () {
 			json.data.should.have.keys('effects', 'mediaObject');
 		});
 
-		it('Should deserialize from json object', function() { 
+		it('Should deserialize from json object', function() {
 			var mediaObject = new MediaObject(),
 				effect = new FiniteEffect(),
 				mediaTimeline = new MediaTimeline({'mediaObject' : mediaObject}),
@@ -144,19 +144,19 @@ describe('Serialization', function () {
 	});
 
 	describe('Canvas', function() {
-		it('Should serialize the json object', function() { 
+		it('Should serialize the json object', function() {
 			var canvas = new Canvas(),
 				json = JsonSerializer.serializeObject(canvas);
 
 			json.should.have.property('type', 'Canvas');
 			json.should.have.property('data');
-			json.data.should.have.property('height', 600);
+			json.data.should.have.property('height', 400);
 			json.data.should.have.property('width', 600);
-			json.data.should.have.property('backgroundColor', 'white');
+			json.data.should.have.property('backgroundColor', '#FFFFFF');
 			json.data.should.have.property('backgroundImage', '');
 		});
 
-		it('Should deserialize from json object', function() { 
+		it('Should deserialize from json object', function() {
 			var canvas = new Canvas({'height': 500, 'width': 500, 'backgroundColor':'red'}),
 				json = JsonSerializer.serializeObject(canvas),
 				canvas2 = JsonSerializer.deserializeObject(json);
@@ -169,7 +169,7 @@ describe('Serialization', function () {
 	});
 
 	describe('Timeline', function() {
-		it('Should serialize the json object', function() { 
+		it('Should serialize the json object', function() {
 			var timeline = new Timeline(),
 				json;
 
@@ -183,11 +183,11 @@ describe('Serialization', function () {
 			json.data.mediaTimelines[0].type.should.equal('MediaTimeline');
 		});
 
-		it('Should deserialize from json object', function() { 
+		it('Should deserialize from json object', function() {
 			var timeline = new Timeline(),
 				json,
 				timeline2;
-			
+
 			timeline.addMediaObject(new Rectangle());
 			json = JsonSerializer.serializeObject(timeline);
 			timeline2 = JsonSerializer.deserializeObject(json);
@@ -197,7 +197,7 @@ describe('Serialization', function () {
 	});
 
 	describe('Animation', function() {
-		it('Should serialize the json object', function() { 
+		it('Should serialize the json object', function() {
 			var animation = new Animation(),
 				rec = new Rectangle(),
 				json;
@@ -213,7 +213,7 @@ describe('Serialization', function () {
 
 		});
 
-		it('Should deserialize from json object', function() { 
+		it('Should deserialize from json object', function() {
 			var animation = new Animation(),
 				rec = new Rectangle(),
 				json,
