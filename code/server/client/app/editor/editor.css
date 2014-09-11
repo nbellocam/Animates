@@ -5,11 +5,20 @@
 }
 
 editable.title {
-	font-weight: bold;
-	font-size: 1.5em;
-  line-height: 1.2em;
+  font-size : 1em;
   width : 400px;
-  display : inline-block;
+  display: block;
+}
+
+editable.title span {
+  padding: 1px;
+  border: 2px solid transparent;
+  font-size: 1em;
+}
+
+editable.title input {
+  border: 1px solid;
+  font-size: 1em;
 }
 
 @media (min-width: 960px) {

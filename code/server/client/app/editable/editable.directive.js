@@ -7,7 +7,7 @@ angular.module('animatesApp')
         scope: {
             value: '=',
             onChange: '=',
-            enabled: '=',
+            isEnabled: '=',
             acceptEmpty: '='
         },
         template: '<span ng-click="edit()" ng-show="!editing" ng-bind="value"></span><input ng-show="editing" ng-blur="stopEdit()" ng-keyup="keypress($event)" ng-model="value"></input>',
@@ -56,7 +56,7 @@ angular.module('animatesApp')
 
             // ng-click handler to activate edit-in-place
             $scope.edit = function () {
-                if ($scope.enabled) {
+                if ($scope.isEnabled) {
                   $scope.editing = true;
 
                   // We control display through a class on the directive itself. See the CSS.
