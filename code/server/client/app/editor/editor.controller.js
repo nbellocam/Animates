@@ -5,6 +5,7 @@ angular.module('animatesApp')
     $scope.project = undefined;
     $scope.socket = socket.socket;
     $scope.playUrl = '';
+    $scope.isEditor = true;
 
     $scope.titleChange = function (newValue) {
       var jsonPatch = { name : newValue };

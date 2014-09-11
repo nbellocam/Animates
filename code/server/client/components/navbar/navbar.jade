@@ -34,10 +34,10 @@ div.navbar.navbar-default.navbar-static-top(ng-controller='NavbarCtrl')
             | Options
             span.caret
           ul.dropdown-menu(role='menu')
-            li
+            li(ng-if='isEditor')
                 a(href='', ng-click='shareProject()') Share
-            li.divider
-            li
+            li.divider(ng-if='isEditor')
+            li(ng-if='isEditor')
                 a(ng-href='{{playUrl}}', target='_blank') Play
             li
                 a(href='', ng-click='downloadProject()') Download
