@@ -130,7 +130,7 @@ ProjectSchema.methods = {
     var currentUserId = this.user._id.toString(),
         requestedUserId = userId.toString(),
         inferredOp = {
-            edit : ['edit', 'play'],
+            edit : ['edit', 'see', 'update', 'play'],
             play : ['play']
         };
 
@@ -191,6 +191,7 @@ ProjectSchema.methods = {
 			return null;
 		}
 
+    console.log('applying diff');
 		this.history.push({
 			user: mongoose.Types.ObjectId(userId),
 			change: {
