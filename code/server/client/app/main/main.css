@@ -128,19 +128,19 @@ body {
 
 @media (min-width: 480px) {
   .projects .project {
-    width: 99%;
+    width: 80%;
   }
 }
 
-@media (min-width: 760px) {
+@media (min-width: 640px) {
   .projects .project {
-    width: 44%;
+    width: 35%;
   }
 }
 
 @media (min-width: 960px) {
   .projects .project {
-    width: 30%;
+    width: 28%;
   }
 }
 
