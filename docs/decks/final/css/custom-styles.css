@@ -7,3 +7,14 @@
     -webkit-box-shadow: 0 0 5px 5px #888;
     box-shadow: 0 0 5px 5px #888;
 }
+
+.reveal .slides section img.profileImages {
+    margin: 5px;
+    padding: 15px;
+    border: 5px solid #FFF;
+    background-color: #FFFFFF;
+    -moz-box-shadow: 0 0 5px 5px #888;
+    -webkit-box-shadow: 0 0 5px 5px #888;
+    box-shadow: 0 0 5px 5px #888;
+    border-radius: 50%;
+}
