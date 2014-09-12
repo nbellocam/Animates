@@ -191,7 +191,6 @@ ProjectSchema.methods = {
 			return null;
 		}
 
-    console.log('applying diff');
 		this.history.push({
 			user: mongoose.Types.ObjectId(userId),
 			change: {
