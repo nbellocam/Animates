@@ -1,5 +1,4 @@
 .reveal .slides section img.diagramsImages {
-    margin: 5px;
     padding: 15px;
     border: 5px solid #FFF;
     background-color: #FFFFFF;
@@ -9,8 +8,6 @@
 }
 
 .reveal .slides section img.profileImages {
-    margin: 5px;
-    padding: 15px;
     border: 5px solid #FFF;
     background-color: #FFFFFF;
     -moz-box-shadow: 0 0 5px 5px #888;

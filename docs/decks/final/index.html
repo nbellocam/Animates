@@ -65,9 +65,10 @@
 					</section>
 					<section>
 						<h2>Tutor</h2>
-						<ul>
-							<li>Pablo Cosso</li>
-						</ul>
+						<div>
+							<img src="./resources/img/pabloc.png" alt="Pablo Cosso" class="profileImages" />
+							<p>Pablo Cosso</p>
+						</div>
 					</section>
 				</section>
 
@@ -83,6 +84,7 @@
 					<ul>
 						<li class="fragment">Oportunidad para utilizar tecnologías innovadoras</li>
 						<li class="fragment">Resolver un problema diferente</li>
+						<li class="fragment">Simular un emprendimiento</li>
 						<li class="fragment">Limitación de herramientas existentes</li>
 						<ul>
 							<li class="fragment">Trabajo de Admin 2</li>
@@ -113,6 +115,21 @@
 					</section>
 
 					<section>
+						<h2>Componentes del diseño</h2>
+						<img src="./resources/img/projects.png" alt="Diagrama de componentes del diseño" class="diagramsImages" />
+						<aside class="notes">
+							- Proyectos
+								- Modelo (DDD - creación del lenguaje ubicuo)
+									- Mini framework para schemas basado en properties
+								- Common (herramientas para el modelo)
+								- Editor
+								- Timeline (reutilizable)
+								- Player
+								- Servidor
+						</aside>
+					</section>
+
+					<section>
 						<h2>Flujo de operaciones de desarrollos</h2>
 						<img src="./resources/img/OperationFlow.png" alt="Diagrama de flujo de operaciones de desarrollo" class="diagramsImages" />
 						<aside class="notes">
@@ -134,7 +151,7 @@
 						<ul>
 							<li>JavaScript</li>
 							<ul class="fragment">
-								<li>Angular.js</li>
+								<li>AngularJS</li>
 							</ul>
 							<li>HTML 5</li>
 							<ul class="fragment">
@@ -144,80 +161,84 @@
 								</ul>
 							</ul>
 							<li>CSS 3</li>
+							<ul class="fragment">
+								<li>Bootstrap</li>
+							</ul>
 						</ul>
 						<aside class="notes">
-							- cliente
+							- AngularJS is what HTML would have been, had it been designed for building web-apps. Declarative templates with data-binding, MVW, MVVM, MVC, dependency injection and great testability story all implemented with pure client-side JavaScript!
+							- Fabric.js is a powerful and simple Javascript HTML5 canvas library
+							- Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web.
 						</aside>
 					</section>
 
 					<section>
 						<h2>Servidor</h2>
 						<ul>
-							<li>Node.js</li>
+							<li class="fragment">node.js</li>
 							<ul class="fragment">
 								<li>JavaScript</li>
 							</ul>
-							<li class="fragment">Express.js</li>
-							<li class="fragment">socket.io</li>
-							<li class="fragment">passport.js</li>
-							<li class="fragment">mongosee</li>
+							<li class="fragment">express</li>
+							<li class="fragment">Socket.IO</li>
+							<li class="fragment">Passport</li>
+							<li class="fragment">mongoose</li>
+							<li class="fragment">jade</li>
 						</ul>
 						<aside class="notes">
 							- Server
+								- Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.
+								- Express is a minimal and flexible node.js web application framework, providing a robust set of features for building single and multi-page, and hybrid web applications.
+								- Socket.IO enables real-time bidirectional event-based communication.
+								- Passport is authentication middleware for Node.js.
+								- Mongoose: elegant mongodb object modeling for node.js
+								- jade: node template engine.
 						</aside>
 					</section>
 
 					<section>
 						<h2>Dev Ops</h2>
 						<ul>
-							<li>JavaScript</li>
-							<li class="fragment">Grunt.js</li>
+							<li class="fragment">JavaScript</li>
+							<li class="fragment">Grunt</li>
 							<li class="fragment">Jenkins</li>
-							<li class="fragment">Mocha.js</li>
-							<li class="fragment">should.js</li>
-							<li class="fragment">Brosefy.js</li>
+							<li class="fragment">Mocha</li>
+							<ul class="fragment">
+								<li>should</li>
+							</ul>
+							<li class="fragment">JSHint</li>
 							<li class="fragment">git</li>
-							<li class="fragment">jshint</li>
-							<li class="fragment">yeoman</li>
-							<li class="fragment">bower</li>
+							<li class="fragment">browserify</li>
+							<li class="fragment">Yeoman</li>
+							<li class="fragment">Bower</li>
 							<li class="fragment">npm</li>
 						</ul>
 						<aside class="notes">
-							- Dev ops
+							- JavaScript: la idea fue seguir utilizando el mismo lenguaje
+							- Grunt: task runner
+							- Jenkins: continuous integration server
+							- Mocha: the fun, simple, flexible JavaScript test framework
+							- should is an expressive, readable, framework-agnostic assertion library
+							- JSHint: Helps to detect errors and potential problems in code.
+							- browserify: Browserify lets you require('modules') in the browser by bundling up all of your dependencies.
+							- Yeoman: Scaffoling tool for modern web apps
+							- Bower: A package manager for the web
+							- npm: Node Packaged Modules
 						</aside>
 					</section>
 
 					<section>
 						<h2>Base de datos</h2>
 						<ul>
-							<li>Mongo</li>
+							<li>mongoDB</li>
 							<ul class="fragment">
 								<li>JavaScript</li>
 							</ul>
 						</ul>
 						<aside class="notes">
-							- Diagrama de flujo de operaciones de desarrollo (dev ops)
-								- GitHub
-								- Jenkins
-								- GitHub (segundo repo)
-								- Azure Websites (internal git repo)
+							- MongoDB (from "humongous") is an open-source document database, and the leading NoSQL database.
 						</aside>
 					</section>
-				</section>
-
-				<section>
-					<h2>Componentes del diseño</h2>
-					<img src="./resources/img/projects.png" alt="Diagrama de componentes del diseño" class="diagramsImages" />
-					<aside class="notes">
-						- Proyectos
-							- Modelo (DDD - creación del lenguaje ubicuo)
-								- Mini framework para schemas basado en properties
-							- Common (herramientas para el modelo)
-							- Editor
-							- Timeline (reutilizable)
-							- Player
-							- Servidor
-					</aside>
 				</section>
 
 				<section>
@@ -243,47 +264,66 @@
 					</section>
 
 					<section>
-						<h2>Graficos de github</h2>
-						<img src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Diagrama de flujo de operaciones de desarrollo">
+						<h2>En números</h2>
+						<ul>
+							<li class="fragment">Primer commit: <strong>24 de Agosto de 2013 </strong></li>
+							<li class="fragment"># de commits: <strong>985</strong></li>
+							<li class="fragment"># de Trabajos de Jenkins: <strong>346</strong></li>
+							<li class="fragment"># de deploys: <strong>291</strong></li>
+							<li class="fragment">Tiempo promedio por trabajo: <strong>35 min</strong></li>
+							<li class="fragment">Tiempo promedio de deploy: <strong>1 min</strong></li>
+							<li class="fragment"># de tests: <strong>435</strong></li>
+						</ul>
 						<aside class="notes">
-							- punch card
-							- commits en el año
+
 						</aside>
 					</section>
 
 					<section>
-						<h2>Jenkins</h2>
-						<img src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Diagrama de flujo de operaciones de desarrollo">
+						<h2>Evolución de commits</h2>
+						<img src="./resources/img/commits.png" alt="Evolución de commits en función del tiempo" class="diagramsImages" />
 						<aside class="notes">
-							- Cantidad de jobs
-							- Tiempo de ejecución
-							- tests
+							- Notar la semana de vacaciones
+							- Notar los tiempos sin commits
+							- Notar el sindrome del estudiante.
+						</aside>
+					</section>
+
+					<section>
+						<h2>Patrón de commits</h2>
+						<img src="./resources/img/punchcard.png" alt="Patrón de commits" class="diagramsImages" />
+						<aside class="notes">
+							- Notar horarios
+							- Notar días
 						</aside>
 					</section>
 
 					<section>
 						<h2>Tiempos de desarrollo</h2>
-						<img src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Diagrama de flujo de operaciones de desarrollo">
+						<ul>
+							<li class="fragment">Agregar un cuadrado: <strong>6 meses</strong></li>
+							<li class="fragment">Hacer que se mueva: <strong>2 meses</strong></li>
+							<li class="fragment">Agregar nuevas figuras: <strong>menos de 1 hora</strong></li>
+							<li class="fragment">Poder decir esto: <strong>no tiene precio</strong></li>
+						</ul>
 						<aside class="notes">
-							- Ciclos
 						</aside>
 					</section>
 				</section>
 
-
-
-
 				<section>
 					<h2>Problemas encontrados</h2>
 					<ul>
-						<li>Tecnologias no conocidas por nosotros</li>
-						<li class="fragment">Tecnologias en desarrollo</li>
-						<li class="fragment">Gran cantidad de tecnologias</li>
-						<li class="fragment">Integración de tecnologias</li>
+						<li class="fragment">Tecnologías</li>
+						<ul>
+							<li class="fragment">Desconocidas por nosotros</li>
+							<li class="fragment">En desarrollo</li>
+							<li class="fragment">Gran diversidad</li>
+							<li class="fragment">Integración</li>
+						</ul>
 						<li class="fragment">JavaScript</li>
-						<li class="fragment">Deployment</li>
-						<li class="fragment">Plan to throw away</li>
 						<li class="fragment">Falta de IDE y herramientas de desarrollo</li>
+						<li class="fragment">Deployment</li>
 					</ul>
 					<aside class="notes">
 						- Dev ops
@@ -298,13 +338,13 @@
 						</aside>
 					</section>
 					<section>
-						<h2>Tecnologias</h2>
+						<h2>Tecnologías</h2>
 						<ul>
-							<li>Node.js</li>
-							<li>Angular.js</li>
-							<li>Dev Ops</li>
-							<li>Canvas</li>
-							<li>Mongo</li>
+							<li class="fragment">node.js</li>
+							<li class="fragment">AngularJS</li>
+							<li class="fragment">Dev Ops</li>
+							<li class="fragment">Canvas y Fabric.js</li>
+							<li class="fragment">mongoDB y mongoose</li>
 						</ul>
 						<aside class="notes">
 							- Dev ops
@@ -313,18 +353,22 @@
 					<section>
 						<h2>Diseño</h2>
 						<ul>
-							<li>Separación de componentes</li>
-							<li>Falencias en la abstracción con fabric</li>
+							<li class="fragment">Separación de componentes</li>
+							<li class="fragment">Falencias en la abstracción con Fabric.js</li>
+							<ul>
+								<li class="fragment">Modulización</li>
+								<li class="fragment">Capa de abstracción</li>
+							</ul>
 						</ul>
 						<aside class="notes">
 							- ?
 						</aside>
 					</section>
 					<section>
-						<h2>Metodologias</h2>
+						<h2>Metodologías</h2>
 						<ul>
-							<li>Desarrollo iterativo e incremental</li>
-							<li>Iteraciones en función de hitos, no de tiempos</li>
+							<li class="fragment">Desarrollo iterativo e incremental</li>
+							<li class="fragment">Iteraciones en función de hitos, no de tiempos</li>
 						</ul>
 						<aside class="notes">
 							-
@@ -348,6 +392,10 @@
 					<aside class="notes">
 						- Dev ops
 					</aside>
+				</section>
+
+				<section>
+					<h1>Preguntas?</h1>
 				</section>
 
 				<section>
